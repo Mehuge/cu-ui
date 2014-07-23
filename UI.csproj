@@ -90,6 +90,11 @@
     <Content Include="perfhud\perfhud.css" />
     <Content Include="perfhud\perfhud.html" />
     <TypeScriptCompile Include="perfhud\perfhud.ts" />
+    <Content Include="pledges\flot\jquery.flot.js" />
+    <Content Include="pledges\flot\jquery.flot.threshold.js" />
+    <Content Include="pledges\flot\jquery.js" />
+    <Content Include="pledges\pledges.css" />
+    <Content Include="pledges\pledges.html" />
     <Content Include="respawn\respawn.css" />
     <Content Include="respawn\respawn.html" />
     <Content Include="skillbar\skillbar.css" />
@@ -97,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="cu\cu.ts" />
+    <Content Include="pledges\pledges.js" />
     <TypeScriptCompile Include="respawn\respawn.ts" />
     <TypeScriptCompile Include="skillbar\skillbar.ts" />
     <TypeScriptCompile Include="chat\chat.ts" />
@@ -116,6 +122,7 @@
     <Content Include="LICENSE" />
     <Content Include="README.md" />
     <None Include="addons.ui" />
+    <Content Include="pledges.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
