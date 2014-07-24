@@ -642,7 +642,7 @@ module Login {
                 });
 
                 for (var i = racesCount, length = $characterCreationRaces.length; i < length; i++) {
-                    $($characterCreationRaces[i]).empty().data('race', '').fadeIn().css('display', 'inline-block');
+                    $($characterCreationRaces[i]).empty().data('race', '').css('background', '').fadeIn().css('display', 'inline-block');
                 }
             });
         });

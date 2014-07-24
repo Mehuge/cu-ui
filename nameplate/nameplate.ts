@@ -15,17 +15,17 @@ module Nameplate {
     var divContent = "{NAME} {GTAG}<br />{TITLE}";
 
     function UpdateNameplate(cell, colorMod, name, gtag, title) {
-        //	Position this cell
+        // Position this cell
         var row = Math.floor(cell / numCells);
         var col = cell % numCells;
 
-        //	Compile the content into the base cell HTML string, we clean the different
-        //	inputs from the users to prevent injection
+        // Compile the content into the base cell HTML string, we clean the different
+        // inputs from the users to prevent injection
         var compiledStr = divContent.replace('{NAME}', $('<div/>').text(name).html());
         compiledStr = compiledStr.replace('{GTAG}', $('<div/>').text(gtag).html());
         compiledStr = compiledStr.replace('{TITLE}', $('<div/>').text(title).html());
 
-        //	Get our color based on the mod of the cell
+        // Get our color based on the mod of the cell
         var color = '#FDFDFD';
         // Tuatha
         if (colorMod == 0) color = '#BBFFBB';
@@ -36,7 +36,7 @@ module Nameplate {
         // Other
         if (colorMod == 3) color = '#FFFF88';
 
-        //	Create the actual div
+        // Create the actual div
         var existingCell = $('#' + cell);
         if (existingCell.length > 0) {
             existingCell.css("color", color);
@@ -51,8 +51,8 @@ module Nameplate {
         }
     }
 
-    //	Register our callbacks with the CU API, these are functions
-    //	called by the underlying engine when certain events occur, 
-    //	such as needing to update a nameplate.
+    // Register our callbacks with the CU API, these are functions
+    // called by the underlying engine when certain events occur, 
+    // such as needing to update a nameplate.
     cuAPI.OnUpdateNameplate(UpdateNameplate);
 }

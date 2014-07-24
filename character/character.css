@@ -51,6 +51,9 @@
     font-size: 105%;
     color: white;
     text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #level {
