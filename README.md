@@ -24,6 +24,11 @@ For convenience, there's a Visual Studio 2013 project that pulls together all th
 
 &nbsp;&nbsp;&nbsp;&nbsp;[http://www.microsoft.com/en-us/download/details.aspx?id=40747](http://www.microsoft.com/en-us/download/details.aspx?id=40747)
 
+&nbsp;&nbsp;&nbsp;&nbsp;**Visual Studio Update 2 (Typescript Support)**
+
+&nbsp;&nbsp;&nbsp;&nbsp;[http://www.microsoft.com/en-us/download/details.aspx?id=42666](http://www.microsoft.com/en-us/download/details.aspx?id=42666)
+
+
 Modifying your UI
 -----------------
 

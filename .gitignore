@@ -3,3 +3,8 @@ obj/
 *.js
 *.js.map
 *.suo
+*.user
+node_modules/
+.idea/
+.tscache/
+!GruntFile.js

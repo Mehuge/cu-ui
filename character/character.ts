@@ -5,6 +5,9 @@
 /// <reference path="../vendor/jquery.d.ts" />
 
 module Character {
+
+    cuAPI.OpenUI("addons.ui");
+
     var hpWidth: number = -1;
     var manaWidth: number = -1;
     var cachedEffects: string = "[]";
@@ -71,5 +74,6 @@ module Character {
         // How often we call Update
         var updateFPS = 5;
         cu.RunAtInterval(Update, updateFPS);
+
     });
 }

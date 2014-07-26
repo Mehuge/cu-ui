@@ -1,0 +1,33 @@
+
+body {
+    color: white;
+    background-color:rgba(0, 0, 0, 0.5);
+    display: none;
+    margin: 0; 
+}
+#moduleList {
+    margin: 1em;
+}
+table {
+    width: 100%;
+}
+tr {
+    cursor: pointer;
+}
+#close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+th {
+    background-color: rgba(255,255,255,0.5);
+}
+td {
+    text-align: center;
+    width: 10%;
+}
+td:first-child {
+    text-align: left;
+    width: 80%;
+}

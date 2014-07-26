@@ -17,11 +17,15 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="addons\addons.html" />
+    <Content Include="addons\addons.css" />
     <Content Include="character\character.html" />
     <Content Include="character\character.css" />
+    <TypeScriptCompile Include="addons\addons.ts" />
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="chat\chat.css" />
     <Content Include="chat\chat.html" />
+    <Content Include="common\sexyscroll.css" />
     <Content Include="cu\cu.css" />
     <Content Include="errormessages\errormessages.css" />
     <Content Include="errormessages\errormessages.html" />
@@ -78,8 +82,10 @@
     <Content Include="login\login.css" />
     <Content Include="login\login.html" />
     <TypeScriptCompile Include="login\login.ts" />
+    <Content Include="module-list.js" />
     <Content Include="nameplate\nameplate.css" />
     <Content Include="nameplate\nameplate.html" />
+    <TypeScriptCompile Include="module-list.d.ts" />
     <TypeScriptCompile Include="nameplate\nameplate.ts" />
     <Content Include="perfhud\perfhud.css" />
     <Content Include="perfhud\perfhud.html" />
@@ -109,6 +115,7 @@
     <Content Include="respawn.ui" />
     <Content Include="LICENSE" />
     <Content Include="README.md" />
+    <None Include="addons.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
