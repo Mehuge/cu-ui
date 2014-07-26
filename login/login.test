@@ -1,0 +1,47 @@
+// login screen test script
+include "../startup.test"
+
+// Open login UI
+browser get "http://localhost:1336/login/login.html"
+wait 2
+select "#modal" info 
+tag div at 240,174 size 527,330 displayed enabled not selected 
+
+select "#server-select thead tr:first-child th:nth-child(1)" info
+tag th at 249,194 size 244,34 displayed enabled not selected 
+check "Choose your server"
+
+select "#server-select thead tr:first-child th:nth-child(2)" info
+tag th at 493,194 size 88,34 displayed enabled not selected 
+check "Arthurians"
+
+select "#server-select thead tr:first-child th:nth-child(3)" info
+tag th at 581,194 size 57,34 displayed enabled not selected
+check "Tuatha"
+
+select "#server-select thead tr:first-child th:nth-child(4)" info
+tag th at 638,194 size 63,34 displayed enabled not selected
+check "Vikings"
+
+select "#server-select thead tr:first-child th:nth-child(5)" info
+tag th at 701,194 size 57,34 displayed enabled not selected 
+check "Online"
+
+if select "#server-select tbody tr:nth-child(1)"
+then
+	info
+	tag tr at 249,228 size 509,43 displayed enabled not selected 
+	check "Hatchery 0 0 0 0"
+endif
+if select "#server-select tbody tr:nth-child(2)"
+then
+	info
+	tag tr at 249,271 size 509,43 displayed enabled not selected 
+	check "Wyrmling ? ? ? ?"
+endif
+if select "#server-select tbody tr:nth-child(3)"
+then
+	info
+	tag tr at 249,314 size 509,43 displayed enabled not selected 
+	check "localhost ? ? ? ?"
+endif

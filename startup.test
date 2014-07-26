@@ -1,0 +1,3 @@
+browser option "--test-type=ui"
+browser start
+browser size 1024,768
