@@ -39,6 +39,9 @@ body {
 .chatBody.imChat {
     color: greenyellow;
 }
+.chatBody.imOutChat {
+    color: yellowgreen;
+}
 
 .chatBody.combatChat {
     font-weight: bold;
@@ -81,4 +84,6 @@ body {
 .consoleBody.output {
     color: white;
     font-weight: bold;
+    font-family:'Courier New';
+    font-size: 14px;
 }

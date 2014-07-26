@@ -14,6 +14,7 @@ module Chat {
     var $chatInput: JQuery;
     var $chatText: JQuery;
     var hasScrolled = false;
+    var lastTellFrom: JID = null;
 
     function AppendChat(chatBody, iconClass) {
         // This appends the chat item and escapes it
@@ -37,6 +38,23 @@ module Chat {
         $chatInput.attr('data-command-mode', mode.toString());
     }
 
+    function OnChatCommand(command: string, to: string, body: string) {
+        var msg;
+        var msgClass = 'chatBody';
+        switch (command) {
+            case "/r":
+            case "/whisper":
+                msg = '[IM to] [' + to + ']: ' + body;
+                msgClass = msgClass + ' imOutChat';
+                break;
+            default:
+                break;
+        }
+
+        var chatBody = $('<div/>').text(msg).addClass(msgClass);
+        AppendChat(chatBody, null);
+    }
+
     function OnChat(type, from, body, nick, iscse) {
         var msg;
         var msgClass = 'chatBody';
@@ -48,9 +66,9 @@ module Chat {
                 jid = new JID(from);
                 displayName = jid.user;
                 if (nick) displayName = nick;
-                msg = '[IM] [' + displayName + ']: ' + body;
+                msg = '[IM from] [' + displayName + ']: ' + body;
                 msgClass = msgClass + ' imChat';
-
+                lastTellFrom = jid;
                 break;
             case XmppMessageType.GROUPCHAT:
                 jid = new JID(from);
@@ -117,7 +135,9 @@ module Chat {
         $chatInput.val(initText ? initText : '');
         SetTextEntryMode(cmdKind);
     }
-
+    function AppendConsoleText(output) {
+        OnConsoleText(output);
+    }
     function OnConsoleText(output) {
         var lines = output.split(/[\r\n]+/);
         var len = lines.length;
@@ -167,10 +187,31 @@ module Chat {
                 return true;
             case '/tell':
             case '/whisper':
-                if (processed.args.length < 2) return false;
+                if (processed.args.length < 2) {
+                    AppendConsoleText("Usage: " + processed.name + " <to> <message>");
+                    return false;
+                }
+
                 to = processed.args[0];
+                if (to.match('@' + cu.CHAT_DOMAIN)) {
+                    to += '@' + cu.CHAT_DOMAIN;
+                }
                 body = EverythingAfterArg(input, processed, 0);
                 cu.SendChat(XmppMessageType.CHAT, to, body);
+                OnChatCommand(processed.name, processed.args[0], body);
+                return true;
+            case '/r':
+                if (processed.args.length < 1) {
+                    AppendConsoleText("Usage: " + processed.name + " <message>");
+                    return false;
+                }
+                if (lastTellFrom) {
+                    body = processed.rest;
+                    cu.SendChat(XmppMessageType.CHAT, lastTellFrom.user + '@' + lastTellFrom.domain, body);
+                    OnChatCommand(processed.name, lastTellFrom.user, body);
+                } else {
+                    AppendConsoleText("Found no one to reply to.");
+                }
                 return true;
             case '/openui':
                 if (processed.args.length < 1) return false;

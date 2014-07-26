@@ -121,7 +121,7 @@ module Login {
     $characterName.bind('propertychange keyup input paste', function() {
         var name = $(this).val();
 
-        $createButton.prop('disabled', name.length < 1 || name.length > 100);
+        $createButton.prop('disabled', name.length < 1 || name.length > 32);
     });
 
     $createButton.click(createCharacter);
