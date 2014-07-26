@@ -45,9 +45,9 @@ module Addons {
                     var name = elem.getAttribute("id"),
                         el: JQuery = $(elem).find('td:last-child'),
                         text = el.text();
-                    if (name && text === "false") {
+                    if (name && text === "") {
                         OpenUI(name);
-                        el.text(modules[name].loaded);
+                        if (modules[name].loaded) el.html('&#x2714;');
                     } else {
                         alert('CloseUI not yet supported');
                     }
