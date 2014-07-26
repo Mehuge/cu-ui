@@ -2,26 +2,26 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-html, body { overflow: hidden;}
+html, body {
+    overflow: hidden;
+}
 
-.messageList
-{
-	position: absolute;
+.messageList {
+    position: absolute;
     list-style-type: none;
     bottom: 0;
     margin: 0;
     padding: 0;
-	WIDTH: 350px;
+    width: 350px;
 }
 
-.message 
-{
-    font-size:90%;
+.message {
+    font-size: 90%;
     color: white;
-    margin:0;
-    padding:0;
-    height:25px;
-    text-align:center;
+    margin: 0;
+    padding: 0;
+    height: 25px;
+    text-align: center;
     background-image: url('../images/errormessages/alert-bg.png');
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
 }

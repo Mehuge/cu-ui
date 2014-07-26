@@ -121,7 +121,7 @@ module Login {
     $characterName.bind('propertychange keyup input paste', function() {
         var name = $(this).val();
 
-        $createButton.prop('disabled', name.length < 1 || name.length > 100);
+        $createButton.prop('disabled', name.length < 1 || name.length > 32);
     });
 
     $createButton.click(createCharacter);
@@ -642,7 +642,7 @@ module Login {
                 });
 
                 for (var i = racesCount, length = $characterCreationRaces.length; i < length; i++) {
-                    $($characterCreationRaces[i]).empty().data('race', '').fadeIn().css('display', 'inline-block');
+                    $($characterCreationRaces[i]).empty().data('race', '').css('background', '').fadeIn().css('display', 'inline-block');
                 }
             });
         });

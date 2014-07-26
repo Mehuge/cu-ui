@@ -19,7 +19,7 @@ module Chat {
         // This appends the chat item and escapes it
         // TODO: make a smarter process for escaping chat so we can embed some html
         var newChatItem = $('<div/>').addClass('chatItem');
-        if (iconClass) newChatItem.append($('<div/>').addClass('iconClass'));
+        if (iconClass) newChatItem.append($('<div/>').addClass(iconClass));
         newChatItem.append(chatBody);
         newChatItem.appendTo($chatText);
         var msgs = $('.chatItem');
@@ -98,6 +98,8 @@ module Chat {
                     SetTextEntryMode(0);
                     $chatInput.blur();
                 }
+            } else {
+                $chatInput.blur();
             }
         }
     }

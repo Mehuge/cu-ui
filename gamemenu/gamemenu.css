@@ -19,7 +19,7 @@ body {
     bottom: 3%;
 }
 .btn-normal {
-    background: url("../images/login/btn-normal-sprite.png") no-repeat 0 0;
+    background: url('../images/login/btn-normal-sprite.png') no-repeat 0 0;
     width: 232px;
     height: 75px;
     font-size: 22px;
@@ -27,8 +27,8 @@ body {
                   2px -2px 3px rgba(0,0,0,0.3),
                  -2px  2px 3px rgba(0,0,0,0.3),
                  -2px -2px 3px rgba(0,0,0,0.3);
-	vertical-align: middle;
-	display: table-cell;
+    vertical-align: middle;
+    display: table-cell;
 }
 
 .btn-normal:hover {
@@ -40,9 +40,9 @@ body {
 }
 
 #btn-quit {
-	color:green;
+    color: green;
 }
 
 #btn-cancel {
-	color:red;
+    color: red;
 }
