@@ -31,17 +31,21 @@ if select "#server-select tbody tr:nth-child(1)"
 then
 	info
 	tag tr at 249,228 size 509,43 displayed enabled not selected 
-	check "Hatchery 0 0 0 0"
+	select "#server-select tbody tr:nth-child(1) td:nth-child(1)"
+	check "Hatchery"
 endif
 if select "#server-select tbody tr:nth-child(2)"
 then
 	info
 	tag tr at 249,271 size 509,43 displayed enabled not selected 
-	check "Wyrmling ? ? ? ?"
+	select "#server-select tbody tr:nth-child(2) td:nth-child(1)"
+	check "Wyrmling"
 endif
 if select "#server-select tbody tr:nth-child(3)"
 then
 	info
 	tag tr at 249,314 size 509,43 displayed enabled not selected 
-	check "localhost ? ? ? ?"
+	select "#server-select tbody tr:nth-child(3) td:nth-child(1)"
+	check "localhost"
 endif
+log dump
