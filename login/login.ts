@@ -134,7 +134,7 @@ module Login {
 
         loginToken = cu.HasAPI() ? cuAPI.loginToken : '';
 
-        if (!loginToken) return;
+        //if (!loginToken) return;
 
         showServerSelection();
 
