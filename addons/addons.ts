@@ -10,12 +10,26 @@ module Addons {
         console.log('addons: loading ' + name + '.ui');
         try {
             if (name != "addons" && cuAPI != undefined) cuAPI.OpenUI(name + ".ui");
-            modules[name].loaded = true;
+            return modules[name].loaded = true;
         } catch (e) {
             modules[name].loaded = false;
         }
     }
- 
+
+    // Loads the named UI module.
+    function CloseUI(name) {
+        console.log('addons: closing ' + name + '.ui');
+        try {
+            if (cuAPI != undefined) {
+                cuAPI.CloseUI(name);
+            }
+            modules[name].loaded = false;
+			return true;
+        } catch (e) {
+			console.warn('failed to close UI ' + JSON.stringify(e));
+        }
+    }
+
     // Initialise the UI (module list) and auto-load any modules marked as autoLoad true
     function _init() {
         if (ml) {
@@ -46,10 +60,13 @@ module Addons {
                         el: JQuery = $(elem).find('td:last-child'),
                         text = el.text();
                     if (name && text === "") {
-                        OpenUI(name);
-                        if (modules[name].loaded) el.html('&#x2714;');
+                        if (OpenUI(name)) {
+							el.html('&#x2714;');
+						}
                     } else {
-                        alert('CloseUI not yet supported');
+                        if (CloseUI(name)) {
+							el.html('');
+						}
                     }
                 });
             });
