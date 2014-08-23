@@ -71,7 +71,8 @@ module Addons {
                 });
             });
         }
-        Show();
+        // Show();
+        CloseUI("addons");
     };
  
     // Show the addons UI
