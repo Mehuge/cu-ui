@@ -6,72 +6,54 @@
     position: absolute;
     height: 45px;
     width: 45px;
-    border: 0px;
-    margin: 0px;
-    padding: 0px;
-    -webkit-animation-duration: 0.25s;
-    -webkit-animation-timing-function: ease-out;
-}
-
-.abilityButton[running='1'] {
+    border: 0;
+    margin: 0;
+    padding: 0;
     z-index: 1;
-}
-
-.abilityButton[running='1'] .abilityIcon {
-    -webkit-filter: brightness(150%)
 }
 
 .abilityButton[cooldown='1'] .abilityIcon {
     -webkit-filter: grayscale(100%)
 }
 
-@-webkit-keyframes abilityButtonPress {
-    0% {
-        width: 55px;
-        height: 55px;
-        margin-left: -5px;
-        margin-top: -5px;
-    }
-    100% { }
-}
-
 .abilityButton .abilityIcon {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
 
     width: 100%;
     height: 100%;
 
-    border: 0px;
-    margin: 0px;
-    padding: 0px;
+    border: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .abilityButton .cooldownRoot {
-    position:absolute;
-    top:0px;
-    left:0px;
+    position: absolute;
+    top: 0;
+    left: 0;
 
-    width:100%;
-    height:100%;
+    width: 100%;
+    height: 100%;
 
-    border:0px;
-    margin:0px;
-    padding:0px;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
 }
 
 .abilityButton .cooldownRoot .cooldownSlide {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
 
     width: 100%;
     height: 100%;
 
-    border: 0px;
-    margin: 0px;
-    padding: 0px;
+    border: 0;
+    margin: 0;
+    padding: 0;
 
     background: black;
     opacity: 0.5;
@@ -79,68 +61,51 @@
 
 .abilityButton .activeHighlight {
     position: absolute;
-    top: 0px;
-    left: 0px;
-}
-
-@-webkit-keyframes hiddenHighlight {
-    to {
-        opacity: 0;
-        width: 50%;
-        height: 50%;
-        margin-left: 25%;
-        margin-top: 25%;
-    }
-}
-
-@-webkit-keyframes visibleHighlight {
-    to {
-        opacity: 1;
-        width: 175%;
-        height: 175%;
-        margin-left: -37%;
-        margin-top: -37%;
-    }
-}
-
-.abilityButton[running='0'] .activeHighlight {
-    opacity: 1;
-    width: 175%;
-    height: 175%;
-    margin-left: -37%;
-    margin-top: -37%;
-    -webkit-animation-name: hiddenHighlight;
-    -webkit-animation-duration: 0.25s;
-    -webkit-animation-fill-mode: forwards;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
 }
 
 .abilityButton[running='1'] .activeHighlight {
-    opacity: 0;
-    width: 50%;
-    height: 50%;
-    margin-left: 25%;
-    margin-top: 25%;
-    -webkit-animation-name: visibleHighlight;
-    -webkit-animation-duration: 0.25s;
-    -webkit-animation-fill-mode: forwards;
+    visibility: visible;
 }
 
 .abilityButton .queuedIcon {
     position: absolute;
-    top: 50%;
-    left: 0%;
+    top: 0;
+    left: 0;
     height: 45px;
     width: 45px;
-    border:0px;
-    margin-left: -23px;
-    margin-top: -23px;
-    margin-right: 22px;
-    margin-bottom: 22px;
-    padding: 0px;
-    z-index: 2;
+    border: 0;
+    padding: 0;
+    z-index: 4;
     visibility: hidden;
 }
 
 .abilityButton[queued='1'] .queuedIcon {
     visibility: visible;
+}
+
+#tooltip {
+    display: none;
+    position: absolute;
+    border: 1px solid #333;
+    background-color: #161616;
+    border-radius: 5px;
+    padding: 10px;
+    color: #bbb;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 11px;
+    width: 200px;
+    max-height: 112px;
+}
+
+#tooltip h1 {
+    margin: 0 0 10px 0;
+    padding: 0;
+    color: #fff;
+    font-size: 12px;
 }

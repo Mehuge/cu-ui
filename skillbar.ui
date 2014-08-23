@@ -4,7 +4,7 @@
 	"mainFile" : "skillbar/skillbar.html",
 	"rect" : {
 		"left" : 70,
-		"top" : 800,
+		"top" : 710,
 		"right" : 1380,
 		"bottom" : 900
 	},

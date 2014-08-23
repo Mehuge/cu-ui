@@ -13,10 +13,15 @@ module Login {
     var $modal = $('#modal');
     var $characters = $('#characters');
 
+    /* Background swapping variables */
+    var $bgLayer1 = $('#background-layer1');
+    var $bgLayer2 = $('#background-layer2');
+    var $currentBg = null;
+
     /* Server Selection Variables */
 
     var servers = [
-        { name: 'localhost', host: 'localhost', isOnline: true, playerCounts: { arthurians: 0, tuathaDeDanann: 0, viking: 0, total: 0 } }
+        { name: 'localhost', host: 'localhost', isOnline: true, playerCounts: { arthurians: 0, tuathaDeDanann: 0, vikings: 0, total: 0 } }
     ];
 
     var selectedServer = null;
@@ -211,6 +216,8 @@ module Login {
     function showServerSelection() {
         selectedServer = null;
 
+        // updateBackground(''); // cause the default bg to load
+
         $characterSelection.fadeOut(() => {
             if (!$serversModalContainer) {
                 $serversModalContainer = createServersModal();
@@ -362,9 +369,9 @@ module Login {
 
                     $td.text(text);
                 }
-            }, 500);
+            }, 1000);
 
-            var delay = 5000;
+            var delay = 10000;
 
             serverCharacterRequests[server.host] = $.ajax({
                 type: 'GET',
@@ -445,11 +452,23 @@ module Login {
                 raceCssClass = getRaceCssClass('Tuatha');
             }
 
-            var $character = $('<li class="character" data-character-id="' + character.id + '" data-character-name="' + _.escape(character.name) + '"></li>').appendTo($characters);
+            var $character = $('<li>').addClass('character').attr({
+                'data-character-id': character.id,
+                'data-character-name': _.escape(character.name),
+                'data-character-realm': character.race.faction.name
+            }).appendTo($characters);
 
-            var $portrait = $('<div class="' + raceCssClass + '"></div>').css('background', getRaceBackgroundStyle(raceCssClass)).appendTo($character);
+            var $portrait = $('<div>').addClass(raceCssClass).css('background', getRaceBackgroundStyle(raceCssClass)).appendTo($character);
 
-            $('<span class="character-name">' + _.escape(character.name) + '</span>').appendTo($portrait);
+            var $name = $('<span>').addClass('character-name').text(_.escape(character.name)).appendTo($portrait);
+
+            if (character.race.description && character.race.description.length && character.race.description !== character.race.name) {
+                $name.css('bottom', '32px');
+
+                $('<div>').addClass('character-description').text(character.race.description).appendTo($portrait);
+            } else {
+                $name.css('bottom', '8px');
+            }
 
             if (index === 0) {
                 $selectedCharacter = $character.fadeIn().css('display', 'inline');
@@ -461,6 +480,7 @@ module Login {
             $nextButton.fadeIn();
         }
 
+        // updateBackground($selectedCharacter.data('character-realm'));
         $characterSelection.fadeIn();
     }
 
@@ -486,6 +506,7 @@ module Login {
         } else {
             $selectedCharacter.fadeOut(() => {
                 $selectedCharacter = $nextSelectedCharacter.fadeIn();
+                // updateBackground($selectedCharacter.data('character-realm'));
             });
         }
     }
@@ -595,10 +616,44 @@ module Login {
         }).fail(getRaces);
     }
 
+    /*
+    function updateBackground(selectedRealm) {
+        var imgName = 'bg.jpg';
+
+        if (realms[0] == selectedRealm) {
+            imgName = 'bg-tdd.jpg';
+        } else if (realms[1] == selectedRealm) {
+            imgName = 'bg-viking.jpg';
+        } else if (realms[2] == selectedRealm) {
+            imgName = 'bg-arthurian.jpg';
+        }
+
+        var newBg = $bgLayer2;
+        var currentBg = $bgLayer1;
+
+        if ($bgLayer2 == $currentBg) {
+            newBg = $bgLayer1;
+            currentBg = $bgLayer2;
+        }
+
+        currentBg.css('z-index', -99);
+        newBg.css('z-index', -100);
+
+        newBg.css('background-image', 'url(../images/login/' + imgName + ')');
+        newBg.show();
+
+        currentBg.fadeOut();
+
+        $currentBg = newBg;
+    }
+    */
+
     function selectRealm(realm, isForced) {
         if (selectedRealm === realm && !isForced) return;
 
         selectedRealm = realm;
+
+        // updateBackground(selectedRealm);
 
         selectedRace = null;
 
@@ -632,10 +687,18 @@ module Login {
                         try {
                             var raceName = race.name.replace(/([a-z])([A-Z])/g, '$1 $2');
 
-                            $race.empty().append($('<span class="character-name" > ' + raceName + ' </span >'));
+                            var $name = $('<span>').addClass('character-name').text(raceName).appendTo($race.empty());
+
+                            if (race.description && race.description.length && race.description !== race.name) {
+                                $name.css('bottom', '32px');
+
+                                $('<div>').addClass('character-description').text(race.description).appendTo($race);
+                            } else {
+                                $name.css('bottom', '8px');
+                            }
                         } catch (e) {
                             alert(e);
-                        } 
+                        }
 
                         $race.fadeIn().css('display', 'inline-block');
                     }

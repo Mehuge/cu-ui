@@ -10,6 +10,8 @@ class Ability {
     cooldowns: CooldownGroup[] = [];
     duration: number;
     triggerTimeOffset: number;
+    name: string;
+    tooltip: string;
 
     buttons: AbilityButton[] = [];
     awaitingUpdate: { (a: Ability): any }[] = null;
@@ -117,23 +119,10 @@ class CooldownGroup {
 
 class AbilityButton {
     constructor(public ability: Ability, private cu: CU) {
-        this.rootElement = $('<div/>', {
-            class: 'abilityButton'
-        });
-        this.rootElement.append($('<img/>', {
-            class: 'activeHighlight',
-            src: '../images/skillbar/ActiveFrame.gif'
-        }));
-        this.rootElement.append($('<img/>', {
-            class: 'abilityIcon',
-            src: ability.icon
-        }).click((event) => {
-            ability.Perform();
-        }));
-        this.rootElement.append($('<img/>', {
-            class: 'queuedIcon',
-            src: '../images/skillbar/NextArrow.png'
-        }));
+        this.rootElement = $('<div/>').addClass('abilityButton');
+        this.rootElement.append($('<img/>').addClass('activeHighlight').attr('src', '../images/skillbar/active-frame.gif'));
+        this.rootElement.append($('<img/>').addClass('abilityIcon').attr('src', ability.icon).click(ability.Perform));
+        this.rootElement.append($('<img/>').addClass('queuedIcon').attr('src', '../images/skillbar/queued-frame.png'));
 
         this.UpdateVisuals();
     }
@@ -157,8 +146,6 @@ class AbilityButton {
         if (this.ability.CurrentlyRunning()) {
             if (Math.abs(this.activeStartTime - this.ability.startWorldTime) > 0.1) {
                 this.activeStartTime = this.ability.startWorldTime;
-                this.rootElement.css('webkitAnimationName', 'abilityButtonPress');
-                window.setTimeout(() => this.rootElement.css('webkitAnimationName', ''), 250);
                 window.setTimeout(() => this.UpdateVisuals(), 1000 * (this.ability.endWorldTime - this.cu.ServerTime()) + 17);
             }
             this.rootElement.attr('running', 1);
@@ -252,6 +239,8 @@ interface ServerAbility {
     cooldowns?: number[];
     duration: number;
     triggerTime: number;
+    name: string;
+    tooltip: string;
 }
 
 
@@ -510,8 +499,14 @@ class CU {
 
     RequestAllAbilities(callback: (a: Ability[]) => any): void {
         if (!this.allAbilitiesCallback) {
+            if (typeof cuAPI.abilityNumbers === 'undefined') { return; }
             this.allAbilitiesCallback = [callback];
-            $.getJSON(this.gameServerURL + 'abilities', (data) => this.UpdateAllAbilities(data));
+            $.getJSON(this.gameServerURL + 'abilities', (data) => {
+                var abilities = data.filter(ability => {
+                    return cuAPI.abilityNumbers.indexOf(ability.id) !== -1;
+                });
+                this.UpdateAllAbilities(abilities);
+            });
         } else {
             this.allAbilitiesCallback.push(callback);
         }
@@ -536,6 +531,8 @@ class CU {
         }
         a.duration = rawAbility.duration;
         a.triggerTimeOffset = rawAbility.triggerTime;
+        a.name = rawAbility.name;
+        a.tooltip = rawAbility.tooltip;
 
         var old = this.abilities[a.id];
         this.abilities[a.id] = a;
@@ -1091,6 +1088,74 @@ class CU {
                 return '<auth' + data.join('') + '>' + value + '</auth>';
             }
         };
+    }
+}
+
+module Tooltip {
+    var $element: JQuery;
+
+    var showTimeout: number;
+
+    var hideTimeout: number;
+
+    var myOptions: any;
+
+    export function init(elements: any, options?: any) {
+        $element = $('#tooltip');
+
+        if (!$element.length) {
+            $element = $('<div>').attr('id', 'tooltip').appendTo(document.body);
+        }
+
+        if (_.isString(elements)) {
+            $(elements).hover(show, hide);
+        } else if (_.isObject(elements)) {
+            elements.hover(show, hide);
+        }
+
+        myOptions = options || {};
+    }
+
+    function show() {
+        var $this = $(this);
+
+        var title = $this.attr('data-tooltip-title');
+
+        var hasTitle = !_.isEmpty(title);
+
+        var content = $this.attr('data-tooltip-content');
+
+        var hasContent = !_.isEmpty(content);
+
+        if (!hasTitle && !hasContent) return;
+
+        clearTimeout(hideTimeout);
+
+        $element.empty();
+
+        if (hasTitle) {
+            $('<h1>').addClass('tooltip-title').text(title).appendTo($element);
+        }
+
+        if (hasContent) {
+            $('<div>').addClass('tooltip-content').text(content).appendTo($element);
+        }
+
+        var offset = $this.offset();
+
+        var left = offset.left + (myOptions.leftOffset || 0);
+
+        var top = offset.top - $element.height() + (myOptions.topOffset || 0);
+
+        $element.css({ left: left, top: top });
+
+        showTimeout = setTimeout(() => $element.stop().fadeIn(200), 800);
+    }
+
+    function hide() {
+        clearTimeout(showTimeout);
+
+        hideTimeout = setTimeout(() => $element.stop().fadeOut(100), 400);
     }
 }
 

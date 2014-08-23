@@ -3,23 +3,56 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /// <reference path="../vendor/jquery.d.ts" />
+/// <reference path="../cu/cu.ts" />
 
 module Skillbar {
     var $skillButtons: JQuery;
 
-    cu.OnServerConnected(() => {
-        $skillButtons = cu.FindElement('#skillButtons');
+    var currentAbilities: string[];
 
-        cu.RequestAllAbilities(function(abilities) {
-            abilities.sort((a, b) => a.id.localeCompare(b.id));
+    // Function for sorting abilities by server order.
+    function SortByServerOrder(a, b) {
+        var aLoc = cuAPI.abilityNumbers.indexOf(a.id);
+        var bLoc = cuAPI.abilityNumbers.indexOf(b.id);
 
-            abilities.forEach(function(ability, i) {
+        if (aLoc < bLoc) { return -1; }
+        else if (aLoc > bLoc) { return 1; }
+        else { return 0; }
+    }
+
+    function UpdateBar() {
+        if (_.isEqual(currentAbilities, cuAPI.abilityNumbers)) return;
+
+        currentAbilities = cuAPI.abilityNumbers;
+
+        cu.RequestAllAbilities(abilities => {
+            abilities.sort(SortByServerOrder);
+
+            $skillButtons.empty();
+
+            abilities.forEach((ability, i) => {
                 var button = ability.MakeButton();
-                var elem = button.rootElement.css({ left: (i * 54) + 'px', top: '0px' });
+
+                var elem = button.rootElement.css({ left: (i * 54) + 'px', top: '0' });
+
+                if (ability.name) elem.attr('data-tooltip-title', ability.name);
+
+                if (ability.tooltip) elem.attr('data-tooltip-content', ability.tooltip);
+
                 $skillButtons.append(elem);
             });
+
+            Tooltip.init($skillButtons.children(), { leftOffset: -5, topOffset: -25 });
         });
+    }
+
+    cu.OnServerConnected(() => {
+        $skillButtons = cu.FindElement('#skillButtons');
     });
 
     cu.SetDebugServer();
+
+    // How often we call Update
+    var updateFPS = .5;
+    cu.RunAtInterval(UpdateBar, updateFPS);
 }
