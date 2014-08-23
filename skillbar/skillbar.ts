@@ -14,10 +14,7 @@ module Skillbar {
     function SortByServerOrder(a, b) {
         var aLoc = cuAPI.abilityNumbers.indexOf(a.id);
         var bLoc = cuAPI.abilityNumbers.indexOf(b.id);
-
-        if (aLoc < bLoc) { return -1; }
-        else if (aLoc > bLoc) { return 1; }
-        else { return 0; }
+        return aLoc - bLoc;
     }
 
     function UpdateBar() {
