@@ -121,7 +121,7 @@ class AbilityButton {
     constructor(public ability: Ability, private cu: CU) {
         this.rootElement = $('<div/>').addClass('abilityButton');
         this.rootElement.append($('<img/>').addClass('activeHighlight').attr('src', '../images/skillbar/active-frame.gif'));
-        this.rootElement.append($('<img/>').addClass('abilityIcon').attr('src', ability.icon).click(ability.Perform));
+        this.rootElement.append($('<img/>').addClass('abilityIcon').attr('src', ability.icon).click(() => ability.Perform()));
         this.rootElement.append($('<img/>').addClass('queuedIcon').attr('src', '../images/skillbar/queued-frame.png'));
 
         this.UpdateVisuals();
@@ -157,7 +157,6 @@ class AbilityButton {
                 this.activeOverlay = null;
             }
 
-            this.rootElement.css('webkitAnimationName', '');
             this.rootElement.attr('running', 0);
 
             this.activeStartTime = -1;
@@ -183,11 +182,11 @@ class AbilityButton {
 
                 var slide = $('<div/>', {
                     class: 'cooldownSlide',
-                    width: Math.round((1 - frac) * 100.0) + '%',
+                    height: Math.round(frac * 100.0) + '%',
                     opacity: 0.6
                 }).appendTo(currentCooldown);
 
-                slide.animate({ width: '0%' }, timeLeft * 1000.0, 'linear', () => this.UpdateVisuals());
+                slide.animate({ height: '100%' }, timeLeft * 1000.0, 'linear', () => this.UpdateVisuals());
             }
         }
         this.rootElement.attr('cooldown', (currentCooldown ? 1 : 0));
@@ -1189,7 +1188,17 @@ interface CUInGameAPI {
     CancelOnAbilityActive(c: number);
 
     OnAbilityError(c: (message: string) => any): void;
+
+    inventoryItemIDs: string[];
+
+    Equip(itemID: string): void;
+    OnEquipped(callback: (itemID: string) => any);
+
+    Unequip(itemID: string): void;
+    OnUnequipped(callback: (itemID: string) => any);
+
+    GetItem(itemID: string): void;
+    OnGetItemResponse(callback: (itemID: string, data: string) => any);
 }
 
 declare var cuAPI: any;
-

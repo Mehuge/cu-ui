@@ -137,19 +137,24 @@ module Login {
         // Required for cross-site ajax to work on IE
         $.support.cors = true;
 
-        loginToken = cu.HasAPI() ? cuAPI.loginToken : '';
+        var loginInterval = setInterval(() => {
+            loginToken = cu.HasAPI() ? cuAPI.loginToken : '';
 
-        if (!loginToken) return;
+            if (!loginToken) return;
 
-        showServerSelection();
+            clearInterval(loginInterval);
 
-        getServers();
+            showServerSelection();
+
+            getServers();
+        }, 100);
     }
 
     function getServers() {
         $.ajax({
             type: 'GET',
-            url: getServerApiUrl({ host: 'chat.camelotunchained.com' }) + '/game/servers',
+            url: 'http://chat.camelotunchained.com:8001/api/servers',
+            data: { channelID: cuAPI.patchResourceChannel },
             timeout: 6000
         }).done((data) => {
             servers = data;

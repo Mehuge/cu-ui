@@ -9,11 +9,17 @@
     border: 0;
     margin: 0;
     padding: 0;
-    z-index: 1;
+    opacity: 0.8;
+}
+
+.abilityButton:hover,
+.abilityButton[cooldown='1'],
+.abilityButton[running='1'] {
+    opacity: 1.0;
 }
 
 .abilityButton[cooldown='1'] .abilityIcon {
-    -webkit-filter: grayscale(100%)
+    -webkit-filter: grayscale(100%);
 }
 
 .abilityButton .abilityIcon {
@@ -27,6 +33,7 @@
     border: 0;
     margin: 0;
     padding: 0;
+    z-index: 1;
 }
 
 .abilityButton .cooldownRoot {
@@ -57,13 +64,14 @@
 
     background: black;
     opacity: 0.5;
+    z-index: 3;
 }
 
 .abilityButton .activeHighlight {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 3;
+    z-index: 4;
     width: 100%;
     height: 100%;
     visibility: hidden;
@@ -81,7 +89,7 @@
     width: 45px;
     border: 0;
     padding: 0;
-    z-index: 4;
+    z-index: 5;
     visibility: hidden;
 }
 

@@ -230,6 +230,9 @@ module Chat {
                 }
                 cuAPI.CloseUI(name);
                 return true;
+            case '/stuck':
+                cuAPI.Stuck();
+                return true;
             default:
                 return false;
         }
