@@ -192,6 +192,9 @@ module Chat {
             case '/stuck':
                 cuAPI.Stuck();
                 return true;
+            case "/loc":
+                OnConsoleText(cuAPI.locationX + "," + cuAPI.locationY + "," + cuAPI.locationZ);
+                break;
             default:
                 return false;
         }
