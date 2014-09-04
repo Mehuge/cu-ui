@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        #main {
+            font-size: 8pt;
+        }
+        #heatmap { 
+            width: 200px; height: 200px;             
+        }
+        #overlay {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1; 
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="../common/sexyscroll.css">
+</head>
+<body>
+    <div id="heatmap"></div>
+    <canvas id="overlay" width="200" height="200"></canvas>
+</body>
+<script src="http://xhr-progressive-timeouts.googlecode.com/hg/trunk/lib/xhr-pt.js"></script>
+<script src="heatmap.min.js"></script>
+<script>
+    (function() {
+        var heatmap = h337.create({
+                container: document.getElementById("heatmap"),
+                maxOpacity: .6,
+                radius: 30,
+                blur: .990,
+                // backgroundColor with alpha so you can see through it
+                backgroundColor: 'rgba(0,0,0,0)',
+                gradient: {
+                    // enter n keys between 0 and 1 here
+                    // for gradient color customization
+                    '.5': 'blue',
+                    '.7': 'green',
+                    '.9': 'yellow',
+                    '.98': 'red'
+                }
+            }),
+            getKills = function() {
+                var now = (new Date()).getTime();
+                now = new Date(now-(1000*60));
+                XHR(serverURL + "kills" /* ?start=" + now.toISOString() */).done(function (response) {
+                    var kills = JSON.parse(response.getXhr().responseText);
+                    displayKills(kills);
+                });
+            },
+            displayKills = function(kills) {
+                var now = (new Date()).getTime();
+                heatmap.setData({ min: 0, max: 0, data: [] });
+                for (var i = 0; i < kills.length; i++) {
+                    var pos = kills[i].location.pos, h = now - (new Date(kills[i].time)).getTime();
+                    var h = h/1000/60/60;
+                    if (h < 1.0) {
+                        var o = { x: (pos.x+200)/2, y: (pos.y+200)/2, value: 1-h };
+                        heatmap.addData(o);
+                    }
+                }
+                
+                setTimeout(getKills, 10000);
+            },
+            overlay = document.getElementById("overlay"),
+            displayPos = function() {
+                if (cuAPI !== undefined) {
+                    var x = cuAPI.locationX, y = cuAPI.locationY;
+                    var ctx = overlay.getContext("2d");
+                    ctx.fillStyle = 'rgba(0,0,0,0)';
+                    ctx.clearRect(0,0,200,200);
+                    ctx.fillStyle = 'rgb(255,0,0)';
+                    ctx.fillRect(((x+200)/2)-2, ((y+200)/2)-2, 4, 4);
+                    setTimeout(displayPos,250);
+                }
+            };
+        if (typeof cuAPI === "undefined") {
+            cuAPI = {};
+        }
+        var serverURL = cuAPI.serverURL || "http://chat.camelotunchained.com:8000/api/";
+        getKills();
+        displayPos();
+    })();
+</script>
+</html>
