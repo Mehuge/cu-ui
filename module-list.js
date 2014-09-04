@@ -12,6 +12,7 @@ UI.Modules = {
     "addons": { core: false, autoLoad: true },
     // custom-ui's go below...
     // "example": { core: false, autoLoad: true }
+    "lb": { core: false, autoLoad: true },
     "pledges": { core: false }
 
 };

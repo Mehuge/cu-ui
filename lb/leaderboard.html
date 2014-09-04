@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            color: white;
+        }
+        #main {
+            font-size: 8pt;
+        }
+        table {
+            width: 100%;
+        }
+        th {
+            text-align: left;
+            background-color: black;
+            color: white;
+            opacity: 0.5;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="../common/sexyscroll.css">
+</head>
+<body>
+    <div id="main">
+    </div>
+</body>
+<script src="http://xhr-progressive-timeouts.googlecode.com/hg/trunk/lib/xhr-pt.js"></script>
+<script>
+    if (typeof cuAPI === "undefined") {
+        cuAPI = {};
+    }
+    var serverURL = cuAPI.serverURL || "http://chat.camelotunchained.com:8000/api/";
+    function getKills() {
+        XHR(serverURL + "kills").done(function (response) {
+            var kills = JSON.parse(response.getXhr().responseText);
+            displayKills(kills);
+        });
+    }
+    function displayKills(kills) {
+        var killers = {}, kill, killer;
+        for (var i = 0; i < kills.length; i++) {
+            kill = kills[i];
+            killer = killers[kill.killer.name] = killers[kill.killer.name] || { kills: [] };
+            killer.kills.push(kill);
+        }
+        var counts = [];
+        for (var name in killers) {
+            var killer = killers[name];
+            counts.push(killer);
+        }
+        counts.sort(function (a, b) { return b.kills.length - a.kills.length; });
+        main.innerHTML = '<table id="kills">'
+                        + '<thead><tr><th>Killer</th><th>Kills</th>' /* + '<th>Last Loc</th><th>Last Victim</th></tr>' */ + '</thead>'
+                        + '<tbody id="tb"></tbody></table>';
+        var tb = document.getElementById("tb"), tr, count, pos;
+        for (var i = 0; i < counts.length && i < 10; i++) {
+            count = counts[i];
+            kill = count.kills[count.kills.length - 1];
+            tr = document.createElement("tr");
+			// pos = kill.location.position;
+            tr.innerHTML = '<td>' + kill.killer.name + '</td>'
+                        + '<td>' + count.kills.length + '</td>'
+                        /*
+                        + '<td>' + pos.x.toFixed(3) + "," + pos.y.toFixed(3) + "," + pos.z.toFixed(3) + '</td>'
+                        + '<td>' + kill.victim.name + '</td>'
+                        */
+                        ;
+            tb.appendChild(tr);
+        }
+        setTimeout(getKills, 10000);
+    }
+    getKills();
+</script>
+</html>

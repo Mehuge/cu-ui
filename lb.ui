@@ -1,11 +1,11 @@
 {
     "_LICENSE": "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
-	"name" : "hotspot",
-	"mainFile" : "hotspot/hotspot.html",
+	"name" : "leaderboard",
+	"mainFile" : "lb/leaderboard.html",
 	"rect" : {
-		"left" : 1100,
-		"top" : 370,
-		"right" : 1440,
-		"bottom" : 690
+		"left" : 900,
+		"top" : 0,
+		"right" : 1100,
+		"bottom" : 200
 	}
 }
