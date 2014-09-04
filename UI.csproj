@@ -31,6 +31,8 @@
     <Content Include="errormessages\errormessages.html" />
     <Content Include="gamemenu\gamemenu.css" />
     <Content Include="gamemenu\gamemenu.html" />
+    <Content Include="heatmap\heatmap.html" />
+    <Content Include="heatmap\heatmap.min.js" />
     <Content Include="images\character\bar_health.png" />
     <Content Include="images\character\bar_mana.png" />
     <Content Include="images\character\bar_plate.png" />
@@ -127,6 +129,7 @@
     <Content Include="kills\kills.css" />
     <Content Include="kills\kills.html" />
     <TypeScriptCompile Include="kills\kills.ts" />
+    <Content Include="lb\leaderboard.html" />
     <Content Include="login\login.css" />
     <Content Include="login\login.html" />
     <TypeScriptCompile Include="login\login.ts" />
@@ -171,6 +174,8 @@
     <Content Include="README.md" />
     <None Include="addons.ui" />
     <Content Include="pledges.ui" />
+    <Content Include="heatmap.ui" />
+    <Content Include="lb.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
