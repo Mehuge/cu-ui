@@ -16,23 +16,35 @@
             padding: 0;
         }
         #main {
+            position: absolute;
             font-size: 8pt;
-        }
+            left: 0;
+            top: 0;
+            z-index: 1; 
+       }
         #heatmap { 
             width: 200px; height: 200px;             
+        }
+        #map {
+            position:absolute;
+            background-image: url(heatmap.png);
+            background-size: contain;
+            opacity: 0.5;
+            width: 200px; height: 200px;
         }
         #overlay {
             position: absolute;
             left: 0;
             top: 0;
-            z-index: 1; 
+            z-index: 2 
         }
     </style>
     <link rel="stylesheet" type="text/css" href="../common/sexyscroll.css">
 </head>
 <body>
+    <div id="map"></div>
     <div id="heatmap"></div>
-    <canvas id="overlay" width="200" height="200"></canvas>
+   <canvas id="overlay" width="200" height="200"></canvas>
 </body>
 <script src="http://xhr-progressive-timeouts.googlecode.com/hg/trunk/lib/xhr-pt.js"></script>
 <script src="heatmap.min.js"></script>
@@ -69,7 +81,7 @@
                     var pos = kills[i].location.pos, h = now - (new Date(kills[i].time)).getTime();
                     var h = h/1000/60/60;
                     if (h < 1.0) {
-                        var o = { x: (pos.x+200)/2, y: (pos.y+200)/2, value: 1-h };
+                        var o = { x: (pos.x+200)/2, y: (400-(pos.y+200))/2, value: 1-h };
                         heatmap.addData(o);
                     }
                 }
@@ -84,7 +96,7 @@
                     ctx.fillStyle = 'rgba(0,0,0,0)';
                     ctx.clearRect(0,0,200,200);
                     ctx.fillStyle = 'rgb(255,0,0)';
-                    ctx.fillRect(((x+200)/2)-2, ((y+200)/2)-2, 4, 4);
+                    ctx.fillRect(((x+200)/2)-2, ((400-(y+200))/2)-2, 4, 4);
                     setTimeout(displayPos,250);
                 }
             };
