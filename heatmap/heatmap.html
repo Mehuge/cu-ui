@@ -38,74 +38,85 @@
             top: 0;
             z-index: 2 
         }
+        #loc {
+            font-size: 6pt;
+            color: white;
+            float: right;
+            margin: 1em;
+            padding: 0.1em 0.5em;
+            background-color: black;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="../common/sexyscroll.css">
 </head>
 <body>
-    <div id="map"></div>
+    <div id="map"><div id="loc"></div></div>
     <div id="heatmap"></div>
    <canvas id="overlay" width="200" height="200"></canvas>
-</body>
-<script src="http://xhr-progressive-timeouts.googlecode.com/hg/trunk/lib/xhr-pt.js"></script>
-<script src="heatmap.min.js"></script>
-<script>
-    (function() {
-        var heatmap = h337.create({
-                container: document.getElementById("heatmap"),
-                maxOpacity: .3,
-                radius: 30,
-                blur: .990,
-                // backgroundColor with alpha so you can see through it
-                backgroundColor: 'rgba(0,0,0,0)',
-                gradient: {
-                    // enter n keys between 0 and 1 here
-                    // for gradient color customization
-                    '.5': 'blue',
-                    '.7': 'green',
-                    '.9': 'yellow',
-                    '.98': 'red'
-                }
-            }),
-            getKills = function() {
-                var now = (new Date()).getTime();
-                now = new Date(now-(1000*60));
-                XHR(serverURL + "kills" /* ?start=" + now.toISOString() */).done(function (response) {
-                    var kills = JSON.parse(response.getXhr().responseText);
-                    displayKills(kills);
-                });
-            },
-            displayKills = function(kills) {
-                var now = (new Date()).getTime();
-                heatmap.setData({ min: 0, max: 0, data: [] });
-                for (var i = 0; i < kills.length; i++) {
-                    var pos = kills[i].location.pos, h = now - (new Date(kills[i].time)).getTime();
-                    var h = h/1000/60/60;
-                    if (h < 1.0) {
-                        var o = { x: (pos.x+200)/2, y: (400-(pos.y+200))/2, value: 1-h };
-                        heatmap.addData(o);
+    <script src="heatmap.min.js"></script>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../common/REST.js"></script>
+    <script>
+        (function () {
+            var heatmap = h337.create({
+                    container: document.getElementById("heatmap"),
+                    maxOpacity: .3,
+                    radius: 20,
+                    blur: .990,
+                    // backgroundColor with alpha so you can see through it
+                    backgroundColor: 'rgba(0,0,0,0)',
+                    gradient: {
+                        // enter n keys between 0 and 1 here
+                        // for gradient color customization
+                        '.5': 'blue',
+                        '.7': 'green',
+                        '.9': 'yellow',
+                        '.98': 'red'
                     }
-                }
-                
-                setTimeout(getKills, 10000);
-            },
-            overlay = document.getElementById("overlay"),
-            displayPos = function() {
-                if (cuAPI !== undefined) {
+                }),
+                getKills = function () {
+                    var now = (new Date()).getTime();
+                    now = new Date(now - (1000 * 60));
+                    Rest.getKills().then(function (kills) {
+                        displayKills(kills);
+                    }, function (e) {
+                        loc.textContent = e;
+                    });
+                },
+                displayKills = function (kills) {
+                    var now = (new Date()).getTime();
+                    heatmap.setData({ min: 0, max: 0, data: [] });
+                    for (var i = 0; i < kills.length; i++) {
+                        var pos = kills[i].location.pos, h = now - (new Date(kills[i].time)).getTime();
+                        var h = h / 1000 / 60 / 60;
+                        if (h < 1.0) {
+                            var o = { x: (pos.x + 200) / 2, y: (400 - (pos.y + 200)) / 2, value: 1 - h };
+                            heatmap.addData(o);
+                        }
+                    }
+                    setTimeout(getKills, 10000);
+                },
+                overlay = document.getElementById("overlay"),
+                loc = document.getElementById("loc"),
+                displayPos = function () {
                     var x = cuAPI.locationX, y = cuAPI.locationY;
-                    var ctx = overlay.getContext("2d");
-                    ctx.fillStyle = 'rgba(0,0,0,0)';
-                    ctx.clearRect(0,0,200,200);
-                    ctx.fillStyle = 'rgb(255,0,0)';
-                    ctx.fillRect(((x+200)/2)-2, ((400-(y+200))/2)-2, 4, 4);
-                    setTimeout(displayPos,250);
-                }
-            };
-        if (typeof cuAPI === "undefined") {
-            cuAPI = {};
-        }
-        var serverURL = cuAPI.serverURL || "http://chat.camelotunchained.com:8000/api/";
-        getKills();
-        displayPos();
-    })();
-</script>
+                    if (x !== undefined) {
+                        var ctx = overlay.getContext("2d");
+                        ctx.fillStyle = 'rgba(0,0,0,0)';
+                        ctx.clearRect(0, 0, 200, 200);
+                        ctx.fillStyle = 'rgb(255,0,0)';
+                        ctx.fillRect(((x + 200) / 2) - 2, ((400 - (y + 200)) / 2) - 2, 4, 4);
+                        loc.textContent = x.toFixed(2) + "," + y.toFixed(2);
+                    }
+                    setTimeout(displayPos, 250);
+                };
+            if (typeof cuAPI === "undefined") {
+                cuAPI = { locationX: 0, locationY: 0, notClient: true };
+            }
+            var serverURL = cuAPI.serverURL || "http://chat.camelotunchained.com:8000/api/";
+            getKills();
+            displayPos();
+        })();
+    </script>
+</body>
 </html>
