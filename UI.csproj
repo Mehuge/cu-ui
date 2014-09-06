@@ -128,6 +128,7 @@
     <Content Include="images\target\target_plate.png" />
     <Content Include="kills\kills.css" />
     <Content Include="kills\kills.html" />
+    <TypeScriptCompile Include="common\REST.ts" />
     <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="lb\leaderboard.html" />
     <Content Include="login\login.css" />
