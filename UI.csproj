@@ -19,9 +19,12 @@
   <ItemGroup>
     <Content Include="addons\addons.html" />
     <Content Include="addons\addons.css" />
+    <Content Include="characters\characters.css" />
+    <Content Include="characters\characters.html" />
     <Content Include="character\character.html" />
     <Content Include="character\character.css" />
     <TypeScriptCompile Include="addons\addons.ts" />
+    <TypeScriptCompile Include="characters\characters.ts" />
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="chat\chat.css" />
     <Content Include="chat\chat.html" />
@@ -128,7 +131,7 @@
     <Content Include="images\target\target_plate.png" />
     <Content Include="kills\kills.css" />
     <Content Include="kills\kills.html" />
-    <TypeScriptCompile Include="common\REST.ts" />
+    <TypeScriptCompile Include="common\rest.ts" />
     <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="lb\leaderboard.html" />
     <Content Include="login\login.css" />
@@ -177,6 +180,7 @@
     <Content Include="pledges.ui" />
     <Content Include="heatmap.ui" />
     <Content Include="lb.ui" />
+    <Content Include="characters.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
