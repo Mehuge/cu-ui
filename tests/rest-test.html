@@ -1,7 +1,7 @@
 <html>
 	<head>
 		<script src="../vendor/jquery-2.1.1.js"></script>
-		<script src="rest.js"></script>
+		<script src="../common/rest.js"></script>
 		<script>
 		function run(what) {
 			Rest.call(what).then(function(data) {
@@ -68,7 +68,7 @@
 			}
 			
 			function showServers() {
-				return Rest.Promise(function(fulfill, rejext) {
+				return new Promise(function(fulfill, rejext) {
 					var content = grid("servers");
 					item(content, "heading", 
 							'<div id="name">Server Name</div>'
@@ -89,7 +89,7 @@
 			}
 			
 			function showFactions() {
-				return Rest.Promise(function(fulfill, rejext) {
+				return new Promise(function(fulfill, rejext) {
 					var content = grid("factions");
 					item(content, "heading", 
 							'<div id="name">Faction</div>'
@@ -108,7 +108,7 @@
 			}
 			
 			function showRaces() {
-				return Rest.Promise(function(fulfill, rejext) {
+				return new Promise(function(fulfill, rejext) {
 					var content = grid("races");
 					item(content, "heading", 
 							'<div id="name">Race</div>'
@@ -129,7 +129,7 @@
 			}
 
 			function showPlayers() {
-				return Rest.Promise(function(fulfill, rejext) {
+				return new Promise(function(fulfill, rejext) {
 					var content = grid("players");
 					item(content, "heading", 
 							'<div id="arthurians">Arthurians</div>'
@@ -148,7 +148,7 @@
 			}
 			
 			function showAbilities() {
-				return Rest.Promise(function(fulfill, rejext) {
+				return new Promise(function(fulfill, rejext) {
 					var content = grid("abilities");
 					item(content, "heading", 
 							'<div id="name">Ability</div>'
