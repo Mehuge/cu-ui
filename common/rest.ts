@@ -1,38 +1,9 @@
 /// <reference path="../vendor/jquery.d.ts" />
+declare var Promise: any;
+
 module Rest {
 
     var servers = [], server: string = "Hatchery";
-
-    // Basic promise API
-    export function Promise(fn) {
-        var then,
-            rejected,
-            context,
-            self = this,
-            fulfill = function () {
-                if (then) {
-                    then.apply(context, arguments);
-                }
-            },
-            reject = function () {
-                if (rejected) {
-                    rejected.apply(context, arguments);
-                }
-            };
-        setTimeout(function () { context = fn(fulfill, reject) || this; }, 0);
-        return {
-            then: function (success, fail?) {
-                then = success;
-                rejected = fail;
-            },
-            resolve: function () {
-                fulfill.apply(self, arguments);
-            },
-            reject: function () {
-                reject.apply(self, arguments);
-            }
-        };
-    }
 
     function getServerInfo(server?: string) {
         if (server) {
@@ -72,8 +43,8 @@ module Rest {
 
         // Raw call the CU RESI API, returns a promise
         params = params || {};
-        return Promise(function (fulfill, reject) {
-            return $.ajax({
+        return new Promise(function (fulfill, reject) {
+            $.ajax({
                 url: serverURI + verb,
                 type: params.type || "GET",
                 data: params.query,
@@ -94,7 +65,7 @@ module Rest {
     }
 
     export function getServers() {
-        return Promise(function (fulfill, reject) {
+        return new Promise(function (fulfill, reject) {
             call("servers").then(function (list) {
                 servers = list;
                 fulfill(servers);
