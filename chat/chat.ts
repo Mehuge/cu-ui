@@ -236,6 +236,11 @@ module Chat {
             case "/loc":
                 OnConsoleText(cuAPI.locationX + "," + cuAPI.locationY + "," + cuAPI.locationZ);
                 break;
+            case "/attack":
+                if (processed.args.length < 1) return false;
+                name = processed.args[0];
+                cuAPI.Attack(name);
+                break;
             default:
                 return false;
         }
