@@ -153,7 +153,7 @@ module Login {
     function getServers() {
         $.ajax({
             type: 'GET',
-            url: 'http://chat.camelotunchained.com:8001/api/servers',
+            url: 'http://api.citystateentertainment.com:8001/api/servers',
             data: { channelID: cuAPI.patchResourceChannel },
             timeout: 6000
         }).done((data) => {

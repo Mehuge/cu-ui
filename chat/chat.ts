@@ -233,14 +233,14 @@ module Chat {
             case '/stuck':
                 cuAPI.Stuck();
                 return true;
-            case "/loc":
-                OnConsoleText(cuAPI.locationX + "," + cuAPI.locationY + "," + cuAPI.locationZ);
-                break;
             case "/attack":
                 if (processed.args.length < 1) return false;
                 name = processed.args[0];
                 cuAPI.Attack(name);
                 break;
+            case "/crashthegame":
+                cuAPI.CrashTheGame();
+                return true;
             default:
                 return false;
         }

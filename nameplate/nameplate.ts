@@ -27,14 +27,13 @@ module Nameplate {
 
         // Get our color based on the mod of the cell
         var color = '#FDFDFD';
-        // Tuatha
-        if (colorMod == 0) color = '#BBFFBB';
+        if (colorMod == 1) color = '#BBFFBB';
         // Viking
-        if (colorMod == 1) color = '#BBBBFF';
+        if (colorMod == 2) color = '#BBBBFF';
         // Arthurian
-        if (colorMod == 2) color = '#FFBBBB';
+        if (colorMod == 3) color = '#FFBBBB';
         // Other
-        if (colorMod == 3) color = '#FFFF88';
+        if (colorMod == 4) color = '#FFFF88';
 
         // Create the actual div
         var existingCell = $('#' + cell);

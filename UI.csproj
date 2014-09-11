@@ -58,6 +58,8 @@
     <Content Include="images\login\char-caitsith.jpg" />
     <Content Include="images\login\char-dvergr-select.jpg" />
     <Content Include="images\login\char-dvergr.jpg" />
+    <Content Include="images\login\char-firbog-select.jpg" />
+    <Content Include="images\login\char-firbog.jpg" />
     <Content Include="images\login\char-frostgiant-select.jpg" />
     <Content Include="images\login\char-frostgiant.jpg" />
     <Content Include="images\login\char-gargoyle-select.jpg" />

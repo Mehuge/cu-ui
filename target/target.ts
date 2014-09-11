@@ -27,7 +27,7 @@ module Target {
 
         if (cu.HasAPI()) {
             curHP = cuAPI.targetHP;
-            maxHP = cuAPI.maxHP;
+            maxHP = cuAPI.targetMaxHP;
             name = cuAPI.targetName;
             isFriendly = cuAPI.isTargetFriendly;
             effects = cuAPI.targetEffects;
