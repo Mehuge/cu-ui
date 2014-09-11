@@ -241,6 +241,9 @@ module Chat {
             case "/crashthegame":
                 cuAPI.CrashTheGame();
                 return true;
+            case "/loc":
+                OnConsoleText(cuAPI.locationX + "," + cuAPI.locationY + "," + cuAPI.locationZ);
+                return true;
             default:
                 return false;
         }
