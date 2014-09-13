@@ -15,15 +15,10 @@
             margin: 0;
             padding: 0;
         }
-        #main {
-            position: absolute;
-            font-size: 8pt;
-            left: 0;
-            top: 0;
-            z-index: 1; 
-       }
         #heatmap { 
-            width: 200px; height: 200px;             
+            position: absolute;
+            width: 200px; height: 200px;
+            top: 0;
         }
         #map {
             position:absolute;
@@ -31,10 +26,10 @@
             background-size: contain;
             opacity: 0.5;
             width: 200px; height: 200px;
+            top: 0;
         }
         #overlay {
             position: absolute;
-            left: 0;
             top: 0;
             z-index: 2 
         }
@@ -52,7 +47,7 @@
 <body>
     <div id="map"><div id="loc"></div></div>
     <div id="heatmap"></div>
-   <canvas id="overlay" width="200" height="200"></canvas>
+    <canvas id="overlay" width="200" height="200"></canvas>
     <script src="heatmap.min.js"></script>
     <script src="../vendor/jquery-2.1.1.js"></script>
     <script src="../common/rest.js"></script>
