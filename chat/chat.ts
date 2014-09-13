@@ -244,6 +244,9 @@ module Chat {
             case "/loc":
                 OnConsoleText(cuAPI.locationX + "," + cuAPI.locationY + "," + cuAPI.locationZ);
                 return true;
+            case "/bug":
+                cuAPI.OpenUI("bugit.ui");
+                return true;
             default:
                 return false;
         }
