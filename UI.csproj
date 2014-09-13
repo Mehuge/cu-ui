@@ -19,11 +19,15 @@
   <ItemGroup>
     <Content Include="addons\addons.html" />
     <Content Include="addons\addons.css" />
+    <Content Include="bugit\bg.png" />
+    <Content Include="bugit\bugit.css" />
+    <Content Include="bugit\bugit.html" />
     <Content Include="characters\characters.css" />
     <Content Include="characters\characters.html" />
     <Content Include="character\character.html" />
     <Content Include="character\character.css" />
     <TypeScriptCompile Include="addons\addons.ts" />
+    <TypeScriptCompile Include="bugit\bugit.ts" />
     <TypeScriptCompile Include="characters\characters.ts" />
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="chat\chat.css" />
@@ -183,6 +187,7 @@
     <Content Include="heatmap.ui" />
     <Content Include="lb.ui" />
     <Content Include="characters.ui" />
+    <Content Include="bugit.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
