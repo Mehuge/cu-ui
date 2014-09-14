@@ -102,7 +102,7 @@ module Bugit {
             }
         };
 
-        var X = (+cuAPI.locationZ).toFixed(2), Y = (+cuAPI.locationY).toFixed(2), Z = (+cuAPI.locationZ).toFixed(2);
+        var X = (+cuAPI.locationX).toFixed(2), Y = (+cuAPI.locationY).toFixed(2), Z = (+cuAPI.locationZ).toFixed(2);
         $("#character").text(cuAPI.characterName);
         $("#location").text("X: " + X + ", Y: " + Y + ", Z: " + Z);
         $("#fps").text(cuAPI.fps.toFixed(1));
