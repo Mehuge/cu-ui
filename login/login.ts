@@ -138,7 +138,7 @@ module Login {
         $.support.cors = true;
 
         var loginInterval = setInterval(() => {
-            loginToken = cu.HasAPI() ? cuAPI.loginToken : '';
+            loginToken = cu.HasAPI() ? cuAPI.loginToken : window.prompt('loginToken?','');
 
             if (!loginToken) return;
 
@@ -154,7 +154,7 @@ module Login {
         $.ajax({
             type: 'GET',
             url: 'http://api.citystateentertainment.com:8001/api/servers',
-            data: { channelID: cuAPI.patchResourceChannel },
+            data: { channelID: cu.HasAPI() ? cuAPI.patchResourceChannel : 4 },
             timeout: 6000
         }).done((data) => {
             servers = data;
