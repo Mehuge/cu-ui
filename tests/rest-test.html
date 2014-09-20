@@ -175,12 +175,12 @@
 			}
 			
 
-			showServers();
-			showFactions();
-			showRaces();
-			showPlayers();
-			showAbilities();
-			
+			showServers().then(function () {
+			    showFactions();
+			    showRaces();
+			    showPlayers();
+			    showAbilities();
+			});
 		})();
 		</script>
 	</body>

@@ -194,6 +194,7 @@
     <Content Include="target\target.css" />
     <Content Include="target\target.html" />
     <TypeScriptCompile Include="target\target.ts" />
+    <Content Include="tests\rest-test.html" />
     <Content Include="vendor\jquery-2.1.1.js" />
     <Content Include="vendor\jquery.cookie.d.ts" />
     <Content Include="vendor\jquery.cookie.js" />
