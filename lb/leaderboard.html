@@ -51,7 +51,7 @@
             var killers = {}, kill, killer;
             for (var i = 0; i < kills.length; i++) {
                 kill = kills[i];
-                if (kill.victim.name !== kill.killer.name) {
+                if (kill.killer && kill.victim.name !== kill.killer.name) {
                     killer = killers[kill.killer.name] = killers[kill.killer.name] || { kills: [] };
                     killer.kills.push(kill);
                 }
