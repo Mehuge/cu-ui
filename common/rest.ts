@@ -6,15 +6,19 @@ module Rest {
     var servers = [], server: string = "Hatchery";
 
     function getServerInfo(server?: string) {
+        var domain : string = "camelotunchained.com";
         if (server) {
             for (var i = 0; i < servers.length; i++) {
                 if (servers[i].name === server) {
                     return servers[i];
                 }
             }
+            return {
+                host: "chat." + domain
+            };
         }
         return {
-            host: "chat.camelotunchained.com"
+            host: "api.citystateentertainment.com"
         };
     }
 
@@ -69,7 +73,7 @@ module Rest {
             call("servers").then(function (list) {
                 servers = list;
                 fulfill(servers);
-            },reject);
+            }, reject);
         });
     }
 
@@ -108,7 +112,4 @@ module Rest {
     export function getKills(query) {
         return call("kills", { query: query });
     }
-
-    // pre-load server list
-    getServers();
 }
