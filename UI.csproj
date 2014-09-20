@@ -26,10 +26,16 @@
     <Content Include="characters\characters.html" />
     <Content Include="character\character.html" />
     <Content Include="character\character.css" />
+    <Content Include="bot\bot.css" />
+    <Content Include="bot\bot.html" />
+    <Content Include="bot\uiu.js" />
+    <Content Include="character\character.html" />
+    <Content Include="character\character.css" />
     <TypeScriptCompile Include="addons\addons.ts" />
     <TypeScriptCompile Include="bugit\bugit.ts" />
     <TypeScriptCompile Include="characters\characters.ts" />
-    <TypeScriptCompile Include="character\character.ts" />
+    <TypeScriptCompile Include="bot\bot.ts" />
+    <TypeScriptCompile Include="bot\uiu.d.ts" />
     <Content Include="chat\chat.css" />
     <Content Include="chat\chat.html" />
     <Content Include="common\sexyscroll.css" />
@@ -160,6 +166,7 @@
     <Content Include="respawn\respawn.html" />
     <Content Include="skillbar\skillbar.css" />
     <Content Include="skillbar\skillbar.html" />
+    <TypeScriptCompile Include="vendor\tokenizer.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="cu\cu.ts" />
@@ -188,6 +195,7 @@
     <Content Include="lb.ui" />
     <Content Include="characters.ui" />
     <Content Include="bugit.ui" />
+    <Content Include="bot.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -203,6 +211,7 @@
     <Content Include="vendor\jquery.terminal.d.ts" />
     <Content Include="vendor\strophe.d.ts" />
     <Content Include="vendor\strophe.js" />
+    <Content Include="vendor\tokenizer.js" />
     <Content Include="vendor\underscore.d.ts" />
     <Content Include="vendor\underscore.js" />
     <Content Include="web.config" />
