@@ -1,4 +1,4 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
@@ -229,7 +229,7 @@ button {
 }
 
 #character-selection .character-name,
-#character-selection .character-description {
+ #character-selection .character-description {
     position: absolute;
     top: 0;
     word-wrap: break-word;
@@ -249,13 +249,13 @@ button {
     color: #bbb;
 }
 
-#character-selection #characters-portrait {
+#characters-portrait {
     position: absolute;
     left: 10%;
     list-style-type: none;
 }
 
-#character-selection .portrait {
+.portrait {
     width: 240px;
     height: 500px;
     position: absolute;
@@ -266,17 +266,8 @@ button {
     box-sizing: border-box;
 }
 
-#character-selection .portrait.selected {
+.portrait.selected {
     display: block;
-}
-
-
-#btn-previous,
-#btn-next {
-    width: 25px;
-    height: 49px;
-    opacity: 0.2;
-    display: none;
 }
 
 #btn-previous:hover,
@@ -292,15 +283,15 @@ button {
 #btn-previous {
     background: url("../images/login/btn-left-arrow.png") no-repeat 0 0;
     position: absolute;
-    left: -50px;
-    top: -260px;
+    left: 50px;
+    top: 220px;
 }
 
 #btn-next {
     background: url("../images/login/btn-right-arrow.png") no-repeat 0 0;
     position: absolute;
-    right: -50px;
-    top: -260px;
+    right: 50px;
+    top: 220px;
 }
 
 #btn-container {
@@ -384,14 +375,13 @@ button {
     text-align: center;
 }
 
-#character-creation-realms {
-    position: absolute;
-    left: 50%;
-    margin-left: -396px;
+#character-creation .character {
+    text-align: center;
+    display: none;
 }
 
-#character-creation .character-name,
-#character-creation .character-description {
+#charcter-creation .character-name,
+#charcter-creation .character-description {
     position: absolute;
     left: 0;
     width: 224px;
@@ -405,16 +395,21 @@ button {
          2px  2px 2px #000;
 }
 
-#character-creation .character-name {
+#charcter-creation .character-name {
     bottom: 32px;
     color: #fff;
 }
 
-.character-description {
+#charcter-creation .character-description {
     bottom: 8px;
     color: #bbb;
 }
 
+#character-creation-realms {
+    position: absolute;
+    left: 50%;
+    margin-left: -396px;
+}
 
 #btn-arthurians,
 #btn-tdd,

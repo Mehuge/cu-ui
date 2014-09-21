@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /// <reference path="../vendor/jquery.d.ts" />
-/// <reference path="3dcarousel.d.ts" />
 
 module Login {
     /* Both Character Selection and Character Creation Variables */
@@ -12,7 +11,8 @@ module Login {
 
     var $modalWrapper = $('#modal-wrapper');
     var $modal = $('#modal');
-    var $characters = $('#characters');
+    var $characters: JQuery = $('#characters-container'),
+        $portraits: JQuery = $('#characters-portrait');
 
     /* Background swapping variables */
     var $bgLayer1 = $('#background-layer1');
@@ -43,7 +43,6 @@ module Login {
     var $createNewButton = $('#btn-create-new');
     var $startButton = $('#btn-start');
     var $selectedCharacter = null;
-    var carousel: Carousel;
 
     /* Character Creation Variables */
 
@@ -149,11 +148,10 @@ module Login {
     }
 
     function getServers() {
-        var channelID = cu.HasAPI() ? cuAPI.patchResourceChannel : 4;
         $.ajax({
             type: 'GET',
             url: 'http://api.citystateentertainment.com:8001/api/servers',
-            data: { channelID: channelID },
+            data: { channelID: cu.HasAPI() ? cuAPI.patchResourceChannel : 4 },
             timeout: 6000
         }).done((data) => {
             servers = data;
@@ -433,16 +431,15 @@ module Login {
 
         $characterSelection.fadeOut(() => {
             $characterCreation.fadeIn();
-
             $characterCreationRealms.animate({ 'top': '40%' });
         });
     }
 
     function showCharacterSelect() {
+        
         $characters.empty();
 
         $selectedCharacter = null;
-        var $carousel: JQuery = $('#carousel');
 
         selectedServer.characters.forEach((character, index) => {
             var raceCssClass;
@@ -457,12 +454,11 @@ module Login {
                 raceCssClass = getRaceCssClass('Tuatha');
             }
 
-            var $character: JQuery = $('<figure>').addClass('character').attr({
+            var $character: JQuery = $('<li>').addClass('character').attr({
                 'data-character-id': character.id,
                 'data-character-name': _.escape(character.name),
                 'data-character-realm': character.race.faction.name
-            }).addClass(raceCssClass).css('background', getRaceBackgroundStyle(raceCssClass))
-                .appendTo($carousel);
+            }).addClass(raceCssClass).appendTo($characters);
 
             var $name = $('<span>').addClass('character-name').text(character.name).appendTo($character);
 
@@ -473,24 +469,32 @@ module Login {
                 $name.css('bottom', '8px');
             }
 
+            var $portrait: JQuery = $('<li>').addClass('portrait')
+                .addClass(raceCssClass)
+                .css('background', getRaceBackgroundStyle(raceCssClass))
+                .appendTo($portraits);
+
             if (index === 0) {
-                $selectedCharacter = $character;
+                setSelectedCharacter(index);
             }
         });
 
-        if (selectedServer.characters.length > 1) {
-            $previousButton.fadeIn();
-            $nextButton.fadeIn();
-        }
-
-        carousel = $carousel.carousel3d({
-            spread: 0.75, next: $nextButton, prev: $previousButton,
-            onselected: function ($el) {
-                $selectedCharacter = $el;
-            }
+        $characters.children().on('click', (e : JQueryEventObject) => {
+            setSelectedCharacter($(e.currentTarget).index());
         });
 
         $characterSelection.fadeIn();
+    }
+
+    function setSelectedCharacter(index: number) {
+        if ($selectedCharacter) {
+            var old = $selectedCharacter.index();
+            $portraits.children().eq(old).fadeOut();
+            $characters.children().removeClass('selected');
+        }
+        $characters.children().eq(index).addClass('selected');
+        $portraits.children().eq(index).fadeIn();
+        $selectedCharacter = $characters.children().eq(index);
     }
 
     function findRaceCssClass(raceValue) {
