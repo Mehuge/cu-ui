@@ -544,20 +544,18 @@ module Login {
             options.success = () => {
                 hideModal();
 
+                var index: number = $selectedCharacter.index();
                 selectedServer.characters.splice($selectedCharacter.index(), 1);
 
                 $selectedCharacter.remove();
+                $portraits.children().eq(index).remove();
                 $selectedCharacter = null;
 
                 if (selectedServer.characters.length) {
-                    var charactersCount = $characters.children().length;
-
-                    if (charactersCount <= 1) {
-                        $previousButton.fadeOut();
-                        $nextButton.fadeOut();
+                    if (index === selectedServer.characters.length) {
+                        index = 0;
                     }
-
-                    $nextButton.click();
+                    setSelectedCharacter(index);
                 } else {
                     showCharacterCreationPage();
                 }
