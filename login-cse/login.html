@@ -1,0 +1,195 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cinzel:400,700,900">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Merriweather+Sans:400,300,700,800">
+    <link rel="stylesheet" type="text/css" href="../cu/cu.css">
+    <link rel="stylesheet" type="text/css" href="login.css">
+</head>
+<body>
+    <div id="bg-default"></div>
+    <div id="bg-factions"></div>
+    <div id="bg-tdd"></div>
+    <div id="bg-arthurians"></div>
+    <div id="bg-vikings"></div>
+    <div id="character-selection">
+        <div id="characters-container">
+            <ul id="characters"></ul>
+            <div id="character-selection-controls">
+                <a href="#" id="btn-previous-character"></a>
+                <a href="#" id="btn-next-character"></a>
+            </div>
+        </div>
+        <div id="btn-container">
+            <button id="btn-servers" class="btn-normal">Servers</button>
+            <button id="btn-delete" class="btn-normal">Delete</button>
+            <button id="btn-create-new" class="btn-normal">Create New</button>
+            <button id="btn-start">&nbsp;</button>
+        </div>
+    </div>
+    <div id="character-creation">
+        <div id="choose-faction">
+            <img id="choose-your-faction" src="../images/login/choose-your-faction.png" />
+            <button id="shield-tdd"></button>
+            <button id="shield-arthurians"></button>
+            <button id="shield-vikings"></button>
+            <div id="description-tdd">
+                <h1>Tuatha D&eacute; Danann</h1>
+                <p>The Realm of the Tuatha D&eacute; Danann strives to become one with nature. They revere the forest for its fierce beauty and its unyielding grip on life. The forest is more than the home of the Tuatha D&eacute; Danann; it is their deep-rooted mother, their broad-boughed father, and their protector. Beneath the green-on-green canopy of the ever-living forest, dark secrets and powerful mysteries are hidden, which every member of the Realm will fight to defend. The wise and enigmatic Lugh leads the Tuatha D&eacute; Danann to blossoming power, expanding the reach of limitless life. Some may jest that the Tuatha D&eacute; Danann are foolish tree-lovers and frivolous fairies, but in the Realm of the Forest they know the truth: The world will be fierce and beautiful when the Realms are united under forest halls.</p>
+            </div>
+            <div id="description-arthurians">
+                <h1>The Arthurians</h1>
+                <p>The Realm of King Arthur strives to be the embodiment of nobility, honesty, and righteous strength. They believe they are destined to save the world, not purely through conquest but through virtue and greatness of spirit. The Realm of Arthur accepts all who would better the world through integrity, and strong characters are always welcome to find a home here. The Arthurian Edicts ensure that no one is excluded from the march to a bright future for the Realm, so long as they follow a pure nobility of purpose. Some may say the Arthurians are self-righteous and obsessive, but in the Realm of Arthur they know the truth: Honor and devotion will unite us under an Arthurian Camelot once again.</p>
+            </div>
+            <div id="description-vikings">
+                <h1>The Vikings</h1>
+                <p>The Realm of the Vikings follows the path of blood and steel to greatness. In the tall peaks of windswept ice they make their homes, waiting for the moment to conquer the lands below. Sigurd the Dragonslayer leads a Realm whose warriors claim to be the most fearless in the world. Across the war-torn fields the Vikings shout their famous battlecry: "How long can a Viking fight? All the day and through the night!" Fierce and determined to survive against all odds, the Viking Realm wields the storm within as a weapon to fight the storms without. Some may hold the Vikings as coarse barbarians, but in the Realm of the Mountains, they know these naysayers lack courage and conviction: Only through the forge of bloody conquest can the Realms be united to stand against the coming storms.</p>
+            </div>
+        </div>
+        <div id="character-faction"></div>
+        <img id="character-race" />
+        <div id="character-parchment">
+            <input id="character-name" type="text" placeholder="Name of Character" />
+            <div id="character-title"></div>
+            <div id="character-summary">
+                <div class="summary-left">
+                    <div class="summary-list-header">Primary</div>
+                    <ul id="summary-primary-attributes"></ul>
+                    <div class="summary-list-header summary-list-secondary">Secondary</div>
+                    <ul id="summary-secondary-attributes"></ul>
+                </div>
+                <div class="summary-right">
+                    <div class="summary-list-header">Derived</div>
+                    <ul id="summary-derived-attributes"></ul>
+                </div>
+                <div class="summary-left clear">
+                    <div class="summary-list-header summary-list-boons-banes">Boons</div>
+                    <ul id="summary-boons"></ul>
+                </div>
+                <div class="summary-right">
+                    <div class="summary-list-header summary-list-boons-banes">Banes</div>
+                    <ul id="summary-banes"></ul>
+                </div>
+            </div>
+        </div>
+        <div id="character-race-archetype">
+            <form id="choose-race">
+                <h2>Choose Your Race</h2>
+                <ul id="races"></ul>
+            </form>
+            <form id="choose-archetype">
+                <h2>Archetype</h2>
+                <ul id="archetypes"></ul>
+            </form>
+            <div id="chosen-archetype-abilities">
+                <h2>Abilities</h2>
+                <ul id="abilities"></ul>
+            </div>
+        </div>
+        <div id="character-attributes">
+            <form id="choose-attributes">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Attribute</th>
+                            <th>Min</th>
+                            <th>Max</th>
+                            <th>Cap</th>
+                            <th colspan="3">Current</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attributes"></tbody>
+                </table>
+            </form>
+        </div>
+        <div id="character-boons-banes">
+            <div id="boons-banes-frame">
+                <div id="boons-banes-bars">
+                    <div id="boons-bar"></div>
+                    <div id="banes-bar"></div>
+                </div>
+                <span id="boons-count"></span>
+                <span id="banes-count"></span>
+            </div>
+            <form id="choose-boons-and-banes">
+                <div id="choose-boons">
+                    <h2>Boons</h2>
+                    <div id="boons-general-container">
+                        <h3>General</h3>
+                        <span id="boons-general-count"></span>
+                        <ul id="boons-general" class="boons"></ul>
+                    </div>
+                    <div id="boons-faction-container">
+                        <h3>Faction</h3>
+                        <span id="boons-faction-count"></span>
+                        <ul id="boons-faction" class="boons"></ul>
+                    </div>
+                    <div id="boons-race-container">
+                        <h3>Race</h3>
+                        <span id="boons-race-count"></span>
+                        <ul id="boons-race" class="boons"></ul>
+                    </div>
+                    <div id="boons-archetype-container">
+                        <h3>Archetype</h3>
+                        <span id="boons-archetype-count"></span>
+                        <ul id="boons-archetype" class="boons"></ul>
+                    </div>
+                </div>
+                <div id="choose-banes">
+                    <h2>Banes</h2>
+                    <div id="banes-general-container">
+                        <h3>General</h3>
+                        <span id="banes-general-count"></span>
+                        <ul id="banes-general" class="banes"></ul>
+                    </div>
+                    <div id="banes-faction-container">
+                        <h3>Faction</h3>
+                        <span id="banes-faction-count"></span>
+                        <ul id="banes-faction" class="banes"></ul>
+                    </div>
+                    <div id="banes-race-container">
+                        <h3>Race</h3>
+                        <span id="banes-race-count"></span>
+                        <ul id="banes-race" class="banes"></ul>
+                    </div>
+                    <div id="banes-archetype-container">
+                        <h3>Archetype</h3>
+                        <span id="banes-archetype-count"></span>
+                        <ul id="banes-archetype" class="banes"></ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <button id="btn-reset"></button>
+        <div id="btn-back">
+            <span id="btn-back-label">Realms</span>
+        </div>
+        <div id="character-top-frame">
+            <div id="top-frame-title"></div>
+            <div id="top-frame-buttons">
+                <button id="btn-race-archetype-page" title="Character"></button>
+                <button id="btn-attributes-page" title="Attributes" disabled="disabled"></button>
+                <button id="btn-boons-banes-page" title="Boons & Banes" disabled="disabled"></button>
+            </div>
+            <ul id="top-frame-points"></ul>
+        </div>
+        <form id="character-next">
+            <button id="btn-next" type="submit" disabled="disabled">Next</button>
+        </form>
+        <form id="character-complete">
+            <button id="btn-complete" type="submit" disabled="disabled">Complete</button>
+        </form>
+    </div>
+    <div id="modal-wrapper">
+        <div id="modal"></div>
+    </div>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../vendor/underscore.js"></script>
+    <script src="../cu/cu.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>

@@ -100,20 +100,24 @@
 #tooltip {
     display: none;
     position: absolute;
-    border: 1px solid #333;
-    background-color: #161616;
-    border-radius: 5px;
+    line-height: 120%;
     padding: 10px;
-    color: #bbb;
-    font-family: 'Merriweather Sans', sans-serif;
-    font-size: 11px;
-    width: 200px;
-    max-height: 112px;
+    background: rgba(0, 0, 0, 0.75);
+    border: #555 solid 1px;
+    box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.45);
+    -webkit-box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.45);
+    -moz-box-shadow: 0px 0px 0px 3px rgba(0, 0, 0, 0.45);
+    z-index: 9999;
+    left: 500px;
+    top: 250px;
+    width: 250px;
+    color: #ccc;
+    font-size: 12px;
 }
 
 #tooltip h1 {
-    margin: 0 0 10px 0;
-    padding: 0;
     color: #fff;
-    font-size: 12px;
+    font-size: 14px;
+    margin-bottom: 4px;
+    margin-top: 0;
 }
