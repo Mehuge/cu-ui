@@ -141,6 +141,7 @@
     <Content Include="images\target\target_plate.png" />
     <Content Include="kills\kills.css" />
     <Content Include="kills\kills.html" />
+    <TypeScriptCompile Include="character\character.ts" />
     <TypeScriptCompile Include="common\rest.ts" />
     <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="lb\leaderboard.html" />
