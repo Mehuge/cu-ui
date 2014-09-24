@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            color: white;
+			overflow: hidden;
+        }
+        #main {
+            font-size: 8pt;
+        }
+        table {
+            width: 100%;
+        }
+    </style>
+	<link rel="stylesheet" type="text/css" href="../common/sexyscroll.css">
+</head>
+<body>
+    <canvas width="200" height="200"/>
+</body>
+<script src="http://xhr-progressive-timeouts.googlecode.com/hg/trunk/lib/xhr-pt.js"></script>
+<script src="webgl-heatmap.js"></script>
+<script>
+    (function() {
+        var canvas = document.getElementsByTagName("canvas")[0],
+            heatmap = createWebGLHeatmap({ canvas: canvas, intensityToAlpha:true }),
+            getKills = function() {
+                XHR(serverURL + "kills").done(function (response) {
+                    var kills = JSON.parse(response.getXhr().responseText);
+                    displayKills(kills);
+                });
+            },
+            displayKills = function(kills) {
+                heatmap.clear();
+                for (var i = 0; i < kills.length; i++) {
+                    var pos = kills[i].location.pos;
+                    paintAtCoord((pos.x+200)/2, (pos.y+200/2));
+                }
+                heatmap.adjustSize(); // can be commented out for statically sized heatmaps, resize clears the map
+                heatmap.update(); // adds the buffered points
+                heatmap.display(); // adds the buffered points
+                heatmap.multiply(0.9995);
+                heatmap.blur();
+                heatmap.clamp(0.0, 1.0); // depending on usecase you might want to clamp it
+                setTimeout(getKills, 10000);
+            },
+            paintAtCoord = function(x, y){
+                var count = 0;
+                while(count < 200){
+                    var xoff = Math.random()*2-1;
+                    var yoff = Math.random()*2-1;
+                    var l = xoff*xoff + yoff*yoff;
+                    if(l > 1){
+                        continue;
+                    }
+                    var ls = Math.sqrt(l);
+                    xoff/=ls; yoff/=ls;
+                    xoff*=1-l; yoff*=1-l;
+                    count += 1;
+                    heatmap.addPoint(x+xoff*50, y+yoff*50, 30, 2/300);
+                }
+            };
+        document.body.appendChild(heatmap.canvas);
+        if (typeof cuAPI === "undefined") {
+            cuAPI = {};
+        }
+        var serverURL = cuAPI.serverURL || "http://chat.camelotunchained.com:8000/api/";
+        getKills();
+    })();
+</script>
+</html>

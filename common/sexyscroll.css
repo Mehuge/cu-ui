@@ -1,0 +1,7 @@
+﻿.sexyscroll::-webkit-scrollbar { width: 8px; height: 8px; background: rgba(0,0,0,0.9); opacity: 0.5; }
+.sexyscroll::-webkit-scrollbar-track { background: transparent; border-radius: 2px; }
+.sexyscroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+.sexyscroll::-webkit-scrollbar-thumb:active { background: rgba(255,255,255,0.3); }
+.sexyscroll::-webkit-scrollbar-button {}
+.sexyscroll::-webkit-scrollbar-track-piece {}
+.sexyscroll::-webkit-scrollbar-corner {}

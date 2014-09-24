@@ -1,0 +1,39 @@
+﻿body {
+    font-size: 8pt;
+    font-family: sans-serif;
+    background-color: rgba(0,0,0,0.3);
+    color: white;
+}
+.heading, .character {
+    position: relative; height: 1em; padding: 0.5em;
+}
+.heading > div, .character > div {
+    position: initial; 
+    display: inline-block;
+    padding-right: 0.5em;
+    box-sizing: border-box;
+}
+.heading {
+    background-color: transparent;
+    color: white;
+    font-weight: bold;
+}
+.character {
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+#name {
+    width: 50%;
+}
+#faction {
+    width: 25%;
+}
+#race {
+    width: 25%;
+}
+#close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 1em;
+    cursor: pointer;
+}

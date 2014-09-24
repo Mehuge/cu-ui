@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>CU Bug Reporter</title>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="bugit.js"></script>
+    <link rel="stylesheet" href="bugit.css">
+</head>
+<body>
+    <div id="bg"></div>
+    <div id="title">
+        <div id="close">
+            X
+        </div>
+        Bug-IT : Feedback / Bug Report
+    </div>
+    <div id="main" class="content">
+        <div>
+            <p><span class="label">Character: </span><span class="field" id="character"></span></p>
+            <p><span class="label">Location: </span><span class="field" id="location"></span></p>
+         </div>
+        <h3>Summary</h3>
+        <div><input id="summary"></div>
+        <h3>Details</h3>
+        <div><textarea id="desc"></textarea></div>
+        <div>
+            <span id="error"></span>
+            <p class="buttons">
+                <button id="send">Submit Report</button>
+            </p>
+        </div>
+    </div>
+    <div id="result" class="content"></div>
+</body>
+</html>

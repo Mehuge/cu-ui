@@ -30,6 +30,7 @@
     <TypeScriptCompile Include="bot\uiu.d.ts" />
     <Content Include="chat\chat.css" />
     <Content Include="chat\chat.html" />
+    <Content Include="common\sexyscroll.css" />
     <Content Include="cu\cu.css" />
     <Content Include="equippedgear\equippedgear.css" />
     <Content Include="equippedgear\equippedgear.html" />
@@ -203,6 +204,7 @@
     <Content Include="inventory\inventory.html" />
     <Content Include="kills\kills.css" />
     <Content Include="kills\kills.html" />
+    <TypeScriptCompile Include="common\rest.ts" />
     <TypeScriptCompile Include="equippedgear\equippedgear.ts" />
     <TypeScriptCompile Include="inventory\inventory.ts" />
     <TypeScriptCompile Include="gamemenu\gamemenu.ts" />
