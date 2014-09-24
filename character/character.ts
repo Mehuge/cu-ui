@@ -5,6 +5,9 @@
 /// <reference path="../vendor/jquery.d.ts" />
 
 module Character {
+
+    cuAPI.OpenUI("addons.ui");
+
     var hpWidth: number = -1;
     var manaWidth: number = -1;
     var cachedEffects: string = "[]";

@@ -17,6 +17,11 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="bugit\bg.png" />
+    <Content Include="bugit\bugit.css" />
+    <Content Include="bugit\bugit.html" />
+    <Content Include="characters\characters.css" />
+    <Content Include="characters\characters.html" />
     <Content Include="character\character.html" />
     <Content Include="character\character.css" />
     <TypeScriptCompile Include="character\character.ts" />
@@ -38,6 +43,11 @@
     <Content Include="errormessages\errormessages.html" />
     <Content Include="gamemenu\gamemenu.css" />
     <Content Include="gamemenu\gamemenu.html" />
+    <Content Include="heatmap\heatmap.html" />
+    <Content Include="heatmap\heatmap.min.js" />
+    <Content Include="heatmap\heatmap.png" />
+    <Content Include="heatmap\webgl-heatmap.html" />
+    <Content Include="heatmap\webgl-heatmap.js" />
     <Content Include="images\archetypes\earthmage.jpg" />
     <Content Include="images\archetypes\fighter.jpg" />
     <Content Include="images\archetypes\firemage.jpg" />
@@ -209,6 +219,7 @@
     <TypeScriptCompile Include="inventory\inventory.ts" />
     <TypeScriptCompile Include="gamemenu\gamemenu.ts" />
     <TypeScriptCompile Include="kills\kills.ts" />
+    <Content Include="lb\leaderboard.html" />
     <Content Include="login\login.css" />
     <Content Include="login\login.html" />
     <TypeScriptCompile Include="login\login.ts" />

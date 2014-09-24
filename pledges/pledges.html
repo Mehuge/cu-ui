@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="pledges.css">
+    <link rel="stylesheet" type="text/css" href="../common/sexyscroll.css">
+</head>
+<body class="sexyscroll">
+    <h2>Stretch Goal: <span id="stretch"></span> $<span id="goal"></span></h2>
+    <h2>Pledged: $<span id="current"></span> Need: $<span id="need"></span> Current Rate: $<span id="rate"></span>/hour</h2>
+    <h4>
+        ETA for <span id="stretch2"></span>: <span id="eta"></span> (in <span id="in"></span>)
+        <span class="donate">| Want to reach that goal sooner? [ <a target="_blank" href="http://camelotunchained.com/">click here</a> ]</span>
+    </h4>
+    <div class="axis">
+        Sample Start: <span id="samplestart"></span>
+        <span style="margin-left: 40px">
+            [ Zoom x<span id="zoomlevel">8</span>
+            <input id="zoom" type="range" min="100" max="40000" step="100" value="1000" style="position:relative; top: 3px;" />
+            Range: <span id="spanhours"></span> days ]
+        </span>
+    </div>
+    <div class="axis"><div><input id="position" type="range" min="0" max="100" value="100" style="width:100%" /></div></div>
+    <div id="graph" title="(MouseWheel to scroll, Shift+MouseWheel to zoom)"></div>
+    <div class="axis">X Axis: +Hours   Y1 Axis: Needed $   Y2 Axis: Pledged $</div>
+    <br />
+    <script src="flot/jquery.js"></script>
+    <script src="flot/jquery.flot.js"></script>
+    <script src="flot/jquery.flot.threshold.js"></script>
+    <script src="http://tracker.sorcerer.co.uk/data.js"></script>
+    <script src="pledges.js"></script>
+</body>
+</html>

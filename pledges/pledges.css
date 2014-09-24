@@ -1,0 +1,22 @@
+﻿body {
+    color: white;
+    background-color:rgba(0, 0, 0, 0.5);
+    margin: 0.5em;
+    font-size: 10px; 
+    overflow: hidden;
+    opacity: 0.5;
+}
+h2 {
+    font-size: 12px; margin: 0;
+}
+h4 {
+    font-size: 10px;
+    margin: 0;
+}
+#zoom {
+    height: 10px;
+}
+* { font-family: Arial; }
+#graph { margin-bottom: 1em; overflow: hidden; width: 100%; height: 200px; }
+.donate { font-size: 90%; margin-left: 2em; }
+.axis { margin-left: 8em; font-size: 80%; }
