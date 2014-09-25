@@ -9,6 +9,9 @@ UI.Modules = {
     "respawn": { core: true },
     "skillbar": { core: true },
     "target": { core: true },
+    "options": { core: true },
+    "equippedgear": { core: true },
+    "inventory": { core: true },
     "addons": { core: false, autoLoad: true },
     // custom-ui's go below...
     // "example": { core: false, autoLoad: true }
