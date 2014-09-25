@@ -6,8 +6,6 @@
 
 module Character {
 
-    cuAPI.OpenUI("addons.ui");
-
     var hpWidth: number = -1;
     var manaWidth: number = -1;
     var cachedEffects: string = "[]";
@@ -70,6 +68,8 @@ module Character {
         $name = cu.FindElement('#name');
 
         $effectsBox = cu.FindElement('#effectsBox');
+
+        cuAPI.OpenUI("addons.ui");
 
         // How often we call Update
         var updateFPS = 5;
