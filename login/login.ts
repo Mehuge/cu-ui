@@ -341,6 +341,12 @@ module Login {
             }).done((data) => {
                 server.characters = data;
 
+                server.characters.sort((a, b) => {
+                    var aLastLogin = new Date(a.lastLogin);
+                    var bLastLogin = new Date(b.lastLogin);
+                    return (+bLastLogin) - (+aLastLogin);
+                });
+
                 serverCharacterRequests[server.host] = null;
 
                 clearInterval(loadingInterval);

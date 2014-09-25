@@ -90,7 +90,7 @@ input[type=text] {
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-#server-select tbody td {
+#server-select tbody tr:not(.offline) td {
     cursor: pointer;
 }
 

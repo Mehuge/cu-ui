@@ -7,19 +7,29 @@
 module PerfHUD {
     var $perfHud: JQuery;
 
+    function addToPerfHud(text) {
+        $('<li>').text(text).appendTo($perfHud);
+    }
+
     function Update() {
         if (cu.HasAPI()) {
-            $perfHud.html(
-                cuAPI.fps.toFixed(1) + " fps /" +
-                cuAPI.frameTime.toFixed(1) + " msec<br/>" +
-                "lag " + Math.round(cuAPI.netstats_lag) + " msec<br/>" +
-                "tcp " + Math.round(cuAPI.netstats_tcpBytes) + " B / " + Math.round(cuAPI.netstats_tcpMessages) + " msg (" + (cuAPI.netstats_tcpBytes / cuAPI.netstats_tcpMessages).toFixed(1) + " B/msg)<br/>" +
-                "udp " + Math.round(cuAPI.netstats_udpBytes) + " B / " + Math.round(cuAPI.netstats_udpPackets) + " pkt (" + (cuAPI.netstats_udpBytes / cuAPI.netstats_udpPackets).toFixed(1) + " B/pkt)<br/>" +
-                "plNew " + (cuAPI.netstats_players_newBits / 8).toFixed(1) + " B / " + Math.round(cuAPI.netstats_players_newCount) + " E (" + (cuAPI.netstats_tcpBytes / cuAPI.netstats_players_newCount).toFixed(1) + " b/E)<br/>" +
-                "plUpd " + (cuAPI.netstats_players_updateBits / 8).toFixed(1) + " B / " + Math.round(cuAPI.netstats_players_udpateCount) + " E (" + (cuAPI.netstats_players_updateBits / cuAPI.netstats_players_udpateCount).toFixed(1) + " b/E)<br/>" +
-                "position: (" + (cuAPI.locationX).toFixed(1) + ", " + (cuAPI.locationY).toFixed(1) + ", " + (cuAPI.locationZ).toFixed(1) + ")<br/>" +
-                "speed: " + (cuAPI.speed).toFixed(1)
-                );
+            $perfHud.empty();
+
+            addToPerfHud((cuAPI.fps || 0).toFixed(1) + ' fps /' + (cuAPI.frameTime || 0).toFixed(1) + ' msec');
+
+            addToPerfHud('lag ' + Math.round(cuAPI.netstats_lag || 0) + ' msec');
+
+            addToPerfHud('tcp ' + Math.round(cuAPI.netstats_tcpBytes || 0) + ' B / ' + Math.round(cuAPI.netstats_tcpMessages || 0) + ' msg (' + ((cuAPI.netstats_tcpBytes || 0) / (cuAPI.netstats_tcpMessages || 0)).toFixed(1) + ' B/msg)');
+
+            addToPerfHud('udp ' + Math.round(cuAPI.netstats_udpBytes || 0) + ' B / ' + Math.round(cuAPI.netstats_udpPackets || 0) + ' pkt (' + ((cuAPI.netstats_udpBytes || 0) / (cuAPI.netstats_udpPackets || 0)).toFixed(1) + ' B/pkt)');
+
+            addToPerfHud('plNew ' + ((cuAPI.netstats_players_newBits || 0) / 8).toFixed(1) + ' B / ' + Math.round(cuAPI.netstats_players_newCount || 0) + ' E (' + ((cuAPI.netstats_tcpBytes || 0) / (cuAPI.netstats_players_newCount || 0)).toFixed(1) + ' b/E)');
+
+            addToPerfHud('plUpd ' + ((cuAPI.netstats_players_updateBits || 0) / 8).toFixed(1) + ' B / ' + Math.round(cuAPI.netstats_players_udpateCount || 0) + ' E (' + ((cuAPI.netstats_players_updateBits || 0) / (cuAPI.netstats_players_udpateCount || 0)).toFixed(1) + ' b/E)');
+
+            addToPerfHud('position: (' + (cuAPI.locationX || 0).toFixed(1) + ', ' + (cuAPI.locationY || 0).toFixed(1) + ', ' + (cuAPI.locationZ || 0).toFixed(1) + ')');
+
+            addToPerfHud('speed: ' + (cuAPI.speed || 0).toFixed(1));
         }
     }
 

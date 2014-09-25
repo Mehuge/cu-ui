@@ -4,7 +4,7 @@
 
 /// <reference path="../vendor/jquery.d.ts" />
 
-module Gear {
+module EquippedGear {
     var $items = $('#items');
 
     var $tooltip = $('#tooltip');
@@ -137,14 +137,16 @@ module Gear {
 
         $item.mousedown(e => {
             switch (e.which) {
-                case 1: // left mouse click
-                    break;
-                case 2: // middle mouse click
-                    break;
-                case 3: // right mouse click
-                    unequipItem(item);
-                    break;
+            case 1: // left mouse click
+                break;
+            case 2: // middle mouse click
+                break;
+            case 3: // right mouse click
+                unequipItem(item);
+                break;
             }
+        }).dblclick(() => {
+            unequipItem(item);
         });
 
         $item.hover(() => showTooltip(item), hideTooltip).mousemove(moveTooltip);

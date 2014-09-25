@@ -139,14 +139,16 @@ module Inventory {
 
         $item.mousedown(e => {
             switch (e.which) {
-                case 1: // left mouse click
-                    break;
-                case 2: // middle mouse click
-                    break;
-                case 3: // right mouse click
-                    equipItem(item); 
-                    break;
+            case 1: // left mouse click
+                break;
+            case 2: // middle mouse click
+                break;
+            case 3: // right mouse click
+                equipItem(item);
+                break;
             }
+        }).dblclick(() => {
+            equipItem(item);
         });
 
         $item.hover(() => showTooltip(item), hideTooltip).mousemove(moveTooltip);

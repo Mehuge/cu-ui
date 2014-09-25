@@ -3,9 +3,9 @@
 	"name" : "gamemenu",
 	"mainFile" : "gamemenu/gamemenu.html",
 		"rect" : {
-		"left" : 487,
-		"top" : 333,
-		"right" : 719,
-		"bottom" : 558
+		"left" : 604,
+		"top" : 337,
+		"right" : 836,
+		"bottom" : 562
 	}
 }

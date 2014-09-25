@@ -5,8 +5,8 @@
 	"rect" : {
 		"left" : 2,
 		"top" : 500,
-		"right" : 640,
-		"bottom" : 710
+		"right" : 630,
+		"bottom" : 760
 	},
 	"handlesChat" : true
 }
