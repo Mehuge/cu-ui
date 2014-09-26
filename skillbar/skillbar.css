@@ -3,11 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 html, body {
-   overflow: hidden;
-}
-
-body {
-    background-color: rgba(0,0,0,0.25);
+    overflow: hidden;
 }
 
 * {
@@ -26,7 +22,7 @@ body {
     width: 1170px;
     height: 80px;
     margin: 0 0 0 -585px;
-   /* background-image: url('../images/skillbar/bar_skills_plate.png'); */
+    background-image: url('../images/skillbar/bar_skills_plate.png');
 }
 
 #skillButtons {

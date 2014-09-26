@@ -39,7 +39,7 @@ module Skillbar {
                 $skillButtons.append(elem);
             });
 
-            new Tooltip($skillButtons.children(), { /* leftOffset: -5, topOffset: -25 */ top: 0, right: 0 });
+            new Tooltip($skillButtons.children(), { leftOffset: -5, topOffset: -25 });
         });
     }
 
