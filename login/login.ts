@@ -599,6 +599,13 @@ module Login {
         Race = 2,
         Archetype = 3
     };
+
+    enum RequestState {
+        None,
+        InProgress,
+        Succeeded,
+        Failed
+    };
     
 	/* Constants */
 
@@ -614,6 +621,8 @@ module Login {
 
     var NAME_MIN_LENGTH = 3;
     var NAME_MAX_LENGTH = 32;
+
+    var REQUEST_RETRY_DELAY = 5000;
 
     /* Variables */
 
@@ -648,8 +657,11 @@ module Login {
     var banesRace = [];
     var banesArchetype = [];
 
-    var successfulResponses = 0;
-    var failedResponses = 0;
+    var chooseFactionTimeout: number = null;
+    var getFactionsState = RequestState.None;
+    var getAttributesState = RequestState.None;
+    var getBoonsState = RequestState.None;
+    var getBanesState = RequestState.None;
 
     /* jQuery Elements */
 
@@ -741,38 +753,133 @@ module Login {
 
     /* Functions */
 
-    function getChannelID() {
-        return typeof cuAPI === 'object' ? cuAPI.channelID : 0;
-    }
-
     function getFactions() {
+        getFactionsState = RequestState.InProgress;
+
+        var start = new Date();
+
         return $.ajax({
             type: 'GET',
-            url: getSelectedServerApiUrl() + '/game/factions',
-            data: { channelID: getChannelID() }
+            url: getSelectedServerApiUrl() + '/game/factions'
+        }).done((factions) => {
+            getFactionsState = RequestState.Succeeded;
+
+            factions.forEach(faction => {
+                switch (faction.name) {
+                    case 'Arthurian':
+                        factionArthurians = faction;
+                        break;
+                    case 'TDD':
+                        factionTdd = faction;
+                        break;
+                    case 'Viking':
+                        factionVikings = faction;
+                        break;
+                }
+            });
+        }).fail((xhr) => {
+            getFactionsState = RequestState.Failed;
+
+            queueShowModal(createErrorModal('Error Fetching Factions: ' + xhr.status + ' ' + xhr.statusText));
+
+            setTimeout(getFactions, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
         });
     }
 
     function getAttributes() {
+        getAttributesState = RequestState.InProgress;
+
+        var start = new Date();
+
         return $.ajax({
             type: 'GET',
             url: getSelectedServerApiUrl() + '/game/attributes'
+        }).done((attrs) => {
+            getAttributesState = RequestState.Succeeded;
+
+            attributes = attrs;
+        }).fail((xhr) => {
+            getAttributesState = RequestState.Failed;
+
+            queueShowModal(createErrorModal('Error Fetching Attributes: ' + xhr.status + ' ' + xhr.statusText));
+
+            setTimeout(getAttributes, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
         });
     }
 
     function getBoons() {
+        getBoonsState = RequestState.InProgress;
+
+        var start = new Date();
+
         return $.ajax({
             type: 'GET',
-            url: getSelectedServerApiUrl() + '/game/boons',
-            data: { channelID: getChannelID() }
+            url: getSelectedServerApiUrl() + '/game/boons'
+        }).done((boons) => {
+            getBoonsState = RequestState.Succeeded;
+
+            boons.forEach((boon) => {
+                if (!boon.category) boon.category = Category.General;
+
+                switch (boon.category) {
+                    case Category.General:
+                        boonsGeneral.push(boon);
+                        break;
+                    case Category.Faction:
+                        boonsFaction.push(boon);
+                        break;
+                    case Category.Race:
+                        boonsRace.push(boon);
+                        break;
+                    case Category.Archetype:
+                        boonsArchetype.push(boon);
+                        break;
+                }
+            });
+        }).fail((xhr) => {
+            getBoonsState = RequestState.Failed;
+
+            queueShowModal(createErrorModal('Error Fetching Boons: ' + xhr.status + ' ' + xhr.statusText));
+
+            setTimeout(getBoons, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
         });
     }
 
     function getBanes() {
+        getBanesState = RequestState.InProgress;
+        
+        var start = new Date();
+
         return $.ajax({
             type: 'GET',
-            url: getSelectedServerApiUrl() + '/game/banes',
-            data: { channelID: getChannelID() }
+            url: getSelectedServerApiUrl() + '/game/banes'
+        }).done((banes) => {
+            getBanesState = RequestState.Succeeded;
+
+            banes.forEach((bane) => {
+                if (!bane.category) bane.category = Category.General;
+
+                switch (bane.category) {
+                    case Category.General:
+                        banesGeneral.push(bane);
+                        break;
+                    case Category.Faction:
+                        banesFaction.push(bane);
+                        break;
+                    case Category.Race:
+                        banesRace.push(bane);
+                        break;
+                    case Category.Archetype:
+                        banesArchetype.push(bane);
+                        break;
+                }
+            });
+        }).fail((xhr) => {
+            getBanesState = RequestState.Failed;
+
+            queueShowModal(createErrorModal('Error Fetching Banes: ' + xhr.status + ' ' + xhr.statusText));
+
+            setTimeout(getBanes, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
         });
     }
 
@@ -995,9 +1102,25 @@ module Login {
         return null;
     }
 
-    function chooseFaction(factionId) {
-        if (failedResponses || successfulResponses != 4) return;
+    function hasAllSuccessfulResponses() {
+        return getFactionsState == RequestState.Succeeded && getAttributesState == RequestState.Succeeded &&
+            getBoonsState == RequestState.Succeeded && getBanesState == RequestState.Succeeded;
+    }
 
+    function tryChooseFaction(factionId) {
+        clearTimeout(chooseFactionTimeout);
+        chooseFactionTimeout = null;
+
+        if (hasAllSuccessfulResponses()) {
+            chooseFaction(factionId);
+        } else {
+            chooseFactionTimeout = setTimeout(() => {
+                tryChooseFaction(factionId);
+            }, 500);
+        }
+    }
+
+    function chooseFaction(factionId) {
         if (chosenFactionId !== factionId) {
             chosenFactionId = factionId;
             chosenFaction = getFaction(factionId);
@@ -1012,7 +1135,6 @@ module Login {
 
         showChooseRaceArchetypePage();
     }
-
 
     function setChosenName() {
         chosenName = $characterName.val();
@@ -1791,6 +1913,8 @@ module Login {
     }
 
     function updateView() {
+        updateCharacterName();
+
         updateCharacterFaction();
 
         updateCharacterTitle();
@@ -1806,6 +1930,22 @@ module Login {
         updateVisiblePage();
 
         updateButtons();
+    }
+
+    function updateCharacterName() {
+        if (hasChosenBoonsAndBanes() && !hasChosenName() && !$characterName.hasClass('has-focused')) {
+            flashCharacterName();
+        }
+    }
+
+    function flashCharacterName() {
+        setTimeout(() => $characterName.addClass('highlight'), 0);
+        setTimeout(() => $characterName.removeClass('highlight'), 150);
+        setTimeout(() => $characterName.addClass('highlight'), 300);
+        setTimeout(() => $characterName.removeClass('highlight'), 450);
+        setTimeout(() => $characterName.addClass('highlight'), 600);
+        setTimeout(() => $characterName.removeClass('highlight'), 750);
+        setTimeout(() => $characterName.addClass('highlight'), 900);
     }
 
     function updateCharacterFaction() {
@@ -2425,8 +2565,6 @@ module Login {
     /* Character Creation Events */
 
     function initializeCharacterCreation() {
-        failedResponses = 0;
-        successfulResponses = 0;
         boonsGeneral = [];
         boonsFaction = [];
         boonsRace = [];
@@ -2435,13 +2573,17 @@ module Login {
         banesFaction = [];
         banesRace = [];
         banesArchetype = [];
+        getFactionsState = RequestState.None;
+        getAttributesState = RequestState.None;
+        getBoonsState = RequestState.None;
+        getBanesState = RequestState.None;
 
         $shieldArthurians.unbind('mouseenter mouseleave').hover(() => {
             changeFaction(Faction.Arthurians);
         }, () => {
             if (!hasChosenFaction()) resetChosenFaction();
         }).click(() => {
-            chooseFaction(Faction.Arthurians);
+            tryChooseFaction(Faction.Arthurians);
         });
 
         $shieldTdd.unbind('mouseenter mouseleave').hover(() => {
@@ -2449,7 +2591,7 @@ module Login {
         }, () => {
             if (!hasChosenFaction()) resetChosenFaction();
         }).click(() => {
-            chooseFaction(Faction.TDD);
+            tryChooseFaction(Faction.TDD);
         });
 
         $shieldVikings.unbind('mouseenter mouseleave').hover(() => {
@@ -2457,94 +2599,13 @@ module Login {
         }, () => {
             if (!hasChosenFaction()) resetChosenFaction();
         }).click(() => {
-            chooseFaction(Faction.Vikings);
+            tryChooseFaction(Faction.Vikings);
         });
 
-        getFactions().then(factions => {
-            successfulResponses++;
-
-            factions.forEach(faction => {
-                switch (faction.name) {
-                case 'Arthurian':
-                    factionArthurians = faction;
-                    break;
-                case 'TDD':
-                    factionTdd = faction;
-                    break;
-                case 'Viking':
-                    factionVikings = faction;
-                    break;
-                }
-            });
-        }, xhr => {
-            failedResponses++;
-
-            queueShowModal(createErrorModal('Error Fetching Factions: ' + xhr.status + ' ' + xhr.statusText));
-        });
-
-        getAttributes().then(attrs => {
-            successfulResponses++;
-
-            attributes = attrs;
-        }, xhr => {
-            failedResponses++;
-
-            queueShowModal(createErrorModal('Error Fetching Attributes: ' + xhr.status + ' ' + xhr.statusText));
-        });
-
-        getBoons().then(boons => {
-            successfulResponses++;
-
-            boons.forEach((boon) => {
-                if (!boon.category) boon.category = Category.General;
-
-                switch (boon.category) {
-                case Category.General:
-                    boonsGeneral.push(boon);
-                    break;
-                case Category.Faction:
-                    boonsFaction.push(boon);
-                    break;
-                case Category.Race:
-                    boonsRace.push(boon);
-                    break;
-                case Category.Archetype:
-                    boonsArchetype.push(boon);
-                    break;
-                }
-            });
-        }, xhr => {
-            failedResponses++;
-
-            queueShowModal(createErrorModal('Error Fetching Boons: ' + xhr.status + ' ' + xhr.statusText));
-        });
-
-        getBanes().then(banes => {
-            successfulResponses++;
-
-            banes.forEach((bane) => {
-                if (!bane.category) bane.category = Category.General;
-
-                switch (bane.category) {
-                case Category.General:
-                    banesGeneral.push(bane);
-                    break;
-                case Category.Faction:
-                    banesFaction.push(bane);
-                    break;
-                case Category.Race:
-                    banesRace.push(bane);
-                    break;
-                case Category.Archetype:
-                    banesArchetype.push(bane);
-                    break;
-                }
-            });
-        }, xhr => {
-            failedResponses++;
-
-            queueShowModal(createErrorModal('Error Fetching Banes: ' + xhr.status + ' ' + xhr.statusText));
-        });
+        getFactions();
+        getAttributes();
+        getBoons();
+        getBanes();
 
         $boonsBanesBars.attr('data-tooltip-content', 'You must choose an equal amount of boons and banes.');
 
@@ -2594,10 +2655,12 @@ module Login {
             [$banesGeneralContainer, $banesFactionContainer, $banesRaceContainer],
             [$banesGeneral, $banesFaction, $banesRace]);
 
-        $characterName.unbind('change').change(() => {
+        $characterName.unbind('keypress focus').keypress(() => {
             setChosenName();
 
             updateView();
+        }).focus(() => {
+            $characterName.addClass('has-focused').removeClass('highlight');
         });
 
         $chooseRace.unbind('submit').submit(() => {
@@ -2695,7 +2758,9 @@ module Login {
             return false;
         });
 
-        $characterComplete.unbind('submit').submit(() => {
+        $characterComplete.unbind('click submit').click(() => {
+            flashCharacterName();
+        }).submit(() => {
             if (!isValid()) return false;
 
             $btnComplete.prop('disabled', true).addClass('waiting');
