@@ -4,9 +4,9 @@
 	"mainFile" : "skillbar/skillbar.html",
 	"rect" : {
 		"left" : 70,
-		"top" : 710,
+		"top" : 720,
 		"right" : 1380,
-		"bottom" : 900
+		"bottom" : 800
 	},
     "handlesAbilities" : true
 }
