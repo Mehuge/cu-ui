@@ -7,8 +7,20 @@
 module Respawn {
     var $respawn: JQuery = null;
 
+    var $respawnKey: JQuery = null;
+
+    var RESPAWN_CONFIG_NAME = 'Respawn';
+
     function initialize() {
-        $respawn = $('#respawn');
+        cu.GetConfigVar(RESPAWN_CONFIG_NAME);
+
+        cu.Listen('HandleReceiveConfigVar', handleReceiveConfigVar);
+
+        cu.Listen('HandleSavedConfigChanges', handleSavedConfigChanges);
+
+        $respawn = cu.FindElement('#respawn');
+
+        $respawnKey = cu.FindElement('#respawn-key');
 
         cu.RunAtInterval(update, 60);
     }
@@ -19,6 +31,22 @@ module Respawn {
         } else {
             $respawn.fadeIn();
         }
+    }
+
+    function handleReceiveConfigVar(configVar) {
+        if (configVar) {
+            var respawnConfigVar = configVar[RESPAWN_CONFIG_NAME];
+            if (respawnConfigVar) {
+                var key = KeyCode.dxKeyCodeMap[respawnConfigVar];
+                if (key) {
+                    $respawnKey.text(key);
+                }
+            }
+        }
+    }
+
+    function handleSavedConfigChanges() {
+        cu.GetConfigVar(RESPAWN_CONFIG_NAME);
     }
 
     if (typeof cu !== 'undefined' && typeof cuAPI !== 'undefined') {
