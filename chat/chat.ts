@@ -192,6 +192,9 @@ module Chat {
             case '/stuck':
                 cuAPI.Stuck();
                 return true;
+            case '/zone':
+                cuAPI.ChangeZone(parseInt(processed.args[0]));
+                return true;
             case "/crashthegame":
                 cuAPI.CrashTheGame();
                 return true;
