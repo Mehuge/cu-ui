@@ -41,7 +41,7 @@ input[type=text] {
 
 /* Server Selection */
 
-#bg-default { 
+#bg-default {
     background: url(../images/login/bg.jpg) no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -50,8 +50,8 @@ input[type=text] {
     height: 100%;
     width: 100%;
     position: absolute;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
 }
 
 #server-select {
@@ -420,6 +420,7 @@ input[type=text] {
     display: none;
 }
 
+#bg-loading,
 #bg-factions,
 #bg-arthurians,
 #bg-tdd,
@@ -431,6 +432,11 @@ input[type=text] {
     right: 0;
     opacity: 0;
     z-index: 0;
+}
+
+#bg-loading {
+    background: url(../images/login/loading-bg.png) no-repeat center center fixed;
+    background-size: cover;
 }
 
 #bg-factions {

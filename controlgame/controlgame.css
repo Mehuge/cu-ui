@@ -1,0 +1,72 @@
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+#control-game {
+    display: none;
+    width: 360px;
+    height: 70px;
+    margin: 0 auto;
+    text-align: center;
+    background: transparent url(../images/controlgame/bg.png) no-repeat center center;
+}
+
+#game-status {
+    font-size: 10px;
+    font-family: 'Arial', sans-serif;
+    color: rgb(151, 151, 151);
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 2px;
+}
+
+#tdd-score,
+#arthurian-score,
+#viking-score {
+    display: inline-block;
+    width: 98px;
+    margin-top: 9px;
+    margin-bottom: 7px;
+}
+
+#tdd-score {
+    font-size: 18px;
+    font-family: 'Cinzel', serif;
+    color: rgb(154, 211, 0);
+}
+
+#arthurian-score {
+    font-size: 18px;
+    font-family: 'Cinzel', serif;
+    color: rgb(255, 54, 0);
+}
+
+#viking-score {
+    font-size: 18px;
+    font-family: 'Cinzel', serif;
+    color: rgb(0, 162, 255);
+}
+
+#countdown {
+    display: inline-block;
+    width: 100px;
+    font-size: 12px;
+    font-family: 'Arial', sans-serif;
+    color: rgb(225, 225, 225);
+}

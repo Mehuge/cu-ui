@@ -17,6 +17,7 @@ module Login {
     var $bgDefault = $('#bg-default');
     var $characters: JQuery = $('#characters-container'),
         $portraits: JQuery = $('#characters-portrait');
+    var $bgLoading = $('#bg-loading');
 
     /* Server Selection Variables */
 
@@ -378,6 +379,8 @@ module Login {
             return;
         }
 
+        hasInitializedCharacterCreation = false;
+
         hideModal(() => {
             if (selectedServer.characters && selectedServer.characters.length) {
                 showCharacterSelect();
@@ -392,13 +395,23 @@ module Login {
     function showCharacterCreationPage() {
         initializeCharacterCreation();
 
-        $characterSelection.fadeOut(() => {
-            $characterCreation.fadeIn();
+        $characterSelection.fadeOut();
 
-            resetChosenFaction();
+        var loading = setInterval(() => {
+            var hasLoaded = hasAllSuccessfulResponses();
+            if (hasLoaded) {
+                clearInterval(loading);
+                loading = null;
 
-            showChooseFactionPage();
-        });
+                $characterCreation.fadeIn();
+
+                resetChosenFaction();
+
+                showChooseFactionPage();
+            } else {
+                showBackground($bgLoading);
+            }
+        }, 100);
     }
 
     function showCharacterSelect() {
@@ -657,6 +670,7 @@ module Login {
     var banesRace = [];
     var banesArchetype = [];
 
+    var hasInitializedCharacterCreation = false;
     var chooseFactionTimeout: number = null;
     var getFactionsState = RequestState.None;
     var getAttributesState = RequestState.None;
@@ -955,15 +969,23 @@ module Login {
         });
     }
 
+    function showBackground($bg) {
+        var allBgs = [$bgDefault, $bgLoading, $bgFactions, $bgArthurians, $bgTdd, $bgVikings];
+
+        allBgs.forEach($background => {
+            if ($background !== $bg) {
+                $background.stop().animate({ opacity: 0 }, { duration: ANIMATION_DURATION, queue: false });
+            }
+        });
+
+        $bg.stop().animate({ opacity: 1 }, { duration: ANIMATION_DURATION, queue: false });
+    }
+
     function resetChosenFaction() {
         chosenFactionId = undefined;
         chosenFaction = undefined;
 
-        [$bgDefault, $bgArthurians, $bgTdd, $bgVikings].forEach($bg => {
-            $bg.stop().animate({ opacity: 0 }, { duration: ANIMATION_DURATION, queue: false });
-        });
-
-        $bgFactions.stop().animate({ opacity: 1 }, { duration: ANIMATION_DURATION, queue: false });
+        showBackground($bgFactions);
 
         [$shieldArthurians, $shieldTdd, $shieldVikings].forEach($shield => {
             if (!$shield.is(':visible')) {
@@ -1029,11 +1051,17 @@ module Login {
         var isTdd = factionId == Faction.TDD;
         var isVikings = factionId == Faction.Vikings;
 
-        $bgFactions.stop().animate({ opacity: 0 }, { duration: ANIMATION_DURATION, queue: false });
+        var $bg = $bgDefault;
 
-        $bgArthurians.stop().animate({ opacity: isArthurians ? 1 : 0 }, { duration: ANIMATION_DURATION, queue: false });
-        $bgTdd.stop().animate({ opacity: isTdd ? 1 : 0 }, { duration: ANIMATION_DURATION, queue: false });
-        $bgVikings.stop().animate({ opacity: isVikings ? 1 : 0 }, { duration: ANIMATION_DURATION, queue: false });
+        if (isArthurians) {
+            $bg = $bgArthurians;
+        } else if (isTdd) {
+            $bg = $bgTdd;
+        } else if (isVikings) {
+            $bg = $bgVikings;
+        }
+
+        showBackground($bg);
 
         $shieldArthurians.stop().animate({ opacity: isArthurians ? 1 : 0 }, {
             duration: ANIMATION_DURATION, queue: false, complete: () => {
@@ -1158,24 +1186,15 @@ module Login {
     function getArchetypeIndexForChosenRace() {
         if (!chosenRace) return 0;
         switch (chosenRace.value) {
-            // Hamadryad = Fighter
-            case 0: return 1;
-            // Luchorpan = Support
-            case 1: return 2;
-            // Firbog = Earth Mage
-            case 2: return 0;
-            // Valkyrie = Water Mage
-            case 3: return 0;
-            // Helbound = Support
-            case 4: return 2;
-            // Frost Giant = Fighter
-            case 5: return 1;
-            // Strm = Fire Mage
-            case 6: return 0;
-            // Cait Sith = Fighter
-            case 7: return 1;
-            // Golem = Support
-            case 8: return 2;
+            case 0: return 1; // Hamadryad = Fighter
+            case 1: return 2; // Luchorpan = Healer
+            case 2: return 0; // Firbog = Earth Mage
+            case 3: return 0; // Valkyrie = Water Mage
+            case 4: return 2; // Helbound = Healer
+            case 5: return 1; // Frost Giant = Fighter
+            case 6: return 0; // Strm = Fire Mage
+            case 7: return 1; // Cait Sith = Fighter
+            case 8: return 2; // Golem = Healer
         }
         return 0;
     }
@@ -1183,7 +1202,49 @@ module Login {
 
     function setChosenArchetype() {
         chosenArchetype = chosenFaction.archetypes[$('input:radio[name=archetype]:checked').val()];
+
+        chosenRace = chosenFaction.races[$('input:radio[name=race]:checked').val()];
+
+        // TODO: begin - remove later when choosing archetypes is allowed
+
+        var raceIndex = getRaceIndexForChosenArchetype();
+        chosenRace = chosenFaction.races[raceIndex];
+
+        $('input:radio[name=race]').prop('checked', false);
+        $('input:radio[name=race][value=' + raceIndex + ']').prop('checked', true);
+
+        // TODO: end - remove later when choosing archetypes is allowed
     }
+
+    // TODO: begin - remove this function later when choosing archetypes is allowed
+    function getRaceIndexForChosenArchetype() {
+        if (!chosenFaction || !chosenArchetype) return 0;
+        switch (chosenFaction.value) {
+        case Faction.Arthurians:
+            switch (chosenArchetype.value) {
+            case 0: return 0; // Fire Mage = Strm
+            case 3: return 1; // Fighter = Cait Sith
+            case 4: return 2; // Healer = Golem
+            }
+            break;
+        case Faction.TDD:
+            switch (chosenArchetype.value) {
+            case 1: return 2; // Earth Mage = Firbog
+            case 3: return 0; // Fighter = Hamadryad
+            case 4: return 1; // Healer = Luchorpan
+            }
+            break;
+        case Faction.Vikings:
+            switch (chosenArchetype.value) {
+            case 2: return 0; // Water Mage = Valkyrie
+            case 3: return 2; // Fighter = Frost Giant
+            case 4: return 1; // Healer = Helbound
+            }
+            break;
+        }
+        return 0;
+    }
+    // TODO: end - remove this function later when choosing archetypes is allowed
 
     function setChosenAttributes() {
         chosenAttributes = getCurrentAttributes();
@@ -1383,14 +1444,12 @@ module Login {
             var $li = $('<li>').appendTo($archetypes);
 
             $('<input>').attr({
-                id: 'choose-archetype-' + index, type: 'radio', name: 'archetype'
-            }).prop('disabled', true).val(index).appendTo($li);
-
-            /* TODO: add click handler back in when choosing archetype is allowed and remove .prop('disabled', true)
-            .click(function() {
+                id: 'choose-archetype-' + index,
+                type: 'radio',
+                name: 'archetype'
+            }).click(function() {
                 $(this).closest('form').submit();
-            })
-            */
+            }).val(index).appendTo($li);
 
             var $label = $('<label>').attr({
                 'for': 'choose-archetype-' + index,
@@ -2565,6 +2624,10 @@ module Login {
     /* Character Creation Events */
 
     function initializeCharacterCreation() {
+        if (hasInitializedCharacterCreation) return;
+
+        hasInitializedCharacterCreation = true;
+
         boonsGeneral = [];
         boonsFaction = [];
         boonsRace = [];
@@ -2655,7 +2718,7 @@ module Login {
             [$banesGeneralContainer, $banesFactionContainer, $banesRaceContainer],
             [$banesGeneral, $banesFaction, $banesRace]);
 
-        $characterName.unbind('keypress focus').keypress(() => {
+        $characterName.unbind('keypress keyup keydown focus').bind('keypress keyup keydown', () => {
             setChosenName();
 
             updateView();
@@ -2665,8 +2728,6 @@ module Login {
 
         $chooseRace.unbind('submit').submit(() => {
             setChosenRace();
-
-            $chooseArchetype.submit();
 
             resetChosenBoonsRace();
             resetChosenBanesRace();
@@ -2686,15 +2747,16 @@ module Login {
         });
 
         $chooseArchetype.unbind('submit').submit(() => {
-            // TODO: remove later when choosing archetypes is allowed
-            return false;
-
-            // TODO: begin - uncomment later when choosing archetypes is allowed
-
-            /*
             setChosenArchetype();
 
             resetAbilities();
+
+            // TODO: begin - remove later when choosing archetypes is allowed
+
+            resetChosenBoonsRace();
+            resetChosenBanesRace();
+
+            // TODO: end - remove later when choosing archetypes is allowed
 
             resetChosenBoonsArchetype();
             resetChosenBanesArchetype();
@@ -2702,9 +2764,6 @@ module Login {
             updateView();
 
             return false;
-            */
-
-            // TODO: end - uncomment later when choosing archetypes is allowed
         });
 
         $chooseAttributes.unbind('submit').submit(() => {
@@ -2873,11 +2932,7 @@ module Login {
 
                 showChooseFactionPage();
             } else {
-                [$bgFactions, $bgArthurians, $bgTdd, $bgVikings].forEach($bg => {
-                    $bg.stop().animate({ opacity: 0 }, { duration: ANIMATION_DURATION, queue: false });
-                });
-
-                $bgDefault.stop().animate({ opacity: 1 }, { duration: ANIMATION_DURATION, queue: false });
+                showBackground($bgDefault);
 
                 $characterCreation.fadeOut(() => {
                     if ($characters.children().length) {
