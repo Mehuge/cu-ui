@@ -15,7 +15,8 @@ module Login {
     var $modalWrapper = $('#modal-wrapper');
     var $modal = $('#modal');
     var $bgDefault = $('#bg-default');
-    var $characters = $('#characters');
+    var $characters: JQuery = $('#characters-container'),
+        $portraits: JQuery = $('#characters-portrait');
 
     /* Server Selection Variables */
 
@@ -86,7 +87,7 @@ module Login {
         $.support.cors = true;
 
         var loginInterval = setInterval(() => {
-            loginToken = cu.HasAPI() ? cuAPI.loginToken : '';
+            loginToken = cu.HasAPI() ? cuAPI.loginToken : window.prompt('login token?');
 
             if (!loginToken) return;
 
@@ -154,6 +155,7 @@ module Login {
             cuAPI.Connect(selectedServer.host, character.id);
         } else {
             showModal(createErrorModal('Connected to: ' + selectedServer.host + ' - character: ' + character.id));
+            showCharacterSelect();
         }
     }
 
@@ -417,34 +419,41 @@ module Login {
                 raceCssClass = getRaceCssClass('Tuatha');
             }
 
-            var $character = $('<li>').addClass('character').attr({
+            var $character: JQuery = $('<li>').addClass('character').attr({
                 'data-character-id': character.id,
-                'data-character-name': _.escape(character.name)
-            }).appendTo($characters);
+                'data-character-name': _.escape(character.name),
+                'data-character-race': character.race.name
+            }).addClass(raceCssClass).appendTo($characters);
 
-            var $portrait = $('<div>').addClass(raceCssClass).css('background', getRaceBackgroundStyle(raceCssClass)).appendTo($character);
+            var $name = $('<span>').addClass('character-name').text(character.name).appendTo($character);
+            $('<div>').addClass('character-description').text(character.race.name).appendTo($character);
 
-            var $name = $('<span>').addClass('character-name').text(_.escape(character.name)).appendTo($portrait);
-
-            if (character.race.description && character.race.description.length && character.race.description !== character.race.name) {
-                $name.css('bottom', '32px');
-
-                $('<div>').addClass('character-description').text(character.race.description).appendTo($portrait);
-            } else {
-                $name.css('bottom', '8px');
-            }
+            var $portrait: JQuery = $('<li>').addClass('portrait')
+                .addClass(raceCssClass)
+                .css('background', getRaceBackgroundStyle(raceCssClass))
+                .appendTo($portraits);
 
             if (index === 0) {
-                $selectedCharacter = $character.fadeIn().css('display', 'inline');
+                setSelectedCharacter(index);
             }
         });
 
-        if (selectedServer.characters.length > 1) {
-            $previousCharacterButton.fadeIn();
-            $nextCharacterButton.fadeIn();
-        }
+        $characters.children().on('click', (e: JQueryEventObject) => {
+            setSelectedCharacter($(e.currentTarget).index());
+        });
 
         $characterSelection.fadeIn();
+    }
+
+    function setSelectedCharacter(index: number) {
+        if ($selectedCharacter) {
+            var old = $selectedCharacter.index();
+            $portraits.children().eq(old).fadeOut();
+            $characters.children().removeClass('selected');
+        }
+        $characters.children().eq(index).addClass('selected');
+        $portraits.children().eq(index).fadeIn();
+        $selectedCharacter = $characters.children().eq(index);
     }
 
     function getRaceCssClass(race) {
