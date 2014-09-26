@@ -22,8 +22,11 @@
     <Content Include="bugit\bugit.html" />
     <Content Include="characters\characters.css" />
     <Content Include="characters\characters.html" />
+    <Content Include="announcement\announcement.css" />
+    <Content Include="announcement\announcement.html" />
     <Content Include="character\character.html" />
     <Content Include="character\character.css" />
+    <TypeScriptCompile Include="announcement\announcement.ts" />
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="bot\bot.css" />
     <Content Include="bot\bot.html" />
@@ -48,6 +51,7 @@
     <Content Include="heatmap\heatmap.png" />
     <Content Include="heatmap\webgl-heatmap.html" />
     <Content Include="heatmap\webgl-heatmap.js" />
+    <Content Include="images\announcement\bg.png" />
     <Content Include="images\archetypes\earthmage.jpg" />
     <Content Include="images\archetypes\fighter.jpg" />
     <Content Include="images\archetypes\firemage.jpg" />
@@ -65,10 +69,9 @@
     <Content Include="images\inventory\bg.png" />
     <Content Include="images\items\icon.png" />
     <Content Include="images\login\arthurians-bg.jpg" />
-    <Content Include="images\login\bg-arthurian.jpg" />
-    <Content Include="images\login\bg-tdd.jpg" />
-    <Content Include="images\login\bg-viking.jpg" />
+    <Content Include="images\login\bane-downarrow.png" />
     <Content Include="images\login\bg.jpg" />
+    <Content Include="images\login\boon-downarrow.png" />
     <Content Include="images\login\boons-banes-category.png" />
     <Content Include="images\login\boons-banes-frame.png" />
     <Content Include="images\login\btn-arthurian-sprite.png" />
@@ -269,6 +272,7 @@
     <Content Include="inventory.ui" />
     <Content Include="options.ui" />
     <Content Include="pledges.ui" />
+    <Content Include="announcement.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
