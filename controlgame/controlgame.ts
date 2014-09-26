@@ -31,7 +31,7 @@ module ControlGame {
 
             var options: JQueryAjaxSettings = {};
             options.type = 'GET';
-            options.url = cu.ApiUrl('game/controlgame');
+            options.url = cuAPI.serverURL + 'game/controlgame';
             options.success = (controlGame) => {
                 hasRequestInProgress = false;
                 resolve(controlGame);
@@ -134,6 +134,8 @@ module ControlGame {
         }, hide);
     }
 
-    update();
-    setInterval(update, 5000);
+    cu.OnServerConnected(() => {
+        update();
+        setInterval(update, 5000);
+    });
 }
