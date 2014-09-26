@@ -243,7 +243,7 @@ input[type=text] {
 
 #character-selection .character {
     position: relative;
-    width: 100  %;
+    width: 100%;
     height: 2em;
     font-size: 20px;
     opacity: 0.5;
@@ -276,11 +276,11 @@ input[type=text] {
 }
 
 #character-selection .character-name {
-    left: 0;
+    left: 1em;
     color: #fff;
 }
 #character-selection .character-description {
-    right: 0;
+    right: 1em;
     color: #bbb;
 }
 
