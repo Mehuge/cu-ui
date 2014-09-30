@@ -42,7 +42,9 @@
         }
         var serverURL = cuAPI.serverURL || "http://chat.camelotunchained.com:8000/api/";
         function getKills() {
-            XHR(serverURL + "kills").done(function (response) {
+            var since = new Date();
+            since.setHours(since.getHours()-1);
+            XHR(serverURL + "kills").query({ start: since.toISOString() }).done(function (response) {
                 var kills = JSON.parse(response.getXhr().responseText);
                 displayKills(kills);
             });

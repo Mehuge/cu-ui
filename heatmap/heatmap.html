@@ -70,9 +70,9 @@
                     }
                 }),
                 getKills = function () {
-                    var now = (new Date()).getTime();
-                    now = new Date(now - (1000 * 60));
-                    Rest.getKills().then(function (kills) {
+                    var since = new Date();
+                    since.setHours(since.getHours()-1);
+                    Rest.getKills({ start: since.toISOString() }).then(function (kills) {
                         displayKills(kills);
                     }, function (e) {
                         loc.textContent = e;
