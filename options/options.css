@@ -8,8 +8,6 @@ body {
     background: url('../images/options/keybind-bg.png') no-repeat 0 0;
     overflow: hidden;
     font-family: 'Merriweather', sans-serif;
-    -webkit-user-select: none;
-    user-select: none;
     cursor: default;
 }
 

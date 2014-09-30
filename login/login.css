@@ -13,28 +13,6 @@ html, body {
     height: 100%;
 }
 
-* {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    cursor: default;
-}
-
-::-webkit-scrollbar {
-    width: 5px;
-}
- 
-::-webkit-scrollbar-track {
-    background-color: rgba(68, 68, 68, 0.45);
-}
- 
-::-webkit-scrollbar-thumb {
-    background-color: rgba(138, 138, 138, 0.47);
-}
-
 input[type=text] {
     cursor: text;
 }
@@ -1308,7 +1286,7 @@ input[type=text] {
     border: 1px solid #ff2f00;
 }
 
-.boons li.prereqs:before {
+.boons li.has-prereq:before {
     content: '';
     display: block;
     width: 16px;
@@ -1320,7 +1298,7 @@ input[type=text] {
     top: -5px;
 }
 
-.banes li.prereqs:before {
+.banes li.has-prereq:before {
     content: '';
     display: block;
     width: 16px;

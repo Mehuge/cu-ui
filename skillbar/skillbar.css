@@ -6,15 +6,6 @@ html, body {
     overflow: hidden;
 }
 
-* {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
 #skillBar {
     position: absolute;
     bottom: 0;
@@ -40,6 +31,8 @@ html, body {
 
 .activeHighlight,
 .abilityIcon,
-.queuedIcon {
+.queuedIcon,
+.cooldownRoot,
+.cooldownSlide {
     pointer-events: none;    
 }

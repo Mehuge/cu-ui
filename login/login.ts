@@ -1325,7 +1325,7 @@ module Login {
             maxRanks: boon.maxRanks,
             x: boon.x,
             y: boon.y,
-            prerequisites: boon.prerequisites,
+            prerequisite: boon.prerequisite,
             ranks: ranks
         };
     }
@@ -1378,7 +1378,7 @@ module Login {
             maxRanks: bane.maxRanks,
             x: bane.x,
             y: bane.y,
-            prerequisites: bane.prerequisites,
+            prerequisite: bane.prerequisite,
             ranks: ranks
         };
     }
@@ -1709,15 +1709,15 @@ module Login {
 
         var $ranks = $('<span>').addClass('ranks').text('0 / ' + boonBane.maxRanks).appendTo($li);
 
-        var hasPrereqs = boonBane.prerequisites && boonBane.prerequisites.length;
+        var hasPrerequisite = !_.isEmpty(boonBane.prerequisite);
 
-        if (hasPrereqs) {
-            $li.addClass('disabled prereqs');
+        if (hasPrerequisite) {
+            $li.addClass('disabled has-prereq');
         }
 
         var $input = $('<input>').attr({
             type: 'hidden', name: type, 'data-category': category, 'data-index': index, 'data-id': boonBane.id
-        }).prop('disabled', hasPrereqs).val('0').appendTo($li);
+        }).prop('disabled', hasPrerequisite).val('0').appendTo($li);
 
         $li.mousedown((e) => {
             if ($input.prop('disabled')) return false;
@@ -2131,13 +2131,13 @@ module Login {
     function isUsingBoonPrereq(category, id) {
         var boons = getChosenBoonsForCategory(category);
         if (!boons) return false;
-        return boons.filter(boon => boon.prerequisites && boon.prerequisites.indexOf(id) !== -1).length > 0;
+        return boons.filter(boon => boon.prerequisite && boon.prerequisite === id).length > 0;
     }
 
     function isUsingBanePrereq(category, id) {
         var banes = getChosenBanesForCategory(category);
         if (!banes) return false;
-        return banes.filter(bane => bane.prerequisites && bane.prerequisites.indexOf(id) !== -1).length > 0;
+        return banes.filter(bane => bane.prerequisite && bane.prerequisite === id).length > 0;
     }
 
     function updateBoonsBanes() {
@@ -2550,21 +2550,15 @@ module Login {
     function hasBoonPrereqsUnlocked(category, id) {
         var boon = getBoonById(category, id);
         if (!boon) return false;
-        if (!boon.prerequisites || !boon.prerequisites.length) return true;
-        for (var i = 0, length = boon.prerequisites.length; i < length; i++) {
-            if (!hasBoonUnlocked(category, boon.prerequisites[i])) return false;
-        }
-        return true;
+        if (!boon.prerequisite || _.isEmpty(boon.prerequisite)) return true;
+        return hasBoonUnlocked(category, boon.prerequisite);
     }
 
     function hasBanePrereqsUnlocked(category, id) {
         var bane = getBaneById(category, id);
         if (!bane) return false;
-        if (!bane.prerequisites || !bane.prerequisites.length) return true;
-        for (var i = 0, length = bane.prerequisites.length; i < length; i++) {
-            if (!hasBaneUnlocked(category, bane.prerequisites[i])) return false;
-        }
-        return true;
+        if (!bane.prerequisite || _.isEmpty(bane.prerequisite)) return true;
+        return hasBaneUnlocked(category, bane.prerequisite);
     }
 
     function getBoonById(category, id) {
@@ -2818,7 +2812,9 @@ module Login {
         });
 
         $characterComplete.unbind('click submit').click(() => {
-            flashCharacterName();
+            if (!hasChosenName()) {
+                flashCharacterName();
+            }
         }).submit(() => {
             if (!isValid()) return false;
 

@@ -10,8 +10,6 @@ body {
     font-family: 'Merriweather', sans-serif;
     width: 232px;
     height: 225px;
-    -webkit-user-select: none;
-    user-select: none;
     cursor: default;
 }
 
@@ -22,8 +20,9 @@ body {
     text-align: center;
     width: 232px;
     height: 20px;
-    top: 0px;
+    top: 0;
 }
+
 #btn-container {
     position: relative;
     margin: 0 auto;
@@ -32,6 +31,7 @@ body {
     width: 232px;
     height: 200px;
 }
+
 .btn-normal {
     background: url('../images/login/btn-normal-sprite.png') no-repeat 0 0;
     width: 232px;

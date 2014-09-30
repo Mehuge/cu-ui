@@ -126,7 +126,7 @@ module ControlGame {
         if (hasRequestInProgress) return;
 
         getControlGame().then(controlGame => {
-            if (controlGame && controlGame.gameState !== ControlGameState.Inactive) {
+            if (controlGame && controlGame.gameState > ControlGameState.Inactive) {
                 show(controlGame);
             } else {
                 hide();
