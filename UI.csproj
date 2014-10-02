@@ -227,6 +227,8 @@
     <TypeScriptCompile Include="inventory\inventory.ts" />
     <TypeScriptCompile Include="gamemenu\gamemenu.ts" />
     <TypeScriptCompile Include="kills\kills.ts" />
+    <Content Include="lb\lb3.html" />
+    <Content Include="lb\lb2.html" />
     <Content Include="lb\leaderboard.html" />
     <Content Include="login\login.css" />
     <Content Include="login\login.html" />

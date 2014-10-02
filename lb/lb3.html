@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            color: white;
+            overflow: hidden;
+        }
+
+        #main {
+            font-size: 8pt;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        th {
+            text-align: left;
+            background-color: black;
+            color: white;
+            opacity: 0.5;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="../common/sexyscroll.css">
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../common/rest.js"></script>
+</head>
+<body>
+    <div id="msg">
+    </div>
+    <div id="main">
+    </div>
+    <script>
+        if (typeof cuAPI === "undefined") {
+            cuAPI = {};
+        }
+        var serverURL = cuAPI.serverURL || "http://chat.camelotunchained.com:8000/api/";
+        var cache = [], gameStart, gameTimeout, gameState, killsTimeout, startTime = new Date();
+
+        // Maintains a window of kills.  Polls the server on a 5s interval asking for all kills since the last
+        // known kill, appends these to the array.  The head of the queue will be pruned when we know the start
+        // time of the next game.
+        function getKills(showKills) {
+            var from,
+                pollKills = function () {
+                    killsTimeout = setTimeout(function () { killsTimeout = null; getKills(showKills); }, 5000);
+                };
+            if (cache.length) {
+                var time = new Date(cache[cache.length - 1].time);
+                time.setTime(time.getTime() + 1);
+                from = time.toISOString();
+            } else {
+                // for first run, user the game start time
+                from = gameStart;
+            }
+            Rest.getKills({ start: from }).then(function (kills) {
+                cache = cache.concat(kills);
+                if (kills.length) showKills(cache);
+                pollKills();
+            }, function (e) {
+                pollKills();
+            });
+        }
+
+        // remove kills we have cached prior to the start of the current game, so kill starts
+        // can just process the entire array (and we keep the memory usage down)
+        function pruneHead(start) {
+            for (var i = 0; i < cache.length; i++) {
+                if (cache[i].time >= start) {
+                    break;
+                }
+            }
+            cache = cache.slice(i);
+        }
+
+        function checkControlGame() {
+            var checkAgainIn = function (ms) {
+                    if (!gameTimeout) {
+                        // poll regularily while game running
+                        // if (gameStart && ms > 5000) ms = 5000;
+                        ms = ms | 0;
+                        if (ms < 0) ms = 1000;
+                        console.log('check again in ' + ms);
+                        gameTimeout = setTimeout(function () {
+                            gameTimeout = null;
+                            setTimeout(checkControlGame, 0);          // restart the check process
+                        }, ms);
+                    }
+                },
+                startGame = function (timeLeft) {
+                    if (!gameStart) {
+                        var start = new Date();
+                        start.setTime(((start.getTime() / 1000) - 600 + timeLeft) * 1000);
+                        if (gameState <= 2) {
+                            // transitioning from no game to game, make sure now is reasonable
+                            console.log('game start diff ' + ((new Date()).getTime() - start.getTime()));
+                        }
+                        gameStart = start.toISOString();
+                        console.log('Set game start time: ' + gameStart);
+                        pruneHead(gameStart);
+                        console.log('[[[[ let the games begin ]]]]');
+                        if (killsTimeout) clearTimeout(killsTimeout);
+                        killsTimeout = null;
+                        getKills(displayKills);
+                    }
+                    displayKills(cache);
+                },
+                endGame = function () {
+                    if (startGame) {
+                        gameStart = null;
+                        console.log('[[[[ Game over man! Game over! ]]]]');
+                    }
+                    if (killsTimeout) clearTimeout(killsTimeout);
+                    killsTimeout = null;
+                };
+            Rest.getControlGame().then(function (game) {
+                switch (game.gameState) {
+                    case 0: // Inactive
+                        endGame();
+                        break;
+                    case 1: // waiting for players
+                        endGame();
+                        break;
+                    case 2: // basic game running
+                        startGame(game.timeLeft);
+                        break;
+                    case 3: // advanced game running
+                        startGame(game.timeLeft);
+                        break;
+                }
+                checkAgainIn(game.timeLeft * 1000);
+                gameState = game.gameState;
+            }, function () {
+                checkAgainIn(5000);
+            });
+        }
+        function displayKills(kills) {
+            var players = {}, kill, killer;
+            for (var i = 0; i < kills.length; i++) {
+                kill = kills[i];
+                if (kill.killer && kill.victim.name !== kill.killer.name) {
+                    killer = players[kill.killer.name] = players[kill.killer.name] || { kills: [], deaths: [] };
+                    killer.kills.push(kill);
+                    victim = players[kill.victim.name] = players[kill.victim.name] || { kills: [], deaths: [] };
+                    victim.deaths.push(kill);
+                }
+            }
+            var counts = [];
+            for (var name in players) {
+                var killer = players[name];
+                if (killer.deaths.length === 0) {
+                    killer.kd = killer.kills.length;
+                } else {
+                    killer.kd = (killer.kills.length / killer.deaths.length);
+                }
+                counts.push(killer);
+            }
+            counts.sort(function (a, b) {
+                if (b.kd !== a.kd) return b.kd - a.kd;
+                if (b.kills.length != a.kills.length) return b.kills.length - a.kills.length;       // higher is better
+                return a.deaths.length - b.deaths.length;       // lower is better
+            });
+            main.innerHTML = '<table id="kills">'
+                            + '<thead><tr><th>Killer</th><th>K</th><th>D</th><th>KR</th></tr>' + '</thead>'
+                            + '<tbody id="tb"></tbody></table>';
+            var tb = document.getElementById("tb"), tr, count, name;
+            for (var i = 0; i < counts.length && i < 10; i++) {
+                count = counts[i];
+                if (count.kills.length) {
+                    kill = count.kills[count.kills.length - 1];
+                    name = kill.killer.name;
+                } else {
+                    kill = count.deaths[count.deaths.length - 1];
+                    name = kill.victim.name;
+                }
+                tr = document.createElement("tr");
+                tr.innerHTML = '<td>' + name + '</td>'
+                            + '<td>' + count.kills.length + '</td>'
+                            + '<td>' + count.deaths.length + '</td>'
+                            + '<td>' + count.kd.toFixed(1) + '</td>'
+                ;
+                tb.appendChild(tr);
+            }
+        }
+
+        checkControlGame();
+    </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            color: white;
+        }
+
+        #main {
+            font-size: 8pt;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        th {
+            text-align: left;
+            background-color: black;
+            color: white;
+            opacity: 0.5;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="../common/sexyscroll.css">
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../common/rest.js"></script>
+</head>
+<body>
+    <div id="msg">
+    </div>
+    <div id="main">
+    </div>
+    <script>
+        if (typeof cuAPI === "undefined") {
+            cuAPI = {};
+        }
+        var serverURL = cuAPI.serverURL || "http://chat.camelotunchained.com:8000/api/";
+        var lastKills, gameStart, gameTimeout, gameState, killsTimeout;
+
+        function checkKills() {
+            if (gameState >= 2) {
+                if (killsTimeout) window.clearTimeout(killsTimeout);
+                killsTimeout = setTimeout(getKills, 10000);
+            }
+        }
+
+        function getKills() {
+            killsTimeout = null;
+            var from = gameStart;
+            if (!from) return;
+            Rest.getKills({ start: from }).then(function (kills) {
+                displayKills(kills);
+                lastKills = kills;
+                checkKills();
+            }, function (e) {
+                checkKills();
+            });
+        }
+
+        function checkControlGame() {
+            var checkAgainIn = function (ms) {
+                if (!gameTimeout) {
+                    // poll regularily while game running
+                    // if (gameStart && ms > 5000) ms = 5000;
+                    if (ms < 0) ms = 1000;
+                    console.log('check again in ' + ms);
+                        gameTimeout = setTimeout(function () {
+                            gameTimeout = null;
+                            setTimeout(checkControlGame, 0);          // restart the check process
+                        }, ms);
+                    }
+                },
+                startGame = function (timeLeft) {
+                    if (!gameStart) {
+                        var now = new Date();
+                        now.setTime(((now.getTime() / 1000) - 600 + timeLeft) * 1000);
+                        if (gameState <= 2) {
+                            // transitioning from no game to game, make sure now is reasonable
+                            console.log('game start diff ' + (new Date()) - now);
+                        }
+                        gameStart = now.toISOString();
+                        console.log('Set game start time: ' + gameStart);
+                        console.log('[[[[ let the games begin ]]]]');
+                        getKills();
+                    }
+                },
+                endGame = function () {
+                    if (startGame) {
+                        getKills();         // one last poll of kills
+                        gameStart = null;
+                        console.log('[[[[ game over man! ]]]]');
+                    }
+                };
+            Rest.getControlGame().then(function (game) {
+                switch (game.gameState) {
+                    case 0: // Inactive
+                        endGame();
+                        break;
+                    case 1: // waiting for players
+                        endGame();
+                        break;
+                    case 2: // basic game running
+                        startGame(game.timeLeft);
+                        break;
+                    case 3: // advanced game running
+                        startGame(game.timeLeft);
+                        break;
+                }
+                checkAgainIn(game.timeLeft * 1000);
+                gameState = game.gameState;
+            }, function () {
+                checkAgainIn(5000);
+            });
+        }
+        function displayKills(kills) {
+            var killers = {}, kill, killer;
+            for (var i = 0; i < kills.length; i++) {
+                kill = kills[i];
+                if (kill.killer && kill.victim.name !== kill.killer.name) {
+                    killer = killers[kill.killer.name] = killers[kill.killer.name] || { kills: [] };
+                    killer.kills.push(kill);
+                }
+            }
+            var counts = [];
+            for (var name in killers) {
+                var killer = killers[name];
+                counts.push(killer);
+            }
+            counts.sort(function (a, b) { return b.kills.length - a.kills.length; });
+            main.innerHTML = '<table id="kills">'
+                            + '<thead><tr><th>Killer</th><th>Kills</th>' /* + '<th>Last Loc</th><th>Last Victim</th></tr>' */ + '</thead>'
+                            + '<tbody id="tb"></tbody></table>';
+            var tb = document.getElementById("tb"), tr, count, pos;
+            for (var i = 0; i < counts.length && i < 10; i++) {
+                count = counts[i];
+                kill = count.kills[count.kills.length - 1];
+                tr = document.createElement("tr");
+                // pos = kill.location.position;
+                tr.innerHTML = '<td>' + kill.killer.name + '</td>'
+                            + '<td>' + count.kills.length + '</td>'
+                /*
+                + '<td>' + pos.x.toFixed(3) + "," + pos.y.toFixed(3) + "," + pos.z.toFixed(3) + '</td>'
+                + '<td>' + kill.victim.name + '</td>'
+                */
+                ;
+                tb.appendChild(tr);
+            }
+        }
+        gameStart = (new Date()).toISOString();
+        getKills();
+        gameStart = null;
+        checkControlGame();
+    </script>
+</body>
+</html>
