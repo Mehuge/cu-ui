@@ -31,11 +31,12 @@
         }
     </style>
     <link rel="stylesheet" type="text/css" href="../common/sexyscroll.css">
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../common/rest.js"></script>
 </head>
 <body>
     <div id="main">
     </div>
-    <script src="http://xhr-progressive-timeouts.googlecode.com/hg/trunk/lib/xhr-pt.js"></script>
     <script>
         if (typeof cuAPI === "undefined") {
             cuAPI = {};
@@ -43,10 +44,11 @@
         var serverURL = cuAPI.serverURL || "http://chat.camelotunchained.com:8000/api/";
         function getKills() {
             var since = new Date();
-            since.setHours(since.getHours()-1);
-            XHR(serverURL + "kills").query({ start: since.toISOString() }).done(function (response) {
-                var kills = JSON.parse(response.getXhr().responseText);
+            since.setHours(since.getHours() - 1);
+            Rest.getKills({ start: since.toISOString() }).then(function (kills) {
                 displayKills(kills);
+            }, function (e) {
+                console.log(e.message);
             });
         }
         function displayKills(kills) {
