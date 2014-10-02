@@ -89,6 +89,10 @@ module Rest {
         return call("game/players");
     }
 
+    export function getControlGame() {
+        return call("game/controlgame");
+    }
+
     export function getCharacters(loginToken: string) {
         return call("characters", { query: { loginToken: loginToken } });
     }
