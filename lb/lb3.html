@@ -120,7 +120,7 @@
                     displayKills(cache);
                 },
                 endGame = function () {
-                    if (startGame) {
+                    if (gameStart) {
                         gameStart = null;
                         console.log('[[[[ Game over man! Game over! ]]]]');
                     }
@@ -175,7 +175,7 @@
                 return a.deaths.length - b.deaths.length;       // lower is better
             });
             main.innerHTML = '<table id="kills">'
-                            + '<thead><tr><th>Killer</th><th>K</th><th>D</th><th>KR</th></tr>' + '</thead>'
+                            + '<thead><tr><th>Killer</th><th>K</th><th>D</th><th>KR</th></tr></thead>'
                             + '<tbody id="tb"></tbody></table>';
             var tb = document.getElementById("tb"), tr, count, name;
             for (var i = 0; i < counts.length && i < 10; i++) {
