@@ -3,9 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /// <reference path="../vendor/jquery.d.ts" />
-/// <reference path="../vendor/jquery.cookie.d.ts" />
 /// <reference path="../vendor/jquery.terminal.d.ts" />
-/// <reference path="../vendor/underscore.d.ts" />
+/// <reference path="../vendor/lodash.d.ts" />
 /// <reference path="../vendor/strophe.d.ts" />
 
 module Chat {

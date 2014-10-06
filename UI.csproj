@@ -259,6 +259,7 @@
     <Content Include="respawn\respawn.html" />
     <Content Include="skillbar\skillbar.css" />
     <Content Include="skillbar\skillbar.html" />
+    <TypeScriptCompile Include="vendor\lodash.d.ts" />
     <TypeScriptCompile Include="vendor\promise.d.ts" />
   </ItemGroup>
   <ItemGroup>
@@ -294,15 +295,12 @@
     <Content Include="target\target.html" />
     <TypeScriptCompile Include="target\target.ts" />
     <Content Include="vendor\jquery-2.1.1.js" />
-    <Content Include="vendor\jquery.cookie.d.ts" />
-    <Content Include="vendor\jquery.cookie.js" />
     <Content Include="vendor\jquery.d.ts" />
     <Content Include="vendor\jquery.terminal-0.7.12.min.js" />
     <Content Include="vendor\jquery.terminal.d.ts" />
+    <Content Include="vendor\lodash.js" />
     <Content Include="vendor\strophe.d.ts" />
     <Content Include="vendor\strophe.js" />
-    <Content Include="vendor\underscore.d.ts" />
-    <Content Include="vendor\underscore.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup />

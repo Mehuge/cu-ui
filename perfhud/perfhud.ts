@@ -30,6 +30,8 @@ module PerfHUD {
             addToPerfHud('position: (' + (cuAPI.locationX || 0).toFixed(1) + ', ' + (cuAPI.locationY || 0).toFixed(1) + ', ' + (cuAPI.locationZ || 0).toFixed(1) + ')');
 
             addToPerfHud('speed: ' + (cuAPI.speed || 0).toFixed(1));
+
+            addToPerfHud('server time: ' + (cuAPI.serverTime || 0).toFixed(3));
         }
     }
 
