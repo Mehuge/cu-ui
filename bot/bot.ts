@@ -55,13 +55,13 @@ module Bot {
     function run() {
         var KQ = 16, FORWARDS = 17, KE = 18, KR = 19, KT = 20, KY = 21,
             STRAFE_LEFT = 30, BACKWARDS = 31, STRAFE_RIGHT = 32;
-        var A1 = 2, A2 = 3, A3 = 4, A4 = 5, A5 = 6, A6 = 7, A7 = 8, A8 = 9, A9 = 10, A0 = 11;
+        var A1 = 2, A2 = 3, A3 = 4, A4 = 5, A5 = 6, A6 = 7, A7 = 8, A8 = 9, A9 = 10, A0 = 11, Am = 12, Ae = 13;
         var cmds = [];
         var runcmd = function (o) {
             if (STOP) {
                 cmds = [];
                 console.log('BOT aborted');
-                if (o.done) o.done();
+                // if (o.done) o.done();
                 return;
             }
             var cmd = cmds.shift(),
