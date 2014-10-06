@@ -17,6 +17,8 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="bot\botscript3.js" />
+    <Content Include="bot\example.js" />
     <Content Include="bugit\bg.png" />
     <Content Include="bugit\bugit.css" />
     <Content Include="bugit\bugit.html" />
@@ -229,6 +231,10 @@
     <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="lb\lb3.html" />
     <Content Include="lb\leaderboard.html" />
+    <Content Include="web\basic-promise.js" />
+    <Content Include="web\bg.png" />
+    <Content Include="web\Cinzel-Regular.css" />
+    <Content Include="web\score.html" />
     <Content Include="login\login.css" />
     <Content Include="login\login.html" />
     <TypeScriptCompile Include="login\login.ts" />
