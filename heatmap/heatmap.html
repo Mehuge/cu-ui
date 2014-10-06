@@ -65,8 +65,8 @@
                         // for gradient color customization
                         '.5': 'blue',
                         '.7': 'green',
-                        '.9': 'yellow',
-                        '.98': 'red'
+                        '.90': 'yellow',
+                        '.95': 'red'
                     }
                 }),
                 getKills = function () {
@@ -80,15 +80,19 @@
                 },
                 displayKills = function (kills) {
                     var now = (new Date()).getTime();
-                    heatmap.setData({ min: 0, max: 0, data: [] });
-                    for (var i = 0; i < kills.length; i++) {
-                        var pos = kills[i].location.pos, h = now - (new Date(kills[i].time)).getTime();
-                        var h = h / 1000 / 60 / 60;
-                        if (h < 1.0) {
-                            var o = { x: (pos.x + 200) / 2, y: (400 - (pos.y + 200)) / 2, value: 1 - h };
-                            heatmap.addData(o);
+                    var draw = function (since, low, high) {
+                        for (var i = 0; i < kills.length; i++) {
+                            var pos = kills[i].location.pos, h = now - (new Date(kills[i].time)).getTime();
+                            var h = h / 1000;
+                            if (h < since) {
+                                var r = 1 - ((low + (h / (since / (high - low)))) / 100);
+                                var o = { x: (pos.x + 200) / 2, y: (400 - (pos.y + 200)) / 2, value: r };
+                                heatmap.addData(o);
+                            }
                         }
-                    }
+                    };
+                    heatmap.setData({ min: 0, max: 0, data: [] });
+                    draw(900, 0, 100);                               
                     setTimeout(getKills, 10000);
                 },
                 overlay = document.getElementById("overlay"),
