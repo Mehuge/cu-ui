@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cinzel">
+    <style type="text/css">
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent;
+            color: black;
+            overflow: hidden;
+			font-family: sans-serif;
+        }
+        #main {
+			position: absolute;
+			top: 0; bottom: 0; left: 0; right: 0;
+			padding: 10em;
+            font-size: 12pt;
+			background: #000 url(http://camelotunchained.com/v2/wp-content/themes/testCSE/images/banner_slide_frontpage.jpg) top center no-repeat
+        }
+        #score {
+            position: absolute;
+            margin-left: 50%;
+            left: -270px;
+            width: 540px;
+            height: 105px;
+            text-align: center;
+            background: transparent url(bg.png);
+            background-size: cover;
+			font-size: 12pt;
+        }
+		#msg {
+			position: absolute;
+			top: 3px;
+			width: 420px;
+			margin-left: 50%;
+			left: -210px;
+			color: white;
+			font-size: 12pt;
+            text-align: center;
+		}
+		#timer {
+			position: absolute; 
+            top: 81px;
+			width: 100px;
+			margin-left: 50%;
+			left: -50px; 
+			color: white;
+			font-size: 12pt;
+			font-family: 'Cinzel', serif;
+            text-align: center;
+		}
+        #tdd-score, #arthurian-score, #viking-score,
+        #tdd-kills, #arthurian-kills, #viking-kills {
+			position: absolute; 
+			width: 100px;
+			margin-left: 50%;
+			color: white;
+            text-align: center;
+			font-family: 'Cinzel', sans-serif;
+        }
+        #tdd-score, #arthurian-score, #viking-score {
+            top: 38px;
+			font-size: 16pt;
+		}
+        #tdd-kills, #arthurian-kills, #viking-kills {
+            top: 63px;
+			font-size: 8pt;
+            opacity: 0.8;
+		}
+        #tdd-score, #tdd-kills {
+			color: rgb(154,211,0);
+            left: -200px;
+        }
+        #arthurian-score, #arthurian-kills {
+			color: rgb(255,54,0);
+            left: -50px;
+        }
+        #viking-score, #viking-kills {
+			color: rgb(0,162,255);
+            left: 100px;
+        }
+        table {
+            width: 100%;
+        }
+
+		/* cell styles */
+		table td, table th { font-size: 16pt; padding: 0.25em; }
+
+		/* heading styles */
+        th {
+			background-color: rgba(0,0,0,0.5);
+            color: white;
+        }
+
+		/* odd/even row styles */
+		table tbody tr:nth-child(odd) { background-color: rgba(255,255,255,0.25); }
+		table tbody tr:nth-child(even) { background-color: rgba(255,255,255,0.4); }
+
+		/* columns 2, 3 and 4 */
+		table tr :nth-child(2), table tr :nth-child(3), table tr :nth-child(4) {
+			width: 5em;
+			text-align: center;
+		}
+    </style>
+    <script src="jquery-2.1.1.js"></script>
+    <script src="basic-promise.js"></script>
+    <script src="rest.js"></script>
+</head>
+<body>
+    <div id="main">
+            <table id="kills">
+			<thead><tr><th>Killer</th><th>K</th><th>D</th><th>KR</th></tr></thead>
+			<tbody id="tb">
+			</tbody></table>
+	</div>
+    <div id="score"></div>
+    <div id="msg"></div>
+    <div id="tdd-score"></div>
+    <div id="arthurian-score"></div>
+    <div id="viking-score"></div>
+    <div id="tdd-kills"></div>
+    <div id="arthurian-kills"></div>
+    <div id="viking-kills"></div>
+    <div id="timer"></div>
+    <script>
+		Rest.selectServer(location.search ? location.search.substr(1) : "Hatchery");
+        var cache = [], gameStart, gameTimeout, gameState, killsTimeout, startTime = new Date();
+        var tddScore = document.getElementById("tdd-score"),
+            arthurianScore = document.getElementById("arthurian-score"),
+            vikingScore = document.getElementById("viking-score"),
+			tddKills = document.getElementById("tdd-kills"),
+            arthurianKills = document.getElementById("arthurian-kills"),
+            vikingKills = document.getElementById("viking-kills"),
+            timer = document.getElementById("timer"),
+		    states = ["Inactive", "Waiting for players...", "Basic", "Advanced"],
+            countdown = 0,
+		    ticker,
+			totalScore = 0;
+
+		function LOG(m) {
+			msg.textContent = m;
+		}
+
+		function updateCountdown() {
+		    countdown--;
+		    var minutes = (countdown / 60) | 0,
+                seconds = (countdown % 60) | 0;
+		    timer.textContent = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+		    if (countdown <= 0) {
+		        clearInterval(ticker);
+				ticker = null;
+		    }
+		}
+
+		function setCountdown(seconds) {
+			countdown = seconds | 0;
+			if (countdown <= 0) {
+				if (ticker) clearInterval(ticker);
+				ticker = null;
+			} else {
+				if (!ticker) ticker = setInterval(updateCountdown, 1000);
+			}
+		}
+
+        // Maintains a window of kills.  Polls the server on a 5s interval asking for all kills since the last
+        // known kill, appends these to the array.  The head of the queue will be pruned when we know the start
+        // time of the next game.
+        function getKills(showKills) {
+            var from,
+                pollKills = function () {
+                    killsTimeout = setTimeout(function () { killsTimeout = null; getKills(showKills); }, 5000);
+                };
+            if (cache.length) {
+                var time = new Date(cache[cache.length - 1].time);
+                time.setTime(time.getTime() + 1);
+                from = time.toISOString();
+            } else {
+                // for first run, user the game start time
+                from = gameStart;
+            }
+            Rest.getKills({ start: from }).then(function (kills) {
+                cache = cache.concat(kills);
+                if (kills.length) showKills(cache);
+                pollKills();
+            }, function (e) {
+                pollKills();
+            });
+        }
+
+        // remove kills we have cached prior to the start of the current game, so kill starts
+        // can just process the entire array (and we keep the memory usage down)
+        function pruneHead(start) {
+            for (var i = 0; i < cache.length; i++) {
+                if (cache[i].time >= start) {
+                    break;
+                }
+            }
+            cache = cache.slice(i);
+        }
+
+        function checkControlGame() {
+            var checkAgainIn = function (ms) {
+                    if (!gameTimeout) {
+                        ms = ms | 0;
+                        if (ms > 5000) ms = 5000;
+                        if (ms < 1000) ms = 1000;
+                        gameTimeout = setTimeout(function () {
+                            gameTimeout = null;
+                            checkControlGame();
+                        }, ms);
+                    }
+                },
+                startGame = function (timeLeft) {
+                    if (!gameStart) {
+                        var start = new Date();
+                        start.setTime(((start.getTime() / 1000) - 600 + timeLeft) * 1000);
+                        if (gameState <= 2) {
+                            // transitioning from no game to game, make sure now is reasonable
+                            console.log('game start diff ' + ((new Date()).getTime() - start.getTime()));
+                        }
+                        gameStart = start.toISOString();
+                        pruneHead(gameStart);
+                        LOG('[[[[ Let the games begin! ]]]]');
+                        if (killsTimeout) clearTimeout(killsTimeout);
+                        killsTimeout = null;
+                        getKills(displayKills);
+                    }
+                    displayKills(cache);
+                },
+                endGame = function () {
+                    if (gameStart) {
+                        gameStart = null;
+                        LOG('[[[[ Game over man! Game over! ]]]]');
+                    } else {
+                        LOG("Waiting for players...");
+					}
+                    if (killsTimeout) clearTimeout(killsTimeout);
+                    killsTimeout = null;
+                };
+            Rest.getControlGame().then(function (game) {
+				console.log(JSON.stringify(game));
+                tddScore.textContent = game.tuathaDeDanannScore;
+                vikingScore.textContent = game.vikingScore;
+                arthurianScore.textContent = game.arthurianScore;
+				totalScore = game.tuathaDeDenannScore + game.vikingScore + game.arthurianScore;
+				setCountdown(game.timeLeft);
+                switch (game.gameState) {
+					case -1: // Unknown (no, really, I don't know what it means)
+                        endGame();
+                        break;
+                    case 0: // Inactive
+                        endGame();
+                        break;
+                    case 1: // waiting for players
+                        endGame();
+                        break;
+                    case 2: // basic game running
+                        startGame(game.timeLeft);
+                        break;
+                    case 3: // advanced game running
+                        startGame(game.timeLeft);
+                        break;
+                }
+                checkAgainIn(game.timeLeft * 1000);
+                gameState = game.gameState;
+            }, function () {
+                checkAgainIn(5000);
+            });
+        }
+
+        function displayKills(kills) {
+            var players = {}, kill, killer;
+            for (var i = 0; i < kills.length; i++) {
+                kill = kills[i];
+                if (kill.killer && kill.victim.name !== kill.killer.name) {
+                    killer = players[kill.killer.name] = players[kill.killer.name] || { kills: [], deaths: [] };
+                    killer.kills.push(kill);
+                    victim = players[kill.victim.name] = players[kill.victim.name] || { kills: [], deaths: [] };
+                    victim.deaths.push(kill);
+                }
+            }
+            var counts = [];
+            for (var name in players) {
+                var killer = players[name];
+                if (killer.deaths.length === 0) {
+                    killer.kd = killer.kills.length;
+                } else {
+                    killer.kd = (killer.kills.length / killer.deaths.length);
+                }
+                counts.push(killer);
+            }
+            counts.sort(function (a, b) {
+                if (b.kd !== a.kd) return b.kd - a.kd;
+                if (b.kills.length != a.kills.length) return b.kills.length - a.kills.length;       // higher is better
+                return a.deaths.length - b.deaths.length;       // lower is better
+            });
+            main.innerHTML = '<table id="kills">'
+                            + '<thead><tr><th>Killer</th><th>K</th><th>D</th><th>KR</th></tr></thead>'
+                            + '<tbody id="tb"></tbody></table>';
+            var tb = document.getElementById("tb"), tr, count, name, tk = 0, vk = 0, ak = 0;
+            for (var i = 0; i < counts.length && i < 10; i++) {
+                count = counts[i];
+                if (count.kills.length) {
+                    kill = count.kills[count.kills.length - 1];
+                    name = kill.killer.name;
+					switch(kill.killer.faction) {
+					case "TDD":       tk += count.kills.length; break;
+					case "Viking":    vk += count.kills.length; break;
+					case "Arthurian": ak += count.kills.length; break;
+					}
+                } else {
+                    kill = count.deaths[count.deaths.length - 1];
+                    name = kill.victim.name;
+                }
+                tr = document.createElement("tr");
+                tr.innerHTML = '<td>' + name + '</td>'
+                            + '<td>' + count.kills.length + '</td>'
+                            + '<td>' + count.deaths.length + '</td>'
+                            + '<td>' + count.kd.toFixed(1) + '</td>'
+                ;
+                tb.appendChild(tr);
+            }
+			tddKills.textContent = tk;
+			vikingKills.textContent = vk;
+			arthurianKills.textContent = ak;
+        }
+
+        checkControlGame();
+    </script>
+</body>
+</html>
