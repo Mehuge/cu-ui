@@ -14,7 +14,7 @@ module Rest {
                 }
             }
             return {
-                host: "chat." + domain
+                host: (server === "Hatchery" ? "chat" : server.toLowerCase()) + "." + domain
             };
         }
         return {
