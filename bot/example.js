@@ -1,18 +1,18 @@
-﻿var targets = {}, searching = 0;
+var targets = {}, searching = 0;
 function rand(n) {
     return Math.random() * n;
 }
 function run() {
     BOT.health()
-        .nextTarget()
         .target()
         .start({
             done: function () {
                 setTimeout(run, 1000);
             },
             health: function (characterName, hp, maxHP, selfEffects) {
-                if (hp == 0) {
-                    BOT.reset().sleep(1).key(KR).sleep(2).walk(FORWARDS, 20);
+                if (hp === 0) {
+                    console.log("RESURECT!!!!");
+                    BOT.reset().sleep(1).key(KR).sleep(2).walk(FORWARDS, 30);
                 } else if (hp < 25) {
                     BOT.reset().attack(Am, 20);
                 } else {
@@ -22,10 +22,12 @@ function run() {
             target: function (friendly, name, hp, max, effects) {
                 console.log((friendly ? "Friendly " : "Hostile ") + "Target: " + name + " " + hp + "/" + max + " effects: " + effects);
                 var nextTarget = function () {
-                    BOT.nextTarget().sleep(0.3).health().target();
+                    BOT.nextTarget().sleep(0.3);
                 };
                 var wander = function () {
-                    BOT.reset().click().walk(BACKWARDS, 5).turn((1 - rand(2)) * (200 + rand(200))).walk(FORWARDS, 5);
+                    var turnAmount = -400 + rand(800);
+                    console.log("BOT: WANDER turn amount = " + turnAmount);
+                    BOT.reset().click().walk(BACKWARDS, 2).turn(turnAmount).walk(FORWARDS, 5);
                     nextTarget();
                 };
                 var locate = function () {
@@ -46,18 +48,24 @@ function run() {
                     nextTarget();
                     return;
                 }
+                if (name.indexOf(" Dummy") !== -1) {
+                    console.log('Ignore target dummies');
+                    wander();
+                    return;
+                }
                 if (hp == -1) {
-                    console.log('No Target, Wander about ... ');
+                    console.log('No Target, try and find a target ... ');
                     locate();
                 } else {
                     var target = targets[name] = targets[name] || { ohp: 0, lastAttacked: 0, fails: 0 }, now = Date.now();
                     console.log('have target: oldHP ' + target.ohp + ' hp ' + hp);
                     if (hp > 0) {
-                        console.log('TARGET is not DEAD!!!   Just Attacked ' + target.lastAttacked);
-                        if (now - target.lastAttacked > 10000 || hp !== target.ohp) {
+                        console.log('TARGET is not DEAD!!!   Last Attacked ' + (now - target.lastAttacked));
+                        if ((now - target.lastAttacked) > 20000 || hp < target.ohp) {
                             console.log('ATTACK!!!');
-                            var skill = A3;
-                            BOT.reset().attack(A3).sleep(2).health().target();
+                            var attack = A3, duration = 3;
+                            if (rand(10) < 3) { attack = A6; duration = 12; }
+                            BOT.reset().attack(attack, duration).sleep(2);
                             target.lastAttacked = now;
                             target.ohp = hp;
                         } else {
