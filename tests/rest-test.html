@@ -1,0 +1,297 @@
+﻿<html>
+<head>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../common/rest.js"></script>
+    <script>
+		function run(what) {
+			Rest.call(what).then(function(data) {
+				result.innerText = JSON.stringify(data);
+			});
+		}
+    </script>
+    <style type="text/css">
+        .heading, .item {
+            position: relative;
+            height: 1em;
+            padding: 0.5em;
+            color: white;
+            border-bottom: 1px solid white;
+        }
+
+        .heading {
+            margin-top: 1em;
+            font-weight: bold;
+            background-color: black;
+        }
+
+        .item {
+            background-color: #444;
+        }
+
+            .item > div, .heading > div {
+                position: absolute;
+                width: auto;
+            }
+
+        #name {
+            width: 20%;
+        }
+
+        #desc {
+            width: 70%;
+            left: 20%;
+        }
+
+        #id {
+            width: 10%;
+            left: 90%;
+        }
+
+        .servers #host {
+            width: 70%;
+            left: 20%;
+        }
+
+        .servers #level {
+            width: 10%;
+            left: 90%;
+        }
+
+        #arthurians {
+            width: 33%;
+        }
+
+        #tuathaDeDanann {
+            width: 33%;
+            left: 33%;
+        }
+
+        #vikings {
+            width: 33%;
+            left: 66%;
+        }
+
+        .abilities .heading, .abilities .item {
+            height: 2em;
+        }
+
+        .abilities #desc {
+            width: 25%;
+            left: 15%;
+        }
+
+        #icon {
+            width: 20%;
+            left: 40%;
+        }
+
+        #trigger {
+            width: 10%;
+            left: 65%;
+        }
+
+        #duration {
+            width: 10%;
+            left: 75%;
+        }
+
+        .abilities #id {
+            width: 15%;
+            left: 85%;
+        }
+
+        .boons #id {
+            width: 15%;
+            left: 80%;
+        }
+        .boons #icon {
+            left: 0%;
+            width: 5%;
+        }
+        .boons #name {
+            left: 5%;
+        }
+    </style>
+</head>
+<body>
+    <select onchange="run(this.value)">
+        <option>(select)</option>
+        <option value="game/factions">Factions</option>
+        <option value="game/races">Races</option>
+        <option value="game/players">Players</option>
+        <option value="characters">Characters</option>
+        <option value="abilities">Abilities</option>
+        <option value="patchnotes">Patch Notes</option>
+        <option value="banners">Banners</option>
+        <option value="scheduledevents">Scheduled Events</option>
+        <option value="kills">Kills</option>
+    </select>
+    <div id="result">
+    </div>
+    <script>
+		(function() {
+			function grid(className) {
+				var content = document.createElement("div");
+				content.className = className;
+				result.appendChild(content);
+				return content;
+			}
+
+			function item(content, type, html) {
+				var div = document.createElement("div");
+				div.className = type;
+				div.innerHTML = html;
+				content.appendChild(div);
+			}
+
+			function showServers() {
+				return new Promise(function(fulfill, rejext) {
+					var content = grid("servers");
+					item(content, "heading",
+							'<div id="name">Server Name</div>'
+								+ '<div id="host">Host</div>'
+								+ '<div id="level">Access Level</div>'
+					);
+					Rest.getServers().then(function(servers) {
+						for (var i = 0; i < servers.length; i++) {
+							item(content, "item",
+									'<div id="name">' + servers[i].name + '</div>'
+									+ '<div id="host">' + servers[i].host + '</div>'
+									+ '<div id="level">' + servers[i].accessLevel + '</div>'
+							);
+						}
+						fulfill();
+					});
+				});
+			}
+
+			function showFactions() {
+				return new Promise(function(fulfill, rejext) {
+					var content = grid("factions");
+					item(content, "heading",
+							'<div id="name">Faction</div>'
+								+ '<div id="id">ID</div>'
+					);
+					Rest.getFactions().then(function(factions) {
+						for (var i = 0; i < factions.length; i++) {
+							item(content, "item",
+									'<div id="name">' + factions[i].name + '</div>'
+									+ '<div id="id">' + factions[i].value + '</div>'
+							);
+						}
+						fulfill();
+					});
+				});
+			}
+
+			function showRaces() {
+				return new Promise(function(fulfill, rejext) {
+					var content = grid("races");
+					item(content, "heading",
+							'<div id="name">Race</div>'
+								+ '<div id="desc">Description</div>'
+								+ '<div id="id">ID</div>'
+					);
+					Rest.getRaces().then(function(races) {
+						for (var i = 0; i < races.length; i++) {
+							item(content, "item",
+									'<div id="name">' + races[i].name + '</div>'
+									+ '<div id="desc">' + races[i].description + '</div>'
+									+ '<div id="id">' + races[i].value + '</div>'
+							);
+						}
+						fulfill();
+					});
+				});
+			}
+
+			function showPlayers() {
+				return new Promise(function(fulfill, rejext) {
+					var content = grid("players");
+					item(content, "heading",
+							'<div id="arthurians">Arthurians</div>'
+							+ '<div id="tuathaDeDanann">Tuatha De Danann</div>'
+							+ '<div id="vikings">Vikings</div>'
+					);
+					Rest.getPlayers().then(function(players) {
+						item(content, "item",
+							'<div id="arthurians">' + players.arthurians + '</div>'
+							+ '<div id="tuathaDeDanann">' + players.tuathaDeDanann + '</div>'
+							+ '<div id="vikings">' + players.vikings + '</div>'
+						);
+						fulfill();
+					});
+				});
+			}
+
+			function showAbilities() {
+				return new Promise(function(fulfill, rejext) {
+					var content = grid("abilities");
+					item(content, "heading",
+							'<div id="name">Ability</div>'
+									+ '<div id="desc">Description</div>'
+									+ '<div id="icon">Icon</div>'
+									+ '<div id="trigger">Trigger Time</div>'
+									+ '<div id="duration">Duration</div>'
+									+ '<div id="id">ID</div>'
+					);
+					Rest.getAbilities().then(function(abilities) {
+						for (var i = 0; i < abilities.length; i++) {
+							item(content, "item",
+									'<div id="name">' + abilities[i].name + '</div>'
+									+ '<div id="desc">' + abilities[i].tooltip + '</div>'
+									+ '<div id="icon">' + abilities[i].icon + '</div>'
+									+ '<div id="trigger">' + abilities[i].triggerTime + '</div>'
+									+ '<div id="duration">' + abilities[i].duration + '</div>'
+									+ '<div id="id">' + abilities[i].id + '</div>'
+							);
+						}
+						fulfill();
+					});
+				});
+			}
+
+			function showBoons() {
+			    return new Promise(function (fulfill, rejext) {
+			        var content = grid("boons");
+			        item(content, "heading",
+						    '<div id="icon">Icon</div>'
+							    + '<div id="name">Boon</div>'
+								+ '<div id="description">Description</div>'
+								+ '<div id="ranks">Ranks</div>'
+								+ '<div id="cost">Cost</div>'
+								+ '<div id="id">ID</div>'
+								+ '<div id="requires">Requires</div>'
+								+ '<div id="category">Category</div>'
+								+ '<div id="catid">Category ID</div>'
+					);
+			        Rest.getBoons().then(function (boons) {
+			            for (var i = 0; i < boons.length; i++) {
+			                item(content, "item",
+						    '<div id="icon"><img src="' + boons[i].icon + '"/></div>'
+							    + '<div id="name">' + boons[i].name + '</div>'
+								+ '<div id="description">' + boons[i].description + '</div>'
+								+ '<div id="ranks">' + boons[i].maxRanks + '</div>'
+								+ '<div id="cost">' + boons[i].costPerRank + '</div>'
+								+ '<div id="id">' + boons[i].id + '</div>'
+								+ '<div id="requires">' + boons[i].prerequisit + '</div>'
+								+ '<div id="category">' + boons[i].category + '</div>'
+								+ '<div id="catid">' + boons[i].categoryID + ' ID</div>'
+							);
+			            }
+			            fulfill();
+			        });
+			    });
+			}
+
+			showServers().then(function () {
+			    showFactions();
+			    showRaces();
+			    showPlayers();
+			    showAbilities();
+			    showBoons();
+			});
+		})();
+    </script>
+</body>
+</html>
