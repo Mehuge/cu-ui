@@ -100,6 +100,16 @@ var Rest;
     }
     Rest.getControlGame = getControlGame;
 
+    function getBanes() {
+        return call("game/banes");
+    }
+    Rest.getBanes = getBanes;
+
+    function getBoons() {
+        return call("game/boons");
+    }
+    Rest.getBoons = getBoons;
+
     function getCharacters(loginToken) {
         return call("characters", { query: { loginToken: loginToken } });
     }

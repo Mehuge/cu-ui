@@ -93,6 +93,14 @@ module Rest {
         return call("game/controlgame");
     }
 
+    export function getBanes() {
+        return call("game/banes");
+    }
+
+    export function getBoons() {
+        return call("game/boons");
+    }
+
     export function getCharacters(loginToken: string) {
         return call("characters", { query: { loginToken: loginToken } });
     }
