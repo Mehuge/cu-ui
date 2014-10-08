@@ -231,6 +231,7 @@
     <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="lb\lb3.html" />
     <Content Include="lb\leaderboard.html" />
+    <Content Include="tests\rest-test.html" />
     <Content Include="web\basic-promise.js" />
     <Content Include="web\bg.png" />
     <Content Include="web\Cinzel-Regular.css" />
