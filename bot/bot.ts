@@ -102,8 +102,8 @@ module Bot {
                 next();
                 break;
             case "check":
-                if (o.loc) {
-                    o.loc(cuAPI);
+                if (o.check) {
+                    o.check(cuAPI);
                 }
                 next();
                 break;
