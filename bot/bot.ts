@@ -93,6 +93,20 @@ module Bot {
                 }
                 next();
                 break;
+            case "loc":
+                if (o.loc) {
+                    var x = cuAPI.locationX, y = cuAPI.locationY, z = cuAPI.locationZ;
+                    console.log("LOC " + x + "," + y + "," + z);
+                    o.loc(x, y, z);
+                }
+                next();
+                break;
+            case "check":
+                if (o.loc) {
+                    o.loc(cuAPI);
+                }
+                next();
+                break;
             default:
                 console.log('BOT ' + cmd[0] + ' ' + JSON.stringify(cmd[1]));
                 socket.command(cmd[0], cmd[1]);
@@ -148,7 +162,7 @@ module Bot {
                 cmds.push(["sleep", [duration]]);
                 return BOT;
             },
-            nextTarget: function (done) {
+            nextTarget: function () {
                 if (connected) {
                     cmds.push(["keypress", [15]]);
                 }
@@ -160,6 +174,10 @@ module Bot {
             },
             target: function () {
                 cmds.push(["target"]);
+                return BOT;
+            },
+            loc: function () {
+                cmds.push(["loc"]);
                 return BOT;
             },
             start: function (o) {
