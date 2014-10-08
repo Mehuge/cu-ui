@@ -29,7 +29,7 @@
             width: 16px;
         }
         td, th {
-            padding: 0.2em;
+            padding: 0.5em;
             font-weight: bold;
         }
         td.l0 {
@@ -91,7 +91,7 @@
                             what = ["Fire Mage", "Earth Mage", "Water Mage", "Fighter", "Healer"][boon.categoryID];
                             break;
                     }
-                    html += '<tr><td class="l'+level+'"><img src="' + boon.icon + '"/></td>'
+                    html += '<tr><td class="l'+level+'"><img src="' + boon.icon.substr(16) + '"/></td>'
                         + '<td>' + boon.name + '</td>'
                         + '<td>' + category + ': ' + what + '</td>'
                         + '<td>' + boon.description + '</td>'
