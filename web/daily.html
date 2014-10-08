@@ -1,0 +1,120 @@
+<html>
+<head>
+	<script language="javascript" type="text/javascript" src="flot/jquery.js"></script>
+	<script language="javascript" type="text/javascript" src="flot/jquery.flot.js"></script>
+	<script language="javascript" type="text/javascript" src="flot/jquery.flot.threshold.js"></script>
+	<script src="//fightforthefuture.github.io/battleforthenet-widget/widget.min.js" async></script>
+	<style type="text/css">
+	* { font-family: Arial; }
+	#graph { margin-bottom: 1em; overflow: hidden; }
+	.donate { font-size: 90%; margin-left: 2em; }
+	</style>
+	<script src="data-daily.js"></script>
+</head>
+<body>
+	<h2>Stretch Goal: <span id="stretch"></span> $<span id="goal"></span></h2>
+	<h2>Pledged: $<span id="current"></span> Need: $<span id="need"></span> Current Rate: $<span id="rate"></span>/day</h2>
+	<h4>ETA for <span id="stretch2"></span>: <span id="eta"></span> (in <span id="in"></span>)
+	<span class="donate">| Want to reach that goal sooner? [ <a target="_blank" href="http://camelotunchained.com/">click here</a> ]</span></h4>
+	<div id="graph" style="width:100%; height: 400px;"></div>
+	<script>
+	(function(tracker){
+		function parseDate(s) {
+			s = s.split(/[- :]/);
+			return new Date(s[0],s[1]-1,s[2],s[3],s[4],s[5]);
+		}
+		if (navigator.userAgent.match(/MSIE/) && !navigator.userAgent.match(/MSIE 10/)) {
+			$("#graph")[0].style.display = 'none';
+			return;
+		}
+		var d1 = [], d2 = [], d3 = [], d4 = [], d5 = [], rows = tracker.data, interval = tracker.interval, length,
+				start = rows[0][0]|0,
+				startAmount = rows[0][1]|0,
+				goal = tracker.goals[0].goal, current = rows[rows.length-1][1]|0, need = goal - current;
+		window.title = 'Stretch Goal: ' + tracker.goals[0].name;
+		$("#stretch").text(tracker.goals[0].name);
+		$("#stretch2").text(tracker.goals[0].name);
+		$("#goal").text(tracker.goals[0].goal);
+		$("#current").text(current);
+		$("#need").text(need);
+		var ra = 0, sampleLength = 14;
+		for (var x = 1; x < rows.length; x++) {
+			var row = rows[x], d = (row[0]|0) - start;
+			d1.push([d, row[2]|0]);
+
+			// find the goal for this time period
+			var tg = goal;
+			for (var i = tracker.goals.length - 1; i > 0 ; i--) {
+				if (tracker.goals[i].goal > row[1]|0) {
+					tg = tracker.goals[i].goal;
+					break;
+				}
+			}
+
+			d2.push([d, tg - row[1]|0]);
+			if (x > 0) {
+				ra = ((ra * (x-1)) + rows[x][2]) / x;
+				d4.push([ d, ra|0 ]);
+			} else {
+				ra = rows[x][2];
+				d4.push([ d, ra|0 ]);
+			}
+			if (x >= sampleLength) {
+				d5.push([ d, (((rows[x][1]|0) - (rows[x-sampleLength][1]|0)) / sampleLength)|0 ]);
+			} else {
+				d5.push([ d, 0 ]);
+			}
+		}
+		var days = d, daily = (current-startAmount)/days, crate, proj, finish = new Date();
+		for (var x = 0; x < d2.length; x++) {
+			d3.push([ d2[x][0], daily|0 ]);
+		}
+		if (d5.length) {
+            for (var x = 0; x < sampleLength; x++) {
+                d5[x] = [ d2[x][0], d5[sampleLength][1] ];
+            }
+            crate = d5[d5.length-1][1];
+        } else {
+			crate = daily|0;
+		}
+		proj = need / crate;
+		$('#rate').html(crate);
+		finish.setMinutes(0);
+		finish.setSeconds(0);
+		finish.setHours(0);
+		finish.setDate(finish.getDate()+proj);
+		$('#eta').html(finish.toUTCString());
+		$('#in').html((proj|0) + ' days');
+		var data = [
+			{ label: "$ Pledged/day", data: d1, color: '#f00', yaxis: 1, lines: { show: true, lineWidth: 4 } },
+			{ label: "$ Running Average", data: d4, color: '#8f4', yaxis: 1, lines: { show: true, lineWidth: 1 } },
+			{ label: "$ 14 Day Running Avg ", data: d5, color: '#004', yaxis: 1, lines: { show: true, lineWidth: 4 } },
+			{ label: "$ Average Rate", data: d3, color: '#00f', yaxis: 1, lines: { show: true, lineWidth: 1 } },
+			{ label: "$ Needed for " + tracker.goals[0].name, data: d2, color: '#ff0', yaxis: 2, lines: { show: true, lineWidth: 4 } },
+		];
+
+		$.plot($("#graph"), data, { 
+			yaxis: { position: "left" },
+			yaxes: [ { min: 0 } ],
+			xaxis: { position: "bottom" },
+			grid: { backgroundColor: { colors: [ '#fff', '#eee' ] } },
+			legend: {
+				position: "ne"
+			}
+		});
+	})(_cu_tracker);
+
+	var d = new Date();
+	d.setHours(d.getHours()+24);
+	d.setMinutes(0);
+	d.setSeconds(0);
+	// reload page just after the next day varied by about a minute
+	var interval = d.valueOf() - (new Date()).valueOf() + Math.random(60000) + 2000;
+	window.setTimeout(function() { 
+		location.reload(); 
+	}, interval|0);
+	</script>
+	<div><a href="/hourly.html">Hourly Chart</a></div>
+</body>
+</html>
+<!-- vim: set ts=4 sw=4: -->
