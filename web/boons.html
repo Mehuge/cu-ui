@@ -16,6 +16,7 @@
             padding: 0;
             overflow: hidden;
 			font-family: sans-serif;
+            background-color: transparent;
         }
         #main {
 			position: absolute;
@@ -53,11 +54,11 @@
         td:nth-child(3), td:nth-child(4) {
             font-size: 10pt;
         }
-        tr:nth-child(even) {
-            background-color: rgba(255,255,255,0.6);
+        tbody tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.4);
         }
-        tr:nth-child(odd) {
-            background-color: rgba(255,255,255,0.5);
+        tbody tr:nth-child(odd) {
+            background-color: rgba(255,255,255,0.25);
         }
         h1 {
 			font-size: 24pt;
@@ -74,7 +75,7 @@
     </div>
     <script>
         Rest.getBoons().then(function (boons) {
-            var html = '<table><tbody><thead><tr><th>Icon</th><th>Name</th><th>For</th><th>Description</th><th>Cost</th><th>Ranks</th></tr>',
+            var html = '<table><thead><tr><th>Icon</th><th>Name</th><th>For</th><th>Description</th><th>Cost</th><th>Ranks</th></tr></thead><tbody>',
                 outputBoon = function (boon, level) {
                     var category = ["General", "Faction", "Race", "Archetype"][boon.category], what;
                     switch (category) {
