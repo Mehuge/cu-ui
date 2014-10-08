@@ -1,0 +1,117 @@
+﻿<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cinzel">
+    <script src="jquery-2.1.1.js"></script>
+    <script src="rest.js"></script>
+    <script>
+		function run(what) {
+			Rest.call(what).then(function(data) {
+				result.innerText = JSON.stringify(data);
+			});
+		}
+    </script>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+			font-family: sans-serif;
+            background-color: transparent;
+        }
+        #main {
+			position: absolute;
+			top: 0; bottom: 0; left: 0; right: 0;
+			padding: 2em;
+            font-size: 10pt;
+			background: #000 url(http://camelotunchained.com/v2/wp-content/themes/testCSE/images/banner_slide_frontpage.jpg) top center no-repeat;
+            overflow: auto;
+        }
+        img {
+            width: 16px;
+        }
+        td, th {
+            padding: 0.5em;
+            font-weight: bold;
+        }
+        td.l0 {
+            padding-left: 5px;
+        }
+        td.l1 {
+            padding-left: 21px;
+        }
+        td.l2 {
+            padding-left: 37px;
+        }
+        th {
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            text-align: left;
+        }
+        td:nth-child(2), td:nth-child(3) {
+            white-space: nowrap;
+            line-height: 2em;
+        }
+        td:nth-child(3), td:nth-child(4) {
+            font-size: 10pt;
+        }
+        tbody tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.4);
+        }
+        tbody tr:nth-child(odd) {
+            background-color: rgba(255,255,255,0.25);
+        }
+        h1 {
+			font-size: 24pt;
+			font-family: 'Cinzel', serif;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <h1>Camelot Unchained : Banes</h1>
+        <div id="result">
+        </div>
+    </div>
+    <script>
+        Rest.getBanes().then(function (banes) {
+            var html = '<table><thead><tr><th>Icon</th><th>Name</th><th>For</th><th>Description</th><th>Cost</th><th>Ranks</th></tr></thead><tbody>',
+                outputBane = function (bane, level) {
+                    var category = ["General", "Faction", "Race", "Archetype"][bane.category], what;
+                    switch (category) {
+                        case "General":
+                            what = ["General", "Faction", "Race", "Archetype"][bane.categoryID];
+                            break;
+                        case "Faction":
+                            what = ["", "TDD", "Viking", "Arthurian"][bane.categoryID];
+                            break;
+                        case "Race":
+                            what = ["Hamadryad", "Luchorpan", "Firbog", "Valkyrie", "Helbound", "Frost Giant", "Strm", "Cait Sith", "Golem"][bane.categoryID];
+                            break;
+                        case "Archetype":
+                            what = ["Fire Mage", "Earth Mage", "Water Mage", "Fighter", "Healer"][bane.categoryID];
+                            break;
+                    }
+                    html += '<tr><td class="l'+level+'"><img src="' + bane.icon.substr(16) + '"/></td>'
+                        + '<td>' + bane.name + '</td>'
+                        + '<td>' + category + ': ' + what + '</td>'
+                        + '<td>' + bane.description + '</td>'
+                        + '<td>' + bane.costPerRank + '</td>'
+                        + '<td>' + bane.maxRanks + '</td>'
+                        + '</tr>';
+                    output(bane.id, level+1);
+                },
+                output = function (prereq, level) {
+                    for (var i = 0; i < banes.length; i++) {
+                        if (banes[i].prerequisite === prereq) {
+                            outputBane(banes[i], level);
+                        }
+                    }
+                };
+            output('',0);
+            html += '</tbody></table>';
+            result.innerHTML = html;
+        });
+    </script>
+</body>
+</html>
