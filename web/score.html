@@ -77,6 +77,7 @@
             top: 63px;
 			font-size: 8pt;
             opacity: 0.8;
+            font-weight: bold;
 		}
         #tdd-score, #tdd-kills {
 			color: rgb(154,211,0);
@@ -309,7 +310,7 @@
                             + '<thead><tr><th>Killer</th><th>K</th><th>D</th><th>KR</th></tr></thead>'
                             + '<tbody id="tb"></tbody></table>';
             var tb = document.getElementById("tb"), tr, count, name, tk = 0, vk = 0, ak = 0;
-            for (var i = 0; i < counts.length && i < 10; i++) {
+            for (var i = 0; i < counts.length; i++) {
                 count = counts[i];
                 if (count.kills.length) {
                     kill = count.kills[count.kills.length - 1];
@@ -323,13 +324,15 @@
                     kill = count.deaths[count.deaths.length - 1];
                     name = kill.victim.name;
                 }
-                tr = document.createElement("tr");
-                tr.innerHTML = '<td>' + name + '</td>'
-                            + '<td>' + count.kills.length + '</td>'
-                            + '<td>' + count.deaths.length + '</td>'
-                            + '<td>' + count.kd.toFixed(1) + '</td>'
-                ;
-                tb.appendChild(tr);
+                if (i < 10) {
+                    tr = document.createElement("tr");
+                    tr.innerHTML = '<td>' + name + '</td>'
+                                + '<td>' + count.kills.length + '</td>'
+                                + '<td>' + count.deaths.length + '</td>'
+                                + '<td>' + count.kd.toFixed(1) + '</td>'
+                    ;
+                    tb.appendChild(tr);
+                }
             }
 			tddKills.textContent = tk;
 			vikingKills.textContent = vk;
