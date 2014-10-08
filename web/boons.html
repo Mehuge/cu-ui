@@ -1,0 +1,116 @@
+﻿<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cinzel">
+    <script src="jquery-2.1.1.js"></script>
+    <script src="rest.js"></script>
+    <script>
+		function run(what) {
+			Rest.call(what).then(function(data) {
+				result.innerText = JSON.stringify(data);
+			});
+		}
+    </script>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+			font-family: sans-serif;
+        }
+        #main {
+			position: absolute;
+			top: 0; bottom: 0; left: 0; right: 0;
+			padding: 2em;
+            font-size: 10pt;
+			background: #000 url(http://camelotunchained.com/v2/wp-content/themes/testCSE/images/banner_slide_frontpage.jpg) top center no-repeat;
+            overflow: auto;
+        }
+        img {
+            width: 16px;
+        }
+        td, th {
+            padding: 0.2em;
+            font-weight: bold;
+        }
+        td.l0 {
+            padding-left: 5px;
+        }
+        td.l1 {
+            padding-left: 21px;
+        }
+        td.l2 {
+            padding-left: 37px;
+        }
+        th {
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            text-align: left;
+        }
+        td:nth-child(2), td:nth-child(3) {
+            white-space: nowrap;
+            line-height: 2em;
+        }
+        td:nth-child(3), td:nth-child(4) {
+            font-size: 10pt;
+        }
+        tr:nth-child(even) {
+            background-color: rgba(255,255,255,0.6);
+        }
+        tr:nth-child(odd) {
+            background-color: rgba(255,255,255,0.5);
+        }
+        h1 {
+			font-size: 24pt;
+			font-family: 'Cinzel', serif;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <h1>Camelot Unchained : Boons</h1>
+        <div id="result">
+        </div>
+    </div>
+    <script>
+        Rest.getBoons().then(function (boons) {
+            var html = '<table><tbody><thead><tr><th>Icon</th><th>Name</th><th>For</th><th>Description</th><th>Cost</th><th>Ranks</th></tr>',
+                outputBoon = function (boon, level) {
+                    var category = ["General", "Faction", "Race", "Archetype"][boon.category], what;
+                    switch (category) {
+                        case "General":
+                            what = ["General", "Faction", "Race", "Archetype"][boon.categoryID];
+                            break;
+                        case "Faction":
+                            what = ["", "TDD", "Viking", "Arthurian"][boon.categoryID];
+                            break;
+                        case "Race":
+                            what = ["Hamadryad", "Luchorpan", "Firbog", "Valkyrie", "Helbound", "Frost Giant", "Strm", "Cait Sith", "Golem"][boon.categoryID];
+                            break;
+                        case "Archetype":
+                            what = ["Fire Mage", "Earth Mage", "Water Mage", "Fighter", "Healer"][boon.categoryID];
+                            break;
+                    }
+                    html += '<tr><td class="l'+level+'"><img src="' + boon.icon + '"/></td>'
+                        + '<td>' + boon.name + '</td>'
+                        + '<td>' + category + ': ' + what + '</td>'
+                        + '<td>' + boon.description + '</td>'
+                        + '<td>' + boon.costPerRank + '</td>'
+                        + '<td>' + boon.maxRanks + '</td>'
+                        + '</tr>';
+                    output(boon.id, level+1);
+                },
+                output = function (prereq, level) {
+                    for (var i = 0; i < boons.length; i++) {
+                        if (boons[i].prerequisite === prereq) {
+                            outputBoon(boons[i], level);
+                        }
+                    }
+                };
+            output('',0);
+            html += '</tbody></table>';
+            result.innerHTML = html;
+        });
+    </script>
+</body>
+</html>
