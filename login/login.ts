@@ -923,26 +923,24 @@ module Login {
         }
 
         if (hasBoonsBanesPageActive) {
-            var hasBoonsAndBanes = hasChosenBoonsAndBanes();
-
-            if (!hasBoonsAndBanes) {
+            if (!hasChosenBoonsAndBanes()) {
                 var boons = sumChosenBoons().total;
                 var banes = sumChosenBanes().total;
 
                 if (boons < MINIMUM_CHOSEN_BOONS) {
-                    errors.push('Please choose at least ' + MINIMUM_CHOSEN_BOONS + ' boons.');
+                    errors.push('Please choose at least ' + MINIMUM_CHOSEN_BOONS + ' points in Boons.');
                 } else if (boons > MAXIMUM_CHOSEN_BOONS) {
-                    errors.push('Please choose at most ' + MAXIMUM_CHOSEN_BOONS + ' boons.');
+                    errors.push('Please choose at most ' + MAXIMUM_CHOSEN_BOONS + ' points in Boons.');
                 }
 
                 if (banes < MINIMUM_CHOSEN_BOONS) {
-                    errors.push('Please choose at least ' + MINIMUM_CHOSEN_BOONS + ' banes.');
+                    errors.push('Please choose at least ' + MINIMUM_CHOSEN_BOONS + ' points in Banes.');
                 } else if (banes > MAXIMUM_CHOSEN_BOONS) {
-                    errors.push('Please choose at most ' + MAXIMUM_CHOSEN_BOONS + ' banes.');
+                    errors.push('Please choose at most ' + MAXIMUM_CHOSEN_BOONS + ' points in Banes.');
                 }
 
                 if (boons - banes !== 0) {
-                    errors.push('Please choose an equal amount of boons and banes.');
+                    errors.push('Please choose an equal amount of points in Boons and Banes.');
                 }
             }
         }
@@ -2299,13 +2297,13 @@ module Login {
 
             $topFramePoints.addClass('boons-banes').removeClass('attributes').empty();
 
-            $li = $('<li>').attr('data-tooltip-content', 'You must spend at least ' + MINIMUM_CHOSEN_BOONS + ' points on both boons and banes.').appendTo($topFramePoints);
+            $li = $('<li>').attr('data-tooltip-content', 'You must spend at least ' + MINIMUM_CHOSEN_BOONS + ' points on both Boons and Banes.').appendTo($topFramePoints);
             $('<span>').addClass('label').text('Minimum points').appendTo($li);
             $('<span>').addClass('value').text(minimumPoints).appendTo($li);
 
             new Tooltip($li, { showDelay: 0, hideDelay: 100, topOffset: -25 });
 
-            $li = $('<li>').attr('data-tooltip-content', 'You must spend at most ' + MAXIMUM_CHOSEN_BOONS + ' points on both boons and banes.').appendTo($topFramePoints);
+            $li = $('<li>').attr('data-tooltip-content', 'You must spend at most ' + MAXIMUM_CHOSEN_BOONS + ' points on both Boons and Banes.').appendTo($topFramePoints);
             $('<span>').addClass('label').text('Maximum points').appendTo($li);
             $('<span>').addClass('value').text(maximumPoints).appendTo($li);
 

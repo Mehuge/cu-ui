@@ -171,6 +171,14 @@ module Chat {
                 body = EverythingAfterArg(input, processed, 0);
                 cu.SendChat(XmppMessageType.CHAT, to, body);
                 return true;
+            case '/realm':
+                if (processed.args.length < 1) return false;
+                var channel = cu.GetFactionChannel(cuAPI.faction);
+                if (channel == null) return false;
+                to = channel + '@' + cu.CHAT_SERVICE;
+                body = processed.rest;
+                cu.SendChat(XmppMessageType.GROUPCHAT, to, body);
+                return true;
             case '/openui':
                 if (processed.args.length < 1) return false;
                 name = processed.args[0];

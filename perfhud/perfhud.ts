@@ -31,7 +31,7 @@ module PerfHUD {
 
             addToPerfHud('speed: ' + (cuAPI.speed || 0).toFixed(1));
 
-            addToPerfHud('server time: ' + (cuAPI.serverTime || 0).toFixed(3));
+            addToPerfHud('particles rendered: ' + (cuAPI.particlesRenderedCount || 0));
         }
     }
 

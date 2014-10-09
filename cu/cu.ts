@@ -1054,6 +1054,15 @@ class CU {
         }
     }
 
+    public GetFactionChannel(factionValue: Number): string {
+        switch (factionValue) {
+            case 3: return '_arthurian';
+            case 2: return '_viking';
+            case 1: return '_tuatha';
+            default: return null;
+        }
+    }
+
     public GetPlayerName(player: any): string {
         var name = player.name;
         if (!name) this.GetFactionName(player.faction);

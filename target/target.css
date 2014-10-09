@@ -68,5 +68,8 @@
 }
 
 .effectIcon {
+    float: left;
     width: 25px;
+    height: 25px;
+    margin: 0 3px 3px 0;
 }
