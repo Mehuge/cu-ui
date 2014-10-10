@@ -1,5 +1,5 @@
 ﻿/// <reference path="../vendor/jquery.d.ts" />
-/// <reference path="../common/rest.ts" />
+/// <reference path="../cu-rest/rest.ts" />
 module Characters {
     function grid(className) {
         var result: JQuery = $('#result');
