@@ -19,6 +19,7 @@
   <ItemGroup>
     <Content Include="bot\botscript3.js" />
     <Content Include="bot\example.js" />
+    <Content Include="bot\healbot.js" />
     <Content Include="bugit\bg.png" />
     <Content Include="bugit\bugit.css" />
     <Content Include="bugit\bugit.html" />
