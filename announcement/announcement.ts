@@ -16,7 +16,7 @@ module Announcement {
     function show(message, type) {
         resetTimeout();
 
-        $message.css('font-size', message.length < 20 ? 34 : 24).html(message);
+        $message[message.length < 20 ? 'addClass' : 'removeClass']('large').html(message);
 
         $announcement.css('visibility', 'visible').stop().fadeIn(() => {
             timeout = setTimeout(hide, 5000);

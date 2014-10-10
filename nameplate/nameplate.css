@@ -3,13 +3,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 body {
-    font-family: 'Ribeye Marrow', cursive;
     color: white; 
-    font-size: 20px;
-    font-weight: bold;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-shadow: 0.5px 0.866px 1px rgba(0, 0, 0, 0.392);
 }
 
 div {

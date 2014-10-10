@@ -30,7 +30,7 @@ module Skillbar {
             abilities.forEach((ability, i) => {
                 var button = ability.MakeButton();
 
-                var elem = button.rootElement.css({ left: (i * 54) + 'px', top: '0' });
+                var elem = button.rootElement.css({ left: Math.floor(i * 55.5) + 'px', top: '0' });
 
                 if (ability.name) elem.attr('data-tooltip-title', ability.name);
 
