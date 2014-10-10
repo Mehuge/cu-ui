@@ -223,7 +223,7 @@
     <Content Include="inventory\inventory.html" />
     <Content Include="kills\kills.css" />
     <Content Include="kills\kills.html" />
-    <TypeScriptCompile Include="common\rest.ts" />
+    <TypeScriptCompile Include="cu-rest\rest.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
     <TypeScriptCompile Include="equippedgear\equippedgear.ts" />
     <TypeScriptCompile Include="inventory\inventory.ts" />
@@ -291,6 +291,7 @@
     <Content Include="pledges.ui" />
     <Content Include="announcement.ui" />
     <Content Include="controlgame.ui" />
+    <Content Include="cu-rest\README.md" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
