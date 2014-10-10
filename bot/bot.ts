@@ -53,6 +53,7 @@ module Bot {
     };
 
     function run() {
+        var timeout;
         var KQ = 16, FORWARDS = 17, KE = 18, KR = 19, KT = 20, KY = 21,
             STRAFE_LEFT = 30, BACKWARDS = 31, STRAFE_RIGHT = 32;
         var A1 = 2, A2 = 3, A3 = 4, A4 = 5, A5 = 6, A6 = 7, A7 = 8, A8 = 9, A9 = 10, A0 = 11, Am = 12, Ae = 13;
@@ -107,6 +108,43 @@ module Bot {
                 }
                 next();
                 break;
+            case "move":
+                console.log('BOT ' + cmd[0] + ' ' + JSON.stringify(cmd[1]));
+                socket.command("keypress", cmd[1]);
+                if (o.moving) {
+                    if (timeout) {
+                        console.log('CLEAR timeout ' + timeout);
+                        clearTimeout(timeout);
+                    }
+                    timeout = setTimeout(() => {
+                        o.moving();
+                    }, 1000);
+                    console.log('NEW timeout ' + timeout);
+                }
+                socket.onmessage = (message) => {
+                    if (timeout) clearTimeout(timeout);
+                    timeout = null;
+                    next();
+                };
+                break;
+            case "attack":
+                console.log('BOT ' + cmd[0] + ' ' + JSON.stringify(cmd[1]));
+                socket.command("keypress", cmd[1]);
+                if (o.attacking) {
+                    if (timeout) {
+                        console.log('CLEAR timeout ' + timeout);
+                        clearTimeout(timeout);
+                    }
+                    timeout = setTimeout(() => {
+                        o.attacking();
+                    }, 1000);
+                    console.log('NEW timeout ' + timeout);
+                }
+                socket.onmessage = (message) => {
+                    timeout = null;
+                    next();
+                };
+                break;
             default:
                 console.log('BOT ' + cmd[0] + ' ' + JSON.stringify(cmd[1]));
                 socket.command(cmd[0], cmd[1]);
@@ -114,10 +152,17 @@ module Bot {
                 break;
             }
         };
+        var cancel = function () {
+            socket.command("cancel");
+        };
         var BOT = {
             reset: function () {
                 console.log('BOT reset');
                 cmds = [];
+                return BOT;
+            },
+            cancel: function () {
+                cancel();
                 return BOT;
             },
             key: function (k, duration) {
@@ -126,7 +171,7 @@ module Bot {
             },
             walk: function (direction, duration) {
                 if (connected) {
-                    cmds.push(["keypress", [direction, ((duration || 1) * 1000) | 0]]);
+                    cmds.push(["move", [direction, ((duration || 1) * 1000) | 0]]);
                 }
                 return BOT;
             },
@@ -154,7 +199,7 @@ module Bot {
             },
             attack: function (skill, delay) {
                 if (connected) {
-                    cmds.push(["keypress", [skill, ((delay||1)*1000)|0]]);
+                    cmds.push(["attack", [skill, ((delay||1)*1000)|0]]);
                 }
                 return BOT;
             },
