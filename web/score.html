@@ -39,26 +39,24 @@
             background-size: cover;
 			font-size: 12pt;
         }
+        #msg, #timer {
+            position: absolute;
+            margin-left: 50%;
+            font-size: 12pt;
+            color: white;
+            text-align: center;
+            cursor: default;
+        }
 		#msg {
-			position: absolute;
 			top: 3px;
 			width: 420px;
-			margin-left: 50%;
 			left: -210px;
-			color: white;
-			font-size: 12pt;
-            text-align: center;
 		}
 		#timer {
-			position: absolute; 
             top: 81px;
 			width: 100px;
-			margin-left: 50%;
 			left: -50px; 
-			color: white;
-			font-size: 12pt;
 			font-family: 'Cinzel', serif;
-            text-align: center;
 		}
         #tdd-score, #arthurian-score, #viking-score,
         #tdd-kills, #arthurian-kills, #viking-kills {
@@ -68,6 +66,7 @@
 			color: white;
             text-align: center;
 			font-family: 'Cinzel', sans-serif;
+            cursor: default;
         }
         #tdd-score, #arthurian-score, #viking-score {
             top: 38px;
