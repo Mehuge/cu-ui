@@ -234,9 +234,7 @@
     <Content Include="lb\leaderboard.html" />
     <Content Include="web\banes.html" />
     <Content Include="web\boons.html" />
-    <Content Include="web\basic-promise.js" />
     <Content Include="web\bg.png" />
-    <Content Include="web\Cinzel-Regular.css" />
     <Content Include="web\score.html" />
     <Content Include="login\login.css" />
     <Content Include="login\login.html" />
