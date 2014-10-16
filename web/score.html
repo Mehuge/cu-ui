@@ -275,6 +275,7 @@
                 checkAgainIn(game.timeLeft * 1000);
                 gameState = game.gameState;
             }, function () {
+                LOG("Server Offline!");
                 checkAgainIn(5000);
             });
         }

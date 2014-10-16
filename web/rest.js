@@ -1,5 +1,3 @@
-/// <reference path="../vendor/jquery.d.ts" />
-
 var Rest;
 (function (Rest) {
     var servers = [], server = "Hatchery";
@@ -54,6 +52,7 @@ var Rest;
                 data: params.query,
                 async: true, cache: false,
                 accepts: params.accepts || "text/json",
+                timeout: params.timeout,
                 contentType: params.contentType,
                 error: function (jqXHR, textStatus, errorThrown) {
                     reject(textStatus, errorThrown, jqXHR);
@@ -96,7 +95,7 @@ var Rest;
     Rest.getPlayers = getPlayers;
 
     function getControlGame() {
-        return call("game/controlgame");
+        return call("game/controlgame", { timeout: 2000 });
     }
     Rest.getControlGame = getControlGame;
 
@@ -109,6 +108,11 @@ var Rest;
         return call("game/boons");
     }
     Rest.getBoons = getBoons;
+
+    function getAttributes() {
+        return call("game/attributes");
+    }
+    Rest.getAttributes = getAttributes;
 
     function getCharacters(loginToken) {
         return call("characters", { query: { loginToken: loginToken } });
@@ -140,4 +144,3 @@ var Rest;
     }
     Rest.getKills = getKills;
 })(Rest || (Rest = {}));
-//# sourceMappingURL=rest.js.map
