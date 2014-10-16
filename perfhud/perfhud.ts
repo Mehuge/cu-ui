@@ -27,6 +27,12 @@ module PerfHUD {
 
             addToPerfHud('plUpd ' + ((cuAPI.netstats_players_updateBits || 0) / 8).toFixed(1) + ' B / ' + Math.round(cuAPI.netstats_players_udpateCount || 0) + ' E (' + ((cuAPI.netstats_players_updateBits || 0) / (cuAPI.netstats_players_udpateCount || 0)).toFixed(1) + ' b/E)');
 
+            addToPerfHud('pktHash: ' + cuAPI.pktHash.substring(0, 8));
+
+            addToPerfHud('udpHash: ' + cuAPI.pktHash.substring(8, 16));
+
+            addToPerfHud('salt: ' + cuAPI.pktHash.substring(16));
+
             addToPerfHud('position: (' + (cuAPI.locationX || 0).toFixed(1) + ', ' + (cuAPI.locationY || 0).toFixed(1) + ', ' + (cuAPI.locationZ || 0).toFixed(1) + ')');
 
             addToPerfHud('speed: ' + (cuAPI.speed || 0).toFixed(1));

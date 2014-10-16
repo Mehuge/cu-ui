@@ -278,6 +278,7 @@
     <Content Include="perfhud.ui" />
     <Content Include="skillbar.ui" />
     <Content Include="target.ui" />
+    <Content Include="watermark.ui" />
     <TypeScriptCompile Include="errormessages\errormessages.ts" />
     <Content Include="errormessages.ui" />
     <Content Include="respawn.ui" />
@@ -303,6 +304,8 @@
     <Content Include="vendor\lodash.js" />
     <Content Include="vendor\strophe.d.ts" />
     <Content Include="vendor\strophe.js" />
+    <Content Include="watermark\watermark.css" />
+    <Content Include="watermark\watermark.html" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup />
