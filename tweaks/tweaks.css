@@ -1,0 +1,23 @@
+﻿body {
+    background-color: rgba(0,0,0,0.5);
+    margin: 2em;
+    font-family: 'Cinzel', serif;
+}
+#tweaks > div {
+    height: 2em;
+}
+#close {
+    position: absolute;
+    right: 0; top: 0;
+    font-size: 2em; 
+    color: white;
+    cursor: pointer;
+}
+#tweaks > div > span {
+    color: white;
+}
+#tweaks > div > input {
+    height: 2em;
+    margin-right: 1em;
+    vertical-align: middle;
+}

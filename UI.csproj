@@ -232,6 +232,8 @@
     <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="lb\lb3.html" />
     <Content Include="lb\leaderboard.html" />
+    <Content Include="tweaks\tweaks.css" />
+    <Content Include="tweaks\tweaks.html" />
     <Content Include="web\banes.html" />
     <Content Include="web\boons.html" />
     <Content Include="web\bg.png" />
@@ -260,6 +262,7 @@
     <Content Include="respawn\respawn.html" />
     <Content Include="skillbar\skillbar.css" />
     <Content Include="skillbar\skillbar.html" />
+    <TypeScriptCompile Include="tweaks\tweaks.ts" />
     <TypeScriptCompile Include="vendor\lodash.d.ts" />
     <TypeScriptCompile Include="vendor\promise.d.ts" />
   </ItemGroup>
