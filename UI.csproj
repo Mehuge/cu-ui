@@ -17,6 +17,8 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="addons\addons.css" />
+    <Content Include="addons\addons.html" />
     <Content Include="bot\botscript3.js" />
     <Content Include="bot\example.js" />
     <Content Include="bot\healbot.js" />
