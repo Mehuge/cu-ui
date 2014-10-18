@@ -1,7 +1,8 @@
 ﻿body {
     background-color: rgba(0,0,0,0.5);
-    margin: 2em;
+    margin: 1em;
     font-family: 'Cinzel', serif;
+    font-size: 11pt;
 }
 #tweaks > div {
     height: 2em;
@@ -14,10 +15,17 @@
     cursor: pointer;
 }
 #tweaks > div > span {
+    position: absolute;
+    left: 11em;
     color: white;
+    line-height: 2em;
+    display: inline-block;
 }
 #tweaks > div > input {
     height: 2em;
     margin-right: 1em;
     vertical-align: middle;
+}
+#tweaks > div > input[type=checkbox] {
+    margin-left: 9em;
 }

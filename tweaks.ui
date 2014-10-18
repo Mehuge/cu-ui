@@ -3,11 +3,10 @@
     "name" : "tweaks",
     "mainFile" : "tweaks/tweaks.html",
     "rect" : {
-        "left" : 357,
-        "top" : 239,
-        "right" : 1043,
-        "bottom" : 662
+        "left" : 660,
+        "top" : 300,
+        "right" : 1100,
+        "bottom" : 720
     },
-    "handlesConfig" :  true,
     "handlesChat" : true
 }
