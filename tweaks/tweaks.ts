@@ -4,51 +4,51 @@ module Tweaks {
     var INTEGER = 0, BOOLEAN = 1;
     var tweaks : any = [
         {
-            id: "gpuphysics", dflt: true, type: BOOLEAN, slider: null,
+            id: "gpuphysics", dflt: true, type: BOOLEAN,
             label: "GPU Physics"
         },
         {
-            id: "vsync", dflt: true, type: BOOLEAN, slider: null,
+            id: "vsync", dflt: true, type: BOOLEAN,
             label: "Vertical Sync"
         },
         {
-            id: "showServerPosition", dflt: false, type: BOOLEAN, slider: null,
+            id: "showServerPosition", dflt: false, type: BOOLEAN,
             label: "Show Server Position"
         },
         {
-            id: "fogEnabled", dflt: true, type: BOOLEAN, slider: null,
+            id: "fogEnabled", dflt: true, type: BOOLEAN,
             label: "Fog Enabled"
         },
         {
-            id: "NameplateTotalFadeDistance", dflt: "15", type: INTEGER, min: 0, max: 99, step: 1, slider: null,
+            id: "NameplateTotalFadeDistance", dflt: "15", type: INTEGER, min: 0, max: 99, step: 1,
             label: "Total Nameplate Fade Distance"
         },
         {
-            id: "NameplateFadeStartDistance", dflt: "40", type: INTEGER, min: 0, max: 99, step: 1, slider: null,
+            id: "NameplateFadeStartDistance", dflt: "40", type: INTEGER, min: 0, max: 99, step: 1,
             label: "Nameplate Fade Start Distance"
         },
         {
-            id: "TargetIndicatorHeight", dflt: "3", type: INTEGER, min: 0, max: 99, step: 1, slider: null,
+            id: "TargetIndicatorHeight", dflt: "3", type: INTEGER, min: 0, max: 99, step: 1,
             label: "Target Indicator Height"
         },
         {
-            id: "TargetIndicatorDesiredDistanceToCamera", dflt: "20", type: INTEGER, min: 0, max: 99, step: 1, slider: null,
+            id: "TargetIndicatorDesiredDistanceToCamera", dflt: "20", type: INTEGER, min: 0, max: 99, step: 1,
             label: "Target Indicator Distance"
         },
         {
-            id: "shadowMapCount", dflt: "4", type: INTEGER, min: 0, max: 6, step: 1, slider: null,
+            id: "shadowMapCount", dflt: "4", type: INTEGER, min: 0, max: 6, step: 1,
             label: "Shadow Map Count"
         },
         {
-            id: "shadowMapRes", dflt: "1024", type: INTEGER, min: 0, max: 2048, step: 32, slider: null,
+            id: "shadowMapRes", dflt: "1024", type: INTEGER, min: 0, max: 2048, step: 32,
             label: "Shadow Map Resolution"
         },
         {
-            id: "shadowMaxDist", dflt: "10000", type: INTEGER, min: 0, max: 10000, step: 50, slider: null,
+            id: "shadowMaxDist", dflt: "10000", type: INTEGER, min: 0, max: 10000, step: 50,
             label: "Shadow Max Distance"
         },
         {
-            id: "MaxLightCount ", dflt: "2048", type: INTEGER, min: 0, max: 4096, step: 64, slider: null,
+            id: "MaxLightCount ", dflt: "2048", type: INTEGER, min: 0, max: 4096, step: 64,
             label: "Max Light Count"
         },
     ];
@@ -61,7 +61,7 @@ module Tweaks {
         for (var i = 0; i < tweaks.length; i++) {
             var tweak = tweaks[i],
                 div: JQuery = $('<div>'),
-                slider: JQuery = tweak.slider = $('<input>');
+                slider: JQuery = $('<input>');
             switch (tweak.type) {
                 case INTEGER:
                     slider.attr({
@@ -84,7 +84,7 @@ module Tweaks {
             div.appendTo(container);
             ((tweak) => {
                 div.on("change", (e: any) => {
-                    var value = tweak.type == BOOLEAN ? e.target.checked : e.target.value
+                    var value = tweak.type == BOOLEAN ? e.target.checked : e.target.value;
                     var cmd = tweak.id + " " + value;
                     if (cu.HasAPI()) {
                         cu.ConsoleCommand(cmd);
