@@ -2,84 +2,271 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-body {
-    position: absolute;
-    padding: 0;
+html, body {
     margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Merriweather Sans', sans-serif;
+}
+
+#chat-rooms {
+    float: left;
+    list-style-type: none;
+    height: 22px;
+    margin: 0 0 0 37px;
+    padding: 0;
     overflow: hidden;
 }
 
-#chatBox {
+#chat-rooms li,
+#other-chat-rooms > li {
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 2px;
+    background-color: rgba(0,0,0,0.25);
+    border: none;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+#chat-rooms li.selected {
+    padding-top: 2px;
+    background-color: rgba(0,0,0,0.5);
+}
+
+#chat-rooms li a,
+#other-chat-rooms > li a {
+    display: inline-block;
+    color: #fff;
+    opacity: 0.9;
+    text-decoration: none; 
+    font-size: 10px;
+}
+
+#chat-rooms li.selected a,
+#chat-rooms li a:hover,
+#other-chat-rooms li a:hover {
+    opacity: 1.0;
+}
+
+#chat-rooms li a:first-child,
+#other-chat-rooms ul li a:first-child {
+    max-width: 81px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#other-chat-rooms {
     position: relative;
-    width: 556px;
-    height: 209px;
-    background: url('../images/chat/box_plate.png') center center no-repeat;
+    z-index: 99;
+    float: left;
+    list-style-type: none;
+    margin: 2px 0 0 0;
+    padding: 0;
 }
 
-#chatText {
-    position: absolute;
-    left: 24px;
-    top: 4px;
-    width: 532px;
-    height: 182px;
+#other-chat-rooms > li > a {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#other-chat-rooms ul {
+    display: none;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(32,32,32,0.6);
+    max-height: 186px;
+    overflow-x: hidden;
     overflow-y: scroll;
-    word-wrap: break-word;
 }
 
-.chatItem {
-    color: white;
-    font-family: Tahoma, Geneva, sans-serif;
+#other-chat-rooms ul li {
+    display: block;
+}
+
+.btn-close {
+    position: relative;
+    top: -5px;
+    margin-right: 5px;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    overflow: hidden;
+    background: url('../images/chat/btn-close.png') no-repeat -2px -26px;
+}
+
+.btn-close:hover {
+    background-position: -2px -14px;
+}
+
+.btn-close:active {
+    background-position: -2px -2px;
+}
+
+#chat-box {
+    position: relative;
+    clear: left;
+    width: 555px;
+    height: 214px;
+    color: #fff;
+    font-size: 13px;
+    background: -moz-linear-gradient(left,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0.15) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.5)), color-stop(70%,rgba(0,0,0,0.5)), color-stop(100%,rgba(0,0,0,0.15))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 70%,rgba(0,0,0,0.15) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 70%,rgba(0,0,0,0.15) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 70%,rgba(0,0,0,0.15) 100%); /* IE10+ */
+    background: linear-gradient(to right,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 70%,rgba(0,0,0,0.15) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+}
+
+#chat-box ::-webkit-scrollbar {
+    width: 14px;
+}
+
+#chat-box ::-webkit-scrollbar-track {
+    background-color: rgba(68, 68, 68, 0.45);
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+#chat-box ::-webkit-scrollbar-thumb {
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    -webkit-border-radius: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset -1px -1px 0 rgba(0, 0, 0, 0.05), inset 1px 1px 0 rgba(0, 0, 0, 0.05);
+}
+
+.chat-text {
+    display: none;
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: 534px;
+    height: 170px;
+    margin: 0;
+    padding: 0 0 0 15px;
+    word-wrap: break-word;
+    direction: rtl;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-shadow:
+        -1px -1px 1px rgba(0,0,0,0.5),  
+         1px -1px 1px rgba(0,0,0,0.5),
+        -1px  1px 1px rgba(0,0,0,0.5),
+         1px  1px 1px rgba(0,0,0,0.5);
+}
+
+.chat-text * {
+    direction: ltr;
+}
+
+.chat-item {
+    direction: ltr;
     float: left;
     width: 100%;
 }
 
-.chatBody.groupChat {
-    color: yellow;
+#chat-input._global::-webkit-input-placeholder,
+#chat-rooms ._global.chat-tab a,
+#other-chat-rooms ._global.chat-tab a,
+._global .chat-channel,
+._global .chat-name {
+    color: #f3b877;
 }
 
-.chatBody.imChat {
-    color: greenyellow;
+#chat-input._combat::-webkit-input-placeholder,
+#chat-rooms ._combat.chat-tab a,
+#other-chat-rooms ._combat.chat-tab a,
+._combat {
+    color: #fd5300;
 }
 
-.chatBody.combatChat {
+._combat.chat-item {
     font-weight: bold;
 }
 
-#chatInput {
-    position: absolute;
-    left: 20px;
-    top: 188px;
-    width: 535px;
-    height: 17px;
-    background-color: rgba(254, 254, 254, 0);
-    color: white;
-    margin: 0;
-    padding: 0;
-    border-width: 0;
-    border-style: solid;
+.im-chat .chat-channel,
+.im-chat .chat-name {
+    color: #adff2f;
 }
 
-#chatInput[data-command-mode="1"]:focus {
-    border-color: blue;
-    border-width: 2px;
+.chat-name {
+    font-weight: bold;
+}
+
+.chat-tab {
+    text-shadow:
+        -1px -1px 1px rgba(0,0,0,0.5),  
+         1px -1px 1px rgba(0,0,0,0.5),
+        -1px  1px 1px rgba(0,0,0,0.5),
+         1px  1px 1px rgba(0,0,0,0.5);
 }
 
 .iscse {
+    float: left;
     background-image: url('../images/chat/CSE_icon_badge.png');
+    background-repeat: no-repeat;
     background-size: 100%;
-    width: 20px;
-    height: 20px;
+    background-position-x: center;
+    background-position-y: bottom;
+    width: 14px;
+    height: 15px;
     top: 0;
     left: 0;
-    float: left;
+    margin-left: 1px;
+    margin-right: 2px;
 }
 
-.consoleBody.command {
-    color: lightgray;
+.console-body.command {
+    color: #ccc;
     font-style: italic;
 }
 
-.consoleBody.output {
-    color: white;
+.console-body.output {
+    color: #fff;
     font-weight: bold;
+}
+
+#chat-input {
+    direction: ltr;
+    position: absolute;
+    top: 206px;
+    left: 0;
+    width: 555px;
+    height: 30px;
+    color: #fff;
+    margin: 0;
+    padding: 0 0 0 14px;
+    border: 1px solid rgba(128, 128, 128, 0.3);
+    outline-width: 0;
+    background: -moz-linear-gradient(left,  rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.25) 70%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.25)), color-stop(70%,rgba(0,0,0,0.25)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.25) 70%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.25) 70%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.25) 70%,rgba(0,0,0,0) 100%); /* IE10+ */
+    background: linear-gradient(to right,  rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.25) 70%,rgba(0,0,0,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+}
+
+#chat-input:focus {
+    border-color: rgba(128, 128, 128, 0.46);
+    outline-width: 0;
+    background: -moz-linear-gradient(left,  rgba(0,0,0,0.33) 0%, rgba(0,0,0,0.33) 70%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.33)), color-stop(70%,rgba(0,0,0,0.33)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,0.33) 0%,rgba(0,0,0,0.33) 70%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(left,  rgba(0,0,0,0.33) 0%,rgba(0,0,0,0.33) 70%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(left,  rgba(0,0,0,0.33) 0%,rgba(0,0,0,0.33) 70%,rgba(0,0,0,0) 100%); /* IE10+ */
+    background: linear-gradient(to right,  rgba(0,0,0,0.33) 0%,rgba(0,0,0,0.33) 70%,rgba(0,0,0,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#54000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+}
+
+#chat-input[data-command-mode="1"]:focus {
+    border: none;
+    outline-width: 2px;
 }

@@ -10,27 +10,33 @@ module Skillbar {
 
     var currentAbilities: string[];
 
+    var BUTTON_WIDTH = 50;
+    var BUTTON_LEFT_OFFSET = 5;
+
     // Function for sorting abilities by server order.
     function SortByServerOrder(a, b) {
+        if (!cu.HasAPI()) return 0;
         var aLoc = cuAPI.abilityNumbers.indexOf(a.id);
         var bLoc = cuAPI.abilityNumbers.indexOf(b.id);
         return aLoc - bLoc;
     }
 
     function UpdateBar() {
-        if (_.isEqual(currentAbilities, cuAPI.abilityNumbers)) return;
+        if (cu.HasAPI()) {
+            if (_.isEqual(currentAbilities, cuAPI.abilityNumbers)) return;
 
-        currentAbilities = cuAPI.abilityNumbers;
+            currentAbilities = cuAPI.abilityNumbers;
+        }
 
         cu.RequestAllAbilities(abilities => {
             abilities.sort(SortByServerOrder);
 
-            $skillButtons.empty();
+            $skillButtons.empty().css('width', abilities.length * BUTTON_WIDTH + BUTTON_LEFT_OFFSET);
 
             abilities.forEach((ability, i) => {
-                var button = ability.MakeButton();
+                var button = ability.MakeButton(i);
 
-                var elem = button.rootElement.css({ left: Math.floor(i * 55.5) + 'px', top: '0' });
+                var elem = button.rootElement.css({ left: (i * BUTTON_WIDTH + BUTTON_LEFT_OFFSET) + 'px', top: '0' });
 
                 if (ability.name) elem.attr('data-tooltip-title', ability.name);
 
@@ -39,7 +45,7 @@ module Skillbar {
                 $skillButtons.append(elem);
             });
 
-            new Tooltip($skillButtons.children(), { leftOffset: -5, topOffset: -25 });
+            new Tooltip($skillButtons.children(), { leftOffset: 0, topOffset: -30 });
         });
     }
 

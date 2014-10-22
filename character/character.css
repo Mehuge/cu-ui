@@ -2,78 +2,113 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 #character {
-    background-image: url('../images/character/bar_plate.png');
-    width: 335px;
-    height: 120px;
+    background: transparent url('../images/character/bg.png') no-repeat top left;
+    width: 217px;
+    height: 76px;
     top: 0;
     left: 0;
     position: absolute;
 }
 
-#healthBar {
-    background-image: url('../images/character/bar_health.png');
-    width: 208px;
-    height: 18px;
-    top: 30px;
-    left: 118px;
+#character:after {
     position: absolute;
+    top: 0;
+    left: 0;
+    content: url('../images/character/frame.png');
 }
 
-#healthText {
-    width: 180px;
-    height: 18px;
-    top: 30px;
-    left: 125px;
+#portrait {
     position: absolute;
-    font-family: Arial, Helvetica, Sans-Serif;
-    font-size: 95%;
-    font-weight: bold;
-    color: #FF8080;
-}
-
-#manaBar {
-    background-image: url('../images/character/bar_mana.png');
-    width: 181px;
-    height: 9px;
-    top: 53px;
-    left: 119px;
-    position: absolute;
+    top: 8px;
+    left: 2px;
+    width: 59px;
+    height: 59px;
 }
 
 #name {
-    width: 150px;
-    height: 18px;
-    top: 10px;
-    left: 115px;
     position: absolute;
-    font-family: Arial, Helvetica, Sans-Serif;
-    font-size: 105%;
-    color: white;
+    top: 8px;
+    left: 61px;
+    width: 165px;
+    height: 21px;
+    line-height: 21px;
+    padding-left: 5px;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 10px;
+    color: #efefef;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
 }
 
-#level {
-    width: 180px;
-    height: 18px;
-    top: 82px;
-    left: 37px;
+#health-bar {
     position: absolute;
-    font-family: Arial, Helvetica, Sans-Serif;
-    font-size: 160%;
-    color: #FFFF00;
+    top: 30px;
+    left: 61px;
+    width: 154px;
+    height: 26px;
+    background: transparent url('../images/character/health-bar.png') no-repeat top left;
 }
 
-#effectsBox {
-    width: 208px;
-    top: 66px;
-    left: 118px;
+#health-text {
     position: absolute;
+    top: 30px;
+    left: 61px;
+    width: 154px;
+    height: 26px;
+    line-height: 26px;
+    color: #fff;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 10px;
+    text-align: center;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
 }
 
-.effectIcon {
+#energy-bar {
+    position: absolute;
+    top: 56px;
+    left: 61px;
+    width: 154px;
+    height: 11px;
+    background: transparent url('../images/character/energy-bar.png') no-repeat top left;
+}
+
+#energy-text {
+    position: absolute;
+    top: 56px;
+    left: 61px;
+    width: 154px;
+    height: 11px;
+    line-height: 11px;
+    color: #a3eef9;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 8px;
+    text-align: center;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
+}
+
+#effects {
+    position: absolute;
+    top: 72px;
+    left: 15px;
+    width: 224px;
+}
+
+.effect-icon {
+    float: left;
     width: 25px;
+    height: 25px;
+    margin: 0 3px 3px 0;
 }

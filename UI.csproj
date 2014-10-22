@@ -66,10 +66,11 @@
     <Content Include="images\archetypes\watermage.jpg" />
     <Content Include="images\banes\bane.jpg" />
     <Content Include="images\boons\boon.jpg" />
-    <Content Include="images\character\bar_health.png" />
-    <Content Include="images\character\bar_mana.png" />
-    <Content Include="images\character\bar_plate.png" />
-    <Content Include="images\chat\box_plate.png" />
+    <Content Include="images\character\bg.png" />
+    <Content Include="images\character\energy-bar.png" />
+    <Content Include="images\character\frame.png" />
+    <Content Include="images\character\health-bar.png" />
+    <Content Include="images\chat\btn-close.png" />
     <Content Include="images\chat\CSE_icon_badge.png" />
     <Content Include="images\controlgame\bg.png" />
     <Content Include="images\equippedgear\bg.png" />
@@ -160,6 +161,16 @@
     <Content Include="images\races\human.jpg" />
     <Content Include="images\races\luchorpan-stand.png" />
     <Content Include="images\races\luchorpan.jpg" />
+    <Content Include="images\races\portraits\caitsith.jpg" />
+    <Content Include="images\races\portraits\firbog.jpg" />
+    <Content Include="images\races\portraits\frostgiant.jpg" />
+    <Content Include="images\races\portraits\golem.jpg" />
+    <Content Include="images\races\portraits\hamadryad.jpg" />
+    <Content Include="images\races\portraits\helbound.jpg" />
+    <Content Include="images\races\portraits\luchorpan.jpg" />
+    <Content Include="images\races\portraits\strm.jpg" />
+    <Content Include="images\races\portraits\tuatha.jpg" />
+    <Content Include="images\races\portraits\valkyrie.jpg" />
     <Content Include="images\races\silverhand.jpg" />
     <Content Include="images\races\stormrider.jpg" />
     <Content Include="images\races\strm-stand.png" />
@@ -172,9 +183,11 @@
     <Content Include="images\races\viking.jpg" />
     <Content Include="images\respawn\bg.png" />
     <Content Include="images\skillbar\active-frame.gif" />
-    <Content Include="images\skillbar\bar_skills_plate.png" />
+    <Content Include="images\skillbar\cap-left.png" />
+    <Content Include="images\skillbar\cap-right.png" />
     <Content Include="images\skillbar\queued-frame.png" />
     <Content Include="images\skills\all-heal.jpg" />
+    <Content Include="images\skills\default.jpg" />
     <Content Include="images\skills\earth-Ball.jpg" />
     <Content Include="images\skills\earth-Dart.jpg" />
     <Content Include="images\skills\earth-ExplosiveBall.jpg" />
@@ -340,7 +353,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1336</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
