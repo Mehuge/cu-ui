@@ -128,8 +128,8 @@ body {
 #buttons {
     display: table;
     position: absolute;
-    bottom: 10px;
-    right: 20px;
+    top: 385px;
+    left: 240px;
 }
 
 #btn-cancel,

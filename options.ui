@@ -5,8 +5,8 @@
     "rect" : {
         "left" : 357,
         "top" : 239,
-        "right" : 1043,
-        "bottom" : 662
+        "right" : 1120,
+        "bottom" : 760
     },
     "handlesConfig" :  true
 }
