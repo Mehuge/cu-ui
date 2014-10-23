@@ -55,4 +55,4 @@ UI Discussions
 
 For discussion with your fellow intrepid modders and hackers, hang out in our backer forums at:
 
-&nbsp;&nbsp;&nbsp;&nbsp;[http://citystate.vanillaforums.com/categories/ui-modding-hacking](http://citystate.vanillaforums.com/categories/ui-modding-hacking)
+&nbsp;&nbsp;&nbsp;&nbsp;[https://forums.camelotunchained.com/forum/63-ui-modding-hacking/](https://forums.camelotunchained.com/forum/63-ui-modding-hacking/)
