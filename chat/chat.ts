@@ -16,30 +16,32 @@ module Chat {
     var $chatBox: JQuery;
     var $chatInput: JQuery;
     var hasScrolled = {};
-    var rooms = [];
+    var rooms = {};
     var selectedRoom = null;
 
     var MAX_TABS = 4;
 
     function createRoom(room) {
-        if (rooms.indexOf(room) !== -1) return;
+        if (rooms.hasOwnProperty(room)) return;
 
-        var $li = $('<li>').attr('id', room + '-tab').addClass('chat-tab ' + room).prependTo($chatRooms);
+        var $tab = $('<li>').attr('id', room + '-tab').addClass('chat-tab ' + room).prependTo($chatRooms);
 
-        var $a = $('<a>').attr('href', '#' + room).text(room).click(clickRoom).appendTo($li);
+        var $a = $('<a>').attr('href', '#' + room).text(room).click(clickRoom).appendTo($tab);
 
         if (0 > $a[0].clientWidth - $a[0].scrollWidth) {
             $a.css('padding-right', 0);
         }
 
-        $('<a>').attr('href', '#').addClass('btn-close').click(() => leaveRoom(room)).appendTo($li);
+        $('<a>').attr('href', '#').addClass('btn-close').click(() => leaveRoom(room)).appendTo($tab);
 
-        $('<div>').attr({
+        var $text = $('<div>').attr({
             'id': room + '-text',
             'data-channel': room
         }).addClass('chat-text').scroll(onChatTextScroll).prependTo($chatBox);
 
-        rooms.push(room);
+        rooms[room] = {
+            $tab: $tab, $text: $text
+        };
     }
 
     function joinRoom(room) {
@@ -48,15 +50,15 @@ module Chat {
     }
 
     function leaveRoom(room) {
-        var roomIndex = rooms.indexOf(room);
+        if (!rooms.hasOwnProperty(room)) return;
 
-        if (roomIndex == -1) return;
+        var $room = rooms[room];
 
-        rooms.splice(roomIndex, 1);
+        $room.$text.remove();
 
-        $('#' + room + '-tab').remove();
+        $room.$tab.remove();
 
-        $('#' + room + '-text').remove();
+        delete rooms[room];
 
         if ($chatRooms.children().length < MAX_TABS) {
             $otherChatRooms.children(':first').appendTo($chatRooms);
@@ -66,7 +68,7 @@ module Chat {
 
         $otherChatRoomsContainer.css('display', hasOtherChatRooms ? 'block' : 'none');
 
-        if (!$chatRooms.children('.selected').length && rooms.length) {
+        if (!$chatRooms.children('.selected').length && Object.keys(rooms).length) {
             var firstRoom = $chatRooms.children(':first').text();
             if (firstRoom) selectRoom(firstRoom);
         }
@@ -91,13 +93,11 @@ module Chat {
 
         $chatInput.removeClass().addClass(room).attr('placeholder', '[' + room + ']');
 
-        var roomTab = room + '-tab';
-        var roomTabID = '#' + roomTab;
-        var $roomTab = $(roomTabID);
+        var $room = getRoom(room);
+        var $roomText = $room.$text;
+        var $roomTab = $room.$tab;
 
-        var roomText = room + '-text';
-        var roomTextID = '#' + roomText;
-        var $roomText = $(roomTextID);
+        $roomTab.removeClass('highlight');
 
         if (!$.contains($chatRooms[0], $roomTab[0])) {
             $roomTab.prependTo($chatRooms);
@@ -130,31 +130,8 @@ module Chat {
         $otherChatRoomsContainer.css('display', hasOtherChatRooms ? 'block' : 'none');
     }
 
-    function getSelectedRoomTextContainer(): JQuery {
-        if (selectedRoom) return getRoomTextContainer(selectedRoom);
-        return null;
-    }
-
-    function getGlobalRoomTextContainer(): JQuery {
-        if (rooms.indexOf(cu.GLOBAL_CHATROOM_NAME) !== -1) return getRoomTextContainer(cu.GLOBAL_CHATROOM_NAME);
-        return null;
-    }
-
-    function getRoomTextContainer(channel): JQuery {
-        var $channel = $('#' + channel + '-text');
-        if ($channel.length) return $channel;
-        return null;
-    }
-
-    function getAnyChannelTextContainer(channel): JQuery {
-        var $channel;
-        if (channel) {
-            $channel = getRoomTextContainer(channel);
-            if ($channel) return $channel;
-        }
-        $channel = getGlobalRoomTextContainer();
-        if ($channel) return $channel;
-        return getSelectedRoomTextContainer();
+    function getRoom(room): any {
+        return room && rooms.hasOwnProperty(room) ? rooms[room] : null;
     }
 
     function tryScrollToBottom(channel, $channelText) {
@@ -170,17 +147,21 @@ module Chat {
     function appendChat(channel, $chatMessage, channelClass, iconClass) {
         // This appends the chat item and escapes it
         // TODO: make a smarter process for escaping chat so we can embed some html
-        var $channelText = getAnyChannelTextContainer(channel);
+        var $room = getRoom(channel);
+        var $roomText = $room.$text;
+        if (selectedRoom !== channel) {
+            $room.$tab.addClass('highlight');
+        }
         var $newChatItem = $('<div>').addClass('chat-item ' + (channelClass || ''));
         if (iconClass) $newChatItem.append($('<div>').addClass(iconClass));
-        $newChatItem.append($chatMessage).appendTo($channelText);
-        var $msgs = $('.chat-item', $channelText);
+        $newChatItem.append($chatMessage).appendTo($roomText);
+        var $msgs = $('.chat-item', $roomText);
         while ($msgs.length > messageBufferSize) {
             $msgs.first().remove();
-            $msgs = $('.chat-item', $channelText);
+            $msgs = $('.chat-item', $roomText);
         }
 
-        tryScrollToBottom($channelText.attr('data-channel'), $channelText);
+        tryScrollToBottom($roomText.attr('data-channel'), $roomText);
     }
 
     function setTextEntryMode(mode) {
