@@ -1,7 +1,7 @@
 {
 	"_LICENSE": "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
-	"name": "target",
-	"mainFile": "target/target.html",
+	"name": "enemytarget",
+	"mainFile": "enemytarget/enemytarget.html",
 	"rect": {
 		"left": 300,
 		"top": 9,

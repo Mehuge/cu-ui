@@ -1,73 +1,116 @@
-﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+﻿body {
+}
+/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
 #target {
-    background-image: url('../images/target/target_plate.png');
-    width: 304px;
-    height: 83px;
+    visibility: hidden;
+    position: absolute;
     top: 0;
     left: 0;
-    position: absolute;
-    visibility: hidden;
+    width: 168px;
+    height: 125px;
+    background: transparent url('../images/target/bg.png') no-repeat 0 12px;
 }
 
-#healthBar {
-    background-image: url('../images/character/bar_health.png');
-    width: 208px;
-    height: 13px;
-    top: 47px;
-    left: 82px;
+#target:after {
     position: absolute;
-}
-
-#healthText {
-    width: 180px;
-    height: 13px;
-    top: 47px;
-    left: 91px;
-    position: absolute;
-    font-family: Arial, Helvetica, Sans-Serif;
-    font-size: 75%;
-    font-weight: bold;
-    color: #FF8080;
-    text-align: left;
+    top: 20px;
+    left: 0;
+    content: url('../images/target/frame.png');
+    z-index: -1;
 }
 
 #name {
-    width: 180px;
-    height: 18px;
-    top: 24px;
-    left: 87px;
     position: absolute;
-    font-family: Arial, Helvetica, Sans-Serif;
-    font-size: 85%;
-    color: white;
+    top: 0;
+    left: 0;
+    width: 164px;
+    height: 20px;
+    line-height: 20px;
+    padding-left: 4px;
+    color: #fff;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 10px;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
 }
 
-#level {
-    width: 180px;
-    height: 18px;
-    top: 82px;
-    left: 37px;
+#name.enemy {
+    color: #ffbbbb;
+}
+
+#name.friendly {
+    color: #bbbbff;
+}
+
+#health-bar {
     position: absolute;
-    font-family: Arial, Helvetica, Sans-Serif;
-    font-size: 160%;
-    color: #FFFF00;
+    top: 22px;
+    left: 3px;
+    width: 154px;
+    height: 17px;
+    background: transparent url('../images/target/health-bar.png') no-repeat top left;
 }
 
-#effectsBox {
-    width: 208px;
-    top: 66px;
-    left: 82px;
+#health-text {
     position: absolute;
+    top: 22px;
+    left: 3px;
+    width: 154px;
+    height: 17px;
+    line-height: 17px;
+    color: #fff;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 10px;
+    text-align: center;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
 }
 
-.effectIcon {
+#energy-bar {
+    position: absolute;
+    top: 41px;
+    left: 3px;
+    width: 154px;
+    height: 11px;
+    background: transparent url('../images/target/energy-bar.png') no-repeat top left;
+}
+
+#energy-text {
+    position: absolute;
+    top: 41px;
+    left: 3px;
+    width: 154px;
+    height: 11px;
+    line-height: 11px;
+    color: #a3eef9;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 8px;
+    text-align: center;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
+}
+
+#effects {
+    position: absolute;
+    top: 60px;
+    left: 3px;
+    width: 168px;
+}
+
+.effect-icon {
     float: left;
     width: 25px;
     height: 25px;
