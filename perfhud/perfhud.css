@@ -4,17 +4,12 @@
 
 #perfHudContainer {
     color: white;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 12px;
+    font-family: 'Merriweather Sans', sans-serif;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 #perfHud {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 300px;
-    height: 160px;
     list-style-type: none;
     margin: 0;
     padding: 0;

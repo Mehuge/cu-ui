@@ -3,9 +3,9 @@
 	"name" : "perfhud",
 	"mainFile" : "perfhud/perfhud.html",
 	"rect" : {
-		"left" : 1100,
+		"left" : 1240,
 		"top" : 0,
 		"right" : 1440,
-		"bottom" : 360
+		"bottom" : 260
 	}
 }
