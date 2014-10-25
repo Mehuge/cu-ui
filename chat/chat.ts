@@ -91,7 +91,7 @@ module Chat {
 
         selectedRoom = room;
 
-        $chatInput.removeClass().addClass(room).attr('placeholder', '[' + room + ']');
+        $chatInput.removeClass().addClass(room).attr('placeholder', room);
 
         var $room = getRoom(room);
         var $roomText = $room.$text;
@@ -218,7 +218,7 @@ module Chat {
         }
 
         if (displayName) {
-            $displayName = $('<span>').addClass('chat-name').text('[' + displayName + ']: ');
+            $displayName = $('<span>').addClass('chat-name').text(displayName + ': ');
         }
         
         appendChat(channel, [$channelName, $displayName, $chatBody], channelClass, iconClass);

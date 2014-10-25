@@ -1574,7 +1574,7 @@ module Login {
         });
     }
 
-    function resetChosenBoonsBanesList(type, category, container, boonBanes, showHide = false, hasElements: any = true) {
+    function resetChosenBoonsBanesList(type, category, container, boonBanes, isBoon, showHide = false, hasElements: any = true) {
         container.empty();
 
         var isInitial = container.attr('data-height') === undefined;
@@ -1587,7 +1587,7 @@ module Login {
             boonBanes.forEach((boonBane, index) => {
                 if (hasElements.value && boonBane.categoryID !== hasElements.value) return;
 
-                createBoonBaneElement(type, category, boonBane, index).appendTo(container);
+                createBoonBaneElement(type, category, boonBane, index, isBoon).appendTo(container);
 
                 if (boonBane.y > maxY) maxY = boonBane.y;
             });
@@ -1603,25 +1603,25 @@ module Login {
     function resetChosenBoonsGeneral() {
         chosenBoonsGeneral = undefined;
 
-        resetChosenBoonsBanesList('boon', 'general', $boonsGeneral, boonsGeneral, true);
+        resetChosenBoonsBanesList('boon', 'general', $boonsGeneral, boonsGeneral, true, true);
     }
 
     function resetChosenBoonsFaction() {
         chosenBoonsFaction = undefined;
 
-        resetChosenBoonsBanesList('boon', 'faction', $boonsFaction, boonsFaction, false, chosenFaction);
+        resetChosenBoonsBanesList('boon', 'faction', $boonsFaction, boonsFaction, true, false, chosenFaction);
     }
 
     function resetChosenBoonsRace() {
         chosenBoonsRace = undefined;
 
-        resetChosenBoonsBanesList('boon', 'race', $boonsRace, boonsRace, false, chosenRace);
+        resetChosenBoonsBanesList('boon', 'race', $boonsRace, boonsRace, true, false, chosenRace);
     }
 
     function resetChosenBoonsArchetype() {
         chosenBoonsArchetype = undefined;
 
-        resetChosenBoonsBanesList('boon', 'archetype', $boonsArchetype, boonsArchetype, false, chosenArchetype);
+        resetChosenBoonsBanesList('boon', 'archetype', $boonsArchetype, boonsArchetype, true, false, chosenArchetype);
     }
 
     function resetChosenBoons() {
@@ -1636,25 +1636,25 @@ module Login {
     function resetChosenBanesGeneral() {
         chosenBanesGeneral = undefined;
 
-        resetChosenBoonsBanesList('bane', 'general', $banesGeneral, banesGeneral, true);
+        resetChosenBoonsBanesList('bane', 'general', $banesGeneral, banesGeneral, false, true);
     }
 
     function resetChosenBanesFaction() {
         chosenBanesFaction = undefined;
 
-        resetChosenBoonsBanesList('bane', 'faction', $banesFaction, banesFaction, false, chosenFaction);
+        resetChosenBoonsBanesList('bane', 'faction', $banesFaction, banesFaction, false, false, chosenFaction);
     }
 
     function resetChosenBanesRace() {
         chosenBanesRace = undefined;
 
-        resetChosenBoonsBanesList('bane', 'race', $banesRace, banesRace, false, chosenRace);
+        resetChosenBoonsBanesList('bane', 'race', $banesRace, banesRace, false, false, chosenRace);
     }
 
     function resetChosenBanesArchetype() {
         chosenBanesArchetype = undefined;
 
-        resetChosenBoonsBanesList('bane', 'archetype', $banesArchetype, banesArchetype, false, chosenArchetype);
+        resetChosenBoonsBanesList('bane', 'archetype', $banesArchetype, banesArchetype, false, false, chosenArchetype);
     }
 
     function resetChosenBanes() {
@@ -1683,7 +1683,7 @@ module Login {
         return $content;
     }
 
-    function createBoonBaneElement(type, category, boonBane, index) {
+    function createBoonBaneElement(type, category, boonBane, index, isBoon) {
         var $li = $('<li>').css({
             position: 'absolute',
             left: boonBane.x * BOON_BANE_OFFSET_X,
@@ -1723,6 +1723,12 @@ module Login {
             var ranks = parseInt($input.val(), 10);
 
             if (e.button == 0) { // left mouse
+                var isUnderMax = isBoon ? isUnderMaximumChosenBoons() : isUnderMaximumChosenBanes();
+
+                if (!isUnderMax) {
+                    return false;
+                }
+
                 ranks++;
             } else if (e.button == 2) { // right mouse
                 ranks--;
@@ -2138,25 +2144,49 @@ module Login {
         return banes.filter(bane => bane.prerequisite && bane.prerequisite === id).length > 0;
     }
 
+    function isUnderMaximumChosenBoons() {
+        return sumChosenBoons().total < MAXIMUM_CHOSEN_BOONS;
+    }
+
+    function isUnderMaximumChosenBanes() {
+        return sumChosenBanes().total < MAXIMUM_CHOSEN_BOONS;
+    }
+
     function updateBoonsBanes() {
+        var isUnderMaxBoons = isUnderMaximumChosenBoons();
+
+        var isUnderMaxBanes = isUnderMaximumChosenBanes();
+
         $('input:hidden[name=boon]').each(function () {
             var $this = $(this);
             var id = $this.attr('data-id');
             var category = $this.attr('data-category');
-            var isUsing = isUsingBoonPrereq(category, id);
-            var hasNotUnlockedPrereqs = !hasBoonPrereqsUnlocked(category, id);
-            $this.prop('disabled', isUsing || hasNotUnlockedPrereqs);
-            $this.parent().toggleClass('disabled', hasNotUnlockedPrereqs).toggleClass('prevent-decrease', isUsing);
+            var hasPoints = hasChosenBoonPoints(category, id);
+            var isUsingPrereq = false;
+            var hasNotUnlockedPrereqs = false;
+            if (isUnderMaxBoons) {
+                isUsingPrereq = isUsingBoonPrereq(category, id);
+                hasNotUnlockedPrereqs = !hasBoonPrereqsUnlocked(category, id);
+            }
+            var isNotUnderMaxBoonsAndHasPoints = !isUnderMaxBoons && !hasPoints;
+            $this.prop('disabled', isNotUnderMaxBoonsAndHasPoints || isUsingPrereq || hasNotUnlockedPrereqs);
+            $this.parent().toggleClass('disabled', isNotUnderMaxBoonsAndHasPoints || hasNotUnlockedPrereqs).toggleClass('prevent-decrease', isUsingPrereq);
         });
 
         $('input:hidden[name=bane]').each(function () {
             var $this = $(this);
             var id = $this.attr('data-id');
             var category = $this.attr('data-category');
-            var isUsing = isUsingBanePrereq(category, id);
-            var hasNotUnlockedPrereqs = !hasBanePrereqsUnlocked(category, id);
-            $this.prop('disabled', isUsing || hasNotUnlockedPrereqs);
-            $this.parent().toggleClass('disabled', hasNotUnlockedPrereqs).toggleClass('prevent-decrease', isUsing);
+            var hasPoints = hasChosenBanePoints(category, id);
+            var isUsingPrereq = false;
+            var hasNotUnlockedPrereqs = false;
+            if (isUnderMaxBanes) {
+                isUsingPrereq = isUsingBanePrereq(category, id);
+                hasNotUnlockedPrereqs = !hasBanePrereqsUnlocked(category, id);
+            }
+            var isNotUnderMaxBanesAndHasPoints = !isUnderMaxBanes && !hasPoints;
+            $this.prop('disabled', isNotUnderMaxBanesAndHasPoints || isUsingPrereq || hasNotUnlockedPrereqs);
+            $this.parent().toggleClass('disabled', isNotUnderMaxBanesAndHasPoints || hasNotUnlockedPrereqs).toggleClass('prevent-decrease', isUsingPrereq);
         });
     }
 
@@ -2523,6 +2553,30 @@ module Login {
         accumulateChosenBoonBanes(chosenBanesRace, result);
         accumulateChosenBoonBanes(chosenBanesArchetype, result);
         return result;
+    }
+
+    function hasChosenBoonPoints(category, id) {
+        var boons = getChosenBoonsForCategory(category);
+        if (boons) {
+            var boon;
+            for (var i = 0, length = boons.length; i < length; i++) {
+                boon = boons[i];
+                if (boon.id === id) return true;
+            }
+        }
+        return false;
+    }
+
+    function hasChosenBanePoints(category, id) {
+        var banes = getChosenBanesForCategory(category);
+        if (banes) {
+            var bane;
+            for (var i = 0, length = banes.length; i < length; i++) {
+                bane = banes[i];
+                if (bane.id === id) return true;
+            }
+        }
+        return false;
     }
 
     function hasBoonUnlocked(category, id) {
