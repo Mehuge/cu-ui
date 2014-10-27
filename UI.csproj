@@ -244,6 +244,7 @@
     <Content Include="inventory\inventory.html" />
     <Content Include="kills\kills.css" />
     <Content Include="kills\kills.html" />
+    <TypeScriptCompile Include="common\utils.ts" />
     <TypeScriptCompile Include="cu-rest\rest.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
     <TypeScriptCompile Include="enemytarget\enemytarget.ts" />
