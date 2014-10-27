@@ -3,10 +3,10 @@
 	"name": "announcement",
 	"mainFile": "announcement/announcement.html",
 	"rect": {
-		"left": 563,
+		"left": 540,
 		"top": 100,
-		"right": 876,
-		"bottom": 197
+		"right": 900,
+		"bottom": 225
 	},
 	"handlesAnnouncements": true
 }

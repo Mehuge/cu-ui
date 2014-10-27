@@ -60,6 +60,10 @@ module Chat {
 
         delete rooms[room];
 
+        if (selectedRoom == room) {
+            selectedRoom = null;
+        }
+
         if ($chatRooms.children().length < MAX_TABS) {
             $otherChatRooms.children(':first').appendTo($chatRooms);
         }
@@ -148,6 +152,7 @@ module Chat {
         // This appends the chat item and escapes it
         // TODO: make a smarter process for escaping chat so we can embed some html
         var $room = getRoom(channel);
+        if (!$room) return;
         var $roomText = $room.$text;
         if (selectedRoom !== channel) {
             $room.$tab.addClass('highlight');
@@ -299,13 +304,13 @@ module Chat {
         switch (processed.name) {
             case '/join':
                 if (processed.args.length < 1) return false;
-                channel = processed.args[0];
+                channel = processed.args[0].toLowerCase();
                 cu.JoinMUC(channel);
                 joinRoom(channel);
                 return true;
             case '/leave':
                 if (processed.args.length < 1) return false;
-                channel = processed.args[0];
+                channel = processed.args[0].toLowerCase();
                 cu.LeaveMUC(channel);
                 leaveRoom(channel);
                 return true;

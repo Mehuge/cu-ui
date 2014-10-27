@@ -7,23 +7,10 @@ body {
     padding: 0;
     overflow: hidden;
     font-family: 'Merriweather', sans-serif;
-    width: 232px;
-    height: 225px;
     cursor: default;
 }
 
-#menu-header {
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
-    text-align: center;
-    width: 232px;
-    height: 20px;
-    top: 0;
-}
-
 #btn-container {
-    position: relative;
     margin: 0 auto;
     padding: 0;
     text-align: center;

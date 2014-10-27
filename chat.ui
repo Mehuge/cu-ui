@@ -4,9 +4,9 @@
 	"mainFile": "chat/chat.html",
 	"rect": {
 		"left": 0,
-		"top": 515,
+		"top": 513,
 		"right": 626,
-		"bottom": 812
+		"bottom": 810
 	},
 	"handlesChat": true
 }

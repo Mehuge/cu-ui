@@ -5,33 +5,41 @@
 body {
     margin: 0;
     padding: 0;
-    background: url('../images/options/keybind-bg.png') no-repeat 0 0;
     overflow: hidden;
+}
+
+#options {
+    position: relative;
+    margin: 0 auto;
+    padding: 0;
+    width: 686px;
+    height: 423px;
+    background: url('../images/options/keybind-bg.png') no-repeat 0 0;
     font-family: 'Merriweather', sans-serif;
     cursor: default;
 }
 
-#menu-header {
-    position: relative;
-    margin: 0 auto;
-    padding: 0;
+.btn-menu,
+.btn-save {
+    width: 105px;
+    font-size: 10px;
     text-align: center;
-    width: 232px;
-    height: 20px;
-    top: 0px;
 }
 
-.btn-menu {
-    background: url('../images/options/menubutton.png') no-repeat 0 0;
-    width: 105px;
+.btn-menu,
+.btn-save,
+.btn-side,
+.binding-item {
     height: 29px;
-    font-size: 10px;
+    color: #fff;
     text-shadow:  2px  2px 3px rgba(0,0,0,0.3),
                   2px -2px 3px rgba(0,0,0,0.3),
                  -2px  2px 3px rgba(0,0,0,0.3),
                  -2px -2px 3px rgba(0,0,0,0.3);
-    color: white;
-    text-align: center;
+}
+
+.btn-menu {
+    background: url('../images/options/menubutton.png') no-repeat 0 0;
 }
 
 .btn-menu:hover {
@@ -44,15 +52,6 @@ body {
 
 .btn-save {
     background: url('../images/options/savebutton.png') no-repeat 0 0;
-    width: 105px;
-    height: 29px;
-    font-size: 10px;
-    text-shadow:  2px  2px 3px rgba(0,0,0,0.3),
-                  2px -2px 3px rgba(0,0,0,0.3),
-                 -2px  2px 3px rgba(0,0,0,0.3),
-                 -2px -2px 3px rgba(0,0,0,0.3);
-    color: white;
-    text-align: center;
 }
 
 .btn-save:hover {
@@ -66,13 +65,7 @@ body {
 .btn-side {
     background: url('../images/options/sidemenu.png') no-repeat 0 0;
     width: 249px;
-    height: 29px;
     font-size: 14px;
-    text-shadow:  2px  2px 3px rgba(0,0,0,0.3),
-                  2px -2px 3px rgba(0,0,0,0.3),
-                 -2px  2px 3px rgba(0,0,0,0.3),
-                 -2px -2px 3px rgba(0,0,0,0.3);
-    color: white;
 }
 
 .btn-side:hover {
@@ -87,13 +80,7 @@ body {
     width: 380px;
     margin: 0;
     padding: 0;
-    height: 29px;
     font-size: 14px;
-    text-shadow:  2px  2px 3px rgba(0,0,0,0.3),
-                  2px -2px 3px rgba(0,0,0,0.3),
-                 -2px  2px 3px rgba(0,0,0,0.3),
-                 -2px -2px 3px rgba(0,0,0,0.3);
-    color: white;
     text-align: center;
 }
 
@@ -109,7 +96,7 @@ body {
     color: white;
     display: table-cell;
     text-align: left;
-    left: 0px;
+    left: 0;
     width: 180px;
     padding-left: 10px;
     line-height: 29px;
@@ -119,7 +106,7 @@ body {
     color: white;
     display: table-cell;
     text-align: right;
-    right: 0px;
+    right: 0;
     width: 180px;
     padding-right: 10px;
     line-height: 29px;

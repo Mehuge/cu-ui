@@ -3,16 +3,16 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 module GameMenu {
-    $('#btn-options').click(function () {
+    $('#btn-options').click(() => {
         cuAPI.OpenUI('options.ui');
         cuAPI.CloseUI('gamemenu');
     });
 
-    $('#btn-quit').click(function () {
+    $('#btn-quit').click(() => {
         cuAPI.Quit();
     });
 
-    $('#btn-cancel').click(function () {
+    $('#btn-cancel').click(() => {
         cuAPI.CloseUI('gamemenu');
     });
 }
