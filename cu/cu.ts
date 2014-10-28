@@ -6,20 +6,20 @@
 
 // Keep in sync with Race enum on client and server
 enum Race {
-    //Tuatha,
-    Hamadryad,
-    Luchorpan,
-    Firbog,
+    //Tuatha = 0,
+    Hamadryad = 1,
+    Luchorpan = 2,
+    Firbog = 3,
 
-    Valkyrie,
-    Helbound,
-    FrostGiant,
-    //Dvergr,
+    Valkyrie = 4,
+    Helbound = 5,
+    FrostGiant = 6,
+    //Dvergr = 7,
 
-    Strm,
-    CaitSith,
-    Golem,
-    //Gargoyle
+    Strm = 8,
+    CaitSith = 9,
+    Golem = 10,
+    //Gargoyle = 11
 }
 
 class Ability {
