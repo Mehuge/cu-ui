@@ -16,7 +16,7 @@ module Bugit {
             "netstats_udpPackets": cuAPI.netstats_udpPackets,
             "netstats_players_newCount": cuAPI.netstats_players_newCount,
             "netstats_players_newBits": cuAPI.netstats_players_newBits,
-            "netstats_players_udpateCount": cuAPI.netstats_players_udpateCount,
+            "netstats_players_updateCount": cuAPI.netstats_players_udpateCount,
             "netstats_players_updateBits": cuAPI.netstats_players_updateBits,
             "maxHP": cuAPI.maxHP,
             "characterName": cuAPI.characterName,
@@ -27,7 +27,7 @@ module Bugit {
             "locationY": cuAPI.locationY,
             "locationZ": cuAPI.locationZ,
             "speed": cuAPI.speed,
-            "selfEffects": cuAPI.sideEffects,
+            "selfEffects": cuAPI.selfEffects,
             "abilityNumbers": cuAPI.abilityNumbers,
             "targetHP": cuAPI.targetHP,
             "targetMaxHP": cuAPI.targetMaxHP,
@@ -36,7 +36,8 @@ module Bugit {
             "targetEffects": cuAPI.targetEffects,
             "characterID": cuAPI.characterID,
             "serverURL": cuAPI.serverURL,
-            "serverTime": cuAPI.serverTime
+            "serverTime": cuAPI.serverTime,
+            "particlesRenderedCount": cuAPI.particlesRenderedCount
         };
     }
 
@@ -89,7 +90,7 @@ module Bugit {
 
     $(function () {
 
-        if (typeof cuAPI === "undefined") cuAPI = {
+        var API : any = cuAPI || {
             characterName: "Tester",
             locationX: 0,
             locationY: 0,
@@ -102,10 +103,10 @@ module Bugit {
             }
         };
 
-        var X = (+cuAPI.locationX).toFixed(2), Y = (+cuAPI.locationY).toFixed(2), Z = (+cuAPI.locationZ).toFixed(2);
-        $("#character").text(cuAPI.characterName);
+        var X = (+API.locationX).toFixed(2), Y = (+API.locationY).toFixed(2), Z = (+API.locationZ).toFixed(2);
+        $("#character").text(API.characterName);
         $("#location").text("X: " + X + ", Y: " + Y + ", Z: " + Z);
-        $("#fps").text(cuAPI.fps.toFixed(1));
+        $("#fps").text(API.fps.toFixed(1));
         var inputs: JQuery = $('#desc,#summary');
         var timer;
         inputs.focus((e) => {
@@ -113,16 +114,16 @@ module Bugit {
                 clearTimeout(timer);
                 timer = null;
             }
-            cuAPI.RequestInputOwnership();
+            API.RequestInputOwnership();
         });
         inputs.blur((e : JQueryEventObject) => {
             // release input ownership after a short delay, it will be cancelled if we
             // are loosing focus because we are placing focus in another field.  Otherwise
             // the release input ownership causes some focus weirdness
-            timer = setTimeout(() => { cuAPI.ReleaseInputOwnership(); }, 100);
+            timer = setTimeout(() => { API.ReleaseInputOwnership(); }, 100);
         });
         $("#close").click(() => {
-            cuAPI.CloseUI("bugit");
+            API.CloseUI("bugit");
         });
         $("#send").click(() => { send(); });
 
@@ -136,5 +137,5 @@ module Bugit {
         }
     });
 
-    // console.log(JSON.stringify(cuAPI));
+    console.log(JSON.stringify(cuAPI));
 } 
