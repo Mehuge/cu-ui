@@ -16,7 +16,7 @@ module Bugit {
             "netstats_udpPackets": cuAPI.netstats_udpPackets,
             "netstats_players_newCount": cuAPI.netstats_players_newCount,
             "netstats_players_newBits": cuAPI.netstats_players_newBits,
-            "netstats_players_updateCount": cuAPI.netstats_players_udpateCount,
+            "netstats_players_updateCount": cuAPI.netstats_players_updateCount,
             "netstats_players_updateBits": cuAPI.netstats_players_updateBits,
             "maxHP": cuAPI.maxHP,
             "characterName": cuAPI.characterName,
