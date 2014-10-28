@@ -1075,7 +1075,7 @@ class CU {
         this.listeners[event].push(callback);
     }
 
-    public GetFactionCssClassName(factionValue: Number): string {
+    public GetFactionCssClassName(factionValue: number): string {
         switch (factionValue) {
             case 3: return 'arthurian';
             case 2: return 'viking';
@@ -1084,7 +1084,7 @@ class CU {
         }
     }
 
-    public GetFactionName(factionValue: Number): string {
+    public GetFactionName(factionValue: number): string {
         switch (factionValue) {
             case 3: return 'Arthurian';
             case 2: return 'Viking';
@@ -1093,7 +1093,7 @@ class CU {
         }
     }
 
-    public GetFactionChannel(factionValue: Number): string {
+    public GetFactionChannel(factionValue: number): string {
         switch (factionValue) {
             case 3: return '_arthurian';
             case 2: return '_viking';
@@ -1659,6 +1659,10 @@ interface CUInGameAPI {
     serverTime: number;
     serverURL: string;
 
+    /* Abilities */
+
+    abilityNumbers: string[];
+
     Attack(abilityID: string): void;
 
     OnAbilityCooldown(c: (cooldownID: number, timeStarted: number, duration: number) => any): number;
@@ -1669,26 +1673,114 @@ interface CUInGameAPI {
 
     OnAbilityError(c: (message: string) => any): void;
 
+    /* Items */
+
     inventoryItemIDs: string[];
+    gearItemIDs: string[];
 
-    Equip(itemID: string): void;
-    OnEquipped(callback: (itemID: string) => any);
+    EquipItem(itemID: string): void;
+    OnItemEquipped(callback: (itemID: string) => any);
 
-    Unequip(itemID: string): void;
-    OnUnequipped(callback: (itemID: string) => any);
+    UnequipItem(itemID: string): void;
+    OnItemUnequipped(callback: (itemID: string) => any);
 
     GetItem(itemID: string): void;
-    OnGetItemResponse(callback: (itemID: string, data: string) => any);
+    OnGetItem(callback: (itemID: string, data: string) => any);
+
+    /* Config */
 
     OnReceiveConfigVars(c: (configs: string) => any): void;
-
     OnReceiveConfigVar(c: (config: any) => any): void;
-
     OnConfigVarChanged(c: (isChangeSuccessful: boolean) => any): void;
-
+    SaveConfigChanges: () => void;
     OnSavedConfigChanges(c: () => any): void;
+    RestoreConfigDefaults: (tag: Tags) => void;
+    ChangeConfigVar: (variable: string, value: string) => void;
+    CancelChangeConfig: (variable: string) => void;
+    CancelAllConfigChanges: (tag: Tags) => void;
+    GetConfigVars: (tag: Tags) => void;
+    GetConfigVar: (variable: string) => void;
+
+    /* Announcement */
 
     OnAnnouncement(c: (message: string, type: number) => any): void;
+
+    /* Character */
+
+    pktHash: string;
+    loginToken: string;
+    characterName: string;
+    characterID: string;
+    faction: number;
+    race: number;
+    hp: number;
+    maxHP: number;
+    energy: number;
+    maxEnergy: number;
+    speed: number;
+    selfEffects: string;
+    locationX: number;
+    locationY: number;
+    locationZ: number;
+
+    /* Target */
+
+    targetName: string;
+    targetHP: number;
+    targetMaxHP: number;
+    targetEnergy: number;
+    targetMaxEnergy: number;
+    targetEffects: string;
+    isTargetFriendly: boolean;
+
+    /* Chat */
+
+    OnBeginChat(c: (commandMode: number, text: string) => any): void;
+    OnChat(c: (type: number, from: string, body: string, nick: string, iscse: boolean) => any): void;
+    SendChat: (type: number, to: string, body: string) => void;
+    JoinMUC: (room: string) => void;
+    LeaveMUC: (room: string) => void;
+    Stuck: () => void;
+    ChangeZone: (zoneID: number) => void;
+
+    /* Stats */
+
+    fps: number;
+    frameTime: number;
+    netstats_udpPackets: number;
+    netstats_udpBytes: number;
+    netstats_tcpMessages: number;
+    netstats_tcpBytes: number;
+    netstats_players_updateBits: number;
+    netstats_players_updateCount: number;
+    netstats_players_newCount: number;
+    netstats_players_newBits: number;
+    netstats_lag: number;
+    particlesRenderedCount: number;
+
+    /* Console */
+
+    OnConsoleText(c: (text: string) => any): void;
+    ConsoleCommand: (body: string) => void;
+
+    /* Login */
+
+    patchResourceChannel: number;
+
+    Connect: (host: string, character: string) => void;
+
+    /* Shared */
+
+    OpenUI: (name: string) => void;
+    CloseUI: (name: string) => void;
+    HideUI: (name: string) => void;
+    ShowUI: (name: string) => void;
+    ToggleUIVisibility: (name: string) => void;
+    RequestInputOwnership: () => void;
+    ReleaseInputOwnership: () => void;
+    Quit: () => void;
+    CrashTheGame: () => void;
+    OnUpdateNameplate: (c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void) => void;
 }
 
-declare var cuAPI: any;
+declare var cuAPI: CUInGameAPI;

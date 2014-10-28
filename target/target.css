@@ -38,7 +38,7 @@ html, body {
     padding-left: 4px;
     color: #fff;
     font-family: 'Merriweather Sans', sans-serif;
-    font-size: 10px;
+    font-size: 11px;
     text-align: left;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -72,7 +72,7 @@ html, body {
     height: 17px;
     line-height: 17px;
     color: #fff;
-    font-family: 'Merriweather Sans', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 10px;
     text-align: center;
     text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
@@ -96,7 +96,7 @@ html, body {
     height: 11px;
     line-height: 11px;
     color: #a3eef9;
-    font-family: 'Merriweather Sans', sans-serif;
+    font-family: Arial, sans-serif;
     font-size: 8px;
     text-align: center;
     text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,

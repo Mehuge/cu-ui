@@ -297,81 +297,134 @@ module Chat {
         }
 
         var processed = $.terminal.parseCommand(input);
-        var to;
-        var body;
-        var name;
-        var channel;
-        switch (processed.name) {
-            case '/join':
-                if (processed.args.length < 1) return false;
-                channel = processed.args[0].toLowerCase();
-                cu.JoinMUC(channel);
-                joinRoom(channel);
-                return true;
-            case '/leave':
-                if (processed.args.length < 1) return false;
-                channel = processed.args[0].toLowerCase();
-                cu.LeaveMUC(channel);
-                leaveRoom(channel);
-                return true;
-            case '/muc':
-                if (processed.args.length < 2) return false;
-                to = processed.args[0] + '@' + cu.CHAT_SERVICE;
-                body = everythingAfterArg(input, processed, 0);
-                cu.SendChat(XmppMessageType.GROUPCHAT, to, body);
-                return true;
-            case '/quit':
-                cuAPI.Quit();
-                return true;
-            case '/tell':
-            case '/whisper':
-                if (processed.args.length < 2) return false;
-                to = processed.args[0];
-                body = everythingAfterArg(input, processed, 0);
-                cu.SendChat(XmppMessageType.CHAT, to, body);
-                return true;
-            case '/realm':
-                if (!cu.HasAPI()) return false;
-                if (processed.args.length < 1) return false;
-                channel = cu.GetFactionChannel(cuAPI.faction);
-                if (channel == null) return false;
-                to = channel + '@' + cu.CHAT_SERVICE;
-                body = processed.rest;
-                cu.SendChat(XmppMessageType.GROUPCHAT, to, body);
-                return true;
-            case '/openui':
-                if (processed.args.length < 1) return false;
-                name = processed.args[0];
-                if (name.indexOf('.ui') === -1) {
-                    name = name + '.ui';
-                }
-                cuAPI.OpenUI(name);
-                return true;
-            case '/closeui':
-                if (processed.args.length < 1) return false;
-                name = processed.args[0];
-                var uiIndex = name.indexOf('.ui');
-                if (uiIndex !== -1) {
-                    name = name.substring(0, uiIndex);
-                }
-                cuAPI.CloseUI(name);
-                return true;
-            case '/stuck':
-                cuAPI.Stuck();
-                return true;
-            case '/zone':
-                cuAPI.ChangeZone(parseInt(processed.args[0]));
-                return true;
-            case '/crashthegame':
-                cuAPI.CrashTheGame();
-                return true;
-            case '/loc':
-                onConsoleText(cuAPI.locationX + ',' + cuAPI.locationY + ',' + cuAPI.locationZ);
-                return true;
-            default:
-                return false;
-        }
+
+        var commandHandler = getSlashCommandHandler(processed.name.substring(1));
+
+        return commandHandler ? commandHandler(processed, input) : false;
     }
+
+    var slashCommands = {};
+
+    function addSlashCommand(slashCommand: string, description: string, commandHandler: (processed: any, input: string) => boolean, shorthands = []): void {
+        slashCommands[slashCommand] = { description: description, commandHandler: commandHandler, shorthands: shorthands };
+    }
+
+    function getSlashCommandHandler(slashCommand: string): (processed: any, input: string) => boolean {
+        if (slashCommands.hasOwnProperty(slashCommand)) return slashCommands[slashCommand].commandHandler;
+        for (var c in slashCommands) {
+            var command = slashCommands[c];
+            if (command.shorthands.indexOf(slashCommand) !== -1) {
+                return command.commandHandler;
+            }
+        }
+        return null;
+    }
+
+    addSlashCommand('help', 'show available slash commands', () => {
+        _.each(slashCommands, (command: any, name: string) => {
+            var text = '/' + name;
+
+            if (command.shorthands && command.shorthands.length) {
+                text += ' (/' + command.shorthands.join(', /') + ')';
+            }
+            
+            if (command.description && command.description.length) {
+                text += ' - ' + command.description;
+            }
+
+            onConsoleText(text);
+        });
+        return true;
+    });
+
+    addSlashCommand('join', 'join a chat room', (processed) => {
+        if (processed.args.length < 1) return false;
+        var channel = processed.args[0].toLowerCase();
+        cu.JoinMUC(channel);
+        joinRoom(channel);
+        return true;
+    });
+
+    addSlashCommand('leave', 'leave a chat room', (processed) => {
+        if (processed.args.length < 1) return false;
+        var channel = processed.args[0].toLowerCase();
+        cu.LeaveMUC(channel);
+        leaveRoom(channel);
+        return true;
+    });
+
+    addSlashCommand('muc', 'send a multi-user chat message', (processed, input) => {
+        if (processed.args.length < 2) return false;
+        var to = processed.args[0] + '@' + cu.CHAT_SERVICE;
+        var body = everythingAfterArg(input, processed, 0);
+        cu.SendChat(XmppMessageType.GROUPCHAT, to, body);
+        return true;
+    });
+
+    addSlashCommand('quit', 'quit the game', () => {
+        cuAPI.Quit();
+        return true;
+    });
+
+    addSlashCommand('whisper', 'send a private message to another player', (processed, input) => {
+        if (processed.args.length < 2) return false;
+        var to = processed.args[0];
+        var body = everythingAfterArg(input, processed, 0);
+        cu.SendChat(XmppMessageType.CHAT, to, body);
+        return true;
+    }, [ 'tell', 'w' ]);
+
+    addSlashCommand('realm', 'send a message to your entire realm', (processed) => {
+        if (!cu.HasAPI()) return false;
+        if (processed.args.length < 1) return false;
+        var channel = cu.GetFactionChannel(cuAPI.faction);
+        if (channel == null) return false;
+        var to = channel + '@' + cu.CHAT_SERVICE;
+        var body = processed.rest;
+        cu.SendChat(XmppMessageType.GROUPCHAT, to, body);
+        return true;
+    });
+
+    addSlashCommand('openui', 'open a ui widget', (processed) => {
+        if (processed.args.length < 1) return false;
+        var name = processed.args[0];
+        if (name.indexOf('.ui') === -1) {
+            name = name + '.ui';
+        }
+        cuAPI.OpenUI(name);
+        return true;
+    });
+
+    addSlashCommand('closeui', 'close a ui widget', (processed) => {
+        if (processed.args.length < 1) return false;
+        var name = processed.args[0];
+        var uiIndex = name.indexOf('.ui');
+        if (uiIndex !== -1) {
+            name = name.substring(0, uiIndex);
+        }
+        cuAPI.CloseUI(name);
+        return true;
+    });
+
+    addSlashCommand('stuck', 'gets your character unstuck', () => {
+        cuAPI.Stuck();
+        return true;
+    });
+
+    addSlashCommand('zone', 'changes zone', (processed) => {
+        cuAPI.ChangeZone(parseInt(processed.args[0]));
+        return true;
+    });
+
+    addSlashCommand('crashthegame', 'crashes the game client', () => {
+        cuAPI.CrashTheGame();
+        return true;
+    });
+
+    addSlashCommand('loc', 'prints your current location', () => {
+        onConsoleText(cuAPI.locationX + ',' + cuAPI.locationY + ',' + cuAPI.locationZ);
+        return true;
+    });
 
     function everythingAfterArg(input, processed, argNum) {
         // Start at the beginning of the string, and ignore any leading whitespace then match
