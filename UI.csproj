@@ -47,6 +47,7 @@
     <Content Include="controlgame\controlgame.css" />
     <Content Include="controlgame\controlgame.html" />
     <Content Include="cu\cu.css" />
+    <Content Include="cu\fake-cuapi.js" />
     <Content Include="enemytarget\enemytarget.html" />
     <Content Include="equippedgear\equippedgear.css" />
     <Content Include="equippedgear\equippedgear.html" />
