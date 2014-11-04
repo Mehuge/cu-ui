@@ -4,6 +4,10 @@ module Tweaks {
     var INTEGER = 0, BOOLEAN = 1;
     var tweaks : any = [
         {
+            id: "daytime", dflt: true, type: INTEGER, min: 0, max: 24,
+            label: "Time of Day"
+        },
+        {
             id: "gpuphysics", dflt: true, type: BOOLEAN,
             label: "GPU Physics"
         },
@@ -18,6 +22,10 @@ module Tweaks {
         {
             id: "fogEnabled", dflt: true, type: BOOLEAN,
             label: "Fog Enabled"
+        },
+        {
+            id: "nameplates", dflt: true, type: BOOLEAN,
+            label: "Nameplates Enabled"
         },
         {
             id: "NameplateTotalFadeDistance", dflt: "15", type: INTEGER, min: 0, max: 99, step: 1,
