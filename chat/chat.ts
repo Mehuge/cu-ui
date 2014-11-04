@@ -10,29 +10,25 @@
 module Chat {
     var minMessageBufferSize = 50;
     var messageBufferSize = minMessageBufferSize;
-    var $chatRooms: JQuery;
-    var $otherChatRoomsContainer: JQuery;
-    var $otherChatRooms: JQuery;
+    var $chatTabs: JQuery;
     var $chatBox: JQuery;
     var $chatInput: JQuery;
     var hasScrolled = {};
     var rooms = {};
     var selectedRoom = null;
 
-    var MAX_TABS = 4;
+    var MAX_TABS = 7;
 
-    function createRoom(room) {
+    function createTab(room) {
         if (rooms.hasOwnProperty(room)) return;
 
-        var $tab = $('<li>').attr('id', room + '-tab').addClass('chat-tab ' + room).prependTo($chatRooms);
+        var $tab = $('<li>').attr('id', room + '-tab').addClass('chat-tab ' + room).appendTo($chatTabs);
 
-        var $a = $('<a>').attr('href', '#' + room).text(room).click(clickRoom).appendTo($tab);
+        var $a = $('<a>').attr('href', '#' + room).text(room).click(clickTab).appendTo($tab);
 
         if (0 > $a[0].clientWidth - $a[0].scrollWidth) {
             $a.css('padding-right', 0);
         }
-
-        $('<a>').attr('href', '#').addClass('btn-close').click(() => leaveRoom(room)).appendTo($tab);
 
         var $text = $('<div>').attr({
             'id': room + '-text',
@@ -44,12 +40,7 @@ module Chat {
         };
     }
 
-    function joinRoom(room) {
-        createRoom(room);
-        selectRoom(room);
-    }
-
-    function leaveRoom(room) {
+    function destroyTab(room) {
         if (!rooms.hasOwnProperty(room)) return;
 
         var $room = rooms[room];
@@ -59,38 +50,42 @@ module Chat {
         $room.$tab.remove();
 
         delete rooms[room];
+    }
+
+    function joinRoom(room) {
+        if (Object.keys(rooms).length >= MAX_TABS) {
+            onConsoleText('You have already reached the maximum number of tabs.');
+            return;
+        }
+
+        createTab(room);
+        selectTab(room);
+    }
+
+    function leaveRoom(room) {
+        destroyTab(room);
 
         if (selectedRoom == room) {
             selectedRoom = null;
         }
 
-        if ($chatRooms.children().length < MAX_TABS) {
-            $otherChatRooms.children(':first').appendTo($chatRooms);
-        }
-
-        var hasOtherChatRooms = $otherChatRooms.children().length > 0;
-
-        $otherChatRoomsContainer.css('display', hasOtherChatRooms ? 'block' : 'none');
-
-        if (!$chatRooms.children('.selected').length && Object.keys(rooms).length) {
-            var firstRoom = $chatRooms.children(':first').text();
-            if (firstRoom) selectRoom(firstRoom);
+        if (!$chatTabs.children('.selected').length && Object.keys(rooms).length) {
+            var firstRoom = $chatTabs.children(':first').text();
+            if (firstRoom) selectTab(firstRoom);
         }
     }
 
-    function clickRoom(e) {
+    function clickTab(e) {
         e.preventDefault();
-
-        hideOtherChatRooms();
 
         var channel = $(this).attr('href').substring(1);
 
-        selectRoom(channel);
+        selectTab(channel);
 
         return false;
     }
 
-    function selectRoom(room) {
+    function selectTab(room) {
         if (selectedRoom === room) return;
 
         selectedRoom = room;
@@ -98,40 +93,17 @@ module Chat {
         $chatInput.removeClass().addClass(room).attr('placeholder', room);
 
         var $room = getRoom(room);
+
+        if (!$room) return;
+
         var $roomText = $room.$text;
         var $roomTab = $room.$tab;
 
-        $roomTab.removeClass('highlight');
-
-        if (!$.contains($chatRooms[0], $roomTab[0])) {
-            $roomTab.prependTo($chatRooms);
-        }
-
-        $roomTab.addClass('selected').siblings().removeClass('selected');
+        $roomTab.removeClass('highlight').addClass('selected').siblings().removeClass('selected');
 
         $roomText.css('display', 'block').siblings().css('display', 'none');
 
         tryScrollToBottom(room, $roomText);
-
-        var otherChatRooms = [];
-
-        var hasOtherChatRooms = false;
-
-        $chatRooms.children().not($roomTab).each((i, tab) => {
-            if (i < MAX_TABS - 1) return;
-
-            hasOtherChatRooms = true;
-
-            $otherChatRooms.append(tab);
-
-            otherChatRooms.push(tab);
-        });
-
-        if (!hasOtherChatRooms) {
-            hasOtherChatRooms = $otherChatRooms.children().length > 0;
-        }
-
-        $otherChatRoomsContainer.css('display', hasOtherChatRooms ? 'block' : 'none');
     }
 
     function getRoom(room): any {
@@ -142,10 +114,6 @@ module Chat {
         if (!hasScrolled[channel] && $channelText && $channelText.length) {
             $channelText.scrollTop($channelText[0].scrollHeight);
         }
-    }
-
-    function hideOtherChatRooms() {
-        $otherChatRooms.css('display', 'none');
     }
 
     function appendChat(channel, $chatMessage, channelClass, iconClass) {
@@ -477,28 +445,11 @@ module Chat {
             }
         });
 
-        $chatRooms = cu.FindElement('#chat-rooms');
-
-        $otherChatRoomsContainer = cu.FindElement('#other-chat-rooms');
-        
-        $otherChatRoomsContainer.children('li').click((e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            $otherChatRooms.css('display', $otherChatRooms.is(':visible') ? 'none' : 'block');
-
-            return false;
-        });
-
-        $otherChatRooms = cu.FindElement('ul', $otherChatRoomsContainer[0]);
+        $chatTabs = cu.FindElement('#chat-tabs');
 
         $chatBox = cu.FindElement('#chat-box');
 
-        $chatBox.click(hideOtherChatRooms);
-
         $chatInput = cu.FindElement('#chat-input');
-
-        $chatInput.focus(hideOtherChatRooms);
 
         cu.Listen('OnChat', onChat);
         cu.Listen('OnBeginChat', onBeginChat);
@@ -514,8 +465,8 @@ module Chat {
             if (factionChannel) defaultRooms.push(factionChannel);
         }
 
-        Array.prototype.slice.call(defaultRooms).reverse().forEach(createRoom);
-        selectRoom(defaultRooms[0]);
+        Array.prototype.slice.call(defaultRooms).forEach(createTab);
+        selectTab(defaultRooms[0]);
     });
 
     cu.OnServerConnected(() => {

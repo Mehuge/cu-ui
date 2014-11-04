@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+/// <reference path="../vendor/numeral.d.ts" />
 /// <reference path="../vendor/jquery.d.ts" />
 
 module Login {
@@ -1779,6 +1780,7 @@ module Login {
             result.name = attribute.name;
             result.description = attribute.description;
             result.value = 0;
+            result.format = attribute.format;
             results[attribute.name] = result;
             return results;
         }, {});
@@ -2415,7 +2417,7 @@ module Login {
 
         new Tooltip($name, { showDelay: 0, hideDelay: 200, topOffset: -31, leftOffset: -40 });
 
-        $('<span>').addClass('summary-attribute-value').text(attribute.value).appendTo($li);
+        $('<span>').addClass('summary-attribute-value').text(numeral(attribute.value).format(attribute.format)).appendTo($li);
 
         return $li;
     }
