@@ -50,9 +50,9 @@ for (var i = 1; i <= 10; i++) {
 }
 
 var FakeCUInGameAPI = (function () {
-    var _hp = 100,
+    var _maxHP = 120, _hp = 100,
         simulateHP = function () {
-            _hp = _hp === 0 ? 100 : _hp - ((Math.random() * 50)|0);
+            _hp = _hp === 0 ? _maxHP : _hp - ((Math.random() * 50)|0);
             if (_hp < 0) _hp = 0;
         }
         ticker = setInterval(function () {
@@ -75,7 +75,7 @@ var FakeCUInGameAPI = (function () {
         this.faction = 0;
         this.race = 0;
         this.__defineGetter__("hp", function () { return _hp; });
-        this.maxHP = 120;
+        this.__defineGetter__("maxHP", function() { return _maxHP; });
         this.energy = 0;
         this.maxEnergy = 0;
         this.speed = 0;
