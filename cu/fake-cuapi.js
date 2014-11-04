@@ -50,6 +50,14 @@ for (var i = 1; i <= 10; i++) {
 }
 
 var FakeCUInGameAPI = (function () {
+    var _hp = 100,
+        simulateHP = function () {
+            _hp = _hp === 0 ? 100 : _hp - ((Math.random() * 50)|0);
+            if (_hp < 0) _hp = 0;
+        }
+        ticker = setInterval(function () {
+            simulateHP();
+        },1000);
     function FakeCUInGameAPI() {
         this.initialized = true;
         this.serverTime = 0;
@@ -66,8 +74,7 @@ var FakeCUInGameAPI = (function () {
         this.characterID = '';
         this.faction = 0;
         this.race = 0;
-        // this.hp = 100;
-        this.__defineGetter__("hp", function() { return (Math.random()*101)|0; });
+        this.__defineGetter__("hp", function () { return _hp; });
         this.maxHP = 120;
         this.energy = 0;
         this.maxEnergy = 0;
