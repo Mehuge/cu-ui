@@ -137,7 +137,7 @@ class CooldownGroup {
 
 class AbilityButton {
     constructor(public ability: Ability, private cu: CU, private index) {
-        this.rootElement = $('<div/>').addClass('abilityButton').click(() => ability.Perform());
+        this.rootElement = $('<div/>').addClass('abilityButton').mousedown(() => ability.Perform());
         this.rootElement.append($('<img/>').addClass('activeHighlight').attr('src', '../images/skillbar/active-frame.gif'));
         this.rootElement.append($('<img/>').addClass('abilityIcon').attr('src', ability.icon));
         this.rootElement.append($('<img/>').addClass('queuedIcon').attr('src', '../images/skillbar/queued-frame.png'));
