@@ -318,7 +318,8 @@ enum XmppAuthMechanism {
 
 // These are the tags needed by the C++ Layer to know which variables to send to the window.
 enum Tags {
-    KEYBIND = 2
+    KEYBIND = 2,
+    INPUT = 6
 }
 
 var KeyCode = {

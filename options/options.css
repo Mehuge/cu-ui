@@ -68,11 +68,15 @@ body {
     font-size: 14px;
 }
 
-.btn-side:hover {
+.btn-side:not(.active) {
+    background-position: 0 0px;
+}
+
+.btn-side:not(.active):hover {
     background-position: 0 -30px;
 }
 
-.btn-side:active {
+.btn-side:active, .btn-side.active {
     background-position: 0 -60px;
 }
 
@@ -130,6 +134,14 @@ body {
 #btn-keys {
     position: absolute;
     top: 45px;
+    left: 20px;
+    line-height: 29px;
+    padding-left: 15px;
+}
+
+#btn-input {
+    position: absolute;
+    top: 75px;
     left: 20px;
     line-height: 29px;
     padding-left: 15px;
