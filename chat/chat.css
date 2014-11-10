@@ -223,12 +223,12 @@ html, body {
     left: 0;
     width: 555px;
     height: 30px;
-    color: #fff;
     margin: 0;
     padding: 0 0 0 35px;
     border: none;
     outline-width: 0;
     background: transparent;
+    color: transparent;
 }
 
 #chat-input::-webkit-input-placeholder {
@@ -240,6 +240,7 @@ html, body {
 }
 
 #chat-input:focus {
+    color: #fff;
     border: 1px solid rgba(128, 128, 128, 0.46);
     outline-width: 0;
     background: -moz-linear-gradient(left,  rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.2) 100%); /* FF3.6+ */
