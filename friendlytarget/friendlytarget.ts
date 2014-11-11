@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 class FriendlyTarget extends Target {
-    /*
     getTargetPlayer(): TargetPlayer {
         var player = {
             name: '',
@@ -26,7 +25,6 @@ class FriendlyTarget extends Target {
 
         return player;
     }
-    */
 }
 
 var friendlyTarget = new FriendlyTarget();

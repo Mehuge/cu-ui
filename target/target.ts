@@ -71,16 +71,6 @@ class Target {
             isFriendly: undefined
         };
 
-        if (cu.HasAPI()) {
-            player.name = cuAPI.targetName;
-            player.hp = cuAPI.targetHP;
-            player.maxHP = cuAPI.targetMaxHP;
-            player.energy = cuAPI.targetEnergy;
-            player.maxEnergy = cuAPI.targetMaxEnergy;
-            player.effects = cuAPI.targetEffects;
-            player.isFriendly = cuAPI.isTargetFriendly;
-        }
-
         return player;
     }
 

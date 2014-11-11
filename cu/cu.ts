@@ -1726,13 +1726,20 @@ interface CUInGameAPI {
 
     /* Target */
 
-    targetName: string;
-    targetHP: number;
-    targetMaxHP: number;
-    targetEnergy: number;
-    targetMaxEnergy: number;
-    targetEffects: string;
-    isTargetFriendly: boolean;
+    friendTargetName: string;
+    friendTargetHP: number;
+    friendTargetMaxHP: number;
+    friendTargetEnergy: number;
+    friendTargetMaxEnergy: number;
+    friendTargetEffects: string;
+
+    enemyTargetName: string;
+    enemyTargetHP: number;
+    enemyTargetMaxHP: number;
+    enemyTargetEnergy: number;
+    enemyTargetMaxEnergy: number;
+    enemyTargetEffects: string;
+
 
     /* Chat */
 
