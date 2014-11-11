@@ -3,10 +3,10 @@
     "name" : "tweaks",
     "mainFile" : "tweaks/tweaks.html",
     "rect" : {
-        "left" : 660,
-        "top" : 300,
+        "left" : 600,
+        "top" : 200,
         "right" : 1100,
-        "bottom" : 820
+        "bottom" : 650
     },
     "handlesConsole" : true
 }
