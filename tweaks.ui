@@ -8,5 +8,5 @@
         "right" : 1100,
         "bottom" : 820
     },
-    "handlesChat" : true
+    "handlesConsole" : true
 }
