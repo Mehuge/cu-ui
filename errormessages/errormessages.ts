@@ -4,26 +4,25 @@
 
 /// <reference path="../vendor/jquery.d.ts" />
 /// <reference path="../cu/cu.ts" />
-var cu = new CU();
-module Errormessages {
 
+module ErrorMessages {
     cu.Listen('HandleAbilityError', (message) => {
-        if (message) {
-            var messageText = getMessageText(message);
+        if (!message) return;
 
-            if (messageText == 'BadMessage') return;
+        var messageText = getMessageText(message);
 
-            var newMessage = $('<li class="message"/>');
-            newMessage.append(messageText);
-            newMessage.prependTo(".messageList");
-            setTimeout(() => {
-                newMessage.remove();
-            }, 3000);
-            var msgs = $(".message");
-            while (msgs.length > 3) {
-                msgs.last().remove();
-                msgs = $(".message");
-            }
+        if (messageText == 'BadMessage') return;
+
+        var newMessage = $('<li>').addClass('message').append(messageText).prependTo('.messageList');
+
+        setTimeout(() => {
+            newMessage.remove();
+        }, 3000);
+
+        var msgs = $('.message');
+        while (msgs.length > 3) {
+            msgs.last().remove();
+            msgs = $('.message');
         }
     });
 
@@ -33,10 +32,9 @@ module Errormessages {
             case 2: return 'Your target is invalid.';
             case 3: return 'Your target is not in line of sight.';
             case 4: return 'That ability is still on cooldown.';
-            case 5: return "You don't have a target.";
-            case 6: return "You were interrupted!";
+            case 5: return 'You don\'t have a target.';
+            case 6: return 'You were interrupted!';
             default: return 'BadMessage';
         }
     }
-
 }
