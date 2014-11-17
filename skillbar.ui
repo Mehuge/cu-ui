@@ -9,5 +9,6 @@
 		"bottom": 900
 	},
 	"handlesAbilities": true,
-	"handlesConfig": true
+	"handlesConfig": true,
+	"handlesInput": true
 }

@@ -8,5 +8,6 @@
 		"right": 1120,
 		"bottom": 770
 	},
-    "handlesInventory": true
+	"handlesInventory": true,
+	"handlesInput": true
 }

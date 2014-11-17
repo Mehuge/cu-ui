@@ -9,5 +9,6 @@
 		"bottom": 810
 	},
 	"handlesChat": true,
-	"handlesConsole": true
+	"handlesConsole": true,
+	"handlesInput": true
 }

@@ -1651,14 +1651,30 @@ interface CUInGameAPI {
     initialized: boolean;
     OnInitialized(c: () => void): number;
     CancelOnInitialized(c: number): void;
-
+    
     // Everything else only exists after this.initialized is set and the
     // OnInitialized callbacks are invoked.
 
+    /* Shared */
+
+    patchResourceChannel: number;
+    loginToken: string;
+    serverURL: string;
+    serverTime: number;
+    vsync: number;
+
     OnServerConnected(c: () => void): number;
     CancelOnServerConnected(c: number): void;
-    serverTime: number;
-    serverURL: string;
+    OpenUI(name: string): void;
+    CloseUI(name: string): void;
+    HideUI(name: string): void;
+    ShowUI(name: string): void;
+    ToggleUIVisibility(name: string): void;
+    RequestInputOwnership(): void;
+    ReleaseInputOwnership(): void;
+    Quit(): void;
+    CrashTheGame(): void;
+    OnUpdateNameplate(c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void): void;
 
     /* Abilities */
 
@@ -1709,7 +1725,6 @@ interface CUInGameAPI {
     /* Character */
 
     pktHash: string;
-    loginToken: string;
     characterName: string;
     characterID: string;
     faction: number;
@@ -1739,7 +1754,6 @@ interface CUInGameAPI {
     enemyTargetEnergy: number;
     enemyTargetMaxEnergy: number;
     enemyTargetEffects: string;
-
 
     /* Chat */
 
@@ -1773,26 +1787,7 @@ interface CUInGameAPI {
 
     /* Login */
 
-    patchResourceChannel: number;
-
     Connect(host: string, character: string): void;
-
-    /* Shared */
-
-    OpenUI(name: string): void;
-    CloseUI(name: string): void;
-    HideUI(name: string): void;
-    ShowUI(name: string): void;
-    ToggleUIVisibility(name: string): void;
-    RequestInputOwnership(): void;
-    ReleaseInputOwnership(): void;
-    Quit(): void;
-    CrashTheGame(): void;
-    OnUpdateNameplate(c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void): void;
-
-    /* Other */
-
-    vsync: number;
 }
 
 declare var cuAPI: CUInGameAPI;
