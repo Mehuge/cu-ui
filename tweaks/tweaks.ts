@@ -4,7 +4,7 @@ module Tweaks {
     var INTEGER = 0, BOOLEAN = 1;
     var tweaks : any = [
         {
-            id: "daytime", dflt: true, type: INTEGER, min: 0, max: 24,
+            id: "daytime", dflt: true, type: INTEGER, min: -1, max: 24,
             label: "Time of Day"
         },
         {
