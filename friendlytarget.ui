@@ -7,5 +7,6 @@
 		"top": 150,
 		"right": 198,
 		"bottom": 289
-	}
+	},
+	"handlesFriendlyTarget": true
 }

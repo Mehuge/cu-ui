@@ -3,27 +3,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 class EnemyTarget extends Target {
-    getTargetPlayer(): TargetPlayer {
-        var player = {
-            name: '',
-            hp: -1,
-            maxHP: -1,
-            energy: -1,
-            maxEnergy: -1,
-            effects: '[]',
-            isFriendly: false
-        };
-
+    bindChangedCallbacks() {
         if (cu.HasAPI()) {
-            player.name = cuAPI.enemyTargetName;
-            player.hp = cuAPI.enemyTargetHP;
-            player.maxHP = cuAPI.enemyTargetMaxHP;
-            player.energy = cuAPI.enemyTargetEnergy;
-            player.maxEnergy = cuAPI.enemyTargetMaxEnergy;
-            player.effects = cuAPI.enemyTargetEffects;
-        }
+            cu.OnInitialized(() => {
+                cuAPI.OnEnemyTargetNameChanged(this.updateName.bind(this));
 
-        return player;
+                cuAPI.OnEnemyTargetHealthChanged(this.updateHealth.bind(this));
+
+                cuAPI.OnEnemyTargetStaminaChanged(this.updateStamina.bind(this));
+
+                cuAPI.OnEnemyTargetEffectsChanged(this.updateEffects.bind(this));
+            });
+        }
     }
 }
 

@@ -9,12 +9,11 @@ module Nameplate {
     var cellWidth = 256;
     var cellHeight = 64;
     var numCells = squareSize / cellWidth;
-    var numRows = squareSize / cellHeight;
 
     //var divContent = "{NAME} &#8249;{GTAG}&#8250;<br />{TITLE}";
     var divContent = "{NAME} {GTAG}<br />{TITLE}";
 
-    function UpdateNameplate(cell, colorMod, name, gtag, title) {
+    function updateNameplate(cell, colorMod, name, gtag, title) {
         // Position this cell
         var row = Math.floor(cell / numCells);
         var col = cell % numCells;
@@ -45,7 +44,7 @@ module Nameplate {
             $('<div/>', {
                 id: cell,
                 name: cell,
-                style: 'color: ' + color + '; text-shadow: 2px 2px 4px #000000; position:absolute; TOP: ' + row * cellHeight + 'px; LEFT: ' + col * cellWidth + 'px; WIDTH: ' + cellWidth + 'px; HEIGHT: ' + cellHeight + 'px; overflow:hidden;'
+                style: 'color: ' + color + '; text-shadow: 2px 2px 4px #000000; position: absolute; top: ' + row * cellHeight + 'px; left: ' + col * cellWidth + 'px; width: ' + cellWidth + 'px; height: ' + cellHeight + 'px; overflow: hidden;'
             }).html(compiledStr).appendTo('body');
         }
     }
@@ -53,5 +52,9 @@ module Nameplate {
     // Register our callbacks with the CU API, these are functions
     // called by the underlying engine when certain events occur, 
     // such as needing to update a nameplate.
-    cuAPI.OnUpdateNameplate(UpdateNameplate);
+    if (cu.HasAPI()) {
+        cu.OnInitialized(() => {
+            cuAPI.OnUpdateNameplate(updateNameplate);
+        });
+    }
 }

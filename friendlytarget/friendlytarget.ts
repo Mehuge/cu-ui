@@ -3,27 +3,18 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 class FriendlyTarget extends Target {
-    getTargetPlayer(): TargetPlayer {
-        var player = {
-            name: '',
-            hp: -1,
-            maxHP: -1,
-            energy: -1,
-            maxEnergy: -1,
-            effects: '[]',
-            isFriendly: true
-        };
-
+    bindChangedCallbacks() {
         if (cu.HasAPI()) {
-            player.name = cuAPI.friendTargetName;
-            player.hp = cuAPI.friendTargetHP;
-            player.maxHP = cuAPI.friendTargetMaxHP;
-            player.energy = cuAPI.friendTargetEnergy;
-            player.maxEnergy = cuAPI.friendTargetMaxEnergy;
-            player.effects = cuAPI.friendTargetEffects;
-        }
+            cu.OnInitialized(() => {
+                cuAPI.OnFriendlyTargetNameChanged(this.updateName.bind(this));
 
-        return player;
+                cuAPI.OnFriendlyTargetHealthChanged(this.updateHealth.bind(this));
+
+                cuAPI.OnFriendlyTargetStaminaChanged(this.updateStamina.bind(this));
+
+                cuAPI.OnFriendlyTargetEffectsChanged(this.updateEffects.bind(this));
+            });
+        }
     }
 }
 

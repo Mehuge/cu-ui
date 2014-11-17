@@ -7,5 +7,6 @@
 		"top": 9,
 		"right": 478,
 		"bottom": 168
-	}
+	},
+	"handlesEnemyTarget": true
 }

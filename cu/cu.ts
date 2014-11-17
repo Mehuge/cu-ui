@@ -1741,19 +1741,15 @@ interface CUInGameAPI {
 
     /* Target */
 
-    friendTargetName: string;
-    friendTargetHP: number;
-    friendTargetMaxHP: number;
-    friendTargetEnergy: number;
-    friendTargetMaxEnergy: number;
-    friendTargetEffects: string;
+    OnEnemyTargetNameChanged(callback: (name: string) => void): void;
+    OnEnemyTargetHealthChanged(callback: (health: number, maxHealth: number) => void): void;
+    OnEnemyTargetStaminaChanged(callback: (stamina: number, maxStamina: number) => void): void;
+    OnEnemyTargetEffectsChanged(callback: (effects: string) => void): void;
 
-    enemyTargetName: string;
-    enemyTargetHP: number;
-    enemyTargetMaxHP: number;
-    enemyTargetEnergy: number;
-    enemyTargetMaxEnergy: number;
-    enemyTargetEffects: string;
+    OnFriendlyTargetNameChanged(callback: (name: string) => void): void;
+    OnFriendlyTargetHealthChanged(callback: (health: number, maxHealth: number) => void): void;
+    OnFriendlyTargetStaminaChanged(callback: (stamina: number, maxStamina: number) => void): void;
+    OnFriendlyTargetEffectsChanged(callback: (effects: string) => void): void;
 
     /* Chat */
 

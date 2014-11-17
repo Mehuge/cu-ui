@@ -238,7 +238,7 @@
     <Content Include="images\skills\water-Wall.jpg" />
     <Content Include="images\skills\water-Wave.jpg" />
     <Content Include="images\target\bg.png" />
-    <Content Include="images\target\energy-bar.png" />
+    <Content Include="images\target\stamina-bar.png" />
     <Content Include="images\target\frame.png" />
     <Content Include="images\target\health-bar.png" />
     <Content Include="inventory\inventory.css" />
@@ -307,7 +307,6 @@
     <Content Include="perfhud.ui" />
     <Content Include="skillbar.ui" />
     <Content Include="target\target.css" />
-    <Content Include="target\target.html" />
     <Content Include="vendor\numeral.js" />
     <Content Include="watermark.ui" />
     <TypeScriptCompile Include="errormessages\errormessages.ts" />
@@ -324,7 +323,6 @@
     <Content Include="cu-rest\README.md" />
     <Content Include="enemytarget.ui" />
     <Content Include="friendlytarget.ui" />
-    <Content Include="target.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

@@ -47,11 +47,11 @@ html, body {
                  0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
 }
 
-#name.enemy {
+.enemy #name {
     color: #ffbbbb;
 }
 
-#name.friendly {
+.friendly #name {
     color: #bbbbff;
 }
 
@@ -79,16 +79,16 @@ html, body {
                  0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
 }
 
-#energy-bar {
+#stamina-bar {
     position: absolute;
     top: 41px;
     left: 3px;
     width: 154px;
     height: 11px;
-    background: transparent url('../images/target/energy-bar.png') no-repeat top left;
+    background: transparent url('../images/target/stamina-bar.png') no-repeat top left;
 }
 
-#energy-text {
+#stamina-text {
     position: absolute;
     top: 41px;
     left: 3px;
