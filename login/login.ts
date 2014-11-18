@@ -339,8 +339,8 @@ module Login {
             var delay = 10000;
             serverCharacterRequests[server.host] = $.ajax({
                 type: 'GET',
-                url: 'http://tracker.sorcerer.co.uk/characters.php?loginToken=' + loginToken,
-                /* url: getSecureServerApiUrl(server) + '/characters?loginToken=' + loginToken, */
+                /* url: 'http://tracker.sorcerer.co.uk/characters.php?loginToken=' + loginToken, */
+                url: getSecureServerApiUrl(server) + '/characters?loginToken=' + loginToken,
                 timeout: delay
             }).done((data) => {
                 server.characters = data;
