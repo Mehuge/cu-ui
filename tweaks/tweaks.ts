@@ -1,7 +1,7 @@
 ﻿/// <reference path="../cu/cu.ts" />
 /// <reference path="../vendor/jquery.d.ts" />
 module Tweaks {
-    var INTEGER = 0, BOOLEAN = 1;
+    var INTEGER = 0, BOOLEAN = 1, FLOAT = 2;
     var tweaks : any = [
         {
             id: "daytime", dflt: true, type: INTEGER, min: -1, max: 24,
@@ -24,15 +24,27 @@ module Tweaks {
             label: "Fog Enabled"
         },
         {
+            id: "invertMouseX", dflt: false, type: BOOLEAN,
+            label: "Invert Mouse X"
+        },
+        {
+            id: "invertMouseY", dflt: false, type: BOOLEAN,
+            label: "Invert Mouse Y"
+        },
+        {
             id: "nameplates", dflt: true, type: BOOLEAN,
             label: "Nameplates Enabled"
         },
         {
-            id: "NameplateTotalFadeDistance", dflt: "15", type: INTEGER, min: 0, max: 99, step: 1,
+            id: "NameplateHeight", dflt: 2.3, type: FLOAT, min: -5, max: 5, step: .1,
+            label: "Nameplates Height"
+        },
+        {
+            id: "NameplateTotalFadeDistance", dflt: "15", type: INTEGER, min: 0, max: 20, step: 1,
             label: "Total Nameplate Fade Distance"
         },
         {
-            id: "NameplateFadeStartDistance", dflt: "40", type: INTEGER, min: 0, max: 99, step: 1,
+            id: "NameplateFadeStartDistance", dflt: "40", type: INTEGER, min: 0, max: 999, step: 1,
             label: "Nameplate Fade Start Distance"
         },
         {
@@ -71,7 +83,7 @@ module Tweaks {
                 div: JQuery = $('<div>'),
                 slider: JQuery = $('<input>');
             switch (tweak.type) {
-                case INTEGER:
+                case INTEGER: case FLOAT:
                     slider.attr({
                         type: "range",
                         min: tweak.min,
