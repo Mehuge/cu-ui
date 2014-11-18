@@ -89,8 +89,9 @@ module Bot {
                 break;
             case "target":
                 if (o.target) {
-                    console.log('BOT ' + (cuAPI.enemyTargetName != null ? 'friendly ' : '') + 'target ' + cuAPI.enemyTargetName + " hp " + cuAPI.enemyTargetHP + "/" + cuAPI.maxHP + " effects " + cuAPI.enemyTargetEffects);
-                    o.target(cuAPI.enemyTargetName != null, cuAPI.enemyTargetName, cuAPI.enemyTargetHP, cuAPI.maxHP, cuAPI.enemyTargetEffects);
+                    // console.log('BOT ' + (cuAPI.enemyTargetName != null ? 'friendly ' : '') + 'target ' + cuAPI.enemyTargetName + " hp " + cuAPI.enemyTargetHP + "/" + cuAPI.maxHP + " effects " + cuAPI.enemyTargetEffects);
+                    // o.target(cuAPI.enemyTargetName != null, cuAPI.enemyTargetName, cuAPI.enemyTargetHP, cuAPI.maxHP, cuAPI.enemyTargetEffects);
+                    alert('target logic broken please fix');
                 }
                 next();
                 break;
