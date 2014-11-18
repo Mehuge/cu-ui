@@ -52,9 +52,5 @@ module Nameplate {
     // Register our callbacks with the CU API, these are functions
     // called by the underlying engine when certain events occur, 
     // such as needing to update a nameplate.
-    if (cu.HasAPI()) {
-        cu.OnInitialized(() => {
-            cuAPI.OnUpdateNameplate(updateNameplate);
-        });
-    }
+    cuAPI.OnUpdateNameplate(updateNameplate);
 }
