@@ -265,6 +265,11 @@
     <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="lb\lb3.html" />
     <Content Include="lb\leaderboard.html" />
+    <Content Include="perf\flot\jquery.flot.js" />
+    <Content Include="perf\flot\jquery.flot.threshold.js" />
+    <Content Include="perf\flot\jquery.js" />
+    <Content Include="perf\perf.css" />
+    <Content Include="perf\perf.html" />
     <Content Include="tweaks\tweaks.css" />
     <Content Include="tweaks\tweaks.html" />
     <Content Include="web\banes.html" />
@@ -295,6 +300,7 @@
     <Content Include="respawn\respawn.html" />
     <Content Include="skillbar\skillbar.css" />
     <Content Include="skillbar\skillbar.html" />
+    <TypeScriptCompile Include="perf\perf.ts" />
     <TypeScriptCompile Include="tweaks\tweaks.ts" />
     <TypeScriptCompile Include="target\target.ts" />
     <TypeScriptCompile Include="vendor\lodash.d.ts" />
