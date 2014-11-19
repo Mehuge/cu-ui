@@ -66,6 +66,7 @@
     <Content Include="images\archetypes\fighter.jpg" />
     <Content Include="images\archetypes\firemage.jpg" />
     <Content Include="images\archetypes\healer.jpg" />
+    <Content Include="images\archetypes\meleecombattest.jpg" />
     <Content Include="images\archetypes\watermage.jpg" />
     <Content Include="images\banes\bane.jpg" />
     <Content Include="images\boons\boon.jpg" />
@@ -184,7 +185,12 @@
     <Content Include="images\races\portraits\tuatha.jpg" />
     <Content Include="images\races\portraits\valkyrie.jpg" />
     <Content Include="images\races\silverhand.jpg" />
-    <Content Include="images\races\stormrider.jpg" />
+    <Content Include="images\races\stormridera-stand.png" />
+    <Content Include="images\races\stormridera.jpg" />
+    <Content Include="images\races\stormridert-stand.png" />
+    <Content Include="images\races\stormridert.jpg" />
+    <Content Include="images\races\stormriderv-stand.png" />
+    <Content Include="images\races\stormriderv.jpg" />
     <Content Include="images\races\strm-stand.png" />
     <Content Include="images\races\strm.jpg" />
     <Content Include="images\races\tuatha-stand.png" />

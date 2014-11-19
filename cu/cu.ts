@@ -901,13 +901,8 @@ class CU {
 
     RequestAllAbilities(callback: (a: Ability[]) => any): void {
         if (!this.allAbilitiesCallback) {
-            var hasAPI = this.HasAPI();
-            if (hasAPI && typeof cuAPI.abilityNumbers === 'undefined') { return; }
             this.allAbilitiesCallback = [callback];
-            $.getJSON(this.gameServerURL + 'abilities', (data) => {
-                var abilities = data.filter(ability => {
-                    return !hasAPI || cuAPI.abilityNumbers.indexOf(ability.id) !== -1;
-                });
+            $.getJSON(this.gameServerURL + 'abilities', (abilities) => {
                 this.UpdateAllAbilities(abilities);
             });
         } else {
@@ -1678,7 +1673,7 @@ interface CUInGameAPI {
     serverTime: number;
     vsync: number;
 
-    OnServerConnected(c: (isConnected: boolean) => void): number;
+    OnServerConnected(c: () => void): number;
     CancelOnServerConnected(c: number): void;
     OpenUI(name: string): void;
     CloseUI(name: string): void;
@@ -1693,7 +1688,7 @@ interface CUInGameAPI {
 
     /* Abilities */
 
-    abilityNumbers: string[];
+    OnAbilityNumbersChanged(callback: (abilityNumbers: string[]) => void): void;
 
     Attack(abilityID: string): void;
 

@@ -6,30 +6,30 @@
 /// <reference path="../cu/cu.ts" />
 
 module Skillbar {
-    var $skillButtons: JQuery;
-
-    var currentAbilities: string[];
+    var $skillButtons = cu.FindElement('#skillButtons');
 
     var BUTTON_WIDTH = 50;
     var BUTTON_LEFT_OFFSET = 5;
 
+    var abilityNumbers: string[] = [];
+
     // Function for sorting abilities by server order.
-    function SortByServerOrder(a, b) {
-        if (!cu.HasAPI()) return 0;
-        var aLoc = cuAPI.abilityNumbers.indexOf(a.id);
-        var bLoc = cuAPI.abilityNumbers.indexOf(b.id);
+    function sortByServerOrder(a, b) {
+        if (!abilityNumbers || !abilityNumbers.length) return 0;
+        var aLoc = abilityNumbers.indexOf(a.id);
+        var bLoc = abilityNumbers.indexOf(b.id);
         return aLoc - bLoc;
     }
 
-    function UpdateBar() {
-        if (cu.HasAPI()) {
-            if (_.isEqual(currentAbilities, cuAPI.abilityNumbers)) return;
-
-            currentAbilities = cuAPI.abilityNumbers;
-        }
+    function updateSkillbar(numbers) {
+        abilityNumbers = numbers;
 
         cu.RequestAllAbilities(abilities => {
-            abilities.sort(SortByServerOrder);
+            abilities = abilities.filter(ability => {
+                return abilityNumbers.indexOf(ability.id) !== -1;
+            });
+
+            abilities.sort(sortByServerOrder);
 
             $skillButtons.empty().css('width', abilities.length * BUTTON_WIDTH + BUTTON_LEFT_OFFSET);
 
@@ -49,13 +49,11 @@ module Skillbar {
         });
     }
 
-    cu.OnServerConnected(() => {
-        $skillButtons = cu.FindElement('#skillButtons');
-    });
-
     cu.SetDebugServer();
 
-    // How often we call Update
-    var updateFPS = .5;
-    cu.RunAtInterval(UpdateBar, updateFPS);
+    if (cu.HasAPI()) {
+        cu.OnInitialized(() => {
+            cuAPI.OnAbilityNumbersChanged(updateSkillbar);
+        });
+    }
 }
