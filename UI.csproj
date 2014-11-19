@@ -120,6 +120,12 @@
     <Content Include="images\login\char-helbound.jpg" />
     <Content Include="images\login\char-luchorpan-select.jpg" />
     <Content Include="images\login\char-luchorpan.jpg" />
+    <Content Include="images\login\char-stormridera.jpg" />
+    <Content Include="images\login\char-stormridera_select.jpg" />
+    <Content Include="images\login\char-stormridert.jpg" />
+    <Content Include="images\login\char-stormridert_select.jpg" />
+    <Content Include="images\login\char-stormriderv.jpg" />
+    <Content Include="images\login\char-stormriderv_select.jpg" />
     <Content Include="images\login\char-strm-select.jpg" />
     <Content Include="images\login\char-strm.jpg" />
     <Content Include="images\login\char-tuatha-select.jpg" />
@@ -171,6 +177,9 @@
     <Content Include="images\races\portraits\hamadryad.jpg" />
     <Content Include="images\races\portraits\helbound.jpg" />
     <Content Include="images\races\portraits\luchorpan.jpg" />
+    <Content Include="images\races\portraits\stormridera.jpg" />
+    <Content Include="images\races\portraits\stormridert.jpg" />
+    <Content Include="images\races\portraits\stormriderv.jpg" />
     <Content Include="images\races\portraits\strm.jpg" />
     <Content Include="images\races\portraits\tuatha.jpg" />
     <Content Include="images\races\portraits\valkyrie.jpg" />

@@ -20,6 +20,21 @@ enum Race {
     CaitSith = 9,
     Golem = 10,
     //Gargoyle = 11
+
+    StormRiderA = 12,
+    StormRiderT = 13,
+    StormRiderV = 14
+
+}
+
+enum Archetype {
+    FireMage = 0,
+    EarthMage = 1,
+    WaterMage = 2,
+    Fighter = 3,
+    Healer = 4,
+    MeleeCombatTest = 5
+
 }
 
 class Ability {
@@ -1663,7 +1678,7 @@ interface CUInGameAPI {
     serverTime: number;
     vsync: number;
 
-    OnServerConnected(c: () => void): number;
+    OnServerConnected(c: (isConnected: boolean) => void): number;
     CancelOnServerConnected(c: number): void;
     OpenUI(name: string): void;
     CloseUI(name: string): void;

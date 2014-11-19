@@ -12,6 +12,7 @@ module Login {
 
     var loginToken = null;
     var queuedModals = [];
+    var isConnecting = false;
 
     var $modalWrapper = $('#modal-wrapper');
     var $modal = $('#modal');
@@ -149,6 +150,8 @@ module Login {
     }
 
     function connect(character) {
+        isConnecting = true;
+
         if (_.isUndefined(selectedServer) || !_.isString(selectedServer.host)) {
             showModal(createErrorModal('No server selected.'));
         } else if (_.isUndefined(character) || !_.isString(character.id)) {
@@ -304,68 +307,74 @@ module Login {
     }
 
     function trySelectServer(server) {
-        if (!server.isOnline) {
-            return;
-        }
+        if (!server.isOnline) return;
+
+        var request = tryFetchCharacters(server);
+
+        if (!request) return;
+
+        var $tfoot = $serversModalContainer['$content']['$table']['$tfoot'];
+
+        $tfoot.empty();
+
+        var $row = $('<tr></tr>').appendTo($tfoot);
+
+        var text = 'Loading..';
+
+        var $td = $('<td colspan="5"></td>').text(text).appendTo($row);
+
+        var attempts = 0;
+
+        var loadingInterval = setInterval(() => {
+            request = serverCharacterRequests[server.host];
+
+            if (request && request.readyState === 4) {
+            } else if (++attempts > 50) {
+                clearInterval(loadingInterval);
+            } else {
+                text += '.';
+
+                $td.text(text);
+            }
+        }, 1000);
+
+        request.done((data) => {
+            clearInterval(loadingInterval);
+
+            $row.remove();
+
+            selectServer(server);
+        }).fail(() => {
+            clearInterval(loadingInterval);
+
+            $td.text('Failed to load characters. Please try again.');
+        });
+    }
+
+    function tryFetchCharacters(server): any {
+        if (!server || !server.host || !loginToken) return false;
 
         var request = serverCharacterRequests[server.host];
 
-        if (!request) {
-            var $tfoot = $serversModalContainer['$content']['$table']['$tfoot'];
+        if (request) return false;
 
-            $tfoot.empty();
+        return serverCharacterRequests[server.host] = $.ajax({
+            type: 'GET',
+            url: getSecureServerApiUrl(server) + '/characters?loginToken=' + loginToken,
+            timeout: 10000
+        }).done((data) => {
+            server.characters = data;
 
-            var $row = $('<tr></tr>').appendTo($tfoot);
-
-            var text = 'Loading..';
-
-            var $td = $('<td colspan="5"></td>').text(text).appendTo($row);
-
-            var attempts = 0;
-
-            var loadingInterval = setInterval(() => {
-                request = serverCharacterRequests[server.host];
-
-                if (request && request.readyState === 4) {
-                } else if (++attempts > 50) {
-                    clearInterval(loadingInterval);
-                } else {
-                    text += '.';
-
-                    $td.text(text);
-                }
-            }, 1000);
-
-            var delay = 10000;
-            serverCharacterRequests[server.host] = $.ajax({
-                type: 'GET',
-                /* url: 'http://tracker.sorcerer.co.uk/characters.php?loginToken=' + loginToken, */
-                url: getSecureServerApiUrl(server) + '/characters?loginToken=' + loginToken,
-                timeout: delay
-            }).done((data) => {
-                server.characters = data;
-
-                server.characters.sort((a, b) => {
-                    var aLastLogin = new Date(a.lastLogin);
-                    var bLastLogin = new Date(b.lastLogin);
-                    return (+bLastLogin) - (+aLastLogin);
-                });
-
-                serverCharacterRequests[server.host] = null;
-
-                clearInterval(loadingInterval);
-
-                $row.remove();
-
-                selectServer(server);
-            }).fail(() => {
-                serverCharacterRequests[server.host] = null;
-
-                clearInterval(loadingInterval);
-
-                $td.text('Failed to load characters. Please try again.');
+            server.characters.sort((a, b) => {
+                var aLastLogin = new Date(a.lastLogin);
+                var bLastLogin = new Date(b.lastLogin);
+                return (+bLastLogin) - (+aLastLogin);
             });
-        }
+
+            serverCharacterRequests[server.host] = null;
+        }).fail(() => {
+            serverCharacterRequests[server.host] = null;
+        });
     }
 
     function selectServer(server) {
@@ -382,13 +391,15 @@ module Login {
 
         hasInitializedCharacterCreation = false;
 
-        hideModal(() => {
-            if (selectedServer.characters && selectedServer.characters.length) {
-                showCharacterSelect();
-            } else {
-                showCharacterCreationPage();
-            }
-        });
+        hideModal(showCharacterSelectionOrCreation);
+    }
+
+    function showCharacterSelectionOrCreation() {
+        if (selectedServer && selectedServer.characters && selectedServer.characters.length) {
+            showCharacterSelect();
+        } else {
+            showCharacterCreationPage();
+        }
     }
 
     /* Character Selection Functions */
@@ -591,7 +602,7 @@ module Login {
 
     /* Character Creation */
 
-	/* Enumerations */
+    /* Enumerations */
 
     enum Page {
         Faction = 1,
@@ -621,7 +632,7 @@ module Login {
         Failed
     };
     
-	/* Constants */
+    /* Constants */
 
     var ANIMATION_DURATION = 400;
 
@@ -1185,15 +1196,18 @@ module Login {
     function getArchetypeIndexForChosenRace() {
         if (!chosenRace) return 0;
         switch (chosenRace.value) {
-            case 0: return 1; // Hamadryad = Fighter
-            case 1: return 2; // Luchorpan = Healer
-            case 2: return 0; // Firbog = Earth Mage
-            case 3: return 0; // Valkyrie = Water Mage
-            case 4: return 2; // Helbound = Healer
-            case 5: return 1; // Frost Giant = Fighter
-            case 6: return 0; // Strm = Fire Mage
-            case 7: return 1; // Cait Sith = Fighter
-            case 8: return 2; // Golem = Healer
+            case Race.Hamadryad: return 1; // Hamadryad = Fighter
+            case Race.Luchorpan: return 2; // Luchorpan = Healer
+            case Race.Firbog: return 0; // Firbog = Earth Mage
+            case Race.Valkyrie: return 0; // Valkyrie = Water Mage
+            case Race.Helbound: return 2; // Helbound = Healer
+            case Race.FrostGiant: return 1; // Frost Giant = Fighter
+            case Race.Strm: return 0; // Strm = Fire Mage
+            case Race.CaitSith: return 1; // Cait Sith = Fighter
+            case Race.Golem: return 2; // Golem = Healer
+            case Race.StormRiderA: return 3; // StormRiderA = MeleeCombatTest
+            case Race.StormRiderT: return 3; // StormRiderT = MeleeCombatTest
+            case Race.StormRiderV: return 3; // StormRiderV = MeleeCombatTest
         }
         return 0;
     }
@@ -1221,23 +1235,26 @@ module Login {
         switch (chosenFaction.value) {
         case Faction.Arthurians:
             switch (chosenArchetype.value) {
-            case 0: return 0; // Fire Mage = Strm
-            case 3: return 1; // Fighter = Cait Sith
-            case 4: return 2; // Healer = Golem
+            case Archetype.FireMage: return 0; // Fire Mage = Strm
+            case Archetype.Fighter: return 1; // Fighter = Cait Sith
+            case Archetype.Healer: return 2; // Healer = Golem
+            case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderA
             }
             break;
         case Faction.TDD:
             switch (chosenArchetype.value) {
-            case 1: return 2; // Earth Mage = Firbog
-            case 3: return 0; // Fighter = Hamadryad
-            case 4: return 1; // Healer = Luchorpan
+            case Archetype.EarthMage: return 2; // Earth Mage = Firbog
+            case Archetype.Fighter: return 0; // Fighter = Hamadryad
+            case Archetype.Healer: return 1; // Healer = Luchorpan
+            case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderT
             }
             break;
         case Faction.Vikings:
             switch (chosenArchetype.value) {
-            case 2: return 0; // Water Mage = Valkyrie
-            case 3: return 2; // Fighter = Frost Giant
-            case 4: return 1; // Healer = Helbound
+            case Archetype.WaterMage: return 0; // Water Mage = Valkyrie
+            case Archetype.Fighter: return 2; // Fighter = Frost Giant
+            case Archetype.Healer: return 1; // Healer = Helbound
+            case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderV
             }
             break;
         }
@@ -2999,6 +3016,16 @@ module Login {
 
     if (typeof cuAPI !== 'undefined') {
         cuAPI.OnInitialized(initialize);
+
+        cuAPI.OnServerConnected((isConnected) => {
+            if (selectedServer && isConnecting && !isConnected) {
+                isConnecting = false;
+
+                queueShowModal(createErrorModal('Failed connecting to server.'));
+
+                tryFetchCharacters(selectedServer).done(showCharacterSelectionOrCreation);
+            }
+        });
     } else {
         $(initialize);
     }
