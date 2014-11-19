@@ -4,8 +4,8 @@
 	"mainFile": "perf/perf.html",
 	"rect": {
 		"left": 1040,
-		"top": 260,
+		"top": 240,
 		"right": 1440,
-		"bottom": 410
+		"bottom": 390
 	}
 }
