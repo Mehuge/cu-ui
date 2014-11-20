@@ -271,9 +271,6 @@
     <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="lb\lb3.html" />
     <Content Include="lb\leaderboard.html" />
-    <Content Include="perf\flot\jquery.flot.js" />
-    <Content Include="perf\flot\jquery.flot.threshold.js" />
-    <Content Include="perf\flot\jquery.js" />
     <Content Include="perf\perf.css" />
     <Content Include="perf\perf.html" />
     <Content Include="tweaks\tweaks.css" />
@@ -296,9 +293,9 @@
     <Content Include="perfhud\perfhud.html" />
     <TypeScriptCompile Include="options\options.ts" />
     <TypeScriptCompile Include="perfhud\perfhud.ts" />
-    <Content Include="pledges\flot\jquery.flot.js" />
-    <Content Include="pledges\flot\jquery.flot.threshold.js" />
-    <Content Include="pledges\flot\jquery.js" />
+    <Content Include="vendor\flot\jquery.flot.js" />
+    <Content Include="vendor\flot\jquery.flot.threshold.js" />
+    <Content Include="vendor\flot\jquery.js" />
     <Content Include="pledges\pledges.css" />
     <Content Include="pledges\pledges.html" />
     <Content Include="pledges\pledges.js" />
