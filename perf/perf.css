@@ -6,13 +6,41 @@ html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    font-size: 8px; font-family: Arial, sans-serif;
 }
 
 #graph {
     height: 100%;
     width: 100%;
 }
+#config {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    display: none;
+}
 
-    #graph .xAxis, #graph .yAxis {
-        font-size: 8px; font-family: Arial, sans-serif;
-    }
+#config .option {
+    width: 100px;
+    margin: 0.5em;
+    color: #888;
+    text-align: center;
+    height: 1em;
+    cursor: pointer;
+    padding: 0.1em;
+}
+#config .on {
+}
+
+#overlay {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    background-color: rgba(255, 0, 0, 0.5)
+}
+
+#graph .xAxis, #graph .yAxis {
+    font-size: 8px; font-family: Arial, sans-serif;
+}

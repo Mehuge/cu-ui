@@ -7,5 +7,7 @@
 		"top": 240,
 		"right": 1440,
 		"bottom": 390
-	}
+	},
+	"handlesEnemyTarget": true,
+	"handlesInput": true
 }
