@@ -13,17 +13,19 @@ module Perf {
     var data = {
         target: { hp: 0, max: 0 }
     };
+    var CLS = { CPS: 1, PARTICLES: 2, MS: 3, HP: 4, SPEED: 5, BYTES: 6, BITS: 7 };
+    var colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#ff0', '#80f', '#f08', '#f80', '#08f'];
     var graphData = [
-        { label: "FPS", data: null, color: '#f00', yaxis: 1, show: true, lines: { show: true, lineWidth: 1 } },
-        { label: "Particles", data: null, color: '#0f0', yaxis: 2, show: true, lines: { show: true, lineWidth: 1 } },
-        { label: "Lag", data: null, color: '#00f', yaxis: 3, show: true, lines: { show: true, lineWidth: 1 } },
-        { label: "HP", data: null, color: '#0ff', yaxis: 4, show: false, lines: { show: true, lineWidth: 1 } },
-        { label: "TargetHP", data: null, color: '#f0f', yaxis: 5, show: false, lines: { show: true, lineWidth: 1 } },
-        { label: "Speed", data: null, color: '#44f', yaxis: 5, show: false, lines: { show: true, lineWidth: 1 } },
-        { label: "TCP", data: null, color: '#ff0', yaxis: 5, show: false, lines: { show: true, lineWidth: 1 } },
-        { label: "UDP", data: null, color: '#f84', yaxis: 5, show: false, lines: { show: true, lineWidth: 1 } },
-        { label: "New Bits", data: null, color: '#480', yaxis: 5, show: false, lines: { show: true, lineWidth: 1 } },
-        { label: "Update Bits", data: null, color: '#85f', yaxis: 5, show: false, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.CPS, label: "FPS", show: true, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.PARTICLES, label: "Particles", show: true, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.MS, label: "Lag", show: true, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.HP, label: "HP", show: false, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.HP, label: "TargetHP", show: false, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.SPEED, label: "Speed", show: false, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.BYTES, label: "TCP", show: false, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.BYTES, label: "UDP", show: false, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.BITS, label: "New Bits", show: false, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.BITS, label: "Update Bits", show: false, lines: { show: true, lineWidth: 1 } },
     ];
 
     function Paint() {
@@ -42,12 +44,13 @@ module Perf {
             if (graphData[8].show) nbits.push([t, s.newBits]);
             if (graphData[9].show) ubits.push([t, s.updBits]);
         }
-        var gd = [];
-        var addToGraph = function(i, arr) {
+        var gd = [], ax = {}, nextAxis = 1;
+        var addToGraph = function (i, arr) {
             if (graphData[i].show) {
-                graphData[i].data = arr;
+                graphData[i]["data"] = arr;
                 gd.push(graphData[i]);
-                graphData[i].yaxis = gd.length;
+                graphData[i]["yaxis"] = ax[graphData[i].cls] = (ax[graphData[i].cls] || nextAxis++);
+                graphData[i]["color"] = colors[i];
             }
         }
         addToGraph(0, fps);
@@ -100,7 +103,7 @@ module Perf {
     function showOptions() {
         $config.html('');
         for (var i = 0; i < graphData.length; i++) {
-            var color = graphData[i].show ? graphData[i].color : '#444';
+            var color = graphData[i].show ? graphData[i]["color"] : '#444';
             var $div: JQuery = $('<div>').attr({ "class": "option" }).css({ backgroundColor: color }).text(graphData[i].label).appendTo($config);
             if (graphData[i].show) $div.addClass("on");
             (function($div : JQuery, opt) {
