@@ -96,7 +96,7 @@
                         // if (gameStart && ms > 5000) ms = 5000;
                         ms = ms | 0;
                         if (ms < 0) ms = 1000;
-                        console.log('check again in ' + ms);
+//                        console.log('check again in ' + ms);
                         gameTimeout = setTimeout(function () {
                             gameTimeout = null;
                             setTimeout(checkControlGame, 0);          // restart the check process
@@ -112,9 +112,9 @@
                             console.log('game start diff ' + ((new Date()).getTime() - start.getTime()));
                         }
                         gameStart = start.toISOString();
-                        console.log('Set game start time: ' + gameStart);
+//                        console.log('Set game start time: ' + gameStart);
                         pruneHead(gameStart);
-                        console.log('[[[[ let the games begin ]]]]');
+//                        console.log('[[[[ let the games begin ]]]]');
                         if (killsTimeout) clearTimeout(killsTimeout);
                         killsTimeout = null;
                         getKills(displayKills);
@@ -124,7 +124,7 @@
                 endGame = function () {
                     if (gameStart) {
                         gameStart = null;
-                        console.log('[[[[ Game over man! Game over! ]]]]');
+//                        console.log('[[[[ Game over man! Game over! ]]]]');
                     }
                     if (killsTimeout) clearTimeout(killsTimeout);
                     killsTimeout = null;
