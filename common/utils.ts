@@ -1,4 +1,5 @@
-﻿module Utils {
+﻿declare var IDBKeyRange: any;
+module Utils {
     export function indexedDBPersistenceTest() {
         var req = window.indexedDB.open("persist_test", 1);
         req.onupgradeneeded = function (e : IDBVersionChangeEvent) {
