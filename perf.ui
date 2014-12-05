@@ -9,5 +9,6 @@
 		"bottom": 390
 	},
 	"handlesEnemyTarget": true,
-	"handlesInput": true
+	"handlesInput": true,
+	"handlesCharacter": true
 }

@@ -11,6 +11,7 @@ module Perf {
     var $perf: JQuery, $config: JQuery;
     var samples = [];
     var data = {
+        hp: 0,
         target: { hp: 0, max: 0 }
     };
     var CLS = { CPS: 1, PARTICLES: 2, MS: 3, HP: 4, SPEED: 5, BYTES: 6, BITS: 7 };
@@ -81,7 +82,7 @@ module Perf {
             particles: cuAPI.particlesRenderedCount,
             fps: cuAPI.fps,
             lag: cuAPI.netstats_lag,
-            hp: cuAPI.hp,
+            hp: data.hp,
             thp: data.target.hp,
             speed: cuAPI.speed,
             tcp: cuAPI.netstats_tcpBytes,
@@ -131,6 +132,8 @@ module Perf {
             hp: 80,
             OnEnemyTargetHealthChanged: function () { }
         };
+    } else {
+        cuAPI.OnCharacterHealthChanged((health: number, maxHealth: number) => { data.hp = health; });
     }
 
     // Kickstart everything.
