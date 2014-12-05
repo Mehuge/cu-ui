@@ -12,6 +12,7 @@ module Login {
 
     var loginToken = null;
     var queuedModals = [];
+    var isConnecting = false;
 
     var $modalWrapper = $('#modal-wrapper');
     var $modal = $('#modal');
@@ -149,6 +150,8 @@ module Login {
     }
 
     function connect(character) {
+        isConnecting = true;
+
         if (_.isUndefined(selectedServer) || !_.isString(selectedServer.host)) {
             showModal(createErrorModal('No server selected.'));
         } else if (_.isUndefined(character) || !_.isString(character.id)) {
@@ -304,68 +307,74 @@ module Login {
     }
 
     function trySelectServer(server) {
-        if (!server.isOnline) {
-            return;
-        }
+        if (!server.isOnline) return;
+
+        var request = tryFetchCharacters(server);
+
+        if (!request) return;
+
+        var $tfoot = $serversModalContainer['$content']['$table']['$tfoot'];
+
+        $tfoot.empty();
+
+        var $row = $('<tr></tr>').appendTo($tfoot);
+
+        var text = 'Loading..';
+
+        var $td = $('<td colspan="5"></td>').text(text).appendTo($row);
+
+        var attempts = 0;
+
+        var loadingInterval = setInterval(() => {
+            request = serverCharacterRequests[server.host];
+
+            if (request && request.readyState === 4) {
+            } else if (++attempts > 50) {
+                clearInterval(loadingInterval);
+            } else {
+                text += '.';
+
+                $td.text(text);
+            }
+        }, 1000);
+
+        request.done((data) => {
+            clearInterval(loadingInterval);
+
+            $row.remove();
+
+            selectServer(server);
+        }).fail(() => {
+            clearInterval(loadingInterval);
+
+            $td.text('Failed to load characters. Please try again.');
+        });
+    }
+
+    function tryFetchCharacters(server): any {
+        if (!server || !server.host || !loginToken) return false;
 
         var request = serverCharacterRequests[server.host];
 
-        if (!request) {
-            var $tfoot = $serversModalContainer['$content']['$table']['$tfoot'];
+        if (request) return false;
 
-            $tfoot.empty();
+        return serverCharacterRequests[server.host] = $.ajax({
+            type: 'GET',
+            url: getSecureServerApiUrl(server) + '/characters?loginToken=' + loginToken,
+            timeout: 10000
+        }).done((data) => {
+            server.characters = data;
 
-            var $row = $('<tr></tr>').appendTo($tfoot);
-
-            var text = 'Loading..';
-
-            var $td = $('<td colspan="5"></td>').text(text).appendTo($row);
-
-            var attempts = 0;
-
-            var loadingInterval = setInterval(() => {
-                request = serverCharacterRequests[server.host];
-
-                if (request && request.readyState === 4) {
-                } else if (++attempts > 50) {
-                    clearInterval(loadingInterval);
-                } else {
-                    text += '.';
-
-                    $td.text(text);
-                }
-            }, 1000);
-
-            var delay = 10000;
-
-            serverCharacterRequests[server.host] = $.ajax({
-                type: 'GET',
-                url: getSecureServerApiUrl(server) + '/characters?loginToken=' + loginToken,
-                timeout: delay
-            }).done((data) => {
-                server.characters = data;
-
-                server.characters.sort((a, b) => {
-                    var aLastLogin = new Date(a.lastLogin);
-                    var bLastLogin = new Date(b.lastLogin);
-                    return (+bLastLogin) - (+aLastLogin);
-                });
-
-                serverCharacterRequests[server.host] = null;
-
-                clearInterval(loadingInterval);
-
-                $row.remove();
-
-                selectServer(server);
-            }).fail(() => {
-                serverCharacterRequests[server.host] = null;
-
-                clearInterval(loadingInterval);
-
-                $td.text('Failed to load characters. Please try again.');
+            server.characters.sort((a, b) => {
+                var aLastLogin = new Date(a.lastLogin);
+                var bLastLogin = new Date(b.lastLogin);
+                return (+bLastLogin) - (+aLastLogin);
             });
-        }
+
+            serverCharacterRequests[server.host] = null;
+        }).fail(() => {
+            serverCharacterRequests[server.host] = null;
+        });
     }
 
     function selectServer(server) {
@@ -382,13 +391,15 @@ module Login {
 
         hasInitializedCharacterCreation = false;
 
-        hideModal(() => {
-            if (selectedServer.characters && selectedServer.characters.length) {
-                showCharacterSelect();
-            } else {
-                showCharacterCreationPage();
-            }
-        });
+        hideModal(showCharacterSelectionOrCreation);
+    }
+
+    function showCharacterSelectionOrCreation() {
+        if (selectedServer && selectedServer.characters && selectedServer.characters.length) {
+            showCharacterSelect();
+        } else {
+            showCharacterCreationPage();
+        }
     }
 
     /* Character Selection Functions */
@@ -3005,6 +3016,16 @@ module Login {
 
     if (typeof cuAPI !== 'undefined') {
         cuAPI.OnInitialized(initialize);
+
+        cuAPI.OnServerConnected((isConnected) => {
+            if (selectedServer && isConnecting && !isConnected) {
+                isConnecting = false;
+
+                queueShowModal(createErrorModal('Failed connecting to server.'));
+
+                tryFetchCharacters(selectedServer).done(showCharacterSelectionOrCreation);
+            }
+        });
     } else {
         $(initialize);
     }

@@ -34,6 +34,7 @@ module ErrorMessages {
             case 4: return 'That ability is still on cooldown.';
             case 5: return 'You don\'t have a target.';
             case 6: return 'You were interrupted!';
+            case 7: return 'You do not have enough stamina.';
             default: return 'BadMessage';
         }
     }

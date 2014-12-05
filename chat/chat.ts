@@ -126,7 +126,7 @@ module Chat {
             $room.$tab.addClass('highlight');
         }
         var $newChatItem = $('<div>').addClass('chat-item ' + (channelClass || ''));
-        if (iconClass) $newChatItem.append($('<div>').addClass(iconClass));
+        if (iconClass) $newChatItem.append($('<div>').addClass('chat-icon ' + iconClass));
         $newChatItem.append($chatMessage).appendTo($roomText);
         var $msgs = $('.chat-item', $roomText);
         while ($msgs.length > messageBufferSize) {
@@ -192,6 +192,8 @@ module Chat {
 
         if (displayName) {
             $displayName = $('<span>').addClass('chat-name').text(displayName + ': ');
+
+            if (iscse) $displayName.addClass(iconClass);
         }
         
         appendChat(channel, [$channelName, $displayName, $chatBody], channelClass, iconClass);

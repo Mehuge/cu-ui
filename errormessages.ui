@@ -7,5 +7,6 @@
 		"top": 725,
 		"right": 875,
 		"bottom": 800
-	}
+	},
+	"handlesAbilities": true
 }

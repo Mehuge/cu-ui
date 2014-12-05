@@ -1,4 +1,4 @@
-﻿ /* This Source Code Form is subject to the terms of the Mozilla Public
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
@@ -13,27 +13,11 @@ module Inventory {
 
     var addItems = {};
 
-    var cachedInventoryItemIDs = [];
-
     var isHovered = false;
 
     var $body = $(document.body);
 
-    function update() {
-        // if (cachedInventoryItemIDs.length) return;
-
-        if (typeof cuAPI.inventoryItemIDs === 'undefined') return;
-
-        var inventoryItemIDs = cuAPI.inventoryItemIDs;
-
-        if (_.isEmpty(_.difference(inventoryItemIDs, cachedInventoryItemIDs))) {
-            if (_.isEmpty(_.difference(cachedInventoryItemIDs, inventoryItemIDs))) {
-                return;
-            }
-        }
-
-        cachedInventoryItemIDs = inventoryItemIDs;
-
+    function updateInventoryItemIDs(inventoryItemIDs) {
         $items.empty();
 
         for (var key in items) {
@@ -249,14 +233,15 @@ module Inventory {
         cuAPI.EquipItem(id);
     }
 
-    if (typeof cuAPI !== 'undefined') {
-        cuAPI.OnItemEquipped(removeItem);
+    if (cu.HasAPI()) {
+        cu.OnInitialized(() => {
+            cuAPI.OnItemEquipped(removeItem);
 
-        cuAPI.OnItemUnequipped(addItem);
+            cuAPI.OnItemUnequipped(addItem);
 
-        cuAPI.OnGetItem(updateItem);
+            cuAPI.OnGetItem(updateItem);
 
-        update();
-        cu.RunAtInterval(update, 1);
+            cuAPI.OnInventoryItemIDsChanged(updateInventoryItemIDs);
+        });
     }
 }

@@ -9,17 +9,17 @@ module Character {
     var cachedName: string = '';
     var cachedHP: number = 0;
     var cachedMaxHP: number = 0;
-    var cachedEnergy: number = 0;
-    var cachedMaxEnergy: number = 0;
+    var cachedStamina: number = 0;
+    var cachedMaxStamina: number = 0;
     var cachedEffects: string = '[]';
     var $portrait: JQuery;
     var $name: JQuery;
     var $healthBar: JQuery;
     var healthBarWidth: number = -1;
     var $healthText: JQuery;
-    var $energyBar: JQuery;
-    var energyBarWidth: number = -1;
-    var $energyText: JQuery;
+    var $staminaBar: JQuery;
+    var staminaBarWidth: number = -1;
+    var $staminaText: JQuery;
     var $effects: JQuery;
 
     function Update() {
@@ -27,8 +27,8 @@ module Character {
         var name = '';
         var hp = 0;
         var maxHP = 0;
-        var energy = 0;
-        var maxEnergy = 0;
+        var stamina = 0;
+        var maxStamina = 0;
         var effects = '[]';
 
         if (cu.HasAPI()) {
@@ -36,8 +36,8 @@ module Character {
             name = cuAPI.characterName;
             hp = cuAPI.hp;
             maxHP = cuAPI.maxHP;
-            energy = cuAPI.energy;
-            maxEnergy = cuAPI.maxEnergy;
+            stamina = cuAPI.stamina;
+            maxStamina = cuAPI.maxStamina;
             effects = cuAPI.selfEffects;
         }
 
@@ -66,13 +66,13 @@ module Character {
             $healthText.text(hp + ' / ' + maxHP);
         }
 
-        if (_.isNumber(energy) && _.isNumber(maxEnergy) && (energy !== cachedEnergy || maxEnergy !== cachedMaxEnergy)) {
-            cachedEnergy = energy;
-            cachedMaxEnergy = maxEnergy;
+        if (_.isNumber(stamina) && _.isNumber(maxStamina) && (stamina !== cachedStamina || maxStamina !== cachedMaxStamina)) {
+            cachedStamina = stamina;
+            cachedMaxStamina = maxStamina;
 
-            var energyRatio = energy / maxEnergy;
-            $energyBar.width(energyRatio * energyBarWidth);
-            $energyText.text(energy + ' / ' + maxEnergy);
+            var staminaRatio = stamina / maxStamina;
+            $staminaBar.width(staminaRatio * staminaBarWidth);
+            $staminaText.text(stamina + ' / ' + maxStamina);
         }
 
         if (effects !== cachedEffects) {
@@ -105,11 +105,11 @@ module Character {
 
         $healthText = cu.FindElement('#health-text');
 
-        $energyBar = cu.FindElement('#energy-bar');
+        $staminaBar = cu.FindElement('#stamina-bar');
 
-        energyBarWidth = $energyBar.width();
+        staminaBarWidth = $staminaBar.width();
 
-        $energyText = cu.FindElement('#energy-text');
+        $staminaText = cu.FindElement('#stamina-text');
 
         $effects = cu.FindElement('#effects');
 

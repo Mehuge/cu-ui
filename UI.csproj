@@ -71,9 +71,9 @@
     <Content Include="images\banes\bane.jpg" />
     <Content Include="images\boons\boon.jpg" />
     <Content Include="images\character\bg.png" />
-    <Content Include="images\character\energy-bar.png" />
     <Content Include="images\character\frame.png" />
     <Content Include="images\character\health-bar.png" />
+    <Content Include="images\character\stamina-bar.png" />
     <Content Include="images\chat\btn-close.png" />
     <Content Include="images\chat\CSE_icon_badge.png" />
     <Content Include="images\controlgame\bg.png" />
@@ -258,8 +258,6 @@
     <Content Include="images\target\health-bar.png" />
     <Content Include="inventory\inventory.css" />
     <Content Include="inventory\inventory.html" />
-    <Content Include="kills\kills.css" />
-    <Content Include="kills\kills.html" />
     <TypeScriptCompile Include="common\utils.ts" />
     <TypeScriptCompile Include="cu-rest\rest.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
@@ -268,7 +266,6 @@
     <TypeScriptCompile Include="friendlytarget\friendlytarget.ts" />
     <TypeScriptCompile Include="inventory\inventory.ts" />
     <TypeScriptCompile Include="gamemenu\gamemenu.ts" />
-    <TypeScriptCompile Include="kills\kills.ts" />
     <Content Include="lb\lb3.html" />
     <Content Include="lb\leaderboard.html" />
     <Content Include="perf\perf.css" />
@@ -320,7 +317,6 @@
     <Content Include="character.ui" />
     <Content Include="chat.ui" />
     <Content Include="gamemenu.ui" />
-    <Content Include="kills.ui" />
     <Content Include="login.ui" />
     <Content Include="perfhud.ui" />
     <Content Include="skillbar.ui" />

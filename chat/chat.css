@@ -191,7 +191,7 @@ html, body {
     box-shadow: inset 0px -76px 36px -68px rgba(255,255,255,0.59);
 }
 
-.iscse {
+.chat-icon.iscse {
     float: left;
     background-image: url('../images/chat/CSE_icon_badge.png');
     background-repeat: no-repeat;
@@ -204,6 +204,10 @@ html, body {
     left: 0;
     margin-left: 1px;
     margin-right: 2px;
+}
+
+.chat-name.iscse {
+    color: #F26666;
 }
 
 .console-body.command {

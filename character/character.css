@@ -75,16 +75,16 @@ html, body {
                  0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
 }
 
-#energy-bar {
+#stamina-bar {
     position: absolute;
     top: 56px;
     left: 61px;
     width: 154px;
     height: 11px;
-    background: transparent url('../images/character/energy-bar.png') no-repeat top left;
+    background: transparent url('../images/character/stamina-bar.png') no-repeat top left;
 }
 
-#energy-text {
+#stamina-text {
     position: absolute;
     top: 56px;
     left: 61px;

@@ -13,8 +13,6 @@ module EquippedGear {
 
     var addItems = {};
 
-    var cachedGearItemIDs = [];
-
     var isHovered = false;
 
     var $body = $(document.body);
@@ -31,6 +29,8 @@ module EquippedGear {
     };
 
     function createGearSlots() {
+        $gearSlots = {};
+
         for (var gearSlot in gearSlotNames) {
             if (gearSlot == 0) continue;
 
@@ -42,21 +42,7 @@ module EquippedGear {
         }
     }
 
-    function update() {
-        // if (cachedGearItemIDs.length) return;
-
-        if (typeof cuAPI.gearItemIDs === 'undefined') return;
-
-        var gearItemIDs = cuAPI.gearItemIDs;
-
-        if (_.isEmpty(_.difference(gearItemIDs, cachedGearItemIDs))) {
-            if (_.isEmpty(_.difference(cachedGearItemIDs, gearItemIDs))) {
-                return;
-            }
-        }
-
-        cachedGearItemIDs = gearItemIDs;
-
+    function updateGearItemIDs(gearItemIDs) {
         $items.empty();
 
         createGearSlots();
@@ -211,16 +197,17 @@ module EquippedGear {
         cuAPI.UnequipItem(item.itemID);
     }
 
-    if (typeof cuAPI !== 'undefined') {
-        cuAPI.OnItemEquipped(addItem);
+    createGearSlots();
 
-        cuAPI.OnItemUnequipped(removeItem);
+    if (cu.HasAPI()) {
+        cu.OnInitialized(() => {
+            cuAPI.OnItemEquipped(addItem);
 
-        cuAPI.OnGetItem(updateItem);
+            cuAPI.OnItemUnequipped(removeItem);
 
-        createGearSlots();
+            cuAPI.OnGetItem(updateItem);
 
-        update();
-        cu.RunAtInterval(update, 1);
+            cuAPI.OnEquippedGearItemIDsChanged(updateGearItemIDs);
+        });
     }
 }
