@@ -8,5 +8,6 @@
 		"right": 854,
 		"bottom": 482
 	},
-	"handlesConfig": true
+	"handlesConfig": true,
+	"handlesCharacter": true
 }

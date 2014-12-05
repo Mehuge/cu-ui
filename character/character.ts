@@ -5,118 +5,63 @@
 /// <reference path="../vendor/jquery.d.ts" />
 
 module Character {
-    var cachedRace: number = -1;
-    var cachedName: string = '';
-    var cachedHP: number = 0;
-    var cachedMaxHP: number = 0;
-    var cachedStamina: number = 0;
-    var cachedMaxStamina: number = 0;
-    var cachedEffects: string = '[]';
-    var $portrait: JQuery;
-    var $name: JQuery;
-    var $healthBar: JQuery;
-    var healthBarWidth: number = -1;
-    var $healthText: JQuery;
-    var $staminaBar: JQuery;
-    var staminaBarWidth: number = -1;
-    var $staminaText: JQuery;
-    var $effects: JQuery;
+    var $portrait = cu.FindElement('#portrait');
+    var $name = cu.FindElement('#name');
+    var $healthBar = cu.FindElement('#health-bar');
+    var healthBarWidth = $healthBar.width();
+    var $healthText = cu.FindElement('#health-text');
+    var $staminaBar = cu.FindElement('#stamina-bar');
+    var staminaBarWidth = $staminaBar.width();
+    var $staminaText = cu.FindElement('#stamina-text');
+    var $effects = cu.FindElement('#effects');
 
-    function Update() {
-        var race = -1;
-        var name = '';
-        var hp = 0;
-        var maxHP = 0;
-        var stamina = 0;
-        var maxStamina = 0;
-        var effects = '[]';
+    function updateRace(race: number) {
+        var raceName = Race[race];
+        if (raceName) $portrait.css('background', 'transparent url(../images/races/portraits/' + raceName.toLowerCase() + '.jpg) no-repeat top left');
+    }
 
-        if (cu.HasAPI()) {
-            race = cuAPI.race;
-            name = cuAPI.characterName;
-            hp = cuAPI.hp;
-            maxHP = cuAPI.maxHP;
-            stamina = cuAPI.stamina;
-            maxStamina = cuAPI.maxStamina;
-            effects = cuAPI.selfEffects;
-        }
+    function updateName(name: string) {
+        $name.text(name || '');
+    }
 
-        if (race !== cachedRace) {
-            cachedRace = race;
+    function updateHealth(health: number, maxHealth: number) {
+        var healthRatio = health / maxHealth;
+        $healthBar.width(healthRatio * healthBarWidth);
+        $healthText.text(health + ' / ' + maxHealth);
+    }
 
-            var raceName = Race[race];
-
-            if (_.isString(raceName)) {
-                $portrait.css('background', 'transparent url(../images/races/portraits/' + raceName.toLowerCase() + '.jpg) no-repeat top left');
-            }
-        }
-
-        if (name !== cachedName) {
-            cachedName = name;
-
-            $name.text(name);
-        }
-
-        if (_.isNumber(hp) && _.isNumber(maxHP) && (hp !== cachedHP || maxHP !== cachedMaxHP)) {
-            cachedHP = hp;
-            cachedMaxHP = maxHP;
-
-            var hpRatio = hp / maxHP;
-            $healthBar.width(hpRatio * healthBarWidth);
-            $healthText.text(hp + ' / ' + maxHP);
-        }
-
-        if (_.isNumber(stamina) && _.isNumber(maxStamina) && (stamina !== cachedStamina || maxStamina !== cachedMaxStamina)) {
-            cachedStamina = stamina;
-            cachedMaxStamina = maxStamina;
-
+    function updateStamina(stamina: number, maxStamina: number) {
+        if (maxStamina > 0) {
             var staminaRatio = stamina / maxStamina;
             $staminaBar.width(staminaRatio * staminaBarWidth);
             $staminaText.text(stamina + ' / ' + maxStamina);
-        }
-
-        if (effects !== cachedEffects) {
-            cachedEffects = effects;
-
-            var fxList: any = [];
-
-            if (_.isString(effects)) {
-                fxList = $.parseJSON(effects);
-            }
-
-            $effects.empty(); // TODO: Don't burn effects if they're still alive
-
-            for (var i = 0; i < fxList.length; ++i) {
-                var fx = fxList[i];
-                var img = $('<img />').addClass('effect-icon').attr('src', fx.icon);
-                img.appendTo($effects);
-            }
+        } else {
+            $staminaBar.width(0);
+            $staminaBar.text('');
         }
     }
 
-    cu.OnInitialized(() => {
-        $portrait = cu.FindElement('#portrait');
+    function updateEffects(effects: string) {
+        var fxList: any = $.parseJSON(effects);
 
-        $name = cu.FindElement('#name');
+        $effects.empty(); // TODO: Don't burn effects if they're still alive
 
-        $healthBar = cu.FindElement('#health-bar');
+        for (var i = 0; i < fxList.length; ++i) {
+            var fx = fxList[i];
+            var img = $('<img />').addClass('effect-icon').attr('src', fx.icon);
+            img.appendTo($effects);
+        }
+    }
 
-        healthBarWidth = $healthBar.width();
+    if (cu.HasAPI()) {
+        cuAPI.OnCharacterRaceChanged(updateRace);
 
-        $healthText = cu.FindElement('#health-text');
+        cuAPI.OnCharacterNameChanged(updateName);
 
-        $staminaBar = cu.FindElement('#stamina-bar');
+        cuAPI.OnCharacterHealthChanged(updateHealth);
 
-        staminaBarWidth = $staminaBar.width();
+        cuAPI.OnCharacterStaminaChanged(updateStamina);
 
-        $staminaText = cu.FindElement('#stamina-text');
-
-        $effects = cu.FindElement('#effects');
-
-        cuAPI.OpenUI("addons.ui");
-
-        // How often we call Update
-        var updateFPS = 5;
-        cu.RunAtInterval(Update, updateFPS);
-    });
+        cuAPI.OnCharacterEffectsChanged(updateEffects);
+    }
 }

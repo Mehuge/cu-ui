@@ -17,11 +17,12 @@ module Chat {
     var rooms = {};
     var selectedRoom = null;
     var savedText = '';
+    var faction: number = -1;
 
     var MAX_TABS = 7;
 
     function createTab(room) {
-        if (rooms.hasOwnProperty(room)) return;
+        if (!room || rooms.hasOwnProperty(room)) return;
 
         var $tab = $('<li>').attr('id', room + '-tab').addClass('chat-tab ' + room).appendTo($chatTabs);
 
@@ -348,9 +349,10 @@ module Chat {
     }, [ 'tell', 'w' ]);
 
     addSlashCommand('realm', 'send a message to your entire realm', (processed) => {
+        if (!faction) return false;
         if (!cu.HasAPI()) return false;
         if (processed.args.length < 1) return false;
-        var channel = cu.GetFactionChannel(cuAPI.faction);
+        var channel = cu.GetFactionChannel(faction);
         if (channel == null) return false;
         var to = channel + '@' + cu.CHAT_SERVICE;
         var body = processed.rest;
@@ -443,6 +445,12 @@ module Chat {
         cu.DestroyWebSocket();
     };
 
+    function onCharacterFactionChanged(newFaction: number) {
+        faction = newFaction;
+
+        createTab(cu.GetFactionChannel(faction));
+    }
+
     cu.OnInitialized(() => {
         $(document).keydown(e => {
             if (e.keyCode === 27) { // escape key
@@ -464,12 +472,6 @@ module Chat {
         $chatInput.focus(onFocus).blur(onBlur);
 
         var defaultRooms = [cu.GLOBAL_CHATROOM_NAME, cu.COMBAT_CHATROOM_NAME];
-
-        if (cu.HasAPI()) {
-            var factionChannel = cu.GetFactionChannel(cuAPI.faction);
-            if (factionChannel) defaultRooms.push(factionChannel);
-        }
-
         Array.prototype.slice.call(defaultRooms).forEach(createTab);
         selectTab(defaultRooms[0]);
     });
@@ -484,6 +486,9 @@ module Chat {
             }
             if (_.isFunction(cuAPI.OnConsoleText)) {
                 cuAPI.OnConsoleText(onConsoleText);
+            }
+            if (_.isFunction(cuAPI.OnCharacterFactionChanged)) {
+                cuAPI.OnCharacterFactionChanged(onCharacterFactionChanged);
             }
         }
     });

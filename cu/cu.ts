@@ -1667,6 +1667,7 @@ interface CUInGameAPI {
 
     patchResourceChannel: number;
     loginToken: string;
+    pktHash: string;
     serverURL: string;
     serverTime: number;
     vsync: number;
@@ -1738,27 +1739,22 @@ interface CUInGameAPI {
 
     /* Character */
 
-    pktHash: string;
-    characterName: string;
-    characterID: string;
-    faction: number;
-    race: number;
-    hp: number;
-    maxHP: number;
-    stamina: number;
-    maxStamina: number;
-    speed: number;
-    selfEffects: string;
-    locationX: number;
-    locationY: number;
-    locationZ: number;
+    OnCharacterIDChanged(c: (id: string) => void): void;
+    OnCharacterFactionChanged(c: (faction: number) => void): void;
+    OnCharacterRaceChanged(c: (race: number) => void): void;
+    OnCharacterNameChanged(c: (name: string) => void): void;
+    OnCharacterHealthChanged(c: (health: number, maxHealth: number) => void): void;
+    OnCharacterStaminaChanged(c: (stamina: number, maxStamina: number) => void): void;
+    OnCharacterEffectsChanged(c: (effects: string) => void): void;
 
-    /* Target */
+    /* Enemy Target */
 
     OnEnemyTargetNameChanged(callback: (name: string) => void): void;
     OnEnemyTargetHealthChanged(callback: (health: number, maxHealth: number) => void): void;
     OnEnemyTargetStaminaChanged(callback: (stamina: number, maxStamina: number) => void): void;
     OnEnemyTargetEffectsChanged(callback: (effects: string) => void): void;
+
+	/* Friendly Target */
 
     OnFriendlyTargetNameChanged(callback: (name: string) => void): void;
     OnFriendlyTargetHealthChanged(callback: (health: number, maxHealth: number) => void): void;
@@ -1788,7 +1784,13 @@ interface CUInGameAPI {
     netstats_players_newCount: number;
     netstats_players_newBits: number;
     netstats_lag: number;
-    particlesRenderedCount: number;
+    particlesRenderedCount: number
+    speed: number;
+    locationX: number;
+    locationY: number;
+    locationZ: number;
+    characters: number;
+    terrain: number;
 
     /* Console */
 

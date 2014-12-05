@@ -7,5 +7,6 @@
 		"top": 0,
 		"right": 245,
 		"bottom": 125
-	}
+	},
+	"handlesCharacter": true
 }

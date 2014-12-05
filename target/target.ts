@@ -34,17 +34,20 @@ class Target {
     updateHealth(health: number, maxHealth: number) {
         if (!this.updateVisibility(health >= 0 && maxHealth >= 0)) return;
 
-        // Figure out our health ratio and set the health bar to it
         var healthRatio = health / maxHealth;
         this.$healthBar.width(healthRatio * this.healthBarWidth);
         this.$healthText.text(health + ' / ' + maxHealth);
     }
 
     updateStamina(stamina: number, maxStamina: number) {
-        // Figure out our stamina ratio and set the stamina bar to it
-        var staminaRatio = stamina / maxStamina;
-        this.$staminaBar.width(staminaRatio * this.staminaBarWidth);
-        this.$staminaText.text(stamina + ' / ' + maxStamina);
+        if (maxStamina > 0) {
+            var staminaRatio = stamina / maxStamina;
+            this.$staminaBar.width(staminaRatio * this.staminaBarWidth);
+            this.$staminaText.text(stamina + ' / ' + maxStamina);
+        } else {
+            this.$staminaBar.width(0);
+            this.$staminaText.text('');
+        }
     }
 
     updateEffects(effects: string) {
