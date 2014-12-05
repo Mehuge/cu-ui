@@ -16,6 +16,7 @@ module Chat {
     var hasScrolled = {};
     var rooms = {};
     var selectedRoom = null;
+    var savedText = '';
 
     var MAX_TABS = 7;
 
@@ -214,6 +215,7 @@ module Chat {
                 }
             }
             $chatInput.val('');
+            savedText = '';
             if (event.shiftKey) {
                 setTextEntryMode(1);
             } else {
@@ -229,11 +231,12 @@ module Chat {
 
     function onBlur() {
         cu.ReleaseInputOwnership();
+        savedText = $chatInput.val();
     }
 
     function onBeginChat(cmdKind, initText) {
         $chatInput.focus();
-        $chatInput.val(initText ? initText : '');
+        $chatInput.val(initText ? initText : savedText);
         setTextEntryMode(cmdKind);
     }
 
