@@ -82,8 +82,8 @@ module Bot {
                 break;
             case "health":
                 if (o.health) {
-                    console.log('BOT health ' + cuAPI.characterName + " hp " + cuAPI.hp + "/" + cuAPI.maxHP + " effects " + cuAPI.selfEffects);
-                    o.health(cuAPI.characterName, cuAPI.hp, cuAPI.maxHP, cuAPI.selfEffects);
+                    //console.log('BOT health ' + cuAPI.characterName + " hp " + cuAPI.hp + "/" + cuAPI.maxHP + " effects " + cuAPI.selfEffects);
+                    //o.health(cuAPI.characterName, cuAPI.hp, cuAPI.maxHP, cuAPI.selfEffects);
                 }
                 next();
                 break;
