@@ -129,11 +129,10 @@ module Perf {
             particlesRenderedCount: 100,
             fps: 120,
             netstats_lag: 145,
-            hp: 80,
-            OnEnemyTargetHealthChanged: function () { }
+            OnEnemyTargetHealthChanged: function () { },
+            OnEnemyCharacterHealthChanged: function () { }
         };
     } else {
-        cuAPI.OnCharacterHealthChanged((health: number, maxHealth: number) => { data.hp = health; });
     }
 
     // Kickstart everything.
@@ -141,10 +140,8 @@ module Perf {
         $perf = $('#graph');
         $config = $('#config');
         setInterval(Update, 200);
-        cuAPI.OnEnemyTargetHealthChanged((health, max) => {
-            data.target = { hp: health, max: max };
-            console.log(JSON.stringify(data.target));
-        });
+        cuAPI.OnEnemyTargetHealthChanged((health, max) => { data.target = { hp: health, max: max }; });
+        cuAPI.OnCharacterHealthChanged((health: number, maxHealth: number) => { data.hp = health; });
         $perf.click((e) => {
             showOptions();
         });
