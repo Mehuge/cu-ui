@@ -623,11 +623,12 @@ var KeyCode = {
         188: 0x33,
         190: 0x34,
         191: 0x35,
-        192: 0x29,
-        222: 0x28,
+        192: 0x28,
         219: 0x1A,
         220: 0x2B,
         221: 0x1B,
+        222: undefined, // # does not exist in DX table?
+        223: 0x29,
     },
 
     jsModifiedByShift: {
