@@ -65,10 +65,12 @@ module KeyBindings {
         $item.addClass('binding-item').click(() => {
             $value.text('Press a key');
             $(document).unbind('keyup').on('keyup', e => {
-                $(document).unbind('keyup');
                 var keyCodeValue = KeyCode.getKeyCodeValueFromEvent(e);
-                cu.ChangeConfigVar(item, keyCodeValue.toString());
-                $value.text(KeyCode.dxKeyCodeMap[keyCodeValue]);
+                if (keyCodeValue !== undefined) {
+                    $(document).unbind('keyup');
+                    cu.ChangeConfigVar(item, keyCodeValue.toString());
+                    $value.text(KeyCode.dxKeyCodeMap[keyCodeValue]);
+                }
             });
         }).appendTo($container);
     }
