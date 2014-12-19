@@ -12,6 +12,8 @@ module Options {
     var $btnDefaults = $('#btn-defaults');
     var $btnCancel = $('#btn-cancel');
     var $btnSide = $('.btn-side');
+    var $btnX = $('#btn-x');
+    var cancel : any;
 
     cu.OnInitialized(() => {
         cu.GetConfigVars(activeConfigIndex);
@@ -31,10 +33,12 @@ module Options {
         cuAPI.GetConfigVars(activeConfigIndex);
     });
 
-    $btnCancel.click(() => {
+    cancel = () => {
         cuAPI.CancelAllConfigChanges(activeConfigIndex);
         cuAPI.CloseUI('options');
-    });
+    };
+    $btnCancel.click(cancel);
+    $btnX.click(cancel);
 
     $btnKeys.click(() => {
         if (activeConfigIndex == Tags.KEYBIND) return;

@@ -25,6 +25,13 @@ body {
     font-size: 10px;
     text-align: center;
 }
+#btn-x {
+    float: right; 
+    width: 20px;
+    height: 20px;
+    margin: 5px 12px 5px 0px; 
+    opacity: 0.3;
+}
 
 .btn-menu,
 .btn-save,
