@@ -59,14 +59,16 @@ module Character {
     }
 
     if (cu.HasAPI()) {
-        cuAPI.OnCharacterRaceChanged(updateRace);
+        cu.OnInitialized(() => {
+            cuAPI.OnCharacterRaceChanged(updateRace);
 
-        cuAPI.OnCharacterNameChanged(updateName);
+            cuAPI.OnCharacterNameChanged(updateName);
 
-        cuAPI.OnCharacterHealthChanged(updateHealth);
+            cuAPI.OnCharacterHealthChanged(updateHealth);
 
-        cuAPI.OnCharacterStaminaChanged(updateStamina);
+            cuAPI.OnCharacterStaminaChanged(updateStamina);
 
-        cuAPI.OnCharacterEffectsChanged(updateEffects);
+            cuAPI.OnCharacterEffectsChanged(updateEffects);
+        });
     }
 }
