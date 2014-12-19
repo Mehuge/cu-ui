@@ -69,6 +69,9 @@ module Character {
             cuAPI.OnCharacterStaminaChanged(updateStamina);
 
             cuAPI.OnCharacterEffectsChanged(updateEffects);
+
+            // Launch addons UI
+            cuAPI.OpenUI("addons.ui");
         });
     }
 }
