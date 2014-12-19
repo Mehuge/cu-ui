@@ -1,7 +1,7 @@
 ﻿/// <reference path="../cu/cu.ts" />
 /// <reference path="../vendor/jquery.d.ts" />
 module Tweaks {
-    var INTEGER = 0, BOOLEAN = 1, FLOAT = 2;
+    var INTEGER = 0, BOOLEAN = 1, FLOAT = 2, LIST = 3;
     var tweaks : any = [
         {
             id: "daytime", dflt: true, type: INTEGER, min: -1, max: 24,
@@ -68,8 +68,46 @@ module Tweaks {
             label: "Shadow Max Distance"
         },
         {
-            id: "MaxLightCount ", dflt: "2048", type: INTEGER, min: 0, max: 4096, step: 64,
+            id: "MaxLightCount", dflt: "2048", type: INTEGER, min: 0, max: 4096, step: 64,
             label: "Max Light Count"
+        },
+        {
+            id: "LOD1Distance", dflt: "1600", type: INTEGER, min: 0, max: 200000, step: 100,
+            label: "Level of Detail 1 Distance"
+        },
+        {
+            id: "LOD1Distance", dflt: "20000", type: INTEGER, min: 0, max: 200000, step: 100,
+            label: "Level of Detail 2 Distance"
+        },
+        {
+            id: "JumpVelocity", dflt: "5.5", type: FLOAT, min: 0, max: 128, step: 0.5,
+            label: "Jump Velocity"
+        },
+        {
+            id: "playerForwardMotion", dflt: "1", type: FLOAT, min: 0, max: 1, step: 0.1,
+            label: "Forwards Movement Speed"
+        },
+        {
+            id: "playerBackMotion", dflt: "0.5", type: FLOAT, min: 0, max: 1, step: 0.1,
+            label: "Backwards Movement Speed"
+        },
+        {
+            id: "ShowSelf", dflt: true, type: BOOLEAN,
+            label: "Show Self"
+        },
+        {
+            id: "debugBoneModelScale", dflt: "3", type: INTEGER, min: 0, max: 32, step: 1,
+            label: "Debug Bone Model Scale"
+        },
+        {
+            type: LIST,
+            label: "Particle Effect 1 (Fire)",
+            id: "debugBoneParticleId 7633175032960017022; renderDebugBonesAsParticles 1; showSelf 0; showSelf 1;"
+        },
+        {
+            type: LIST,
+            label: "Particle Effect 2 (Elite Starmap)",
+            id: "debugBoneParticleId 4354433766253396831; renderDebugBonesAsParticles 1; showSelf 0; showSelf 1;"
         },
     ];
     var container: JQuery = $('#tweaks');
@@ -98,21 +136,40 @@ module Tweaks {
                         checked: tweak.dflt
                     });
                     break;
+                case LIST:
+                    slider.attr({ type: "button", value: "Activate" });
+                    break;
             }
             slider.appendTo(div);
             div.append('<span>' + tweaks[i].label + '</span>');
             div.appendTo(container);
-            ((tweak) => {
-                div.on("change", (e: any) => {
-                    var value = tweak.type == BOOLEAN ? e.target.checked : e.target.value;
-                    var cmd = tweak.id + " " + value;
-                    if (cu.HasAPI()) {
-                        cu.ConsoleCommand(cmd);
-                    } else {
-                        console.log(cmd);
-                    }
-                });
-            })(tweak);
+            ((tweak, div, slider) => {
+                if (tweak.type == LIST) {
+                    slider.on("click", (e: any) => {
+                        var run = function (cmds, i) {
+                            if (i < cmds.length) {
+                                if (cu.HasAPI()) {
+                                    cu.ConsoleCommand(cmds[i]);
+                                } else {
+                                    console.log(cmds[i]);
+                                }
+                                setTimeout(function () { run(cmds, ++i); }, 100);
+                            }
+                        };
+                        run(tweak.id.split(";"), 0);
+                    });
+                } else {
+                    div.on("change", (e: any) => {
+                        var value = tweak.type == BOOLEAN ? e.target.checked : e.target.value;
+                        var cmd = tweak.id + " " + value;
+                        if (cu.HasAPI()) {
+                            cu.ConsoleCommand(cmd);
+                        } else {
+                            console.log(cmd);
+                        }
+                    });
+                }
+            })(tweak, div, slider);
         }
     }
 

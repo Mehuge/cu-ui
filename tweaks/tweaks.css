@@ -2,10 +2,10 @@
     background-color: rgba(0,0,0,0.5);
     margin: 1em;
     font-family: 'Cinzel', serif;
-    font-size: 11pt;
+    font-size: 9pt;
 }
 #tweaks > div {
-    height: 2em;
+    height: 1.6em;
 }
 #close {
     position: absolute;
@@ -16,16 +16,21 @@
 }
 #tweaks > div > span {
     position: absolute;
-    left: 11em;
+    left: 15em;
     color: white;
     line-height: 2em;
     display: inline-block;
 }
 #tweaks > div > input {
-    height: 2em;
+    height: 1em;
     margin-right: 1em;
     vertical-align: middle;
 }
 #tweaks > div > input[type=checkbox] {
     margin-left: 9em;
+}
+#tweaks > div > input[type=button] {
+    margin-left: 6em;
+    padding: 0;
+    height: 1.6em;
 }
