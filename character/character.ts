@@ -25,9 +25,14 @@ module Character {
     }
 
     function updateHealth(health: number, maxHealth: number) {
-        var healthRatio = health / maxHealth;
-        $healthBar.width(healthRatio * healthBarWidth);
-        $healthText.text(health + ' / ' + maxHealth);
+        if (maxHealth > 0) {
+            var healthRatio = health / maxHealth;
+            $healthBar.width(healthRatio * healthBarWidth);
+            $healthText.text(health + ' / ' + maxHealth);
+        } else {
+            $healthBar.width(0);
+            $healthBar.text('');
+        }
     }
 
     function updateStamina(stamina: number, maxStamina: number) {
