@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Population</title>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../cu-rest/rest.js"></script>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cinzel">
+    <style type="text/css">
+        #a, #t, #v, .m {
+            position: absolute;
+            width: 60px;
+            text-align: center;
+            font-family: Cinzel;
+            font-size: 16px;
+        }
+        #a, #t, #v {
+            top: 2px;
+        }
+        #t {
+            color: green;
+            left: 5px;
+        }
+        #a {
+            color: red;
+            display: block;
+            position: absolute;
+            left: 70px;
+        }
+        #v {
+            color: blue;
+            left: 135px;
+        }
+        .m {
+            color: white;
+            top: 23px; font-size: 8px; 
+            left: 70px; 
+        }
+        body {
+            background-image: url(bg.png);
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div id="pop">
+        <span id="a"></span>
+        <span id="t"></span>
+        <span id="v"></span>
+        <span class="m">Population</span>
+    </div>
+    <script>
+        var a = document.getElementById("a"),
+            t = document.getElementById("t"),
+            v = document.getElementById("v");
+        var poll = function () {
+            Rest.getPlayers().then(function (data) {
+                a.innerText = data.arthurians;
+                t.innerText = data.tuathaDeDanann;
+                v.innerText = data.vikings;
+                setTimeout(poll, 10000);
+            });
+        };
+        poll();
+    </script>
+</body>
+</html>

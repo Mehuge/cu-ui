@@ -270,6 +270,8 @@
     <Content Include="lb\leaderboard.html" />
     <Content Include="perf\perf.css" />
     <Content Include="perf\perf.html" />
+    <Content Include="pop\bg.png" />
+    <Content Include="pop\pop.html" />
     <Content Include="tweaks\tweaks.css" />
     <Content Include="tweaks\tweaks.html" />
     <Content Include="web\banes.html" />
@@ -337,6 +339,7 @@
     <Content Include="cu-rest\README.md" />
     <Content Include="enemytarget.ui" />
     <Content Include="friendlytarget.ui" />
+    <Content Include="pop.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

@@ -17,6 +17,8 @@ UI.Modules = {
     // "example": { core: false, autoLoad: true }
     "lb": { core: false, autoLoad: true },
     "heatmap": { core: false, autoLoad: true },
+    "perf": { core: false, autoLoad: true },
+    "pop": { core: false, autoLoad: true },
     "pledges": { core: false }
 
 };
