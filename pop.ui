@@ -4,9 +4,9 @@
 	"name": "pop",
 	"mainFile": "pop/pop.html",
 	"rect": {
-		"left": 1000,
-		"top": 0,
-		"right": 1199,
-		"bottom": 33
+		"left": 1097,
+		"top": 1,
+		"right": 1219,
+		"bottom": 22
 	}
 }
