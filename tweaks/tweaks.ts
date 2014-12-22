@@ -109,6 +109,11 @@ module Tweaks {
             label: "Particle Effect 2 (Elite Starmap)",
             id: "debugBoneParticleId 4354433766253396831; renderDebugBonesAsParticles 1; showSelf 0; showSelf 1;"
         },
+        {
+            type: LIST,
+            label: "Particle Effect 3 (Blood Spurt)",
+            id: "debugBoneParticleID -5965001818957618361; renderDebugBonesAsParticles 1; showSelf 0; showSelf 1;"
+        },
     ];
     var container: JQuery = $('#tweaks');
     $('#close').on("click", () => {
