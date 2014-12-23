@@ -12,15 +12,17 @@ module Perf {
     var samples = [];
     var data = {
         hp: 0,
+        stamina: 0,
         target: { hp: 0, max: 0 }
     };
-    var CLS = { CPS: 1, PARTICLES: 2, MS: 3, HP: 4, SPEED: 5, BYTES: 6, BITS: 7 };
-    var colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#ff0', '#80f', '#f08', '#f80', '#08f'];
+    var CLS = { CPS: 1, PARTICLES: 2, MS: 3, HP: 4, SPEED: 5, BYTES: 6, BITS: 7, STAMINA: 8 };
+    var colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#ff0', '#80f', '#f08', '#f80', '#08f', '#fff' ];
     var graphData = [
         { cls: CLS.CPS, label: "FPS", show: true, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.PARTICLES, label: "Particles", show: true, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.MS, label: "Lag", show: true, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.HP, label: "HP", show: false, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.STAMINA, label: "Stamina", show: false, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.HP, label: "TargetHP", show: false, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.SPEED, label: "Speed", show: false, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.BYTES, label: "TCP", show: false, lines: { show: true, lineWidth: 1 } },
@@ -30,7 +32,7 @@ module Perf {
     ];
 
     function Paint() {
-        var fps = [], particles = [], lag = [], hps = [], thps = [], speed = [], tcp = [], udp = [], nbits = [], ubits = [],
+        var fps = [], particles = [], lag = [], hps = [], stamina = [], thps = [], speed = [], tcp = [], udp = [], nbits = [], ubits = [],
             b = samples[0].time;
         for (var i = 0; i < samples.length; i++) {
             var s = samples[i], t = (s.time - b) / 200;
@@ -38,12 +40,13 @@ module Perf {
             if (graphData[1].show) particles.push([t, s.particles]);
             if (graphData[2].show) lag.push([t, s.lag]);
             if (graphData[3].show) hps.push([t, s.hp]);
-            if (graphData[4].show) thps.push([t, s.thp]);
-            if (graphData[5].show) speed.push([t, s.speed]);
-            if (graphData[6].show) tcp.push([t, s.tcp]);
-            if (graphData[7].show) udp.push([t, s.udp]);
-            if (graphData[8].show) nbits.push([t, s.newBits]);
-            if (graphData[9].show) ubits.push([t, s.updBits]);
+            if (graphData[4].show) stamina.push([t, s.stamina]);
+            if (graphData[5].show) thps.push([t, s.thp]);
+            if (graphData[6].show) speed.push([t, s.speed]);
+            if (graphData[7].show) tcp.push([t, s.tcp]);
+            if (graphData[8].show) udp.push([t, s.udp]);
+            if (graphData[9].show) nbits.push([t, s.newBits]);
+            if (graphData[10].show) ubits.push([t, s.updBits]);
         }
         var gd = [], ax = {}, nextAxis = 1;
         var addToGraph = function (i, arr) {
@@ -58,12 +61,13 @@ module Perf {
         addToGraph(1, particles);
         addToGraph(2, lag);
         addToGraph(3, hps);
-        addToGraph(4, thps);
-        addToGraph(5, speed);
-        addToGraph(6, tcp);
-        addToGraph(7, udp);
-        addToGraph(8, nbits);
-        addToGraph(9, ubits);
+        addToGraph(4, stamina);
+        addToGraph(5, thps);
+        addToGraph(6, speed);
+        addToGraph(7, tcp);
+        addToGraph(8, udp);
+        addToGraph(9, nbits);
+        addToGraph(10, ubits);
         $.plot($("#graph"), gd, {
             yaxis: { position: "left", color: 'black' },
             yaxes: [{}],
@@ -83,6 +87,7 @@ module Perf {
             fps: cuAPI.fps,
             lag: cuAPI.netstats_lag,
             hp: data.hp,
+            stamina: data.stamina,
             thp: data.target.hp,
             speed: cuAPI.speed,
             tcp: cuAPI.netstats_tcpBytes,
@@ -142,6 +147,7 @@ module Perf {
         setInterval(Update, 200);
         cuAPI.OnEnemyTargetHealthChanged((health, max) => { data.target = { hp: health, max: max }; });
         cuAPI.OnCharacterHealthChanged((health: number, maxHealth: number) => { data.hp = health; });
+        cuAPI.OnCharacterStaminaChanged((stamina: number, maxStamina: number) => { console.log('stamina ' + (data.stamina = stamina)); });
         $perf.click((e) => {
             showOptions();
         });
