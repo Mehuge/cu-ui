@@ -340,6 +340,7 @@
     <Content Include="enemytarget.ui" />
     <Content Include="friendlytarget.ui" />
     <Content Include="pop.ui" />
+    <Content Include="perf.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
