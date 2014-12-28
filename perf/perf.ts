@@ -16,7 +16,7 @@ module Perf {
         target: { hp: 0, max: 0 }
     };
     var CLS = { CPS: 1, PARTICLES: 2, MS: 3, HP: 4, SPEED: 5, BYTES: 6, BITS: 7, STAMINA: 8 };
-    var colors = ['#f00', '#0f0', '#00f', '#ff0', '#0ff', '#ff0', '#80f', '#f08', '#f80', '#08f', '#fff' ];
+    var colors = ['#fff', '#0f0', '#00f', '#ff0', '#0ff', '#f00', '#80f', '#f08', '#f80', '#08f', '#888' ];
     var graphData = [
         { cls: CLS.CPS, label: "FPS", show: true, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.PARTICLES, label: "Particles", show: true, lines: { show: true, lineWidth: 1 } },
