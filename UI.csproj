@@ -19,6 +19,9 @@
   <ItemGroup>
     <Content Include="addons\addons.css" />
     <Content Include="addons\addons.html" />
+    <Content Include="bct\bct.css" />
+    <Content Include="bct\bct.html" />
+    <Content Include="bct\bct.js" />
     <Content Include="bot\botscript3.js" />
     <Content Include="bot\example.js" />
     <Content Include="bot\healbot.js" />
@@ -341,6 +344,7 @@
     <Content Include="friendlytarget.ui" />
     <Content Include="pop.ui" />
     <Content Include="perf.ui" />
+    <Content Include="bct.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

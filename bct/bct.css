@@ -1,0 +1,31 @@
+body { 
+  margin: 0; 
+} 
+.msg { 
+  text-align: center; 
+  font-weight: bold; 
+  position: absolute;
+  width: 100px;
+}
+#sh {
+	color: rgb(0,255,0);
+	font-size: 12pt; 
+	left: 50px;
+	top: 10px;
+}
+#sd {
+	color: white;
+	font-size: 16pt; 
+	left: 0px;
+}
+#td {
+	color: red;
+	font-size: 18pt; 
+	right: 0px;
+}
+.fadeOut { 
+  opacity: 0; 
+} 
+.fadeIn { 
+  opacity: 1; 
+}
