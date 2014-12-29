@@ -19,6 +19,6 @@ UI.Modules = {
     "heatmap": { core: false, autoLoad: true },
     "perf": { core: false, autoLoad: true },
     "pop": { core: false, autoLoad: true },
+    "bct": { core: false, autoLoad: true },
     "pledges": { core: false }
-
 };
