@@ -6,7 +6,7 @@
         "left": 621, 
         "top": 280, 
         "right": 820, 
-        "bottom": 320 
+        "bottom": 350 
     }, 
     "handlesEnemyTarget": true, 
     "handlesCharacter": true	

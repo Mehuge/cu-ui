@@ -1,8 +1,9 @@
 (function(){ 
-	var ourHealth, targetHealth, targetName, sdTimer, shTimer, tdTimer; 
+	var ourHealth, targetHealth, targetName, sdTimer, shTimer, tdTimer, alTimer; 
 	var sd = document.getElementById("sd"),
 		sh = document.getElementById("sh"),
-		td = document.getElementById("td");
+		td = document.getElementById("td"),
+		al = document.getElementById("al");
 	var fadeOut = function(el) {
 		el.className = "fadeOut";
         el.innerText = '';
@@ -10,11 +11,11 @@
 	var clearTextIn = function(el, ms) { 
 		return setTimeout(function() { fadeOut(el); timer = null; }, ms); 
 	};
-	var show = function(el, dmg, timer) {
+	var show = function(el, dmg, timer, dur) {
 		if (timer) clearTimeout(timer);
-		el.innerText = (dmg > 0 ? '+' : '') + dmg; 
+		el.innerText = ((dmg|0) > 0 ? '+' : '') + dmg; 
 		el.className = "msg fadeIn";
-		return clearTextIn(el, Math.abs(dmg) < 5 ? 500 : 1000);
+		return clearTextIn(el, dur || (Math.abs(dmg) < 5 ? 500 : 1000));
 	};
 	var showCombatText = function(old, current, self) { 
 		if (old !== undefined) {
@@ -35,12 +36,15 @@
 	}; 
 	var init = function() { 
 		// track our own health 
-		cuAPI.OnCharacterHealthChanged(function(health, maxHealth) {
+	    cuAPI.OnCharacterHealthChanged(function (health, maxHealth) {
 		    // console.log('HealthChange: ' + health + ' was ' + ourHealth + ' max ' + maxHealth);
 		    if (health === -1 && maxHealth === -1) {
 		        // resurection
 		        ourHealth = undefined;
 		    } else {
+		        if (ourHealth !== undefined && health < ourHealth && health / maxHealth < 0.2) {
+		            alTimer = show(al, "LOW HEALTH!", alTimer, 3000);
+		        }
 		        showCombatText(ourHealth, health, true);
 		        ourHealth = health;
 		    }
@@ -51,7 +55,10 @@
 			if (health === -1 && maxHealth === -1) {
 				// no target
 			} else {
-				showCombatText(targetHealth, health, false); 
+			    if (targetHealth !== undefined && health < targetHealth && health / maxHealth < 0.2) {
+			        alTimer = show(al, "FINISH HIM!", alTimer, 3000);
+			    }
+			    showCombatText(targetHealth, health, false);
 				targetHealth = health; 
 			}
 		});

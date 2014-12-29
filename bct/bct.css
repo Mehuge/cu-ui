@@ -1,5 +1,6 @@
 body { 
-  margin: 0; 
+  margin: 0;
+  overflow: hidden;
 } 
 .msg { 
   text-align: center; 
@@ -11,7 +12,7 @@ body {
 	color: rgb(0,255,0);
 	font-size: 12pt; 
 	left: 50px;
-	top: 10px;
+	bottom: 0px;
 }
 #sd {
 	color: white;
@@ -22,6 +23,12 @@ body {
 	color: red;
 	font-size: 18pt; 
 	right: 0px;
+}
+#al {
+    color: rgb(255, 216, 0);
+    font-size: 16pt;
+    width: 200px;
+    line-height: 61px;
 }
 .fadeOut { 
   opacity: 0; 
