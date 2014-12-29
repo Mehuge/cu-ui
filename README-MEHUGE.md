@@ -1,4 +1,5 @@
-= Mehuge UI =
+Mehuge UI
+=========
 
 Some of the modules in this UI require my cu-rest API.  There are two ways to obtain this.  The easiest is to clone the repo as a subfolder of this one:
 
