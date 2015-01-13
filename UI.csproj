@@ -32,9 +32,12 @@
     <Content Include="characters\characters.html" />
     <Content Include="announcement\announcement.css" />
     <Content Include="announcement\announcement.html" />
+    <Content Include="building\building.css" />
+    <Content Include="building\building.html" />
     <Content Include="character\character.html" />
     <Content Include="character\character.css" />
     <TypeScriptCompile Include="announcement\announcement.ts" />
+    <TypeScriptCompile Include="building\building.ts" />
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="bot\bot.css" />
     <Content Include="bot\bot.html" />
@@ -73,6 +76,7 @@
     <Content Include="images\archetypes\watermage.jpg" />
     <Content Include="images\banes\bane.jpg" />
     <Content Include="images\boons\boon.jpg" />
+    <Content Include="images\building\building-btn.jpg" />
     <Content Include="images\character\bg.png" />
     <Content Include="images\character\frame.png" />
     <Content Include="images\character\health-bar.png" />
@@ -345,6 +349,7 @@
     <Content Include="pop.ui" />
     <Content Include="perf.ui" />
     <Content Include="bct.ui" />
+    <Content Include="building.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
