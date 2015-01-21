@@ -7,6 +7,7 @@ body {
   font-weight: bold; 
   position: absolute;
   width: 100px;
+  opacity: 0.8;
 }
 #sh {
 	color: rgb(0,255,0);
@@ -28,11 +29,4 @@ body {
     color: rgb(255, 216, 0);
     font-size: 16pt;
     width: 200px;
-    line-height: 61px;
-}
-.fadeOut { 
-  opacity: 0; 
-} 
-.fadeIn { 
-  opacity: 1; 
 }

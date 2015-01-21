@@ -1,40 +1,94 @@
 (function(){ 
 	var ourHealth, targetHealth, targetName, sdTimer, shTimer, tdTimer, alTimer; 
-	var sd = document.getElementById("sd"),
-		sh = document.getElementById("sh"),
-		td = document.getElementById("td"),
-		al = document.getElementById("al");
-	var fadeOut = function(el) {
-		el.className = "fadeOut";
-        el.innerText = '';
+	var sprites = [], animating, lasts = {};
+	var createSprite = function (type, pos, spd, text) {
+	    var now = Date.now(), last = lasts[type] || now;
+	    lasts[type] = now;
+	    var p = function(n) {
+	        if (n in pos) el.style[n] = (pos[n]|0) + 'px';
+	    };
+	    var el = document.createElement('div');
+	    el.className = 'msg ' + type;
+	    el.textContent = text;
+	    el.id = type;
+	    p("top");
+	    p("left");
+	    p("bottom");
+	    p("right");
+	    if (now - last < 1000) {
+	        lasts[type] = now-1000;  // force toggle back to first col on next display
+            if ("left" in pos) el.style.left = (pos.left + 20) + 'px';
+            if ("right" in pos) el.style.right = (pos.right - 20) + 'px';
+        }
+	    document.body.appendChild(el);
+	    sprites.push({
+	        spd: spd,
+            type: type,
+            style: el.style,
+            node: el,
+            start: now
+	    });
+	    return sprites[sprites.length - 1];
+	}
+	var renderFrame = function () {
+	    var n = Date.now(), ns = [];
+	    for (var i = 0; i < sprites.length; i++) {
+	        var s = sprites[i];
+	        switch (s.type) {
+	        case "al":
+	            if (s.start + s.spd < n) {
+	                document.body.removeChild(s.node);
+	                s.node = null;
+	            } else {
+	                ns.push(s);
+	            }
+	            break;
+	        default:
+	            // animate this sprite
+	            var top = s.node.offsetTop;
+	            if (top < s.spd) {
+	                // sprite ended
+	                document.body.removeChild(s.node);
+	            } else {
+	                top -= s.spd;
+	                s.style.top = top + 'px';
+	                ns.push(s);
+	            }
+	            break;
+	        }
+	    };
+	    sprites = ns;
 	};
-	var clearTextIn = function(el, ms) { 
-		return setTimeout(function() { fadeOut(el); timer = null; }, ms); 
+	var animate = function () {
+	    if (sprites.length && animating === undefined) {
+	        animating = setInterval(renderFrame, 100);
+	    }
 	};
-	var show = function(el, dmg, timer, dur) {
-		if (timer) clearTimeout(timer);
-		el.innerText = ((dmg|0) > 0 ? '+' : '') + dmg; 
-		el.className = "msg fadeIn";
-		return clearTextIn(el, dur || (Math.abs(dmg) < 5 ? 500 : 1000));
+	var show = function (type, pos, dmg, spd) {
+	    spd = spd || (Math.abs(dmg) < 5 ? 2 : 1);
+	    var sprite = createSprite(type, pos, spd, ((dmg | 0) > 0 ? '+' : '') + dmg);
+	    animate();
+	    return sprite;
 	};
 	var showCombatText = function(old, current, self) { 
 		if (old !== undefined) {
 			var dmg = current-old;
 			if (old > current) { 
 				if (self) {
-					sdTimer = show(sd, dmg, sdTimer);
+				    show("sd", { left: 0, bottom: 0 }, dmg);
 					// console.log('SELF DAMAGE: ' + dmg);
 				} else {
-					tdTimer = show(td, dmg, tdTimer);
+				    show("td", { right: 0, bottom: 0 }, dmg);
 					// console.log('TARGET DAMAGE: ' + dmg);
 				}
 			} else if (self) {
-				shTimer = show(sh, dmg, shTimer);
+			    show("sh", { left: 50, bottom: 0 }, dmg);
 				// console.log('HEAL: ' + dmg);
 			}
 		}
 	}; 
-	var init = function() { 
+	var init = function () {
+	    var lowHealth, lowTargetHealth;
 		// track our own health 
 	    cuAPI.OnCharacterHealthChanged(function (health, maxHealth) {
 		    // console.log('HealthChange: ' + health + ' was ' + ourHealth + ' max ' + maxHealth);
@@ -43,7 +97,11 @@
 		        ourHealth = undefined;
 		    } else {
 		        if (ourHealth !== undefined && health < ourHealth && health / maxHealth < 0.2) {
-		            alTimer = show(al, "LOW HEALTH!", alTimer, 3000);
+		            if (!lowHealth || lowHealth.node === null) {
+		                lowHealth = show("al", { top: 0 }, "LOW HEALTH!", 2000);
+		            } else {
+		                lowHealth.start = Date.now();           // extend display time of existing health warning
+		            }
 		        }
 		        showCombatText(ourHealth, health, true);
 		        ourHealth = health;
@@ -56,7 +114,11 @@
 				// no target
 			} else {
 			    if (targetHealth !== undefined && health < targetHealth && health / maxHealth < 0.2) {
-			        alTimer = show(al, "FINISH HIM!", alTimer, 3000);
+			        if (!lowTargetHealth || lowTargetHealth.node === null) {
+			            lowTargetHealth = show("al", { bottom: 0 }, "FINISH HIM!", 2000);
+			        } else {
+			            lowTargetHealth.start = Date.now();
+			        }
 			    }
 			    showCombatText(targetHealth, health, false);
 				targetHealth = health; 
