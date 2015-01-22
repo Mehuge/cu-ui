@@ -58,6 +58,12 @@
 	        }
 	    };
 	    sprites = ns;
+
+        // If no more sprites to animate, cancel timer
+	    if (sprites.length === 0) {
+	        clearInterval(animating);
+	        animating = undefined;
+	    }
 	};
 	var animate = function () {
 	    if (sprites.length && animating === undefined) {
