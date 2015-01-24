@@ -19,6 +19,7 @@
   <ItemGroup>
     <Content Include="addons\addons.css" />
     <Content Include="addons\addons.html" />
+    <Content Include="announcer\announcer.html" />
     <Content Include="bct\bct.css" />
     <Content Include="bct\bct.html" />
     <Content Include="bct\bct.js" />
@@ -37,6 +38,7 @@
     <Content Include="character\character.html" />
     <Content Include="character\character.css" />
     <TypeScriptCompile Include="announcement\announcement.ts" />
+    <TypeScriptCompile Include="announcer\announcer.ts" />
     <TypeScriptCompile Include="building\building.ts" />
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="bot\bot.css" />
@@ -350,6 +352,7 @@
     <Content Include="bct.ui" />
     <Content Include="building.ui" />
     <Content Include="lb.ui" />
+    <Content Include="announcer.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
