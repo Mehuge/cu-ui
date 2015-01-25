@@ -9,24 +9,32 @@ body {
   width: 100px;
   opacity: 0.8;
 }
-#sh {
+#sh { /* self heal */
 	color: rgb(0,255,0);
 	font-size: 12pt; 
 	left: 50px;
-	bottom: 0px;
 }
-#sd {
+#sd { /* self damage */
 	color: white;
 	font-size: 16pt; 
-	left: 0px;
 }
-#td {
+#ss { /* self stamina */
+    color: rgb(0, 208, 255);
+    font-size: 14pt;
+}
+#rs { /* recover stamina */
+    color: rgb(76, 255, 0);
+    font-size: 8pt;
+    opacity: 0.4;
+}
+#td { /* target damage */
 	color: red;
 	font-size: 18pt; 
-	right: 0px;
 }
-#al {
-    color: rgb(255, 216, 0);
+#al { /* alert */
     font-size: 16pt;
     width: 200px;
 }
+#al.health { color: rgb(0, 255, 0); }
+#al.target { color: rgb(255, 0, 0); }
+#al.stamina { color: rgb(0, 208, 255); }

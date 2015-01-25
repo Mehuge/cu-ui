@@ -1,5 +1,5 @@
 (function(){ 
-	var ourHealth, targetHealth, targetName, sdTimer, shTimer, tdTimer, alTimer; 
+    var ourHealth, ourStamina, targetHealth, targetName, sdTimer, shTimer, tdTimer, alTimer; 
 	var sprites = [], animating, lasts = {};
 	var createSprite = function (type, pos, spd, text) {
 	    var now = Date.now(), last = lasts[type] || now;
@@ -7,23 +7,24 @@
 	    var p = function(n) {
 	        if (n in pos) el.style[n] = (pos[n]|0) + 'px';
 	    };
+	    var id = type.split(' ')[0];
 	    var el = document.createElement('div');
 	    el.className = 'msg ' + type;
 	    el.textContent = text;
-	    el.id = type;
+	    el.id = id;
 	    p("top");
 	    p("left");
 	    p("bottom");
 	    p("right");
 	    if (now - last < 1000) {
 	        lasts[type] = now-1000;  // force toggle back to first col on next display
-            if ("left" in pos) el.style.left = (pos.left + 20) + 'px';
-            if ("right" in pos) el.style.right = (pos.right - 20) + 'px';
+            if ("left" in pos) el.style.left = (pos.left + pos.off) + 'px';
+            if ("right" in pos) el.style.right = (pos.right - pos.off) + 'px';
         }
 	    document.body.appendChild(el);
 	    sprites.push({
 	        spd: spd,
-            type: type,
+            type: id,
             style: el.style,
             node: el,
             start: now
@@ -76,25 +77,26 @@
 	    animate();
 	    return sprite;
 	};
-	var showCombatText = function(old, current, self) { 
+	var showCombatText = function(old, current, type) { 
 		if (old !== undefined) {
 			var dmg = current-old;
-			if (old > current) { 
-				if (self) {
-				    show("sd", { left: 0, bottom: 0 }, dmg);
-					// console.log('SELF DAMAGE: ' + dmg);
-				} else {
-				    show("td", { right: 0, bottom: 0 }, dmg);
-					// console.log('TARGET DAMAGE: ' + dmg);
-				}
-			} else if (self) {
-			    show("sh", { left: 50, bottom: 0 }, dmg);
-				// console.log('HEAL: ' + dmg);
+			if (old > current) {
+			    // lost health/stamina
+			    switch (type) {
+			        case "sd": show(type, { left: 0, bottom: 0, off: 20 }, dmg); break;
+			        case "td": show(type, { right: 0, bottom: 0, off: 20 }, dmg); break;
+			        case "ss": show(type, { left: 15, bottom: 0, off: 20 }, dmg); break;
+			    }
+				
+				// console.log(type + ' DAMAGE: ' + dmg);
+			} else switch (type) {
+			    case "sd": show("sh", { left: 55, bottom: 0, off: 15 }, dmg); break;
+			    case "ss": show("rs", { left: 20, bottom: 0, off: 10 }, dmg); break;
 			}
 		}
 	}; 
 	var init = function () {
-	    var lowHealth, lowTargetHealth;
+	    var lowHealth, lowTargetHealth, lowStamina;
 		// track our own health 
 	    cuAPI.OnCharacterHealthChanged(function (health, maxHealth) {
 		    // console.log('HealthChange: ' + health + ' was ' + ourHealth + ' max ' + maxHealth);
@@ -104,15 +106,33 @@
 		    } else {
 		        if (ourHealth !== undefined && health < ourHealth && health / maxHealth < 0.2) {
 		            if (!lowHealth || lowHealth.node === null) {
-		                lowHealth = show("al", { top: 0 }, "LOW HEALTH!", 2000);
+		                lowHealth = show("al health", { top: 0 }, "LOW HEALTH!", 2000);
 		            } else {
 		                lowHealth.start = Date.now();           // extend display time of existing health warning
 		            }
 		        }
-		        showCombatText(ourHealth, health, true);
+		        showCombatText(ourHealth, health, "sd");
 		        ourHealth = health;
 		    }
-		});
+	    });
+        // track stamina
+	    cuAPI.OnCharacterStaminaChanged(function (stamina, maxStamina) {
+	        // console.log('StaminaChange: ' + stamina + ' was ' + ourStamina + ' max ' + maxStamina);
+	        if (stamina === -1 && maxStamina === -1) {
+	            // resurection
+	            ourStamina = undefined;
+	        } else {
+	            if (ourStamina !== undefined && stamina < ourStamina && stamina / maxStamina < 0.2) {
+	                if (!lowStamina || lowStamina.node === null) {
+	                    lowStamina = show("al stamina", { top: 0 }, "LOW STAMINA!", 2000);
+	                } else {
+	                    lowStamina.start = Date.now();           // extend display time of existing health warning
+	                }
+	            }
+	            showCombatText(ourStamina, stamina, "ss");
+	            ourStamina = stamina;
+	        }	    
+	    });
         // track enemy health
 		cuAPI.OnEnemyTargetHealthChanged(function(health, maxHealth) { 
 			// console.log('TargetHealthChange: ' + health + ' was ' + targetHealth + ' max ' + maxHealth);
@@ -121,12 +141,12 @@
 			} else {
 			    if (targetHealth !== undefined && health < targetHealth && health / maxHealth < 0.2) {
 			        if (!lowTargetHealth || lowTargetHealth.node === null) {
-			            lowTargetHealth = show("al", { bottom: 0 }, "FINISH HIM!", 2000);
+			            lowTargetHealth = show("al target", { bottom: 0 }, "FINISH HIM!", 2000);
 			        } else {
 			            lowTargetHealth.start = Date.now();
 			        }
 			    }
-			    showCombatText(targetHealth, health, false);
+			    showCombatText(targetHealth, health, "td");
 				targetHealth = health; 
 			}
 		});
