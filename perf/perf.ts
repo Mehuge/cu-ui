@@ -99,7 +99,7 @@ module Perf {
         if (samples.length > 400) {
             samples.shift();
         }
-        Paint();
+        $("#graph")[0].offsetHeight > 0 && Paint();
     }
 
     function hideOptions() {
