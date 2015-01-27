@@ -20,5 +20,6 @@ UI.Modules = {
     "perf": { core: false, autoLoad: true },
     "pop": { core: false, autoLoad: true },
     "bct": { core: false, autoLoad: true },
+    "announcer": { core: false, autoLoad: true },
     "pledges": { core: false }
 };
