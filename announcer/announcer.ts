@@ -51,9 +51,7 @@
             player = name;
         });
         cuAPI.OnChat(OnChat);
-        setTimeout(function () {
-            cuAPI.OpenUI("chat.ui");
-        }, 5000);
+        setTimeout(function () { cuAPI.OpenUI("chat.ui"); }, 0);
     }
 
     // initialise 
