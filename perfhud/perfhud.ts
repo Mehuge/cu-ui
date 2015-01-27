@@ -13,6 +13,8 @@ module PerfHUD {
 
     function Update() {
         if (cu.HasAPI()) {
+            $perfHud.html(cuAPI.perfHUD);
+            /*
             $perfHud.empty();
 
             addToPerfHud((cuAPI.frameTime || 0).toFixed(1) + ' msec per frame / ' + (cuAPI.fps || 0).toFixed(1) + ' fps');
@@ -39,7 +41,11 @@ module PerfHUD {
 
             addToPerfHud('speed: ' + (cuAPI.speed || 0).toFixed(1));
 
-            addToPerfHud('particles rendered: ' + (cuAPI.particlesRenderedCount || 0));
+            addToPerfHud('particles blendered: ' + (cuAPI.particlesRenderedCount || 0));
+
+            //addToPerfHud('hudText: ' + cuAPI.perfHUD);
+
+            $perfHud.append(cuAPI.perfHUD); */
         }
     }
 

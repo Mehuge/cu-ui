@@ -87,14 +87,18 @@ module Chat {
         return false;
     }
 
-    function selectTab(room) {
-        if (selectedRoom === room) return;
+    function selectTab(roomName) {
+        if (selectedRoom === roomName) return;
 
-        selectedRoom = room;
+        selectedRoom = roomName;
 
-        $chatInput.removeClass().addClass(room).attr('placeholder', room);
+        $chatInput.removeClass().addClass(roomName).attr('placeholder', roomName);
 
-        var $room = getRoom(room);
+        var room = getRoom(roomName);
+
+        if (!room) return;
+
+        var $room = room.$room;
 
         if (!$room) return;
 
@@ -109,7 +113,15 @@ module Chat {
     }
 
     function getRoom(room): any {
-        return room && rooms.hasOwnProperty(room) ? rooms[room] : null;
+        return room && rooms.hasOwnProperty(room) ? { name: room, $room: rooms[room] } : null;
+    }
+
+    function getGlobalRoom(): any {
+        return getRoom('_global');
+    }
+
+    function getSelectedRoom(): any {
+        return getRoom(selectedRoom);
     }
 
     function tryScrollToBottom(channel, $channelText) {
@@ -121,10 +133,13 @@ module Chat {
     function appendChat(channel, $chatMessage, channelClass, iconClass) {
         // This appends the chat item and escapes it
         // TODO: make a smarter process for escaping chat so we can embed some html
-        var $room = getRoom(channel);
-        if (!$room) return;
+        var room = getRoom(channel);
+        if (!room) room = getGlobalRoom();
+        if (!room) room = getSelectedRoom();
+        if (!room) return;
+        var $room = room.$room;
         var $roomText = $room.$text;
-        if (selectedRoom !== channel) {
+        if (selectedRoom !== room.name) {
             $room.$tab.addClass('highlight');
         }
         var $newChatItem = $('<div>').addClass('chat-item ' + (channelClass || ''));
@@ -378,6 +393,28 @@ module Chat {
             name = name.substring(0, uiIndex);
         }
         cuAPI.CloseUI(name);
+        return true;
+    });
+
+    addSlashCommand('showui', 'show a ui widget', (processed) => {
+        if (processed.args.length < 1) return false;
+        var name = processed.args[0];
+        var uiIndex = name.indexOf('.ui');
+        if (uiIndex !== -1) {
+            name = name.substring(0, uiIndex);
+        }
+        cuAPI.ShowUI(name);
+        return true;
+    });
+
+    addSlashCommand('hideui', 'hide a ui widget', (processed) => {
+        if (processed.args.length < 1) return false;
+        var name = processed.args[0];
+        var uiIndex = name.indexOf('.ui');
+        if (uiIndex !== -1) {
+            name = name.substring(0, uiIndex);
+        }
+        cuAPI.HideUI(name);
         return true;
     });
 

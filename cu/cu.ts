@@ -1808,6 +1808,7 @@ interface CUInGameAPI {
     locationZ: number;
     characters: number;
     terrain: number;
+    perfHUD: string;
 
     /* Console */
 
