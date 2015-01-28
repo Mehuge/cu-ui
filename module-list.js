@@ -5,7 +5,7 @@ UI.Modules = {
     "errormessages": { core: true },
     "kills": { core: true },
     "login": { core: true },
-    "perfhud": { core: true },
+    "perfhud": { core: true, close: true },
     "respawn": { core: true },
     "skillbar": { core: true },
     "target": { core: true },
