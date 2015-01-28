@@ -38,6 +38,8 @@ module Addons {
                 var addon = modules[name];
                 if (addon.autoLoad) {
                     OpenUI(name);
+                } else if (addon.close) {
+                    CloseUI(name);
                 }
                 html += '<tr id="'+name+'">'
                 + '<td>' + name + '</td>'
