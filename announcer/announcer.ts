@@ -10,9 +10,16 @@
         } else if (who[0] === player) {
             selfKills.push(Date.now());
             if (selfKills.length > 1) {
-                var dur = selfKills[selfKills.length - 1] - selfKills[0];
-                console.log('kill frequency ' + (dur / selfKills.length));
-                if (dur / selfKills.length < 1000) {
+                var last = selfKills[selfKills.length - 1], count = 1;
+                for (var i = selfKills.length - 2; i >= 0; i--) {
+                    if (last - selfKills[i] > count * 1000) {
+                        // too slow
+                        break;
+                    }
+                    count++;
+                }
+                console.log(JSON.stringify(selfKills));
+                if (count > 1) {
                     switch (selfKills.length) {
                         case 2: (new Audio("doublekill.ogg")).play(); break;
                         case 3: (new Audio("multikill.ogg")).play(); break;
