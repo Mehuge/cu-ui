@@ -6,25 +6,35 @@
 /// <reference path="../cu/cu.ts" />
 
 module ErrorMessages {
+    var $messages = $('#messages');
+
     cu.Listen('HandleAbilityError', (message) => {
         if (!message) return;
 
         var messageText = getMessageText(message);
 
-        if (messageText == 'BadMessage') return;
+        if (!messageText) return;
 
-        var newMessage = $('<li>').addClass('message').append(messageText).prependTo('.messageList');
+        var $newMessage = $('<li>').addClass('message').append(messageText).prependTo($messages);
 
         setTimeout(() => {
-            newMessage.remove();
+            $newMessage.stop().fadeOut(() => {
+                $newMessage.remove();
+            });
         }, 3000);
 
-        var msgs = $('.message');
-        while (msgs.length > 3) {
-            msgs.last().remove();
-            msgs = $('.message');
-        }
+        removeLastMessage();
     });
+
+    function removeLastMessage() {
+        var $msgs = $('.message');
+
+        if ($msgs.length <= 3) return;
+
+        $msgs.last().remove();
+
+        removeLastMessage();
+    }
 
     function getMessageText(message) {
         switch (message) {
@@ -35,7 +45,7 @@ module ErrorMessages {
             case 5: return 'You don\'t have a target.';
             case 6: return 'You were interrupted!';
             case 7: return 'You do not have enough stamina.';
-            default: return 'BadMessage';
+            default: return '';
         }
     }
 }

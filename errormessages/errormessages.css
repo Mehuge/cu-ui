@@ -3,14 +3,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 html, body {
+    margin: 0;
+    padding: 0;
     overflow: hidden;
 }
 
-.messageList {
-    position: absolute;
+#messages {
     list-style-type: none;
-    bottom: 0;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     width: 350px;
 }
@@ -18,9 +18,10 @@ html, body {
 .message {
     font-size: 90%;
     color: white;
-    margin: 0;
+    margin: 0 0 3px 0;
     padding: 0;
-    height: 25px;
+    height: 22px;
+    line-height: 22px;
     text-align: center;
     background-image: url('../images/errormessages/alert-bg.png');
     background-repeat: no-repeat;

@@ -3,9 +3,9 @@
 	"name": "errormessages",
 	"mainFile": "errormessages/errormessages.html",
 	"rect": {
-		"left": 525,
-		"top": 725,
-		"right": 875,
+		"left": 500,
+		"top": 700,
+		"right": 940,
 		"bottom": 800
 	},
 	"handlesAbilities": true
