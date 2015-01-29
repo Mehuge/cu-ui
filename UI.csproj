@@ -276,6 +276,9 @@
     <TypeScriptCompile Include="inventory\inventory.ts" />
     <TypeScriptCompile Include="gamemenu\gamemenu.ts" />
     <Content Include="lb\lb3.html" />
+    <Content Include="map\map.css" />
+    <Content Include="map\map.html" />
+    <Content Include="map\RvR-Map-Shifting.jpg" />
     <Content Include="perf\perf.css" />
     <Content Include="perf\perf.html" />
     <Content Include="pop\bg.png" />
@@ -292,6 +295,7 @@
     <Content Include="module-list.js" />
     <Content Include="nameplate\nameplate.css" />
     <Content Include="nameplate\nameplate.html" />
+    <TypeScriptCompile Include="map\map.ts" />
     <TypeScriptCompile Include="module-list.d.ts" />
     <TypeScriptCompile Include="nameplate\nameplate.ts" />
     <Content Include="options\options.css" />
