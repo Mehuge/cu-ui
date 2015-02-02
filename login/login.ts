@@ -80,7 +80,7 @@ module Login {
             id: $selectedCharacter.data('character-id'),
             name: $selectedCharacter.data('character-name')
         };
-        $characterSelection.fadeOut(() => connect(character));
+        $characterSelection.fadeOut(() => beginConnect(character));
     });
 
     /* Both Character Selection and Character Creation Functions */
@@ -149,18 +149,33 @@ module Login {
         }
     }
 
-    function connect(character) {
+    function beginConnect(character) {
+        var options: JQueryAjaxSettings = {};
+        options.url = getSecureSelectedServerApiUrl() + '/proxies';
+        options.type = 'GET';
+        options.contentType = 'application/json; charset=utf-8';
+        options.success = function (result) {
+            finishConnect(result.address, result.port.toString(), character);
+        };
+        options.error = function (xhr, status, err) {
+            showModal(createErrorModal(err));
+        };
+        $.ajax(options);
+    }
+
+    function finishConnect(host, port, character) {
         isConnecting = true;
 
-        if (_.isUndefined(selectedServer) || !_.isString(selectedServer.host)) {
-            showModal(createErrorModal('No server selected.'));
+        if (!_.isString(host)) {
+            showModal(createErrorModal('Invalid server host requested.'));
+        } else if (!_.isString(port)) {
+            showModal(createErrorModal('Invalid server port requested.'));
         } else if (_.isUndefined(character) || !_.isString(character.id)) {
             showModal(createErrorModal('No character selected.'));
         } else if (cu.HasAPI()) {
-            cuAPI.Connect(selectedServer.host, character.id);
+            cuAPI.Connect(host, port, character.id);
         } else {
-            showModal(createErrorModal('Connected to: ' + selectedServer.host + ' - character: ' + character.id));
-            showCharacterSelect();
+            showModal(createErrorModal('Connected to: ' + host + ':' + port + ' - character: ' + character.id));
         }
     }
 
@@ -2962,7 +2977,7 @@ module Login {
                 if (result && result.results) {
                     if (result.results.success && result.character && result.character.id) {
                         $characterCreation.fadeOut().promise().done(() => {
-                            connect(result.character);
+                            beginConnect(result.character);
                         });
                     } else {
                         showModal(createErrorModal(result.results.join(' ')));
