@@ -3,6 +3,7 @@
     var player: string;
     var selfKills = [];
     var announcements = [], playing;
+    var debug;
 
     var play = function (name) {
         // playing a new sound overrides all but the currently playing sound
@@ -45,7 +46,8 @@
                     count++;
                 }
                 if (count > 1) {
-                    switch (selfKills.length) {
+                    debug.innerText = 'MULTIKILL: ' + count;
+                    switch (count) {
                         case 2: play("doublekill.ogg"); break;
                         case 3: play("multikill.ogg"); break;
                         case 4: play("megakill.ogg"); break;
@@ -55,10 +57,11 @@
                     return;
                 }
                 if (selfKills.length > 2) {
+                    debug.innerText = 'KILLSTREAK: ' + selfKills.length;
                     switch (selfKills.length) {
                         case 3: play("killingspree.ogg"); break;
-                        case 4: play("rampage.ogg"); break;
-                        case 5: play("dominating.ogg"); break;
+                        case 4: play("dominating.ogg"); break;
+                        case 5: play("rampage.ogg"); break;
                         case 6: play("unstoppable.ogg"); break;
                         default: play("godlike.ogg"); break;
                     }
@@ -83,6 +86,7 @@
             player = name;
         });
         cuAPI.OnChat(OnChat);
+        debug = document.getElementById("debug");
         setTimeout(function () { cuAPI.OpenUI("chat.ui"); }, 0);
     }
 
