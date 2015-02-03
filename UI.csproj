@@ -56,6 +56,7 @@
     <Content Include="controlgame\controlgame.html" />
     <Content Include="cu\cu.css" />
     <Content Include="cu\fake-cuapi.js" />
+    <Content Include="deathspam\deathspam.html" />
     <Content Include="enemytarget\enemytarget.html" />
     <Content Include="equippedgear\equippedgear.css" />
     <Content Include="equippedgear\equippedgear.html" />
@@ -270,6 +271,7 @@
     <TypeScriptCompile Include="common\utils.ts" />
     <TypeScriptCompile Include="cu-rest\rest.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
+    <TypeScriptCompile Include="deathspam\deathspam.ts" />
     <TypeScriptCompile Include="enemytarget\enemytarget.ts" />
     <TypeScriptCompile Include="equippedgear\equippedgear.ts" />
     <TypeScriptCompile Include="friendlytarget\friendlytarget.ts" />
@@ -357,6 +359,7 @@
     <Content Include="building.ui" />
     <Content Include="lb.ui" />
     <Content Include="announcer.ui" />
+    <Content Include="deathspam.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
