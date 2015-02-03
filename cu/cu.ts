@@ -219,20 +219,10 @@ class AbilityButton {
                 if (!(timeLeft > 0.02)) continue;
 
                 if (!currentCooldown) {
-                    currentCooldown = this.cooldownOverlay = $('<div/>', {
-                        class: 'cooldownRoot'
-                    }).append($('<div/>', {
-                        class: 'cooldownSlide',
-                        opacity: 0.3
-                    }));
-                    this.rootElement.append(currentCooldown);
+                    currentCooldown = this.cooldownOverlay = $('<div>').addClass('cooldownRoot').appendTo(this.rootElement);
                 }
 
-                var slide = $('<div/>', {
-                    class: 'cooldownSlide',
-                    height: Math.round(frac * 100.0) + '%',
-                    opacity: 0.6
-                }).appendTo(currentCooldown);
+                var slide = $('<div>').addClass('cooldownSlide').css('height', Math.round(frac * 100.0) + '%').appendTo(currentCooldown);
 
                 slide.animate({ height: '100%' }, timeLeft * 1000.0, 'linear', () => this.UpdateVisuals());
             }
