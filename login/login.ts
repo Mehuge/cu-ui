@@ -23,6 +23,18 @@ module Login {
 
     /* Server Selection Variables */
 
+    // Keep in sync with /api/servers access levels
+    enum AccessLevel {
+        Invalid = -1,
+        Public = 0,
+        Beta3 = 1,
+        Beta2 = 2,
+        Beta1 = 3,
+        Alpha = 4,
+        IT = 5, // called InternalTest on /api/servers
+        Devs = 6, // called Employees on /api/servers
+    }
+
     var servers = [
         { name: 'localhost', host: 'localhost', isOnline: true, playerCounts: { arthurians: 0, tuathaDeDanann: 0, vikings: 0, total: 0 } }
     ];
@@ -103,16 +115,20 @@ module Login {
     }
 
     function getServers() {
+        resetServerTimeouts();
+
         $.ajax({
             type: 'GET',
             url: 'http://api.citystateentertainment.com:8001/api/servers',
             data: { channelID: cu.HasAPI() ? cuAPI.patchResourceChannel : 4 },
-            timeout: 6000
+            timeout: 1000 * 6
         }).done((data) => {
             servers = data;
 
             updateServerSelection();
         }).fail(getServers);
+
+        setTimeout(getServers, 1000 * 60);
     }
 
     function hideModal(callback?) {
@@ -154,10 +170,10 @@ module Login {
         options.url = getSecureSelectedServerApiUrl() + '/proxies';
         options.type = 'GET';
         options.contentType = 'application/json; charset=utf-8';
-        options.success = function (result) {
+        options.success = result => {
             finishConnect(result.address, result.port.toString(), character);
         };
-        options.error = function (xhr, status, err) {
+        options.error = (xhr, status, err) => {
             showModal(createErrorModal(err));
         };
         $.ajax(options);
@@ -261,7 +277,14 @@ module Login {
             $row.addClass('offline');
         }
 
-        $('<td class="name">' + _.escape(server.name) + '</td>').appendTo($row);
+        var name;
+        if (_.isNumber(server.accessLevel) && server.accessLevel >= AccessLevel.Public) {
+            name = _.escape(server.name + ' - ' + AccessLevel[server.accessLevel]);
+        } else {
+            name = _.escape(server.name);
+        }
+
+        $('<td class="name">' + name + '</td>').appendTo($row);
 
         var $arthurians = $('<td class="arthurians">?</td>').appendTo($row);
         var $tdd = $('<td class="tdd">?</td>').appendTo($row);
@@ -353,7 +376,7 @@ module Login {
             }
         }, 1000);
 
-        request.done((data) => {
+        request.done(() => {
             clearInterval(loadingInterval);
 
             $row.remove();
@@ -392,9 +415,13 @@ module Login {
         });
     }
 
-    function selectServer(server) {
+    function resetServerTimeouts() {
         serverTimeouts.forEach(timeout => clearTimeout(timeout));
         serverTimeouts = [];
+    }
+
+    function selectServer(server) {
+        resetServerTimeouts();
 
         selectedServer = servers.filter((s) => {
             return s.name === server.name;
