@@ -21,5 +21,6 @@ UI.Modules = {
     "pop": { core: false, autoLoad: true },
     "bct": { core: false, autoLoad: true },
     "announcer": { core: false, autoLoad: true },
+    "deathspam": { core: false, autoLoad: true },
     "pledges": { core: false }
 };
