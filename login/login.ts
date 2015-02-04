@@ -189,7 +189,7 @@ module Login {
         } else if (_.isUndefined(character) || !_.isString(character.id)) {
             showModal(createErrorModal('No character selected.'));
         } else if (cu.HasAPI()) {
-            cuAPI.Connect(host, port, character.id);
+            cuAPI.Connect(host, port, character.id, selectedServer.host);
         } else {
             showModal(createErrorModal('Connected to: ' + host + ':' + port + ' - character: ' + character.id));
         }
