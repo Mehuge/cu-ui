@@ -135,13 +135,18 @@ module Perf {
             fps: 120,
             netstats_lag: 145,
             OnEnemyTargetHealthChanged: function () { },
-            OnEnemyCharacterHealthChanged: function () { }
+            OnEnemyCharacterHealthChanged: function () { },
+            OnCharacterStaminaChanged: function () { },
+            OnInitialised: function (callback) {
+                setTimeout(callback, 0);
+            }
         };
     } else {
     }
 
     // Kickstart everything.
-    setTimeout(function () {
+    cuAPI.OnInitialized(function () {
+        cuAPI.CloseUI("perfhud");
         $perf = $('#graph');
         $config = $('#config');
         setInterval(Update, 200);
@@ -154,5 +159,5 @@ module Perf {
         $config.click((e) => {
             hideOptions();
         });
-    },0);
+    });
 }

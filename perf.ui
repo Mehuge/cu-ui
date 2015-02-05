@@ -3,10 +3,10 @@
 	"name": "perf",
 	"mainFile": "perf/perf.html",
 	"rect": {
-		"left": 1040,
-		"top": 240,
+		"left": 1100,
+		"top": 25,
 		"right": 1440,
-		"bottom": 390
+		"bottom": 190
 	},
 	"handlesEnemyTarget": true,
 	"handlesInput": true,
