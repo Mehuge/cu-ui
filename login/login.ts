@@ -171,7 +171,11 @@ module Login {
         options.type = 'GET';
         options.contentType = 'application/json; charset=utf-8';
         options.success = result => {
-            finishConnect(result.address, result.port.toString(), character);
+            if (result && result.address && result.port) {
+                finishConnect(result.address, result.port.toString(), character);
+            } else {
+                showModal(createErrorModal('Invalid or missing proxy'));
+            }
         };
         options.error = (xhr, status, err) => {
             showModal(createErrorModal(err));
