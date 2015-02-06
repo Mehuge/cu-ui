@@ -4,6 +4,7 @@
     var selfKills = [];
     var announcements = [], playing;
     var debug;
+    var multikillGap : number = 2000;
 
     var play = function (name) {
         // playing a new sound overrides all but the currently playing sound
@@ -30,21 +31,25 @@
         audio.play();
     };
 
-    function Announce(who) {
+    export function Announce(who) {
         if (who[1] === player) {
+            // console.log("ANNOUNCE: suicide @ " + Date.now());
             selfKills = [];
             play("WilhelmScream.ogg");
         } else if (who[0] === player) {
+            // console.log("ANNOUNCE: killed " + who[1] + " @ " + Date.now());
             selfKills.push(Date.now());
             if (selfKills.length > 1) {
                 var last = selfKills[selfKills.length - 1], count = 1;
                 for (var i = selfKills.length - 2; i >= 0; i--) {
-                    if (last - selfKills[i] > count * 1000) {
+                    // console.log("KILLSPAM[" + i + "] at " + selfKills[i] + " COUNT " + count + " DIFF " + (last - selfKills[i]) + " MAX " + (count * 1000));
+                    if (last - selfKills[i] > count * multikillGap) {
                         // too slow
                         break;
                     }
                     count++;
                 }
+                console.log("MULTIKILL COUNT " + count);
                 if (count > 1) {
                     debug.innerText = 'MULTIKILL: ' + count;
                     switch (count) {
