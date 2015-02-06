@@ -10,6 +10,9 @@
         if (a[1] === player && a[0] === player) {
             div.className = 'suicide';
             text = 'You killed yourself! lololol';
+        } else if (a[1] === a[0]) {
+            div.className = 'suicide other';
+            text = a[0] + ' committed suicide! rofl';
         } else if (a[0] === player) {
             div.className = 'killer';
             a[0] = 'You'
