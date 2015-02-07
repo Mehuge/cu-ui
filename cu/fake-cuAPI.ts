@@ -16,8 +16,16 @@ class CUFakeGameAPI {
     private _clientType: string = "internal";
     private _openUIs: any = {};
 
-    // simulate character
-    private _character = { name: undefined, hpTouched: Date.now(), hp: 100, maxHP: 100, staminaTouched: Date.now(), stamina: 0, maxStamina: 100 };
+    // simulate character/player data
+    private _character = {
+        name: undefined, hpTouched: Date.now(), hp: 100, maxHP: 100, staminaTouched: Date.now(), stamina: 0, maxStamina: 100
+    };
+    private _target = {
+        name: undefined, hpTouched: Date.now(), hp: 100, maxHP: 100, staminaTouched: Date.now(), stamina: 0, maxStamina: 100
+    };
+    private _friendly = {
+        name: undefined, hpTouched: Date.now(), hp: 100, maxHP: 100, staminaTouched: Date.now(), stamina: 0, maxStamina: 100
+    };
 
     private _ev(name: string, c : any): number {
         var a = this._events[name] || [];
@@ -49,71 +57,87 @@ class CUFakeGameAPI {
     private _init(c: () => void) : number {
         this._initialised = true;
         var cuAPI: CUFakeGameAPI = this;
-        function _tick() {
-            var tick: number = Date.now();
-            if (!cuAPI._character.name) {
-                cuAPI._character.name = "Mehuge";
-                cuAPI._evf("OnCharacterNameChange", [cuAPI._character.name ]);
-            }
-            // emulation tick, here we will simulate the live environment (as much as we can) in the UI.  
-            // We will adjust HP, targets etc.
 
-            // Character health emulation
-            if (tick - cuAPI._character.hpTouched >= cuAPI.rand(500)+500) {
-    
+        function _randomCharacter(): string {
+            return ["Player1"][cuAPI.rand(1)];
+        }
+
+        function _randomPlayer(): string {
+            return ["CSE_Mark", "CSE_JB", "CSE_Brian", "CSE_Bryce", "DonnieT", "Meddyck", "CSE_Jenesee", "Mehuge", "CSE_Cory", "CSE_Tyler" ][cuAPI.rand(10)];
+        }
+
+        function _playerTick(tick, cls, _player) {
+            // Fire character name change if not currently got a name
+            if (!_player.name) {
+                _player.name = cls == "Character" ? _randomCharacter() : _randomPlayer();
+                cuAPI._evf("On"+cls+"NameChange", [_player.name]);
+            }
+
+            // Character health emulation.  We want to do this infrequently, so here
+            // we are saying between 0.5 and 1s appart.
+            if (tick - _player.hpTouched >= cuAPI.rand(500) + 500) {
+
                 // Character takes damage?
-                if (cuAPI._character.hp > 0 && cuAPI.rand(10) < 5) {
-                    cuAPI._character.hp -= 1 + cuAPI.rand(30);
-                    cuAPI._character.hpTouched = tick;
-                    if (cuAPI._character.hp < 0) {
-                        cuAPI._character.hp = 0;
+                if (_player.hp > 0 && cuAPI.rand(10) < 5) {
+                    _player.hp -= 1 + cuAPI.rand(30);
+                    _player.hpTouched = tick;
+                    if (_player.hp < 0) {
+                        _player.hp = 0;
                     }
-                    cuAPI._evf("OnCharacterHealthChanged", [cuAPI._character.hp, cuAPI._character.maxHP]);
-                    if (cuAPI._character.hp === 0) {
+                    cuAPI._evf("On" + cls +"HealthChanged", [_player.hp, _player.maxHP]);
+                    if (_player.hp === 0) {
                         cuAPI._evf("OnChat", [
                             XmppMessageType.GROUPCHAT,
                             "_combat@chat.camelotunchained.com",
-                            cuAPI._character.name + " killed " + cuAPI._character.name + ".",
+                            _player.name + " killed " + _player.name + ".",
                             "", false
                         ]);
                     }
                 }
 
                 // Character is healed?
-                if (cuAPI._character.hp < cuAPI._character.maxHP && cuAPI.rand(10) < 2) {
-                    cuAPI._character.hp += 1 + cuAPI.rand(30);
-                    cuAPI._character.hpTouched = tick;
-                    if (cuAPI._character.hp > cuAPI._character.maxHP) {
-                        cuAPI._character.hp = cuAPI._character.maxHP;
+                if (_player.hp < _player.maxHP && cuAPI.rand(10) < 2) {
+                    _player.hp += 1 + cuAPI.rand(30);
+                    _player.hpTouched = tick;
+                    if (_player.hp > _player.maxHP) {
+                        _player.hp = _player.maxHP;
                     }
-                    cuAPI._evf("OnCharacterHealthChanged", [cuAPI._character.hp, cuAPI._character.maxHP]);
+                    cuAPI._evf("On" + cls +"HealthChanged", [_player.hp, _player.maxHP]);
                 }
             }
 
-            // Character health emulation
-            if (tick - cuAPI._character.hpTouched >= cuAPI.rand(500) + 500) {
+            // Character stamina emulation.  Again only change this ever 0.5s to 1s
+            if (tick - _player.hpTouched >= cuAPI.rand(500) + 500) {
 
                 // Character stamina emulation
-                if (cuAPI._character.stamina > 0 && cuAPI.rand(10) < 5) {
-                    cuAPI._character.stamina -= 1 + cuAPI.rand(10);
-                    cuAPI._character.staminaTouched = tick;
-                    if (cuAPI._character.stamina < 0) {
-                        cuAPI._character.stamina = 0;
+                if (_player.stamina > 0 && cuAPI.rand(10) < 5) {
+                    _player.stamina -= 1 + cuAPI.rand(10);
+                    _player.staminaTouched = tick;
+                    if (_player.stamina < 0) {
+                        _player.stamina = 0;
                     }
-                    cuAPI._evf("OnCharacterStaminaChanged", [cuAPI._character.stamina, cuAPI._character.maxStamina]);
+                    cuAPI._evf("On" + cls + "StaminaChanged", [_player.stamina, _player.maxStamina]);
                 }
 
                 // Character is healed?
-                if (cuAPI._character.stamina < cuAPI._character.maxStamina && cuAPI.rand(10) < 2) {
-                    cuAPI._character.stamina += 1 + cuAPI.rand(30);
-                    cuAPI._character.staminaTouched = tick;
-                    if (cuAPI._character.stamina > cuAPI._character.maxStamina) {
-                        cuAPI._character.stamina = cuAPI._character.maxStamina;
+                if (_player.stamina < _player.maxStamina && cuAPI.rand(10) < 2) {
+                    _player.stamina += 1 + cuAPI.rand(30);
+                    _player.staminaTouched = tick;
+                    if (_player.stamina > _player.maxStamina) {
+                        _player.stamina = _player.maxStamina;
                     }
-                    cuAPI._evf("OnCharacterStaminaChanged", [cuAPI._character.stamina, cuAPI._character.maxStamina]);
+                    cuAPI._evf("On" + cls + "StaminaChanged", [_player.stamina, _player.maxStamina]);
                 }
             }
+        }
 
+        function _tick() {
+            var tick: number = Date.now();
+            // emulation tick, here we will simulate the live environment (as much as we can) in the UI.  
+            // We will adjust HP, targets etc.
+            _playerTick(tick, "Character", cuAPI._character);
+            _playerTick(tick, "Target", cuAPI._target);
+            _playerTick(tick, "Friendly", cuAPI._friendly);
         }
         setInterval(_tick, 100);
         return setTimeout(c, 0);
@@ -321,16 +345,44 @@ class CUFakeGameAPI {
 
     /* Enemy Target */
 
-    OnEnemyTargetNameChanged(callback: (name: string) => void): void {}
-    OnEnemyTargetHealthChanged(callback: (health: number, maxHealth: number) => void): void {}
-    OnEnemyTargetStaminaChanged(callback: (stamina: number, maxStamina: number) => void): void {}
+    OnEnemyTargetNameChanged(callback: (name: string) => void): void {
+        var id: string = "OnTargetNameChanged";
+        this._ev(id, callback);
+        if (this._target.name) {
+            this._evf(id, [this._target.name]);
+        }
+    }
+    OnEnemyTargetHealthChanged(callback: (health: number, maxHealth: number) => void): void {
+        var id: string = "OnTargetHealthChanged";
+        this._ev(id, callback);
+        this._evf(id, [this._target.hp, this._target.maxHP]);
+    }
+    OnEnemyTargetStaminaChanged(callback: (stamina: number, maxStamina: number) => void): void {
+        var id: string = "OnTargetStaminaChanged";
+        this._ev(id, callback);
+        this._evf(id, [this._target.stamina, this._target.maxStamina]);
+    }
     OnEnemyTargetEffectsChanged(callback: (effects: string) => void): void {}
 
     /* Friendly Target */
 
-    OnFriendlyTargetNameChanged(callback: (name: string) => void): void {}
-    OnFriendlyTargetHealthChanged(callback: (health: number, maxHealth: number) => void): void {}
-    OnFriendlyTargetStaminaChanged(callback: (stamina: number, maxStamina: number) => void): void {}
+    OnFriendlyTargetNameChanged(callback: (name: string) => void): void {
+        var id: string = "OnFriendlytNameChanged";
+        this._ev(id, callback);
+        if (this._friendly.name) {
+            this._evf(id, [this._friendly.name]);
+        }
+    }
+    OnFriendlyTargetHealthChanged(callback: (health: number, maxHealth: number) => void): void {
+        var id: string = "OnFriendlyHealthChanged";
+        this._ev(id, callback);
+        this._evf(id, [this._friendly.hp, this._friendly.maxHP]);
+    }
+    OnFriendlyTargetStaminaChanged(callback: (stamina: number, maxStamina: number) => void): void {
+        var id: string = "OnFriendlyStaminaChanged";
+        this._ev(id, callback);
+        this._evf(id, [this._friendly.stamina, this._friendly.maxStamina]);
+    }
     OnFriendlyTargetEffectsChanged(callback: (effects: string) => void): void {}
 
     /* Chat */
