@@ -471,4 +471,5 @@ declare var cuAPI: CUInGameAPI;
 
 if (typeof cuAPI === "undefined") {
     window["cuAPI"] = new CUFakeGameAPI();
+    document.body.style.background = '#808080 url("../cu/fake-cuAPI.png") no-repeat fixed center';
 }
