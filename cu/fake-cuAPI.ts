@@ -5,8 +5,27 @@
 /// <reference path="../vendor/jquery.d.ts" />
 
 class CUFakeGameAPI {
+
     private rand(n): number {
         return (Math.random() * n) | 0;
+    }
+
+    private Race = {
+        Tuatha: 0,
+        Hamadryad: 1,
+        Luchorpan: 2,
+        Firbog: 3,
+        Valkyrie: 4,
+        Helbound: 5,
+        FrostGiant: 6,
+        Dvergr: 7,
+        Strm: 8,
+        CaitSith: 9,
+        Golem: 10,
+        Gargoyle: 11,
+        StormRiderA: 12,
+        StormRiderT: 13,
+        StormRiderV: 14
     }
 
     private _initialised: boolean = false;
@@ -15,16 +34,17 @@ class CUFakeGameAPI {
     private _serverStart: number = Date.now();
     private _clientType: string = "internal";
     private _openUIs: any = {};
+    private _buildingMode: boolean = false;
 
     // simulate character/player data
     private _character = {
-        name: undefined, hpTouched: Date.now(), hp: 100, maxHP: 100, staminaTouched: Date.now(), stamina: 0, maxStamina: 100
+        name: undefined, race: undefined, hpTouched: Date.now(), hp: 100, maxHP: 100, staminaTouched: Date.now(), stamina: 0, maxStamina: 100
     };
     private _target = {
-        name: undefined, hpTouched: Date.now(), hp: 100, maxHP: 100, staminaTouched: Date.now(), stamina: 0, maxStamina: 100
+        name: undefined, race: undefined, hpTouched: Date.now(), hp: 100, maxHP: 100, staminaTouched: Date.now(), stamina: 0, maxStamina: 100
     };
     private _friendly = {
-        name: undefined, hpTouched: Date.now(), hp: 100, maxHP: 100, staminaTouched: Date.now(), stamina: 0, maxStamina: 100
+        name: undefined, race: undefined, hpTouched: Date.now(), hp: 100, maxHP: 100, staminaTouched: Date.now(), stamina: 0, maxStamina: 100
     };
 
     private _ev(name: string, c : any): number {
@@ -66,18 +86,40 @@ class CUFakeGameAPI {
             return ["CSE_Mark", "CSE_JB", "CSE_Brian", "CSE_Bryce", "DonnieT", "Meddyck", "CSE_Jenesee", "Mehuge", "CSE_Cory", "CSE_Tyler" ][cuAPI.rand(10)];
         }
 
+        function _changeCharacter(tick, _player) {
+            _player.name = _randomCharacter();
+            cuAPI._evf("OnCharacterNameChanged", [_player.name]);
+            _player.race = cuAPI.rand(15) | 0;
+            cuAPI._evf("OnCharacterRaceChanged", [_player.race]);
+        }
+
+        function _changeTarget(tick, _player) {
+            _player.name = _randomPlayer();
+            cuAPI._evf("OnTargetNameChanged", [_player.name]);
+        }
+
+        function _changeFriendlyTarget(tick, _player) {
+            _player.name = _randomPlayer();
+            cuAPI._evf("OnFriendlyTargetNameChanged", [_player.name]);
+        }
+
         function _playerTick(tick, cls, _player) {
             // Fire character name change if not currently got a name
             if (!_player.name) {
-                _player.name = cls == "Character" ? _randomCharacter() : _randomPlayer();
-                cuAPI._evf("On"+cls+"NameChange", [_player.name]);
+                if (_player === cuAPI._character) {
+                    _changeCharacter(tick, _player);
+                } else if (_player === cuAPI._target) {
+                    _changeTarget(tick, _player);
+                } else if (_player === cuAPI._target) {
+                    _changeFriendlyTarget(tick, _player);
+                }
             }
 
             // Character health emulation.  We want to do this infrequently, so here
             // we are saying between 0.5 and 1s appart.
             if (tick - _player.hpTouched >= cuAPI.rand(500) + 500) {
 
-                // Character takes damage?
+                // player takes damage?
                 if (_player.hp > 0 && cuAPI.rand(10) < 5) {
                     _player.hp -= 1 + cuAPI.rand(30);
                     _player.hpTouched = tick;
@@ -89,7 +131,7 @@ class CUFakeGameAPI {
                         cuAPI._evf("OnChat", [
                             XmppMessageType.GROUPCHAT,
                             "_combat@chat.camelotunchained.com",
-                            _player.name + " killed " + _player.name + ".",
+                            (cuAPI.rand(10) < 1 ? cuAPI._character.name : _randomPlayer()) + " killed " + _player.name + ".",
                             "", false
                         ]);
                     }
@@ -137,7 +179,7 @@ class CUFakeGameAPI {
             // We will adjust HP, targets etc.
             _playerTick(tick, "Character", cuAPI._character);
             _playerTick(tick, "Target", cuAPI._target);
-            _playerTick(tick, "Friendly", cuAPI._friendly);
+            _playerTick(tick, "FriendlyTarget", cuAPI._friendly);
         }
         setInterval(_tick, 100);
         return setTimeout(c, 0);
@@ -218,13 +260,16 @@ class CUFakeGameAPI {
     // Open another UI.  Limitation in fake-cuAPI is that the UI must follow
     // a standard layout and it doesn't currentl support the .ui file coordinates
     OpenUI(name: string): void {
-        this._openUIs[name] = { window: window.open(name + "/" + name + ".html", "_ui" + name, "", true), visible: true };
+        if (name.substr(-3) == ".ui") name = name.substr(0, name.length - 3);
+        this._openUIs[name] = { window: window.open("../" + name + "/" + name + ".html", "_ui" + name, "", true), visible: true };
     }
 
     CloseUI(name: string): void {
-        var ui : any = this._openUIs[name];
-        ui.window.close();
-        this._openUIs[name] = null;
+        var ui: any = this._openUIs[name];
+        if (ui) {
+            ui.window.close();
+            this._openUIs[name] = null;
+        }
     }
 
     HideUI(name: string): void {
@@ -254,6 +299,7 @@ class CUFakeGameAPI {
     Quit(): void { }
     CrashTheGame(): void { alert('The game has crashed'); }
     OnUpdateNameplate(c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void): void {
+        this._ev("OnUpdateNameplate", c);
     }
 
     /* Abilities */
@@ -312,22 +358,37 @@ class CUFakeGameAPI {
     GetConfigVar(variable: string): void {}
 
     /* Building */
-    OnBuildingModeChanged(c: (buildingMode: boolean) => void): void {}
-    ChangeBuildingMode(): void {}
+    OnBuildingModeChanged(c: (buildingMode: boolean) => void): void {
+        this._ev("OnBuildingModeChanged", c);
+    }
+    ChangeBuildingMode(): void {
+        this._buildingMode = !this._buildingMode;
+        this._evf("OnBuildingModeChanged", [ this._buildingMode ]);
+    }
 
     /* Announcement */
-
-    OnAnnouncement(c: (message: string, type: number) => void): void {}
+    OnAnnouncement(c: (message: string, type: number) => void): void {
+        this._ev("OnAnnouncement", c);
+    }
 
     /* Character */
-
-    OnCharacterIDChanged(c: (id: string) => void): void {}
-    OnCharacterFactionChanged(c: (faction: number) => void): void {}
-    OnCharacterRaceChanged(c: (race: number) => void): void {}
+    OnCharacterIDChanged(c: (id: string) => void): void {
+        this._ev("OnCharacterIDChanged", c);
+    }
+    OnCharacterFactionChanged(c: (faction: number) => void): void {
+        this._ev("OnCharacterFactionChanged", c);
+    }
+    OnCharacterRaceChanged(c: (race: number) => void): void {
+        var id: string = "OnCharacterRaceChanged";
+        this._ev(id, c);
+        if (this._character.race !== undefined) {
+            this._evf(id, [this._character.name]);
+        }
+    }
     OnCharacterNameChanged(c: (name: string) => void): void {
         var id: string = "OnCharacterNameChanged";
         this._ev(id, c);
-        if (this._character.name) {
+        if (this._character.name !== undefined) {
             this._evf(id, [this._character.name]);
         }
     }
@@ -348,7 +409,7 @@ class CUFakeGameAPI {
     OnEnemyTargetNameChanged(callback: (name: string) => void): void {
         var id: string = "OnTargetNameChanged";
         this._ev(id, callback);
-        if (this._target.name) {
+        if (this._target.name !== undefined) {
             this._evf(id, [this._target.name]);
         }
     }
@@ -367,19 +428,19 @@ class CUFakeGameAPI {
     /* Friendly Target */
 
     OnFriendlyTargetNameChanged(callback: (name: string) => void): void {
-        var id: string = "OnFriendlytNameChanged";
+        var id: string = "OnFriendlytTargetNameChanged";
         this._ev(id, callback);
         if (this._friendly.name) {
             this._evf(id, [this._friendly.name]);
         }
     }
     OnFriendlyTargetHealthChanged(callback: (health: number, maxHealth: number) => void): void {
-        var id: string = "OnFriendlyHealthChanged";
+        var id: string = "OnFriendlyTargetHealthChanged";
         this._ev(id, callback);
         this._evf(id, [this._friendly.hp, this._friendly.maxHP]);
     }
     OnFriendlyTargetStaminaChanged(callback: (stamina: number, maxStamina: number) => void): void {
-        var id: string = "OnFriendlyStaminaChanged";
+        var id: string = "OnFriendlyTargetStaminaChanged";
         this._ev(id, callback);
         this._evf(id, [this._friendly.stamina, this._friendly.maxStamina]);
     }
@@ -387,7 +448,9 @@ class CUFakeGameAPI {
 
     /* Chat */
 
-    OnBeginChat(c: (commandMode: number, text: string) => void): void {}
+    OnBeginChat(c: (commandMode: number, text: string) => void): void {
+        this._ev("OnBeginChat", c);
+    }
     OnChat(c: (type: number, from: string, body: string, nick: string, iscse: boolean) => void): void {
         this._ev("OnChat", c);
     }
@@ -471,5 +534,5 @@ declare var cuAPI: CUInGameAPI;
 
 if (typeof cuAPI === "undefined") {
     window["cuAPI"] = new CUFakeGameAPI();
-    document.body.style.background = '#808080 url("../cu/fake-cuAPI.jpg") no-repeat fixed center';
+    window.addEventListener("load", () => { document.body.style.background = '#808080 url("../cu/fake-cuAPI.jpg") no-repeat fixed center'; });
 }
