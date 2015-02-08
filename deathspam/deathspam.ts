@@ -1,8 +1,8 @@
 ﻿module Deathspam {
 
-    var deathspam, maxHeight, player;
+    var deathspam : HTMLElement, maxHeight : number, player : string;
 
-    export function DeathSpam(text) {
+    export function DeathSpam(text:string) {
         var a = text.split(" killed ");
         a[1] = a[1].substr(0, a[1].length - 1);
         var div = document.createElement("div");
@@ -27,9 +27,9 @@
         div.className += " shadow";
         div.textContent = text;
         deathspam.appendChild(div);
-        var h = deathspam.offsetHeight;
+        var h : number = deathspam.offsetHeight;
         while (h > maxHeight) {
-            var remove = deathspam.children[0];
+            var remove: any = deathspam.children[0];
             if (remove._fadeOutTimer) {
                 clearTimeout(remove._fadeOutTimer);
                 remove._fadeOutTimer = null;
@@ -37,7 +37,7 @@
             h -= remove.offsetHeight;
             deathspam.removeChild(remove);
         }
-        (function (fade) {
+        (function (fade:any) {
             function fadeOut() {
                 if (fade._fadeOutTimer) {
                     var op = +(fade.style.opacity || 1.0);
@@ -55,7 +55,7 @@
         })(div);
     }
 
-    function OnChat(type, from, body, nick, iscse) {
+    function OnChat(type: number, from: string, body: string, nick: string, iscse: boolean) {
         switch (type) {
             case XmppMessageType.GROUPCHAT:
                 var user = from.split("@")[0];

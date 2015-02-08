@@ -6,7 +6,7 @@ module Addons {
     var modules = UI.Modules;
 
     // Loads the named UI module.
-    function OpenUI(name) {
+    function OpenUI(name:string) {
         console.log('addons: loading ' + name + '.ui');
         try {
             if (name != "addons" && cuAPI != undefined) cuAPI.OpenUI(name + ".ui");
@@ -17,7 +17,7 @@ module Addons {
     }
 
     // Loads the named UI module.
-    function CloseUI(name) {
+    function CloseUI(name:string) {
         console.log('addons: closing ' + name + '.ui');
         try {
             if (cuAPI != undefined) {

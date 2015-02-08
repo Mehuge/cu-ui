@@ -1,12 +1,12 @@
 ﻿module Announcer {
 
     var player: string;
-    var selfKills = [];
-    var announcements = [], playing;
-    var debug;
+    var selfKills : any = [];
+    var announcements : any = [], playing : any;
+    var debug : any;
     var multikillGap : number = 2000;
 
-    var play = function (name) {
+    var play = function (name : string) {
         // playing a new sound overrides all but the currently playing sound
         announcements.push({ time: Date.now(), name: name });
         if (!playing) {
@@ -31,7 +31,7 @@
         audio.play();
     };
 
-    export function Announce(who) {
+    export function Announce(who:string[]) {
         if (who[1] === player) {
             // console.log("ANNOUNCE: suicide @ " + Date.now());
             selfKills = [];
@@ -75,7 +75,7 @@
         }
     }
 
-    function OnChat(type, from, body, nick, iscse) {
+    function OnChat(type: number, from: string, body: string, nick: string, iscse: boolean) {
         switch (type) {
         case XmppMessageType.GROUPCHAT:
             var user = from.split("@")[0];

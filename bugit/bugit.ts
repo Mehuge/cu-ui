@@ -3,9 +3,9 @@
 
 module Bugit {
 
-    var report: Object;
+    var report: any;
 
-    function addContext(report) {
+    function addContext(report: any) {
         report["context"] = {
             "fps": cuAPI.fps,
             "frameTime": cuAPI.frameTime,
@@ -47,7 +47,7 @@ module Bugit {
     function send(retry?: number, jqXHR?: JQueryXHR) {
         var r: JQuery = $("#result");
 
-        var failure = function (message) {
+        var failure = function (message : string) {
             $('#result').hide();
             $('#main').show();
             $('#error').text(message);
@@ -111,7 +111,7 @@ module Bugit {
         $("#location").text("X: " + X + ", Y: " + Y + ", Z: " + Z);
         $("#fps").text(API.fps.toFixed(1));
         var inputs: JQuery = $('#desc,#summary');
-        var timer;
+        var timer : number;
         inputs.focus((e) => {
             if (timer) {
                 clearTimeout(timer);
