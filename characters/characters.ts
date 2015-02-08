@@ -1,5 +1,5 @@
 ﻿/// <reference path="../vendor/jquery.d.ts" />
-/// <reference path="../cu-rest/rest.ts" />
+/// <reference path="../../cu-rest/rest.ts" />
 module Characters {
     function grid(className) {
         var result: JQuery = $('#result');
@@ -29,7 +29,7 @@ module Characters {
             ]);
             for (var i = 0; i < characters.length; i++) {
                 item(el, "character", [
-                    { id: "faction", label: characters[i].race.faction.name },
+                    { id: "faction", label: characters[i].faction.name },
                     { id: "race", label: characters[i].race.name },
                     { id: "name", label: characters[i].name }
                 ]);
@@ -39,7 +39,8 @@ module Characters {
 
     $(window).load(() => {
         if (typeof cuAPI !== 'undefined') {
-            cuAPI.OnInitialized(init);
+            alert('wait');
+            cuAPI.OnInitialized(init);  // required for loginToken
             $('#close').click(() => { cuAPI.CloseUI("characters"); });
         } else {
             $('#close').css('display', 'none')
