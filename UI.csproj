@@ -267,7 +267,6 @@
     <Content Include="images\target\health-bar.png" />
     <Content Include="inventory\inventory.css" />
     <Content Include="inventory\inventory.html" />
-    <TypeScriptCompile Include="common\utils.ts" />
     <TypeScriptCompile Include="cu-rest\rest.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
     <TypeScriptCompile Include="cu\fake-cuAPI.ts" />
