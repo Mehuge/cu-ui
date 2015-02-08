@@ -1,6 +1,7 @@
 (function(){ 
-    var ourHealth, ourStamina, targetHealth, targetName, sdTimer, shTimer, tdTimer, alTimer; 
-	var sprites = [], animating, lasts = {};
+    var ourHealth, ourStamina, targetHealth, targetName, friendlyHealth, friendlyName, ftTimer, sdTimer, shTimer, tdTimer, alTimer;
+    var sprites = [], animating, lasts = {}, w = window.innerWidth,
+        lefts = { ft: w*0.05, ss: w*.25, sd: w*.42, sh: w*.60, td: w*.75 };
 	var createSprite = function (type, pos, spd, text) {
 	    var now = Date.now(), last = lasts[type] || now;
 	    lasts[type] = now;
@@ -83,20 +84,22 @@
 			if (old > current) {
 			    // lost health/stamina
 			    switch (type) {
-			        case "sd": show(type, { left: 0, bottom: 0, off: 20 }, dmg); break;
-			        case "td": show(type, { right: 0, bottom: 0, off: 20 }, dmg); break;
-			        case "ss": show(type, { left: 15, bottom: 0, off: 20 }, dmg); break;
+			        case "sd": show(type, { left: lefts[type], bottom: 0, off: 20 }, dmg); break;
+			        case "td": show(type, { left: lefts[type], bottom: 0, off: 30 }, dmg); break;
+			        case "ss": show(type, { left: lefts[type], bottom: 0, off: 20 }, dmg); break;
+			        case "ft": show(type, { left: lefts[type], bottom: 0, off: 20 }, dmg); break;
 			    }
 				
 				// console.log(type + ' DAMAGE: ' + dmg);
 			} else switch (type) {
-			    case "sd": show("sh", { left: 55, bottom: 0, off: 15 }, dmg); break;
-			    case "ss": show("rs", { left: 20, bottom: 0, off: 10 }, dmg); break;
+			    case "sd": show("sh", { left: lefts["sh"], bottom: 0, off: 20 }, dmg); break;
+			    case "ss": show("rs", { left: lefts[type] + 10, bottom: 0, off: 20 }, dmg); break;
+			    case "ft": show("fh", { left: lefts[type] + 10, bottom: 0, off: 20 }, dmg); break;
 			}
 		}
 	}; 
 	var init = function () {
-	    var lowHealth, lowTargetHealth, lowStamina;
+	    var lowHealth, lowTargetHealth, lowStamina, lowFriendlyHealth;
 		// track our own health 
 	    cuAPI.OnCharacterHealthChanged(function (health, maxHealth) {
 		    // console.log('HealthChange: ' + health + ' was ' + ourHealth + ' max ' + maxHealth);
@@ -124,7 +127,7 @@
 	        } else {
 	            if (ourStamina !== undefined && stamina < ourStamina && stamina / maxStamina < 0.2) {
 	                if (!lowStamina || lowStamina.node === null) {
-	                    lowStamina = show("al stamina", { top: 0 }, "LOW STAMINA!", 2000);
+	                    lowStamina = show("al stamina", { top: 20 }, "LOW STAMINA!", 2000);
 	                } else {
 	                    lowStamina.start = Date.now();           // extend display time of existing health warning
 	                }
@@ -162,7 +165,36 @@
 				targetName = name;
 			}
 		});
-	};  
+	    // track friendly target changes
+		cuAPI.OnFriendlyTargetNameChanged(function (name) {
+		    // console.log('TargetChange: ' + name);			
+		    if (name.length === 0) {
+		        friendlyName = friendlyHealth = undefined;
+		    } else {
+		        if (friendlyName !== name) {
+		            friendlyHealth = undefined;
+		        }
+		        friendlyName = name;
+		    }
+		});
+	    // track enemy health
+		cuAPI.OnFriendlyTargetHealthChanged(function (health, maxHealth) {
+		    // console.log('TargetHealthChange: ' + health + ' was ' + targetHealth + ' max ' + maxHealth);
+		    if (health === -1 && maxHealth === -1) {
+		        // no target
+		    } else {
+		        if (friendlyHealth !== undefined && health < friendlyHealth && health / maxHealth < 0.2) {
+		            if (!lowFriendlyHealth || lowFriendlyHealth.node === null) {
+		                lowFriendlyHealth = show("al friendly", { bottom: 20 }, "SAVE YOUR FRIEND!", 2000);
+		            } else {
+		                lowFriendlyHealth.start = Date.now();
+		            }
+		        }
+		        showCombatText(friendlyHealth, health, "ft");
+		        friendlyHealth = health;
+		    }
+		});
+	};
 	// initialise 
 	if (typeof cuAPI !== "undefined") { 
 		if (cuAPI.initialized) {  // already initialised

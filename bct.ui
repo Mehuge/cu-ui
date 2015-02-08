@@ -3,11 +3,12 @@
     "name": "bct", 
     "mainFile": "bct/bct.html", 
     "rect": { 
-        "left": 621, 
+        "left": 571, 
         "top": 280, 
-        "right": 820, 
+        "right": 860, 
         "bottom": 350 
-    }, 
+    },
     "handlesEnemyTarget": true, 
+    "handlesFriendlyTarget": true,
     "handlesCharacter": true	
 }
