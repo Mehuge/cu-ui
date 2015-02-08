@@ -66,6 +66,7 @@ class CUFakeGameAPI {
                 if (a[i]) {
                     (function (callback) {
                         setTimeout(function () {
+                            console.log(name + ": " + JSON.stringify(args));
                             callback.apply(window, args);
                         }, 0);
                     })(a[i]);
@@ -74,8 +75,11 @@ class CUFakeGameAPI {
         }
     }
 
-    private _init(c: () => void) : number {
-        this._initialised = true;
+    constructor() {
+        this._init();
+    }
+
+    private _init() : number {
         var cuAPI: CUFakeGameAPI = this;
 
         function _randomCharacter(): string {
@@ -86,24 +90,24 @@ class CUFakeGameAPI {
             return ["CSE_Mark", "CSE_JB", "CSE_Brian", "CSE_Bryce", "DonnieT", "Meddyck", "CSE_Jenesee", "Mehuge", "CSE_Cory", "CSE_Tyler" ][cuAPI.rand(10)];
         }
 
-        function _changeCharacter(tick, _player) {
+        function _changeCharacter(tick: number, _player:any) {
             _player.name = _randomCharacter();
             cuAPI._evf("OnCharacterNameChanged", [_player.name]);
             _player.race = cuAPI.rand(15) | 0;
             cuAPI._evf("OnCharacterRaceChanged", [_player.race]);
         }
 
-        function _changeTarget(tick, _player) {
+        function _changeTarget(tick: number, _player: any) {
             _player.name = _randomPlayer();
             cuAPI._evf("OnTargetNameChanged", [_player.name]);
         }
 
-        function _changeFriendlyTarget(tick, _player) {
+        function _changeFriendlyTarget(tick: number, _player: any) {
             _player.name = _randomPlayer();
             cuAPI._evf("OnFriendlyTargetNameChanged", [_player.name]);
         }
 
-        function _playerTick(tick, cls, _player) {
+        function _playerTick(tick:number, cls:string, _player:any) {
             // Fire character name change if not currently got a name
             if (!_player.name) {
                 if (_player === cuAPI._character) {
@@ -139,7 +143,7 @@ class CUFakeGameAPI {
 
                 // Character is healed?
                 if (_player.hp < _player.maxHP && cuAPI.rand(10) < 2) {
-                    _player.hp += 1 + cuAPI.rand(30);
+                    _player.hp += 1 + cuAPI.rand(70);
                     _player.hpTouched = tick;
                     if (_player.hp > _player.maxHP) {
                         _player.hp = _player.maxHP;
@@ -173,6 +177,17 @@ class CUFakeGameAPI {
             }
         }
 
+        function _nameplateTick(tick: number) {
+            if (tick % 5 === 0) {
+                var cell: number = cuAPI.rand(8);
+                var colorMod: number = cuAPI.rand(4) + 1;
+                var name: string = _randomCharacter();
+                var gtag: string = cuAPI.rand(10) < 1 ? "[CSE]" : "";
+                var title: string = "Player Title";
+                cuAPI._evf("OnUpdateNameplate", [cell, colorMod, name, gtag, title]);
+            }
+        }
+
         function _tick() {
             var tick: number = Date.now();
             // emulation tick, here we will simulate the live environment (as much as we can) in the UI.  
@@ -180,9 +195,13 @@ class CUFakeGameAPI {
             _playerTick(tick, "Character", cuAPI._character);
             _playerTick(tick, "Target", cuAPI._target);
             _playerTick(tick, "FriendlyTarget", cuAPI._friendly);
+            _nameplateTick(tick);
         }
         setInterval(_tick, 100);
-        return setTimeout(c, 0);
+        return setTimeout(() => {
+            cuAPI._initialised = true;
+            cuAPI._evf("OnInitialized", []);
+        }, 100 + cuAPI.rand(200));
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -196,11 +215,15 @@ class CUFakeGameAPI {
     get initialised():boolean {
         return this._initialised;
     }
-    OnInitialized(c: () => void) : number {
-        return this._init(c);
+    OnInitialized(c: () => void): number {
+        var handle : number = this._ev("OnInitialized", c);
+        if (this.initialised) {
+            this._evf("OnInitialized", []);
+        }
+        return handle;
     }
     CancelOnInitialized(c: number) {
-        clearTimeout(c);
+        this._evc("OnInitialized", c);
     }
 
     // Everything else only exists after this.initialized is set and the
