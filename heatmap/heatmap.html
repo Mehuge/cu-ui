@@ -22,7 +22,7 @@
         }
         #map {
             position:absolute;
-            background-image: url(heatmap-winter.png);
+            background-image: url(heatmap.png);
             background-size: contain;
             opacity: 0.6;
             width: 200px; height: 200px;
@@ -52,7 +52,8 @@
     <script src="../vendor/cu-rest/rest.js"></script>
     <script>
         (function () {
-            var heatmap = h337.create({
+            var map = { w: 2048, h: 2048, z: 2048 },
+                heatmap = h337.create({
                     container: document.getElementById("heatmap"),
                     maxOpacity: .3,
                     radius: 20,
@@ -68,6 +69,16 @@
                         '.95': 'red'
                     }
                 }),
+                transformX = function (x) {
+                    x += (map.w / 2);        // move origin to left
+                    x /= (map.w / 200);      // bring into range
+                    return x;
+                },
+                transformY = function (y) {
+                    y += (map.h / 2);        // move origin to top
+                    y /= (map.h / 200);      // bring into range
+                    return 200-y;            // flip origin to bottom
+                },
                 getKills = function () {
                     var since = new Date();
                     since.setHours(since.getHours()-1);
@@ -85,7 +96,8 @@
                             var h = h / 1000;
                             if (h < since) {
                                 var r = 1 - ((low + (h / (since / (high - low)))) / 100);
-                                var o = { x: (pos.x + 200) / 2, y: (400 - (pos.y + 200)) / 2, value: r };
+                                var o = { x: transformX(pos.x), y: transformY(pos.y), value: r };
+                                console.log(JSON.stringify(o));
                                 heatmap.addData(o);
                             }
                         }
@@ -103,7 +115,7 @@
                         ctx.fillStyle = 'rgba(0,0,0,0)';
                         ctx.clearRect(0, 0, 200, 200);
                         ctx.fillStyle = 'rgb(255,0,0)';
-                        ctx.fillRect(((x + 200) / 2) - 2, ((400 - (y + 200)) / 2) - 2, 4, 4);
+                        ctx.fillRect(transformX(x) - 2, transformY(y) - 2, 4, 4);
                         loc.textContent = x.toFixed(2) + "," + y.toFixed(2);
                     }
                     setTimeout(displayPos, 250);
