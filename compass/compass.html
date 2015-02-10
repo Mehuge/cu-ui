@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            padding: 0;
+			overflow:hidden;
+			cursor:default;
+        }
+		#main{
+			margin: 0;
+			padding 0;
+			width:64px;
+			height:16px;			
+			display:block;		
+			background-image: url('compass.jpg');
+			position:absolute;
+			top:0;
+			left:0;
+		}
+		#frame-border img{
+			margin: 0;
+			padding 0;
+			width:64px;
+			height:16px;			
+			display:block;
+			z-index:1000;
+			position:absolute;
+			top:0;
+			left:0;			
+		}
+		#loc-display{
+			position:absolute;
+			bottom:0px;
+			color:#fff;
+			font-size:8px;
+			width:100%;
+			text-align:center;
+            display:none;
+		}
+    </style>
+</head>
+<body>
+	<div id="main"></div>
+	<div id="frame-border"><img src="compass-border.png"></img></div>
+	<div id="loc-display"></div>
+	
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../cu/cu.js"></script>
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var scrollTo = 0,
+				oldX = 0.0,
+				oldY = 0.0,
+				heading = 0.0,
+				showLoc = 1;
+			
+			if (cu.HasAPI()) {
+				
+				var ticker = setInterval(function(){
+					
+					/*
+						We don't know the character's rotation value / facing - this would be easiest
+					
+						We do know the character's position (for now), we can use this to calculate the direction of travel / heading
+						
+						A heading of 0.0 will represent true north, which will align to the compass image at 32px.
+						
+					*/
+					
+					var tX = cuAPI.locationX;
+					var tY = cuAPI.locationY;
+					var tZ = cuAPI.locationZ;
+					
+					var x = tX - oldX;
+					var y = tY - oldY;
+					
+					oldX = tX;
+					oldY = tY;
+					
+					if(x !== 0.0){
+						heading = 90.0 - (Math.atan(y / x) * (180 / 3.14));
+					}
+					else{
+						if(y < 0.0){ heading = 180.0; }
+						if(y > 0.0){ heading = 0.0; }
+					}
+					if(x < 0.0){ heading = 180.0 + heading; }
+					
+					scrollTo = 32.0 - ((heading / 360.0) * 512.0)
+					
+					$('#main').css('background-position', scrollTo + "px 0px");
+					
+					if(showLoc == 1){
+						$('#loc-display').html(tX.toFixed(2) + "," + tY.toFixed(2) + "," + tZ.toFixed(2));
+					}
+					else{
+						$('#loc-display').html('');
+					}
+					
+				}, 100);
+				
+				$('body').click(function(){
+					showLoc = 1 - showLoc;
+				});
+				
+			}
+			
+		});
+	</script>
+</body>
+</html>

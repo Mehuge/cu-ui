@@ -52,6 +52,9 @@
     <Content Include="chat\chat.css" />
     <Content Include="chat\chat.html" />
     <Content Include="common\sexyscroll.css" />
+    <Content Include="compass\compass-border.png" />
+    <Content Include="compass\compass.html" />
+    <Content Include="compass\compass.jpg" />
     <Content Include="controlgame\controlgame.css" />
     <Content Include="controlgame\controlgame.html" />
     <Content Include="cu\cu.css" />
@@ -360,6 +363,7 @@
     <Content Include="deathspam.ui" />
     <Content Include="heatmap.ui" />
     <Content Include="loc.ui" />
+    <Content Include="compass.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
