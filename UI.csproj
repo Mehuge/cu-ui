@@ -358,6 +358,7 @@
     <Content Include="lb.ui" />
     <Content Include="announcer.ui" />
     <Content Include="deathspam.ui" />
+    <Content Include="heatmap.ui" />
     <Content Include="loc.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
