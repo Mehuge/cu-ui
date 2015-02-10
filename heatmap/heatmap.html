@@ -97,7 +97,6 @@
                             if (h < since) {
                                 var r = 1 - ((low + (h / (since / (high - low)))) / 100);
                                 var o = { x: transformX(pos.x), y: transformY(pos.y), value: r };
-                                console.log(JSON.stringify(o));
                                 heatmap.addData(o);
                             }
                         }
