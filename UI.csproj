@@ -274,6 +274,7 @@
     <TypeScriptCompile Include="inventory\inventory.ts" />
     <TypeScriptCompile Include="gamemenu\gamemenu.ts" />
     <Content Include="lb\lb3.html" />
+    <Content Include="loc\loc.html" />
     <Content Include="map\map.css" />
     <Content Include="map\map.html" />
     <Content Include="map\RvR-Map-Shifting.jpg" />
@@ -357,6 +358,7 @@
     <Content Include="lb.ui" />
     <Content Include="announcer.ui" />
     <Content Include="deathspam.ui" />
+    <Content Include="loc.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
