@@ -408,21 +408,37 @@ class CUFakeGameAPI {
             this._evf(id, [this._character.name]);
         }
     }
-    OnCharacterNameChanged(c: (name: string) => void): void {
+
+    /**
+    * Register for character name change callbacks.  If the characters name is available
+    * at the time this method is called, an event is fired immediately.
+    * @prams callback Function to be called whenever the character name changes.
+    */
+    OnCharacterNameChanged(callback: (name: string) => void): void {
         var id: string = "OnCharacterNameChanged";
-        this._ev(id, c);
+        this._ev(id, callback);
         if (this._character.name !== undefined) {
             this._evf(id, [this._character.name]);
         }
     }
-    OnCharacterHealthChanged(c: (health: number, maxHealth: number) => void): void {
+    /**
+    * Register for character health change callbacks.  This event is fired immediately.
+    * @prams callback Function to be called whenever the character health changes.  
+    *   Both the characters current and maximum health are provided.
+    */
+    OnCharacterHealthChanged(callback: (health: number, maxHealth: number) => void): void {
         var id : string = "OnCharacterHealthChanged";
-        this._ev(id, c);
+        this._ev(id, callback);
         this._evf(id, [this._character.hp, this._character.maxHP]);
     }
-    OnCharacterStaminaChanged(c: (stamina: number, maxStamina: number) => void): void {
+    /**
+    * Register for character stamina change callbacks.  This event if fired immediately.
+    * @prams callback Function to be called whenever the character stamina changes.  
+    *   Both the characters current and maximum stamina are provided.
+    */
+    OnCharacterStaminaChanged(callback: (stamina: number, maxStamina: number) => void): void {
         var id: string = "OnCharacterStaminaChanged";
-        this._ev(id, c);
+        this._ev(id, callback);
         this._evf(id, [this._character.stamina, this._character.maxStamina]);
     }
     OnCharacterEffectsChanged(c: (effects: string) => void): void {}
