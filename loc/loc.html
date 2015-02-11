@@ -45,7 +45,7 @@
             function displayPos() {
                 var x = cuAPI.locationX, y = cuAPI.locationY, z = cuAPI.locationZ;
                 if (x !== undefined) {
-                    loc.textContent = x.toFixed(2) + ", " + y.toFixed(2) + ", " + z.toFixed(2);
+                    loc.textContent = 'FPS: ' + cuAPI.fps.toFixed(0) + ' Locaton: ' + x.toFixed(2) + ", " + y.toFixed(2) + ", " + z.toFixed(2);
                 }
                 setTimeout(displayPos, 250);
             }
