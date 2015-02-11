@@ -72,7 +72,7 @@
                 transformX = function (x) {
                     x += (map.w / 2);        // move origin to left
                     x /= (map.w / 200);      // bring into range
-                    return x;
+                    return 200 - x;          // flip origin to bottom
                 },
                 transformY = function (y) {
                     y += (map.h / 2);        // move origin to top
@@ -96,7 +96,7 @@
                             var h = h / 1000;
                             if (h < since) {
                                 var r = 1 - ((low + (h / (since / (high - low)))) / 100);
-                                var o = { x: transformX(pos.x), y: transformY(pos.y), value: r };
+                                var o = { x: transformX(pos.y), y: transformY(pos.x), value: r };
                                 heatmap.addData(o);
                             }
                         }
@@ -114,7 +114,7 @@
                         ctx.fillStyle = 'rgba(0,0,0,0)';
                         ctx.clearRect(0, 0, 200, 200);
                         ctx.fillStyle = 'rgb(255,0,0)';
-                        ctx.fillRect(transformX(x) - 2, transformY(y) - 2, 4, 4);
+                        ctx.fillRect(transformX(y) - 2, transformY(x) - 2, 4, 4);
                         loc.textContent = x.toFixed(2) + "," + y.toFixed(2);
                     }
                     setTimeout(displayPos, 250);
