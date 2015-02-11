@@ -3,9 +3,9 @@
 	"name": "map",
 	"mainFile": "map/map.html",
 	"rect": {
-		"left": 200,
-		"top": 200,
-		"right": 799,
-		"bottom": 701
+		"left": 441,
+		"top": 50,
+		"right": 1400,
+		"bottom": 849
 	}
 }

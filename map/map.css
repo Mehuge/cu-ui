@@ -1,3 +1,7 @@
 ﻿body {
-    background-image: url(RvR-Map-Shifting.jpg);
+    background-image: url(../heatmap/2048topo.jpg);
+    background-size: 800px;
+    background-color: rgba(0,0,0,0.5);
+    background-repeat: no-repeat;
+
 }
