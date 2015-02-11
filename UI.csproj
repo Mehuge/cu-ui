@@ -364,6 +364,7 @@
     <Content Include="heatmap.ui" />
     <Content Include="loc.ui" />
     <Content Include="compass.ui" />
+    <Content Include="addons.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
