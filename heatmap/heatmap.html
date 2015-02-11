@@ -22,7 +22,7 @@
         }
         #map {
             position:absolute;
-            background-image: url(heatmap.png);
+            background-image: url(2048topo.jpg);
             background-size: contain;
             opacity: 0.6;
             width: 200px; height: 200px;
@@ -72,7 +72,7 @@
                 transformX = function (x) {
                     x += (map.w / 2);        // move origin to left
                     x /= (map.w / 200);      // bring into range
-                    return 200 - x;          // flip origin to bottom
+                    return x;          // flip origin to bottom
                 },
                 transformY = function (y) {
                     y += (map.h / 2);        // move origin to top
@@ -97,7 +97,7 @@
                             if (h < since) {
                                 var r = 1 - ((low + (h / (since / (high - low)))) / 100);
                                 var o = { x: transformX(pos.y), y: transformY(pos.x), value: r };
-                                heatmap.addData(o);
+                                //heatmap.addData(o);
                             }
                         }
                     };
@@ -114,7 +114,7 @@
                         ctx.fillStyle = 'rgba(0,0,0,0)';
                         ctx.clearRect(0, 0, 200, 200);
                         ctx.fillStyle = 'rgb(255,0,0)';
-                        ctx.fillRect(transformX(y) - 2, transformY(x) - 2, 4, 4);
+                        ctx.fillRect(transformX(x) - 2, transformY(y) - 2, 4, 4);
                         loc.textContent = x.toFixed(2) + "," + y.toFixed(2);
                     }
                     setTimeout(displayPos, 250);
