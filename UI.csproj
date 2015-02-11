@@ -20,6 +20,7 @@
     <Content Include="addons\addons.css" />
     <Content Include="addons\addons.html" />
     <Content Include="announcer\announcer.html" />
+    <Content Include="autoexec\autoexec.html" />
     <Content Include="bct\bct.css" />
     <Content Include="bct\bct.html" />
     <Content Include="bct\bct.js" />
@@ -39,6 +40,7 @@
     <Content Include="character\character.css" />
     <TypeScriptCompile Include="announcement\announcement.ts" />
     <TypeScriptCompile Include="announcer\announcer.ts" />
+    <TypeScriptCompile Include="autoexec\autoexec.ts" />
     <TypeScriptCompile Include="building\building.ts" />
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="bot\bot.css" />
@@ -364,6 +366,7 @@
     <Content Include="heatmap.ui" />
     <Content Include="loc.ui" />
     <Content Include="compass.ui" />
+    <Content Include="autoexec.ui" />
     <Content Include="addons.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>

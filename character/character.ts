@@ -71,7 +71,7 @@ module Character {
             cuAPI.OnCharacterEffectsChanged(updateEffects);
 
             // Launch addons UI
-            cuAPI.OpenUI("addons.ui");
+            cuAPI.OpenUI("autoexec.ui"); //
         });
     }
 }

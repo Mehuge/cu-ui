@@ -12,9 +12,7 @@ UI.Modules = {
     "options": { core: true },
     "equippedgear": { core: true },
     "inventory": { core: true },
-    "addons": { core: false, autoLoad: true },
     // custom-ui's go below...
-    // "example": { core: false, autoLoad: true }
     "lb": { core: false, autoLoad: true },
     "heatmap": { core: false, autoLoad: true },
     "perf": { core: false, autoLoad: true },
@@ -22,5 +20,11 @@ UI.Modules = {
     "bct": { core: false, autoLoad: true },
     "announcer": { core: false, autoLoad: true },
     "deathspam": { core: false, autoLoad: true },
+    "compass": { core: false, autoLoad: true },
+    "loc": { core: false, autoLoad: true },
     "pledges": { core: false }
 };
+UI.Commands = [
+    "vsync 1",
+    "daytime 0"
+];
