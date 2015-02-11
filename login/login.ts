@@ -237,13 +237,15 @@ module Login {
 
         $tbody.empty();
 
-        servers.forEach((server) => {
-            var row = createServerModalRow(server);
+        if (servers) {
+            servers.forEach((server) => {
+                var row = createServerModalRow(server);
 
-            row.$row.appendTo($tbody);
+                row.$row.appendTo($tbody);
 
-            updateServerEntry(server, row);
-        });
+                updateServerEntry(server, row);
+            });
+        }
     }
 
     function createServersModal() {
