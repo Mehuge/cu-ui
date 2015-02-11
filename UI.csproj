@@ -366,6 +366,7 @@
     <Content Include="heatmap.ui" />
     <Content Include="loc.ui" />
     <Content Include="compass.ui" />
+    <Content Include="map.ui" />
     <Content Include="autoexec.ui" />
     <Content Include="addons.ui" />
     <None Include="ToClient.pubxml">
