@@ -9,5 +9,6 @@
 		"bottom": 770
 	},
 	"handlesInventory": true,
-	"handlesInput": true
+	"handlesInput": true,
+	"hidden": true
 }

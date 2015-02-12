@@ -89,8 +89,8 @@ class Ability {
 
     CurrentlyRunning(): boolean {
         return this.startWorldTime > 0.0 &&
-               this.triggerWorldTime >= this.startWorldTime &&
-               this.triggerWorldTime + (this.duration - this.triggerTimeOffset) > this.cu.ServerTime();
+            this.triggerWorldTime >= this.startWorldTime &&
+            this.triggerWorldTime + (this.duration - this.triggerTimeOffset) > this.cu.ServerTime();
     }
 
     OnCooldown(): boolean {
@@ -703,7 +703,7 @@ class JID {
 
 class CU {
     constructor(initCallback?: () => any,
-                connectedCallback?: () => any) {
+        connectedCallback?: () => any) {
 
         this.OnInitialized(initCallback);
         this.OnServerConnected(connectedCallback);
@@ -793,6 +793,20 @@ class CU {
 
     private XMPP_SASL = 'urn:ietf:params:xml:ns:xmpp-sasl';
     private XMPP_BIND = 'urn:ietf:params:xml:ns:xmpp-bind';
+
+    // matches Emote enum in AnimatableInterface.h
+    public Emote =
+    {
+        Dance1: 0,
+        Dance2: 1,
+        Wave1: 2,
+        Wave2: 3,
+
+        // Always last and not counted in EMOTE_COUNT
+        Stop: 4,
+        None: 5
+    };
+
     /* End Constants */
 
     /* Begin Variables */
@@ -858,6 +872,13 @@ class CU {
             return 0.0;
         } else {
             return (Date.now() - this.timeStarted) / 1000.0;
+        }
+    }
+
+    // Respawn
+    Respawn(id: number) {
+        if (this.InGame()) {
+            this.gameClient.Respawn(id);
         }
     }
 
@@ -976,7 +997,7 @@ class CU {
         this.queuedAbility = queued;
         if (current !== oldCurrent ||
             (current && (startTime != current.startWorldTime ||
-                         triggerTime >= 0.0 && triggerTime != current.triggerWorldTime))) {
+            triggerTime >= 0.0 && triggerTime != current.triggerWorldTime))) {
             updatedCurrent = true;
             if (current) current.SetAsActive(startTime, triggerTime);
             if (oldCurrent && oldCurrent !== current) oldCurrent.ClearAsActive();
@@ -990,7 +1011,7 @@ class CU {
             }
         }
     }
-    
+
     currentAbility: Ability = null;
     queuedAbility: Ability = null;
 
@@ -1073,7 +1094,7 @@ class CU {
 
     public Fire(event: string, ...args: any[]) {
         if (this.listeners.hasOwnProperty(event)) {
-            this.listeners[event].forEach(function(listener) {
+            this.listeners[event].forEach(function (listener) {
                 listener.apply(this, args);
             });
         }
@@ -1535,12 +1556,12 @@ class CU {
                     value = attrs.value;
                 } else {
                     switch (attrs.mechanism) {
-                    case XmppAuthMechanism[XmppAuthMechanism.PLAIN]:
-                        value = Base64.encode('\0' + attrs.username + '\0' + attrs.password);
-                        break;
-                    case XmppAuthMechanism[XmppAuthMechanism.CSELOGINTOKEN]:
-                        value = Base64.encode(attrs.loginToken);
-                        break;
+                        case XmppAuthMechanism[XmppAuthMechanism.PLAIN]:
+                            value = Base64.encode('\0' + attrs.username + '\0' + attrs.password);
+                            break;
+                        case XmppAuthMechanism[XmppAuthMechanism.CSELOGINTOKEN]:
+                            value = Base64.encode(attrs.loginToken);
+                            break;
                     }
                 }
 
@@ -1662,7 +1683,7 @@ interface CUInGameAPI {
     initialized: boolean;
     OnInitialized(c: () => void): number;
     CancelOnInitialized(c: number): void;
-    
+
     // Everything else only exists after this.initialized is set and the
     // OnInitialized callbacks are invoked.
 
@@ -1687,6 +1708,9 @@ interface CUInGameAPI {
     Quit(): void;
     CrashTheGame(): void;
     OnUpdateNameplate(c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void): void;
+
+    /* Respawn */
+    Respawn(id : number): void;
 
     /* Abilities */
 
@@ -1754,6 +1778,10 @@ interface CUInGameAPI {
     OnCharacterStaminaChanged(c: (stamina: number, maxStamina: number) => void): void;
     OnCharacterEffectsChanged(c: (effects: string) => void): void;
 
+    /* EMOTE */
+
+    Emote(emote: number): void;
+
     /* Enemy Target */
 
     OnEnemyTargetNameChanged(callback: (name: string) => void): void;
@@ -1791,7 +1819,7 @@ interface CUInGameAPI {
     netstats_players_newCount: number;
     netstats_players_newBits: number;
     netstats_lag: number;
-    particlesRenderedCount: number
+    particlesRenderedCount: number;
     speed: number;
     locationX: number;
     locationY: number;

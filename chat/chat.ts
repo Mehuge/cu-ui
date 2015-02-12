@@ -438,6 +438,31 @@ module Chat {
         return true;
     });
 
+    addSlashCommand('dance1', 'performs dance emote 1', () => {
+        cuAPI.Emote(cu.Emote.Dance1);
+        return true;
+    });
+
+    addSlashCommand('dance2', 'performs dance emote 2', () => {
+        cuAPI.Emote(cu.Emote.Dance2);
+        return true;
+    });
+
+    addSlashCommand('wave1', 'performs wave emote 1', () => {
+        cuAPI.Emote(cu.Emote.Wave1);
+        return true;
+    });
+
+    addSlashCommand('wave2', 'performs wave emote 2', () => {
+        cuAPI.Emote(cu.Emote.Wave2);
+        return true;
+    });
+
+    addSlashCommand('stop', 'stop emote', () => {
+        cuAPI.Emote(cu.Emote.Stop);
+        return true;
+    });
+
     function everythingAfterArg(input, processed, argNum) {
         // Start at the beginning of the string, and ignore any leading whitespace then match
         // on the command, require atleast one whitespace, and ignore the rest of the whitespace

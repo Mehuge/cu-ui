@@ -1,13 +1,8 @@
 {
-	"_LICENSE": "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
-	"name": "respawn",
-	"mainFile": "respawn/respawn.html",
-	"rect": {
-		"left": 586,
-		"top": 418,
-		"right": 854,
-		"bottom": 482
-	},
-	"handlesConfig": true,
-	"handlesCharacter": true
+	"_LICENSE":         "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
+	"name":             "respawn",
+	"mainFile":         "respawn/respawn.html",
+	"handlesConfig":    true,
+    "handlesCharacter": true,
+    "handlesInput":     true
 }
