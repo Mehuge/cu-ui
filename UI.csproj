@@ -20,6 +20,7 @@
     <Content Include="addons\addons.css" />
     <Content Include="addons\addons.html" />
     <Content Include="announcer\announcer.html" />
+    <Content Include="api\mehuge.html" />
     <Content Include="autoexec\autoexec.html" />
     <Content Include="bct\bct.css" />
     <Content Include="bct\bct.html" />
@@ -40,6 +41,7 @@
     <Content Include="character\character.css" />
     <TypeScriptCompile Include="announcement\announcement.ts" />
     <TypeScriptCompile Include="announcer\announcer.ts" />
+    <TypeScriptCompile Include="api\mehuge.ts" />
     <TypeScriptCompile Include="autoexec\autoexec.ts" />
     <TypeScriptCompile Include="building\building.ts" />
     <TypeScriptCompile Include="character\character.ts" />
@@ -302,6 +304,7 @@
     <Content Include="nameplate\nameplate.css" />
     <Content Include="nameplate\nameplate.html" />
     <TypeScriptCompile Include="map\map.ts" />
+    <TypeScriptCompile Include="api\xmpp.ts" />
     <TypeScriptCompile Include="module-list.d.ts" />
     <TypeScriptCompile Include="nameplate\nameplate.ts" />
     <Content Include="options\options.css" />
@@ -369,6 +372,7 @@
     <Content Include="map.ui" />
     <Content Include="autoexec.ui" />
     <Content Include="addons.ui" />
+    <Content Include="mehuge.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
