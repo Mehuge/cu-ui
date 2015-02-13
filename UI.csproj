@@ -214,6 +214,7 @@
     <Content Include="images\races\valkyrie.jpg" />
     <Content Include="images\races\viking.jpg" />
     <Content Include="images\respawn\bg.png" />
+    <Content Include="images\respawn\map.png" />
     <Content Include="images\skillbar\active-frame.gif" />
     <Content Include="images\skillbar\cap-left.png" />
     <Content Include="images\skillbar\cap-right.png" />
