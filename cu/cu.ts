@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /// <reference path="../vendor/jquery.d.ts" />
+/// <reference path="../vendor/strophe.d.ts" />
 
 // Keep in sync with Race enum on client and server
 enum Race {
@@ -841,6 +842,18 @@ class CU {
         return 'http://localhost:8000/api/' + action;
     }
 
+    ApiHost(): string {
+        return this.HasAPI() && cuAPI.webAPIHost ? cuAPI.webAPIHost : 'hatchery.camelotunchained.com';
+    }
+
+    SecureApiUrl(action: string): string {
+        var host = this.ApiHost();
+        var isLocalhost = host === 'localhost';
+        var protocol = isLocalhost ? 'http' : 'https';
+        var port = isLocalhost ? '8000' : '4443';
+        return protocol + '://' + host + ':' + port + '/' + action;
+    }
+
     InGame(): boolean {
         return this.gameClient !== null;
     }
@@ -1031,64 +1044,48 @@ class CU {
     public GetConfigVar(variable: string): void {
         if (cu.HasAPI()) {
             cuAPI.GetConfigVar(variable);
-        } else {
-            throw new Error('Not implemented');
         }
     }
 
     public GetConfigVars(tag: Tags): void {
         if (cu.HasAPI()) {
             cuAPI.GetConfigVars(tag);
-        } else {
-            throw new Error('Not implemented');
         }
     }
 
     public ChangeConfigVar(variable, value): void {
         if (cu.HasAPI()) {
             cuAPI.ChangeConfigVar(variable, value);
-        } else {
-            throw new Error('Not implemented');
         }
     }
 
     public CancelChangeConfig(variable): void {
         if (cu.HasAPI()) {
             cuAPI.CancelChangeConfig(variable);
-        } else {
-            throw new Error('Not implemented');
         }
     }
 
     public SaveConfigChanges(): void {
         if (cu.HasAPI()) {
             cuAPI.SaveConfigChanges();
-        } else {
-            throw new Error('Not implemented');
         }
     }
 
     public CancelAllConfigChanges(tag): void {
         if (cu.HasAPI()) {
             cuAPI.CancelAllConfigChanges(tag);
-        } else {
-            throw new Error('Not implemented');
         }
     }
 
     public RestoreConfigDefaults(tag): void {
         if (cu.HasAPI()) {
             cuAPI.RestoreConfigDefaults(tag);
-        } else {
-            throw new Error('Not implemented');
         }
     }
 
     public ChangeBuildingMode(): void {
         if (cu.HasAPI()) {
             cuAPI.ChangeBuildingMode();
-        } else {
-            throw new Error('Not implemented');
         }
     }
 
@@ -1669,6 +1666,16 @@ class Tooltip {
 
         Tooltip.hideTimeout = setTimeout(() => Tooltip.$container.stop().fadeOut(100), hideDelay);
     }
+    
+    public move(left, top) {
+        Tooltip.$container.css({ left: left, top: top });
+    }
+
+    public destroy() {
+        if (this.elements) {
+            this.elements.unbind('mouseenter mouseleave');
+        }
+    }
 }
 
 var cu: CU = new CU();
@@ -1692,6 +1699,7 @@ interface CUInGameAPI {
     patchResourceChannel: number;
     loginToken: string;
     pktHash: string;
+    webAPIHost: string;
     serverURL: string;
     serverTime: number;
     vsync: number;
@@ -1805,6 +1813,17 @@ interface CUInGameAPI {
     LeaveMUC(room: string): void;
     Stuck(): void;
     ChangeZone(zoneID: number): void;
+
+    /* Ability Crafting */
+
+    ShowAbility(abilityID: string): void;
+    OnShowAbility(callback: (abilityID: string) => void): void;
+
+    EditAbility(abilityID: string): void;
+    OnEditAbility(callback: (abilityID: string) => void): void;
+
+    AbilityCreated(abilityID: string, primaryBaseComponentID: string, secondaryBaseComponentID: string, ability: string): void;
+    OnAbilityCreated(callback: (abilityID: string, ability: string) => void): void;
 
     /* Stats */
 

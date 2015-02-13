@@ -1,0 +1,657 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#spellbook {
+    display: none;
+    position: relative;
+    width: 798px;
+    height: 608px;
+    background: url(../images/spellbook/bg.png) no-repeat top left;
+}
+
+/* Header */
+
+#btn-abilities {
+    position: absolute;
+    top: 6px;
+    left: 20px;
+    width: 74px;
+    height: 30px;
+    background: url(../images/spellbook/btn-abilities.jpg) no-repeat top left;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-filter: brightness(0.6);
+    filter: brightness(0.6);
+}
+
+#btn-abilities:hover,
+#btn-abilities:active,
+#btn-abilities.hovered {
+    top: 4px;
+}
+
+#btn-abilities:hover,
+#btn-abilities.hovered {
+    -webkit-filter: brightness(0.8);
+    filter: brightness(0.8);
+}
+
+#btn-abilities:active,
+#btn-abilities.selected {
+    -webkit-filter: brightness(1.0);
+    filter: brightness(1.0);
+}
+
+#btn-abilities.selected {
+    top: 0;
+}
+
+#btn-components {
+    position: absolute;
+    top: 6px;
+    left: 100px;
+    width: 101px;
+    height: 30px;
+    background: url(../images/spellbook/btn-components.jpg) no-repeat top left;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-filter: brightness(0.6);
+    filter: brightness(0.6);
+}
+
+#btn-components:hover,
+#btn-components:active,
+#btn-components.hovered {
+    top: 4px;
+}
+
+#btn-components:hover,
+#btn-components.hovered {
+    -webkit-filter: brightness(0.8);
+    filter: brightness(0.8);
+}
+
+#btn-components:active,
+#btn-components.selected {
+    -webkit-filter: brightness(1.0);
+    filter: brightness(1.0);
+}
+
+#btn-components.selected {
+    top: 0;
+}
+
+#btn-search {
+    position: absolute;
+    top: 6px;
+    left: 207px;
+    width: 70px;
+    height: 24px;
+    background: url(../images/spellbook/btn-search.jpg) no-repeat top left;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-filter: brightness(0.6);
+    filter: brightness(0.6);
+}
+
+#btn-search:hover,
+#btn-search:active {
+    top: 4px;
+}
+
+#btn-search:hover {
+    -webkit-filter: brightness(0.8);
+    filter: brightness(0.8);
+}
+
+#btn-search:active {
+    -webkit-filter: brightness(1.0);
+    filter: brightness(1.0);
+}
+
+#proficiency {
+    position: absolute;
+    top: 14px;
+    left: 352px;
+    width: 91px;
+    height: 15px;
+    line-height: 15px;
+    text-align: center;
+    color: #D0A769;
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: default;
+}
+
+#btn-help {
+    position: absolute;
+    top: 8px;
+    right: 22px;
+    width: 17px;
+    height: 17px;
+    background: url(../images/spellbook/btn-help.png) no-repeat top left;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-filter: brightness(0.6);
+    filter: brightness(0.6);
+}
+
+#btn-help:hover {
+    -webkit-filter: brightness(0.8);
+    filter: brightness(0.8);
+}
+
+#btn-help:active {
+    -webkit-filter: brightness(1.0);
+    filter: brightness(1.0);
+}
+
+#btn-close {
+    position: absolute;
+    top: 8px;
+    right: 4px;
+    width: 17px;
+    height: 17px;
+    background: url(../images/spellbook/btn-close.png) no-repeat top left;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-filter: brightness(0.6);
+    filter: brightness(0.6);
+}
+
+#btn-close:hover {
+    -webkit-filter: brightness(0.8);
+    filter: brightness(0.8);
+}
+
+#btn-close:active {
+    -webkit-filter: brightness(1.0);
+    filter: brightness(1.0);
+}
+
+/* Pages */
+
+#pages {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    width: 758px;
+    height: 560px;
+    overflow: hidden;
+}
+
+.page {
+    width: 379px;
+    height: 560px;
+}
+
+.page.even {
+    background: url(../images/spellbook/left-page.png);
+}
+
+.page.odd {
+    background: url(../images/spellbook/right-page.png);
+}
+
+.page-header {
+    min-height: 67px;
+    max-height: 67px;
+}
+
+.page-header h1 {
+    margin: 0;
+    padding: 20px;
+    cursor: default;
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 26px;
+    opacity: 0.7;
+}
+
+.page-number {
+    position: absolute;
+    bottom: 4px;
+    right: 12px;
+    width: 100%;
+    font-family: 'vtcgoblinhandbold', serif;
+    font-size: 14px;
+    cursor: default;
+}
+
+.page.even .page-number {
+    text-align: left;
+    left: 12px;
+}
+
+.page.odd .page-number {
+    text-align: right;
+    right: 12px;
+}
+
+.blank-page {
+    display: none;
+}
+
+/* Abilities */
+
+.ability {
+    width: 345px;
+    height: 52px;
+    line-height: 52px;
+    padding-left: 20px;
+    overflow: hidden;
+    opacity: 0.7;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.49);
+    cursor: pointer;
+}
+
+.ability:hover {
+    color: #EDE3D1;
+    text-shadow: 0 1px 8px rgba(126, 77, 0, 1);
+    opacity: 1;
+}
+
+.ability:active {
+    color: #F7F2E8;
+    text-shadow: 0 1px 8px rgba(126, 77, 0, 1);
+    opacity: 1;
+}
+
+.ability.selected {
+    width: 345px;
+    margin: 0 15px;
+    padding-left: 5px;
+    box-shadow: inset 0 0 25px 0 rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#spellbook.reordering .ability {
+    width: 345px;
+    margin: 0 15px;
+    padding: 0 5px;
+    box-shadow: inset 0 0 25px 0 rgba(87, 66, 47, 0.51);
+}
+
+#spellbook.reordering .ability:hover {
+    color: #000;
+    text-shadow: none;
+    box-shadow: inset 0 0 25px 5px rgba(87, 66, 47, 0.51);
+}
+
+#spellbook.reordering .ability.selected {
+    box-shadow: inset 0 0 25px 3px rgba(44, 27, 10, 0.63);
+    background-color: rgba(34, 24, 11, 0.18);
+}
+
+.ability-icon {
+    display: table-cell;
+    zoom: 80%;
+    margin-top: 7px;
+    width: 45px;
+    height: 52px;
+    background: url(../images/ability-crafting/ability-icon-transparent-bg.png) no-repeat center center;
+    -webkit-filter: sepia(.7) brightness(1) opacity(.8);
+}
+
+.ability-icon img {
+    position: relative;
+    top: 13px;
+    left: 0;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.ability-name {
+    display: table-cell;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 0px 10px;
+    width: 204px;
+    height: 52px;
+    vertical-align: middle;
+    line-height: 15px;
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+}
+
+.ability-detail-page {
+    display: table-cell;
+    vertical-align: middle;
+    width: 90px;
+    height: 52px;
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 12px;
+    overflow: hidden;
+}
+
+.ability.selected .ability-detail-page {
+    width: 85px;
+}
+
+.btn-reorder {
+    position: absolute;
+    top: 18px;
+    left: 272px;
+    width: 90px;
+    height: 26px;
+    background: url(../images/spellbook/btn-reorder.png) no-repeat top left;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-filter: opacity(60%);
+    filter: opacity(60%);
+}
+
+.btn-reorder:hover {
+    -webkit-filter: opacity(80%);
+    filter: opacity(80%);
+}
+
+.btn-reorder:active {
+    -webkit-filter: opacity(100%);
+    filter: opacity(100%);
+}
+
+#spellbook.reordering .btn-reorder {
+    background: url(../images/spellbook/btn-confirm.png) no-repeat top left;
+}
+
+.drop-zone {
+    height: 10px;
+}
+
+#spellbook.reordering.selected .drop-zone:hover {
+    background: url(../images/spellbook/divider.png) no-repeat center center;
+}
+
+/* Ability Left Detail */
+
+.ability-left-detail {
+    width: 349px;
+    height: 530px;
+    padding: 15px;
+    background: url(../images/spellbook/bg-ability.png) no-repeat -20px 10px;
+}
+
+.ability-left-detail .ability-icon {
+    zoom: 100%;
+    padding-left: 6px;
+    padding-top: 12px;
+}
+
+.ability-left-detail .ability-icon img {
+    position: relative;
+    top: -4px;
+    left: -3px;
+}
+
+.ability-left-detail .ability-name {
+    font-size: 18px;
+    width: 218px;
+    cursor: default;
+}
+
+.btn-edit {
+    position: absolute;
+    top: 26px;
+    right: 16px;
+    width: 60px;
+    height: 34px;
+    background: url(../images/spellbook/btn-edit.png) no-repeat center center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-filter: opacity(60%);
+    filter: opacity(60%);
+}
+
+.btn-edit:hover {
+    -webkit-filter: opacity(80%);
+    filter: opacity(80%);
+}
+
+.btn-edit:active {
+    -webkit-filter: opacity(100%);
+    filter: opacity(100%);
+}
+
+.ability-component-network {
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    top: 5px;
+    left: 5px;
+    height: 440px;
+    width: 338px;
+    overflow: hidden;
+}
+
+.ability-component-network .component-network {
+    margin: 0 auto;
+    float: none;
+    -webkit-filter: sepia(.5) brightness(1) opacity(.7) drop-shadow(0 -5px 10px rgba(0,0,0,0.4));
+}
+
+/* Ability Right Detail */
+
+.ability-right-detail {
+    width: 334px;
+    height: 530px;
+    padding: 15px 15px 15px 30px;
+}
+
+.ability-attributes {
+    margin: 15px 0 0 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.ability-attributes li {
+    float: left;
+    display: inline-block;
+    width: 33.333%;
+    margin-bottom: 8px;
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 12px;
+}
+
+.ability-proficiency {
+    clear: both;
+    padding-top: 10px;
+}
+
+.ability-proficiency-label {
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 12px;
+}
+
+.ability-proficiency-value {
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 15px;
+}
+
+.ability-description-label {
+    padding-top: 20px;
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 12px;
+}
+
+.ability-description-value {
+    padding-top: 2px;
+    font-size: 14px;
+}
+
+.ability-notes-label {
+    padding-top: 20px;
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 12px;
+}
+
+.ability-notes-value {
+    padding-top: 2px;
+    font-size: 14px;
+}
+
+.ability-stats {
+    margin: 20px 0 0 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.ability-stat-label {
+    display: inline-block;
+    width: 230px;
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 12px;
+}
+
+.ability-stat-value {
+    display: inline-block;
+    width: 104px;
+    text-align: center;
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 12px;
+}
+
+/* Components */
+
+.page .component-container:nth-child(3) {
+    margin-top: 10px;
+}
+
+.component-container {
+    position: relative;
+    width: 359px;
+    height: 62px;
+    line-height: 52px;
+    padding-left: 20px;
+    overflow: hidden;
+}
+
+.component-container .component,
+.component-container .component-slot {
+    zoom: 80%;
+    left: 20px !important;
+    -webkit-filter: sepia(.7) brightness(.9) opacity(.8);
+}
+
+.component-name {
+    position: absolute;
+    top: 0;
+    left: 80px;
+    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-size: 12px;
+    cursor: default;
+}
+
+/* Search */
+
+#search-modal {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 206px;
+    padding: 5px;
+    background: url(../images/spellbook/search-bg.png);
+}
+
+#search {
+    padding: 5px;
+    color: #c79466;
+    border: solid 1px rgba(136, 104, 72, 0.55);
+    background: #0e0700;
+    box-shadow: inset 0 0 20px 5px rgba(0, 0, 0, 0.75);
+    outline: none;
+}
+
+/* Ability and Component Pages */
+
+#ability-pages-modal {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    box-shadow: inset 0 0 5px 3px rgba(0, 108, 123, 0.7);
+    background: linear-gradient(to bottom, rgba(0, 63, 71, 1) 0,rgba(0, 86, 110, 1) 100%);
+}
+
+#component-pages-modal {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 100px;
+    box-shadow: inset 0 0 5px 3px rgba(136, 96, 44, 0.7);
+    background: linear-gradient(to bottom, rgba(39, 23, 2, 1) 0,rgba(90, 50, 10, 1) 100%);
+}
+
+#ability-pages-modal ul,
+#component-pages-modal ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+#ability-pages-modal li,
+#component-pages-modal li {
+    display: inline-block;
+    margin: 0;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    -webkit-filter: brightness(0.6);
+    filter: brightness(0.6);
+}
+
+#ability-pages-modal li:hover,
+#component-pages-modal li:hover {
+    -webkit-filter: brightness(0.8);
+    filter: brightness(0.8);
+}
+
+#ability-pages-modal li:active,
+#component-pages-modal li:active {
+    -webkit-filter: brightness(1.0);
+    filter: brightness(1.0);
+}
+
+#ability-pages-modal li {
+    color: #C5F0FF;
+}
+
+#component-pages-modal li {
+    color: #CBA066;
+}
+
+/* Error Message */
+
+#error-modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: .8;
+    margin: 80px 0 0 30px;
+    padding: 50px;
+    width: 300px;
+    height: 150px;
+    z-index: 99999;
+    color: rgb(237, 237, 237);
+    border: solid 1px #737373;
+    background: rgb(53, 53, 53);
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Merriweather Sans', sans-serif;
+    box-shadow: inset 0 -50px 240px 5px rgba(0, 0, 0, 0.75);
+    overflow: hidden;
+}

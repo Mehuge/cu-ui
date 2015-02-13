@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+    <title>Ability Builder</title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cinzel">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Merriweather+Sans">
+    <link rel="stylesheet" href="../cu/window.css">
+    <link rel="stylesheet" href="../ability-crafting/components.css">
+    <link rel="stylesheet" href="builder.css">
+</head>
+<body class="disable-selection simple-scrollbar">
+    <div id="builder" class="window">
+        <div class="window-top">
+            <div class="window-title">Ability Builder</div>
+            <button class="window-close"></button>
+        </div>
+        <div class="window-middle">
+            <div id="ability-name-container">
+                <label id="ability-name-label" for="ability-name">Ability Name</label>
+                <input type="text" id="ability-name" placeholder="Enter name here" size="36" tabindex="1" />
+            </div>
+            <button id="btn-select-icon"></button>
+            <div id="ability-notes-container">
+                <label id="ability-notes-label" for="ability-notes">Ability Notes</label>
+                <input type="text" id="ability-notes" size="36" tabindex="2" />
+            </div>
+            <ul id="stats"></ul>
+            <div id="network"></div>
+        </div>
+        <div class="window-bottom">
+            <button id="btn-build">Build</button>
+        </div>
+    </div>
+    <div id="select-icon-modal"></div>
+    <div id="component-selection-modal" class="fifty-percent-zoom"></div>
+    <div id="error-modal">
+        <div id="error-modal-message"></div>
+        <ul id="error-modal-errors"></ul>
+        <button id="btn-close-error-modal">Close</button>
+    </div>
+    <div id="loading">
+        <div class="demo">
+            <div class="circle">
+                <div class="inner"></div>
+            </div>
+            <div class="circle">
+                <div class="inner"></div>
+            </div>
+            <div class="circle">
+                <div class="inner"></div>
+            </div>
+            <div class="circle">
+                <div class="inner"></div>
+            </div>
+            <div class="circle">
+                <div class="inner"></div>
+            </div>
+        </div>
+    </div>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../vendor/lodash.js"></script>
+    <script src="../cu/cu.js"></script>
+    <script src="../ability-crafting/componentConstants.js"></script>
+    <script src="../ability-crafting/componentNetwork.js"></script>
+    <script src="../ability-crafting/componentBranch.js"></script>
+    <script src="../ability-crafting/componentSlot.js"></script>
+    <script src="../ability-crafting/component.js"></script>
+    <script src="../ability-crafting/networks/physicalNetwork.js"></script>
+    <script src="../ability-crafting/networks/magicNetwork.js"></script>
+    <script src="../ability-crafting/networks/comboANetwork.js"></script>
+    <script src="../ability-crafting/networks/comboBNetwork.js"></script>
+    <script src="../ability-crafting/networks/rangeANetwork.js"></script>
+    <script src="../ability-crafting/networks/rangeBNetwork.js"></script>
+    <script src="../ability-crafting/networks/shoutNetwork.js"></script>
+    <script src="../ability-crafting/networks/songNetwork.js"></script>
+    <script src="builder.js"></script>
+</body>

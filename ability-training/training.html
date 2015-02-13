@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+    <title>Ability Training</title>
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cinzel:400,300,700,800">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Merriweather+Sans">
+    <link rel="stylesheet" href="../cu/window.css">
+    <link rel="stylesheet" href="../ability-crafting/components.css">
+    <link rel="stylesheet" href="training.css">
+</head>
+<body class="disable-selection">
+    <div id="training" class="window">
+        <div class="window-top">
+            <div class="window-title">Ability Training</div>
+            <button class="window-close"></button>
+        </div>
+        <div class="window-middle">
+            <div id="component-path-container">
+                <div id="component-path-label">Choose Your Path</div>
+                <select id="component-path">
+                    <option value="">Path</option>
+                </select>
+                <button id="btn-path" disabled="disabled"></button>
+            </div>
+            <div id="component-type-container">
+                <div id="component-type-label">Component Type</div>
+                <select id="component-type">
+                    <option value="">Type</option>
+                </select>
+            </div>
+            <div id="components" class="fifty-percent-zoom"></div>
+        </div>
+        <div class="window-bottom">
+            <button id="train" disabled="disabled">Train</button>
+            <button id="untrain" disabled="disabled">Untrain</button>
+            <button id="halt" disabled="disabled">Halt</button>
+            <button id="resume" disabled="disabled">Resume</button>
+        </div>
+    </div>
+    <div id="path-rank-modal"></div>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../vendor/lodash.js"></script>
+    <script src="../cu/cu.js"></script>
+    <script src="../ability-crafting/componentConstants.js"></script>
+    <script src="../ability-crafting/componentNetwork.js"></script>
+    <script src="../ability-crafting/componentBranch.js"></script>
+    <script src="../ability-crafting/componentSlot.js"></script>
+    <script src="../ability-crafting/component.js"></script>
+    <script src="network1.js"></script>
+    <script src="network2.js"></script>
+    <script src="training.js"></script>
+</body>

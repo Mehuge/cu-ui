@@ -8,5 +8,6 @@
 		"right": 850,
 		"bottom": 615
 	},
-	"handlesInput": true
+	"handlesInput": true,
+	"layer": 6
 }
