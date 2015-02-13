@@ -59,7 +59,7 @@
         }
     }
 
-    if (cuAPI !== undefined) {
+    if (typeof cuAPI !== "undefined") {
         cuAPI.OnInitialized(() => {
             processUI(UI.Modules ? Object.keys(UI.Modules) : []);
         });
