@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'vtcgoblinhandbold';
+  src: url('vtcgoblinhandbold.eot');
+  src: url('vtcgoblinhandbold.eot?#iefix') format('embedded-opentype'),
+       url('vtcgoblinhandbold.woff2') format('woff2'),
+       url('vtcgoblinhandbold.woff') format('woff'),
+       url('vtcgoblinhandbold.ttf') format('truetype'),
+       url('vtcgoblinhandbold.svg#vtcgoblinhandbold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

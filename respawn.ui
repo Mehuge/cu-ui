@@ -4,5 +4,6 @@
 	"mainFile":         "respawn/respawn.html",
 	"handlesConfig":    true,
     "handlesCharacter": true,
-    "handlesInput":     true
+    "handlesInput":     true,
+    "layer":            5
 }

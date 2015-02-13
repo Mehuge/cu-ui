@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+    <title>Spellbook</title>
+    <link rel="stylesheet" href="../fonts/vtcgoblinhandbold.css">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Cinzel:400,700,900">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Merriweather+Sans">
+    <link rel="stylesheet" href="../cu/window.css">
+    <link rel="stylesheet" href="../ability-crafting/components.css">
+    <link rel="stylesheet" href="spellbook.css">
+</head>
+<body class="disable-selection">
+    <div id="spellbook">
+        <div id="header">
+            <button id="btn-abilities"></button>
+            <button id="btn-components"></button>
+            <!--
+            <button id="btn-search"></button>
+            -->
+            <div id="proficiency"></div>
+            <button id="btn-help"></button>
+            <button id="btn-close"></button>
+        </div>
+        <div id="pages"></div>
+    </div>
+    <!--
+    <div id="search-modal">
+        <input type="text" id="search" />
+    </div>
+    -->
+    <div id="ability-pages-modal"></div>
+    <div id="component-pages-modal"></div>
+    <div id="error-modal">
+        <div id="error-modal-message"></div>
+        <button id="btn-close-error-modal">Close</button>
+    </div>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../vendor/turn.js"></script>
+    <script src="../vendor/lodash.js"></script>
+    <script src="../cu/cu.js"></script>
+    <script src="../ability-crafting/componentConstants.js"></script>
+    <script src="../ability-crafting/componentNetwork.js"></script>
+    <script src="../ability-crafting/componentBranch.js"></script>
+    <script src="../ability-crafting/componentSlot.js"></script>
+    <script src="../ability-crafting/component.js"></script>
+    <script src="../ability-crafting/networks/physicalNetwork.js"></script>
+    <script src="../ability-crafting/networks/magicNetwork.js"></script>
+    <script src="../ability-crafting/networks/comboANetwork.js"></script>
+    <script src="../ability-crafting/networks/comboBNetwork.js"></script>
+    <script src="../ability-crafting/networks/rangeANetwork.js"></script>
+    <script src="../ability-crafting/networks/rangeBNetwork.js"></script>
+    <script src="../ability-crafting/networks/shoutNetwork.js"></script>
+    <script src="../ability-crafting/networks/songNetwork.js"></script>
+    <script src="spellbook.js"></script>
+</body>

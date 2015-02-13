@@ -1,0 +1,292 @@
+.fifty-percent-zoom {
+  zoom: 50%;
+  -moz-transform: scale(0.5);
+}
+
+.seventy-five-percent-zoom {
+  zoom: 75%;
+  -moz-transform: scale(0.5);
+}
+
+.component-network {
+  position: relative;
+  float: left;
+  margin: 16px;
+}
+
+.component-branch {
+  z-index: 10;
+}
+
+.component-branch * {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+}
+
+.component-branch.disabled * {
+  -webkit-filter: grayscale(100%) brightness(50%);
+  -moz-filter: grayscale(100%) brightness(50%);
+  filter: grayscale(100%) brightness(50%);
+}
+
+.component-branch.open * {
+  -webkit-filter: grayscale(100%) brightness(75%);
+  -moz-filter: grayscale(100%) brightness(75%);
+  filter: grayscale(100%) brightness(75%);
+}
+
+.component-branch.slotted * {
+  -webkit-filter: brightness(100%);
+  -moz-filter: brightness(100%);
+  filter: brightness(100%);
+}
+
+.component-branch .horizontal {
+  content: url(../images/ability-crafting/branches/horizontal.png);
+}
+
+.component-branch .vertical {
+  content: url(../images/ability-crafting/branches/vertical.png);
+}
+
+.component-branch .bottom-corner-left {
+  content: url(../images/ability-crafting/branches/bottom-corner-left.png);
+}
+
+.component-branch .bottom-corner-right {
+  content: url(../images/ability-crafting/branches/bottom-corner-right.png);
+}
+
+.component-branch .top-corner-left {
+  content: url(../images/ability-crafting/branches/top-corner-left.png);
+}
+
+.component-branch .top-corner-right {
+  content: url(../images/ability-crafting/branches/top-corner-right.png);
+}
+
+.component-branch .diagonal-left {
+  content: url(../images/ability-crafting/branches/diagonal-left.png);
+}
+
+.component-branch .diagonal-right {
+  content: url(../images/ability-crafting/branches/diagonal-right.png);
+
+}
+
+.component-slot {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-image: url(../images/ability-crafting/shapes.png);
+  z-index: 30;
+  cursor: pointer;
+}
+
+.component-slot.disabled {
+  cursor: default;
+}
+
+.component-slot.primary {
+  background-position: -2px -728px;
+}
+
+.component-slot.primary:not(.empty):not(.disabled):not(.selected):hover {
+  background-position: -2px -662px;
+}
+
+.component-slot.primary.empty {
+  background-position: -2px -794px;
+}
+
+.component-slot.primary.disabled {
+  background-position: -2px -860px;
+}
+
+.component-slot.primary:not(.empty):not(.disabled):active,
+.component-slot.primary.selected {
+  background-position: -2px -926px !important;
+}
+
+.component-slot.secondary {
+  background-position: -2px -1058px;
+}
+
+.component-slot.secondary:not(.empty):not(.disabled):not(.selected):hover {
+  background-position: -2px -992px;
+}
+
+.component-slot.secondary.empty {
+  background-position: -2px -1124px;
+}
+
+.component-slot.secondary.disabled {
+  background-position: -2px -1190px;
+}
+
+.component-slot.secondary:not(.empty):not(.disabled):active,
+.component-slot.secondary.selected {
+  background-position: -2px -1256px !important;
+}
+
+.component-slot.optional-modifier {
+  background-position: -2px -398px;
+}
+
+.component-slot.optional-modifier:not(.empty):not(.disabled):not(.selected):hover {
+  background-position: -2px -332px;
+}
+
+.component-slot.optional-modifier.empty {
+  background-position: -2px -464px;
+}
+
+.component-slot.optional-modifier.disabled {
+  background-position: -2px -530px;
+}
+
+.component-slot.optional-modifier:not(.empty):not(.disabled):active,
+.component-slot.optional-modifier.selected {
+  background-position: -2px -596px !important;
+}
+
+.component-slot.special-modal {
+  background-position: -2px -1388px;
+}
+
+.component-slot.special-modal:not(.empty):not(.disabled):not(.selected):hover {
+  background-position: -2px -1322px;
+}
+
+.component-slot.special-modal.empty {
+  background-position: -2px -1454px;
+}
+
+.component-slot.special-modal.disabled {
+  background-position: -2px -1520px;
+}
+
+.component-slot.special-modal:not(.empty):not(.disabled):active,
+.component-slot.special-modal.selected {
+  background-position: -2px -1586px !important;
+}
+
+.component-slot.independant-modal {
+  background-position: -2px -68px;
+}
+
+.component-slot.independant-modal:not(.empty):not(.disabled):not(.selected):hover {
+  background-position: -2px -2px;
+}
+
+.component-slot.independant-modal.empty {
+  background-position: -2px -134px;
+}
+
+.component-slot.independant-modal.disabled {
+  background-position: -2px -200px
+}
+
+.component-slot.independant-modal:not(.empty):not(.disabled):active,
+.component-slot.independant-modal.selected {
+  background-position: -2px -266px !important;
+}
+
+.component-slot.empty:hover {
+  -webkit-filter: brightness(120%);
+  -moz-filter: brightness(120%);
+  filter: brightness(120%);
+}
+
+.component-slot.empty:active {
+  -webkit-filter: brightness(140%);
+  -moz-filter: brightness(140%);
+  filter: brightness(140%);
+}
+
+.component {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  z-index: 20;
+  -webkit-filter: grayscale(100%) brightness(0.8);
+  -moz-filter: grayscale(100%) brightness(0.8);
+  filter: grayscale(100%) brightness(0.8);
+}
+
+.component.trained {
+  -webkit-filter: none;
+  -moz-filter: none;
+  filter: none;
+}
+
+/* Tooltips */
+
+#tooltip {
+  display: none;
+  position: absolute;
+  width: 400px;
+  margin: 0;
+  padding: 0;
+  z-index: 999;
+  background: -moz-linear-gradient(left,  rgba(17,17,17,0.95) 0, rgba(34,34,34,0.85) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, right top, color-stop(0,rgba(17,17,17,0.95)), color-stop(100%,rgba(34,34,34,0.85))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(left,  rgba(17,17,17,0.95) 0,rgba(34,34,34,0.85) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(left,  rgba(17,17,17,0.95) 0,rgba(34,34,34,0.85) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(left,  rgba(17,17,17,0.95) 0,rgba(34,34,34,0.85) 100%); /* IE10+ */
+  background: linear-gradient(to right,  rgba(17,17,17,0.95) 0,rgba(34,34,34,0.85) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2111111', endColorstr='#d9222222',GradientType=1 ); /* IE6-9 */
+}
+
+.tooltip-title {
+  margin: 0;
+  padding: 5px;
+  color: #999;
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  text-align: center;
+  background-color: #000;
+}
+
+.tooltip-content {
+  margin: 0;
+  padding: 10px;
+  color: #fff;
+  font-family: 'Merriweather Sans', sans-serif;
+  font-size: 12px;
+}
+
+.component-tooltip-description {
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+
+.component-tooltip-stats {
+  list-style-type: none;
+  margin: 0;
+  padding: 5px;
+  border: 1px #333 solid;
+  color: #8F775B;
+  background-color: #0f0f0f;
+}
+
+.component-tooltip-requirements {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.component-tooltip-stats li,
+.component-tooltip-requirements li {
+  display: inline-block;
+  width: 50%;
+}
+
+.component-tooltip-requirements-label {
+  color: #999;
+}

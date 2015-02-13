@@ -1,0 +1,254 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#builder {
+    width: 460px;
+}
+
+#builder.error {
+    -webkit-filter: blur(2px) grayscale(.8) brightness(.5);
+    filter: blur(2px) grayscale(.8) brightness(.5);
+}
+
+/* Ability Name, Notes, & Icon */
+
+#ability-name-container,
+#ability-notes-container {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+}
+
+#ability-name-label,
+#ability-notes-label {
+    letter-spacing: .5px;
+    margin-right: 10px;
+    text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    color: rgb(166, 166, 166);
+}
+
+#ability-name-label {
+    font-size: 12px;
+}
+
+#ability-name.error {
+    border: 1px solid rgb(195, 135, 84);
+}
+
+#ability-notes-label {
+    font-size: 11px;
+    margin-right: 13px;
+}
+
+#ability-name,
+#ability-notes {
+    width: 275px;
+}
+
+#btn-select-icon {
+    position: relative;
+    top: 9px;
+    left: 5px;
+    margin: 0;
+    padding: 0;
+    width: 26px;
+    height: 30px;
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-filter: brightness(0.6);
+    filter: brightness(0.6);
+}
+
+#btn-select-icon:hover {
+    -webkit-filter: brightness(0.8);
+    filter: brightness(0.8);
+}
+
+#btn-select-icon:active {
+    -webkit-filter: brightness(1.0);
+    filter: brightness(1.0);
+}
+
+#btn-select-icon.error {
+    -webkit-filter: hue-rotate(345deg);
+    filter: hue-rotate(345deg);
+}
+
+#btn-select-icon:after {
+    content: url('../images/ability-builder/select-icon.png')
+}
+
+#select-icon-modal {
+    display: none;
+    position: absolute;
+    top: 37px;
+    left: 456px;
+    width: 358px;
+    height: 493px;
+    margin: 0;
+    padding: 20px 6px 20px 20px;
+    color: #fff;
+    background-color: #151515;
+    -webkit-box-shadow: inset 0 -10px 228px 13px rgba(0,0,0,0.77);
+    -moz-box-shadow: inset 0 -10px 228px 13px rgba(0,0,0,0.77);
+    box-shadow: inset 0 -10px 228px 13px rgba(0,0,0,0.77);
+    z-index: 999;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#select-icon-modal::-webkit-scrollbar {
+    width: 10px;
+}
+
+#select-icon-modal::-webkit-scrollbar-track {
+    background-color: rgba(68, 68, 68, 0.45);
+}
+
+#select-icon-modal::-webkit-scrollbar-thumb {
+    background-color: rgba(138, 138, 138, 0.47);
+}
+
+.ability-icon {
+    display: inline-block;
+    width: 45px;
+    height: 52px;
+    margin-right: 13px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    -webkit-filter: brightness(0.6);
+    filter: brightness(0.6);
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.ability-icon:hover {
+    -webkit-filter: brightness(0.8);
+    filter: brightness(0.8);
+}
+
+.ability-icon:active {
+    -webkit-filter: brightness(1.0);
+    filter: brightness(1.0);
+}
+
+.ability-icon:after {
+    content: url('../images/ability-crafting/ability-icon.png')
+}
+
+/* Stats */
+
+#stats {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px 20px;
+    height: 88px;
+}
+
+#stats li {
+    display: inline-block;
+    width: 50%;
+    color: #8F775B;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/* Component Networks */
+
+#network {
+    position: relative;
+    width: 432px;
+    height: 330px;
+    overflow: hidden;
+    border: solid 1px rgb(39, 39, 39);
+    background: rgb(29, 29, 29);
+    box-shadow: inset 0 0 100px 5px rgba(0, 0, 0, 0.75);
+}
+
+#network.error {
+    border: 1px solid rgb(195, 135, 84);
+}
+
+#network.loading {
+    -webkit-filter: brightness(0.8) blur(1px);
+    filter: brightness(0.8) blur(1px);
+}
+
+.component-network {
+    position: absolute;
+    left: 70px;
+    top: 0;
+}
+
+/* Component Selection */
+
+#component-selection-modal {
+    display: none;
+    position: absolute;
+    width: 528px;
+    height: 256px;
+    color: #fff;
+    background-color: #000;
+    z-index: 999;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+/* Build Button */
+
+#btn-build.waiting {
+    cursor: progress;
+}
+
+/* Error Message */
+
+#error-modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: .8;
+    margin: 80px 0 0 30px;
+    padding: 50px;
+    width: 300px;
+    height: 150px;
+    z-index: 99999;
+    color: rgb(237, 237, 237);
+    border: solid 1px #737373;
+    background: rgb(53, 53, 53);
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Merriweather Sans', sans-serif;
+    box-shadow: inset 0 -50px 240px 5px rgba(0, 0, 0, 0.75);
+    overflow: hidden;
+}
+
+#error-modal-errors {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Loading */
+
+#loading {
+    display: none;
+    position: absolute;
+    top: 240px;
+    left: 14px;
+    width: 433px;
+    height: 330px;
+    line-height: 330px;
+}

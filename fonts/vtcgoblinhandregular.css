@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'vtcgoblinhandregular';
+  src: url('vtcgoblinhandregular.eot');
+  src: url('vtcgoblinhandregular.eot?#iefix') format('embedded-opentype'),
+       url('vtcgoblinhandregular.woff2') format('woff2'),
+       url('vtcgoblinhandregular.woff') format('woff'),
+       url('vtcgoblinhandregular.ttf') format('truetype'),
+       url('vtcgoblinhandregular.svg#vtcgoblinhandregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

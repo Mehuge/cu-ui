@@ -5,55 +5,142 @@
 /// <reference path="../vendor/jquery.d.ts" />
 /// <reference path="../cu/cu.ts" />
 
+// Includes both legacy abilities and crafted abilities
+
 module Skillbar {
-    var $skillButtons = cu.FindElement('#skillButtons');
+    /* Constants */
 
     var BUTTON_WIDTH = 50;
     var BUTTON_LEFT_OFFSET = 5;
 
-    var abilityNumbers: string[] = [];
+    /* jQuery Elements */
 
-    // Function for sorting abilities by server order.
+    var $skillButtons = cu.FindElement('#skillButtons');
+
+    /* Variables */
+
+    var abilityNumbers: string[] = [];
+    var abilities = [];
+    var tooltip = null;
+
+    /* Functions */
+
     function sortByServerOrder(a, b) {
         if (!abilityNumbers || !abilityNumbers.length) return 0;
         var aLoc = abilityNumbers.indexOf(a.id);
         var bLoc = abilityNumbers.indexOf(b.id);
+        if (aLoc === -1 && bLoc === -1) {
+            aLoc = a.id;
+            bLoc = b.id;
+        } else if (aLoc === -1) {
+            aLoc = Number.MAX_VALUE;
+        } else if (bLoc === -1) {
+            bLoc = Number.MAX_VALUE;
+        }
         return aLoc - bLoc;
     }
 
-    function updateSkillbar(numbers) {
-        abilityNumbers = numbers;
+    function getCraftedAbilities(loginToken, characterID) {
+        if (!loginToken || !characterID) return Promise.reject();
 
-        cu.RequestAllAbilities(abilities => {
-            abilities = abilities.filter(ability => {
-                return abilityNumbers.indexOf(ability.id) !== -1;
-            });
-
-            abilities.sort(sortByServerOrder);
-
-            $skillButtons.empty().css('width', abilities.length * BUTTON_WIDTH + BUTTON_LEFT_OFFSET);
-
-            abilities.forEach((ability, i) => {
-                var button = ability.MakeButton(i);
-
-                var elem = button.rootElement.css({ left: (i * BUTTON_WIDTH + BUTTON_LEFT_OFFSET) + 'px', top: '0' });
-
-                if (ability.name) elem.attr('data-tooltip-title', ability.name);
-
-                if (ability.tooltip) elem.attr('data-tooltip-content', ability.tooltip);
-
-                $skillButtons.append(elem);
-            });
-
-            new Tooltip($skillButtons.children(), { leftOffset: 0, topOffset: -30 });
+        return new Promise((resolve, reject) => {
+            $.getJSON(cu.SecureApiUrl('api/craftedabilities'), {
+                loginToken: loginToken,
+                characterID: characterID
+            }).then(resolve, reject);
         });
     }
 
-    cu.SetDebugServer();
+    function addAbility(ability, i) {
+        var a = new Ability(cu);
+
+        a.id = ability.id;
+        a.name = ability.name;
+        a.icon = ability.icon;
+        a.tooltip = ability.tooltip || ability.notes;
+
+        var button = a.MakeButton(i);
+
+        var elem = button.rootElement.css({ left: (i * BUTTON_WIDTH + BUTTON_LEFT_OFFSET) + 'px', top: '0' });
+
+        if (a.name) elem.attr('data-tooltip-title', a.name);
+
+        if (a.tooltip) elem.attr('data-tooltip-content', a.tooltip);
+
+        $skillButtons.append(elem);
+    }
+
+    function updateSkillbarWidth(totalAbilities) {
+        $skillButtons.css('width', totalAbilities * BUTTON_WIDTH + BUTTON_LEFT_OFFSET);
+    }
+
+    function updateTooltip() {
+        if (tooltip) tooltip.destroy();
+
+        tooltip = new Tooltip($skillButtons.children(), { leftOffset: 0, topOffset: -30 });
+    }
+
+    function updateSkillbar() {
+        $skillButtons.empty();
+
+        updateSkillbarWidth(abilities.length);
+
+        abilities.sort(sortByServerOrder);
+
+        abilities.forEach(addAbility);
+
+        updateTooltip();
+    }
+
+    function getTotalAbilities() {
+        return $skillButtons.children().length;
+    }
+
+    function onAbilityCreated(id, a) {
+        var ability = JSON.parse(a);
+
+        abilities.push(ability);
+
+        var totalAbilities = getTotalAbilities();
+
+        updateSkillbarWidth(totalAbilities + 1);
+
+        addAbility(ability, totalAbilities);
+
+        updateTooltip();
+    }
+
+    function onCharacterIDChanged(characterID) {
+        getCraftedAbilities(cuAPI.loginToken, characterID).then(ca => {
+            abilities = abilities.concat(ca);
+
+            updateSkillbar();
+        }, () => {
+            console.log('Failed to get crafted abilities.');
+        });
+    }
+
+    function onAbilityNumbersChanged(numbers) {
+        abilityNumbers = numbers;
+
+        cu.RequestAllAbilities(a => {
+            abilities = abilities.concat(a.filter(ability => {
+                return abilityNumbers.indexOf(ability.id) !== -1;
+            }));
+
+            updateSkillbar();
+        });
+    }
+
+    /* Initialization */
 
     if (cu.HasAPI()) {
         cu.OnInitialized(() => {
-            cuAPI.OnAbilityNumbersChanged(updateSkillbar);
+            cuAPI.OnCharacterIDChanged(onCharacterIDChanged);
+
+            cuAPI.OnAbilityNumbersChanged(onAbilityNumbersChanged);
+
+            cuAPI.OnAbilityCreated(onAbilityCreated);
         });
     }
 }
