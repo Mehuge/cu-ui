@@ -48,22 +48,20 @@
 	<div id="loc-display"></div>
 	
     <script src="../vendor/jquery-2.1.1.js"></script>
-    <script src="../cu/lodash.js"></script>
-    <script src="../cu/cu.js"></script>
 	
 	<script type="text/javascript">
-		$(document).ready(function(){
-			var scrollTo = 0,
+        $(document).ready(function () {
+            var scrollTo = 0,
 				oldX = 0.0,
 				oldY = 0.0,
 				heading = 0.0,
 				showLoc = 1;
-			
-			if (cu.HasAPI()) {
-				
-				var ticker = setInterval(function(){
-					
-					/*
+
+            if (typeof cuAPI !== "undefined") {
+
+                var ticker = setInterval(function () {
+
+                    /*
 						We don't know the character's rotation value / facing - this would be easiest
 					
 						We do know the character's position (for now), we can use this to calculate the direction of travel / heading
@@ -71,46 +69,46 @@
 						A heading of 0.0 will represent true north, which will align to the compass image at 32px.
 						
 					*/
-					
-					var tX = cuAPI.locationX;
-					var tY = cuAPI.locationY;
-					var tZ = cuAPI.locationZ;
-					
-					var x = tX - oldX;
-					var y = tY - oldY;
-					
-					oldX = tX;
-					oldY = tY;
-					
-					if(x !== 0.0){
-						heading = 90.0 - (Math.atan(y / x) * (180 / 3.14));
-					}
-					else{
-						if(y < 0.0){ heading = 180.0; }
-						if(y > 0.0){ heading = 0.0; }
-					}
-					if(x < 0.0){ heading = 180.0 + heading; }
-					
-					scrollTo = 32.0 - ((heading / 360.0) * 512.0)
-					
-					$('#main').css('background-position', scrollTo + "px 0px");
-					
-					if(showLoc == 1){
-						$('#loc-display').html(tX.toFixed(2) + "," + tY.toFixed(2) + "," + tZ.toFixed(2));
-					}
-					else{
-						$('#loc-display').html('');
-					}
-					
-				}, 100);
-				
-				$('body').click(function(){
-					showLoc = 1 - showLoc;
-				});
-				
-			}
-			
-		});
+
+                    var tX = cuAPI.locationX;
+                    var tY = cuAPI.locationY;
+                    var tZ = cuAPI.locationZ;
+
+                    var x = tX - oldX;
+                    var y = tY - oldY;
+
+                    oldX = tX;
+                    oldY = tY;
+
+                    if (x !== 0.0) {
+                        heading = 90.0 - (Math.atan(y / x) * (180 / 3.14));
+                    }
+                    else {
+                        if (y < 0.0) { heading = 180.0; }
+                        if (y > 0.0) { heading = 0.0; }
+                    }
+                    if (x < 0.0) { heading = 180.0 + heading; }
+
+                    scrollTo = 32.0 - ((heading / 360.0) * 256.0)
+
+                    $('#main').css('background-position', scrollTo + "px 0px");
+
+                    if (showLoc == 1) {
+                        $('#loc-display').html(tX.toFixed(2) + "," + tY.toFixed(2) + "," + tZ.toFixed(2));
+                    }
+                    else {
+                        $('#loc-display').html('');
+                    }
+
+                }, 100);
+
+                $('body').click(function () {
+                    showLoc = 1 - showLoc;
+                });
+
+            }
+
+        });
 	</script>
 </body>
 </html>
