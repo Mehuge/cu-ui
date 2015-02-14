@@ -10,12 +10,16 @@
     var XMPP_SASL: string = 'urn:ietf:params:xml:ns:xmpp-sasl';
     var XMPP_BIND: string = 'urn:ietf:params:xml:ns:xmpp-bind';
     var id: number = 0;
+    var rooms: any = {}, currentRoom: any;
+    var listeners = [];
+    var streams = 0;
 
     function nextId() {
         return (++id).toString(16);
     }
 
-    function xmppStream(o:any, hasOpenXmlTag:boolean = false) {
+    function xmppStream(o: any, hasOpenXmlTag: boolean = false) {
+        streams++;
         o = o || {};
         o.xmlns = o.xmlns || 'jabber:client';
         o['xmlns:stream'] = o['xmlns:stream'] || 'http://etherx.jabber.org/streams';
@@ -28,9 +32,16 @@
                         xml.push(' ', key, "='", o[key], "'");
                     }
                 }
-                var str : string = (hasOpenXmlTag ? "<?xml version='1.0'?>" : '') + '<stream:stream' + xml.join('') + '>';
-                console.log(str);
-                return str;
+                return (hasOpenXmlTag ? "<?xml version='1.0'?>" : '') + '<stream:stream' + xml.join('') + '>';
+            }
+        };
+    }
+
+    function xmppCloseStream() {
+        streams--;
+        return {
+            toString: () => {
+                return '</stream:stream>';
             }
         };
     }
@@ -88,8 +99,6 @@
     }
 
     function authenticate_(features: HTMLElement, msg) {
-        console.log('authenticate ', features);
-
         var nodes = features.getElementsByTagName('mechanism'),
             mechanisms = {};
 
@@ -114,7 +123,6 @@
     }
 
     function failure_(failure: HTMLElement) {
-        console.log('failure response', failure);
         switch (failure.getAttribute('xmlns')) {
             case XMPP_SASL:
                 authenticated = false;
@@ -122,7 +130,6 @@
         }
     }
     function success_(success: HTMLElement) {
-        console.log('failure response', success);
         switch (success.getAttribute('xmlns')) {
             case XMPP_SASL:
                 authenticated = true;
@@ -132,23 +139,37 @@
     }
 
     function join_(room: string) {
-        send_($pres({ to: room + '/' + user }).c('x', { xmlns: 'http://jabber.org/protocol/muc' }));
+        send_($pres({ to: room + "@" + CHAT_SERVICE + '/' + user }).c('x', { xmlns: 'http://jabber.org/protocol/muc' }));
+        currentRoom = rooms[room] = {
+            room: room + "@" + CHAT_SERVICE,
+            presense: null
+        };
     }
 
-    function connect_(ready: (e:any) => void) {
+    function fire(e:any) {
+        for (var i = 0; i < listeners.length; i++) {
+            if (listeners[i]) {
+                listeners[i](e);
+            }
+        }
+    }
+
+    function connect_() {
         socket = new WebSocket('ws://' + WEB_API_HOST + ':' + WEB_API_PORT + '/api/chat', 'xmpp');
         socket.onopen = (e) => {
-            debugger;
             send_(xmppStream({ to: CHAT_DOMAIN }, true));
         }
         socket.onmessage = (e) => {
             var domParser = new DOMParser(), doc: Document = domParser.parseFromString(e.data, 'text/xml');
-            console.log(doc.documentElement);
             switch (doc.documentElement.nodeName) {
                 case 'stream:features':
                     connected = true;
                     if (!authenticated) {
-                        authenticate_(doc.documentElement, { loginToken: token });
+                        if (typeof token === "string") {
+                            authenticate_(doc.documentElement, { loginToken: token });
+                        } else {
+                            authenticate_(doc.documentElement, token);
+                        }
                     } else {
                         bind_(doc.documentElement);
                     }
@@ -170,16 +191,40 @@
                                 var a = jid.split(/[@\/]/);
                                 user = a[0];
                                 ident = a[2];
-                                join_("xmppuicomms");
+                                fire({ type: "connected" });
                             }
                         }
                     }
                     break;
                 case 'presence':
-                    debugger;
+                    var presense = doc.documentElement,
+                        from = presense.attributes["from"].value,
+                        x = presense.childNodes[0],
+                        o : any = { };
+                    for (var i = 0; i < x.childNodes.length; i++) {
+                        var node = x.childNodes[i];
+                        switch (node.nodeName) {
+                            case "item":
+                                o.affiliation = node.attributes["affiliation"].value;
+                                o.role = node.attributes["role"].value;
+                                break;
+                        }
+                    }
+                    if (!currentRoom.presense) {
+                        currentRoom.presense = {};
+                        fire({ type: "joined", from: from }); 
+                    }
+                    currentRoom.presense[from] = o;
                     break;
                 case 'message':
-                    debugger;
+                    var message = doc.documentElement,
+                        type = message.attributes["type"].value,
+                        id = message.attributes["id"].value,
+                        from = message.attributes["from"].value,
+                        body = message.childNodes[0].textContent;
+                    if (type === "groupchat") {
+                        fire({ type: "groupchat", id: id, from: from, body: body });
+                    }
                     break;
                 default:
                     break;
@@ -195,27 +240,25 @@
         }
     }
 
-    function connect(ready: () => void) {
+    function connect() {
         if (!socket) {
-            connect_((e: any) => {
-                if (e.type === "ready") {
-                    ready();
-                }
-            });
-        } else {
-            ready();
+            connect_();
         }
     }
 
-    export function listen(id: string, response: (response: any) => void) {
-        connect(() => {
-            debugger;
-        });
+    export function disconnect() {
+        while (streams--) send_(xmppCloseStream());
+        socket = null;
     }
-    export function sendMessage(uikey: string, message: any, response: (response: any) => void) {
-        connect(() => {
-            debugger;
-            send_($msg(message));
-        });
+
+    export function listen(response: (response: any) => void) {
+        listeners.push(response);
+        connect();
+    }
+    export function sendMessage(message: any) {
+        send_($msg({ to: currentRoom.room, from: jid, type: "groupchat", id: nextId() }).c('body').t(message));
+    }
+    export function join(room: string) {
+        join_(room);
     }
 } 

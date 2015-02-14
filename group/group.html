@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="../vendor/strophe.js"></script>
+    <script src="../mehuge/xmpp.js"></script>
+    <script src="../mehuge/mehuge.js"></script>
+    <style type="text/css">
+        body { 
+            color: white; 
+            margin: 0; border: 0;
+            overflow: hidden;
+        }
+        #group { 
+            width: 100%; 
+        }
+        .player { 
+            margin-bottom: 0.5em; 
+        }
+        .player .name { 
+            text-align: left; 
+            font-size: 10pt; 
+        }
+        .player .health {
+            position: relative;
+            width: 100%;
+            height: 20px;
+        }
+        .player .health .text {
+            text-align: left;
+            line-height: 20px;
+            font-size: 11px;
+            margin-left: 1em;
+        }
+        .player .health .bar { 
+            position: absolute; 
+            top: 0;
+            left: 0;
+            height: 20px; 
+            width: 100%;
+            background-color: rgba(76, 255, 0, 0.1);
+            background-image: url(health.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div id="group">
+
+    </div>
+    <script>
+        (function () {
+            var connected;
+            var players = {};
+            var group = document.getElementById("group");
+
+            function paint() {
+                group.innerHTML = '';
+                for (var name in players) {
+                    var player = players[name];
+                    var unit = document.createElement('div');
+                    unit.className = 'player';
+                    var el = document.createElement('div');
+                    el.className = 'name';
+                    el.innerText = name;
+                    unit.appendChild(el);
+                    el = document.createElement('div');
+                    el.className = 'health';
+                    var txt = document.createElement('div');
+                    txt.className = 'text';
+                    if (player.health > -1) {
+                        txt.innerText = player.health + ' / ' + player.max;
+                    } else {
+                        txt.innerText = player.health ? 'respawning' : '...';
+                    }
+                    el.appendChild(txt);
+                    var bar = document.createElement('div');
+                    bar.className = 'bar';
+                    if (player.health > -1) {
+                        bar.style.backgroundSize = ((player.health / player.max) * 100) + '% 100%';
+                    } else {
+                        bar.style.backgroundSize = '0px';
+                    }
+                    el.appendChild(bar);
+                    unit.appendChild(el);
+                    group.appendChild(unit);
+                }
+            }
+
+            var state = { version: 2 };
+
+            if (typeof cuAPI !== "undefined") {
+                state.x = cuAPI.locationX.toFixed(2);
+                state.y = cuAPI.locationY.toFixed(2);
+                state.z = cuAPI.locationZ.toFixed(2);
+            };
+
+            var token;
+            if (typeof cuAPI === "undefined") {
+                document.body.backgroundColor = 'black';
+                token = { username: window.prompt('Username'), password: window.prompt('Password') };
+            } else {
+                token = cuAPI.loginToken;
+            }
+
+            Mehuge.connect(token, "uicomms", function () {
+                // connected
+                connected = true;
+                if (typeof cuAPI !== "undefined") {
+                    setInterval(function () {
+                        if (connected && state.character) {
+                            state.type = "loc";
+                            state.x = cuAPI.locationX.toFixed(2);
+                            state.y = cuAPI.locationY.toFixed(2);
+                            state.z = cuAPI.locationZ.toFixed(2);
+                            Mehuge.send(state);
+                        }
+                    }, 10000);
+                }
+            });
+            Mehuge.listen(function (msg) {
+                if (msg.character === "") return;
+                var player = players[msg.character] || {};
+                if ((msg.version | 0) === 2) {
+                    // version 2 sends all data with each message regardless of type
+                    player.health = msg.health;
+                    player.max = msg.max;
+                    player.loc = { x: msg.x, y: msg.y, z: msg.z };
+                } else {
+                    switch (msg.type) {
+                        case "health":
+                            player.health = msg.health;
+                            player.max = msg.max;
+                            break;
+                        case "loc":
+                            player.loc = { x: msg.x, y: msg.y, z: msg.z };
+                            break;
+                    }
+                }
+                player.updated = Date.now();
+                players[msg.character] = player;
+                paint();
+            });
+            window.onunload = function () {
+                Mehuge.disconnect();
+            }
+            if (typeof cuAPI != "undefined") {
+                cuAPI.OnCharacterNameChanged(function (name) {
+                    if (name !== "") {
+                        state.character = name;
+                        if (connected && state.character) {
+                            state.type = "health";
+                            Mehuge.send(state);
+                        }
+                    }
+                });
+                cuAPI.OnCharacterHealthChanged(function (health, maxHealth) {
+                    state.health = health;
+                    state.max = maxHealth;
+                    if (connected && state.character) {
+                        state.type = "health";
+                        Mehuge.send(state);
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
