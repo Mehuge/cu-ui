@@ -70,6 +70,7 @@
     <Content Include="character\character.css" />
     <TypeScriptCompile Include="announcement\announcement.ts" />
     <TypeScriptCompile Include="announcer\announcer.ts" />
+    <TypeScriptCompile Include="group\group.ts" />
     <TypeScriptCompile Include="mehuge\mehuge.ts" />
     <TypeScriptCompile Include="autoexec\autoexec.ts" />
     <TypeScriptCompile Include="building\building.ts" />

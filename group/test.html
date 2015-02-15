@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        input { border: 0; }
+    </style>
+</head>
+<body>
+    <div>Coord 1: <input id="x1" size="4" value="0">,<input id="y1" size="4" value="0"></div>
+    <div>Coord 2: <input id="x2" size="4" value="100">,<input id="y2" size="4" value="100"></div>
+    <div>Distance: <span id="dist"></span></div>
+    <div>Slope: <span id="slope"></span></div>
+    <div>Angle: <span id="angle"></span></div>
+    <script>
+        var x1 = document.getElementById("x1");
+        var y1 = document.getElementById("y1");
+        var x2 = document.getElementById("x2");
+        var y2 = document.getElementById("y2");
+        var dist = document.getElementById("dist");
+        var slope = document.getElementById("slope");
+        var angle = document.getElementById("angle");
+        function calc() {
+            var X1 = x1.value | 0;
+            var Y1 = y1.value | 0;
+            var X2 = x2.value | 0;
+            var Y2 = y2.value | 0;
+
+            // Calculate distance
+            var DX = Math.abs(X2 - X1);
+            var DY = Math.abs(Y2 - Y1);
+            dist.textContent = Math.sqrt((DX * DX) + (DY * DY)).toFixed(2);
+
+            // Calculate slope
+            var SL = (Y1 - Y2) / (X1 - X2);
+            slope.textContent = SL;
+
+            // Calculate the angle
+            var PI = 3.1415926535;
+            var A = Math.atan2(X2 - X1, Y2 - Y1);
+            if (A < 0) A += (2 * PI);
+            angle.textContent = (A * 180 / PI).toFixed(0);
+        }
+        x1.addEventListener("change", calc);
+        y1.addEventListener("change", calc);
+        x2.addEventListener("change", calc);
+        y2.addEventListener("change", calc);
+        calc();
+
+
+    </script>
+
+</body>
+</html>
