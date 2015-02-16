@@ -114,7 +114,7 @@
                 drawRadar = function (ctx) {
                     for (var name in radar) {
                         var player = radar[name];
-                        ctx.fillStyle = ["red", "green", "blue"][player.f - 1];
+                        ctx.fillStyle = ["rgb(0,192,0)", "rgb(0,128,255)", "rgb(255,0,0)"][player.f - 1];
                         ctx.fillRect(transformX(player.x)-1, transformY(player.y)-1, 2, 2);
                     }
                 }
