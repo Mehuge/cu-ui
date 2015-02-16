@@ -139,10 +139,11 @@
     }
 
     function join_(room: string) {
+        room = room.toLowerCase();
         send_($pres({ to: room + "@" + CHAT_SERVICE + '/' + user }).c('x', { xmlns: 'http://jabber.org/protocol/muc' }));
         currentRoom = rooms[room] = {
             room: room + "@" + CHAT_SERVICE,
-            presense: null
+            presence: null
         };
     }
 
@@ -197,10 +198,11 @@
                     }
                     break;
                 case 'presence':
-                    var presense = doc.documentElement,
-                        from = presense.attributes["from"].value,
-                        x = presense.childNodes[0],
-                        o : any = { };
+                    var presence = doc.documentElement,
+                        from = presence.attributes["from"].value,
+                        x = presence.childNodes[0],
+                        o: any = {},
+                        status: string;
                     for (var i = 0; i < x.childNodes.length; i++) {
                         var node = x.childNodes[i];
                         switch (node.nodeName) {
@@ -208,13 +210,20 @@
                                 o.affiliation = node.attributes["affiliation"].value;
                                 o.role = node.attributes["role"].value;
                                 break;
+                            case "status":
+                                status = node.attributes["code"].value;
+                                break;
                         }
                     }
-                    if (!currentRoom.presense) {
-                        currentRoom.presense = {};
-                        fire({ type: "joined", from: from }); 
+                    if (status === "210") {                 // this a status message?
+                        var name = from.split("@")[0];
+                        var room = rooms[name];
+                        if (!room.presence) {
+                            room.presence = {};
+                        }
+                        room.presence[from] = o;            // full presence name
+                        fire({ type: "joined", from: from, room: name });
                     }
-                    currentRoom.presense[from] = o;
                     break;
                 case 'message':
                     var message = doc.documentElement,

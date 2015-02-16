@@ -1,15 +1,21 @@
 ﻿/// <reference path="xmpp.ts" />
 module Mehuge {
     var listeners = [];
-    export function connect(loginToken: string, channel: string, ready: () => void) {
+    export function connect(loginToken: string, channel: any, ready: () => void) {
+        var joined: number = 0;
         Xmpp.login(loginToken);
         Xmpp.listen(function (e) {
             switch (e.type) {
                 case "connected":
-                    Xmpp.join("$_" + channel);
+                    if (typeof channel === "string") channel = [channel];
+                    for (var i = 0; i < channel.length; i++) {
+                        Xmpp.join("$_" + channel[i]);
+                    }
                     break;
                 case "joined":
-                    ready();
+                    if (++joined === channel.length) {
+                        ready();
+                    }
                     break;
                 case "groupchat":
                     try {
