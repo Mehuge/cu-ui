@@ -15,8 +15,10 @@ module Mehuge {
                     try {
                         var o = JSON.parse(e.body);
                     } catch (e) {
+                        o = { message: e.body };
                         break;
                     }
+                    o.account = e.from.split("/")[1];
                     for (var i = 0; i < listeners.length; i++) {
                         if (listeners[i]) {
                             listeners[i](o);

@@ -33,6 +33,7 @@
             var c = compass(player.direction);
             var $unit: JQuery = $('<div>').addClass("player").appendTo($parent);
             $('<div>').addClass("name").text(player.name).appendTo($unit);
+            $('<div>').addClass("account").text("("+player.account+")").appendTo($unit);
             var $health: JQuery = $('<div>').addClass("health").appendTo($unit);
             $('<div>').addClass("text").text(player.health > -1 ? player.health + ' / ' + player.max : player.health ? 'respawning' : '...').appendTo($health);
             $('<div>').addClass("dist").text(player.dist + 'm').appendTo($health);
@@ -132,6 +133,7 @@
                 player.health = msg.h;
                 player.max = msg.m;
                 player.loc = { x: msg.x, y: msg.y, z: msg.z };
+                player.account = msg.account;
             }
             player.updated = Date.now();
             players[msg.c||msg.character] = player;
