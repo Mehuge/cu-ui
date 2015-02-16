@@ -231,12 +231,12 @@ module AbilityBuilder {
                     console.log('ability created ' + ability.id, ability);
 
                     var primaryComponent = getPrimaryComponent(ability);
-                    var primaryBaseComponentID = primaryComponent && primaryComponent.baseComponentID ? primaryComponent.baseComponentID.toString() : '';
+                    var primaryBaseComponentID = primaryComponent && primaryComponent.baseComponentID ? primaryComponent.baseComponentID.toString(16) : '';
 
                     var secondaryComponent = getSecondaryComponent(ability);
-                    var secondaryBaseComponentID = secondaryComponent && secondaryComponent.baseComponentID ? secondaryComponent.baseComponentID.toString() : '';
+                    var secondaryBaseComponentID = secondaryComponent && secondaryComponent.baseComponentID ? secondaryComponent.baseComponentID.toString(16) : '';
 
-                    cuAPI.AbilityCreated(ability.id.toString(), primaryBaseComponentID, secondaryBaseComponentID, JSON.stringify(ability));
+                    cuAPI.AbilityCreated(ability.id.toString(16), primaryBaseComponentID, secondaryBaseComponentID, JSON.stringify(ability));
 
                     // TODO: what should the flow here be?
                     /*
@@ -964,6 +964,9 @@ module AbilityBuilder {
     }
 
     function initialize() {
+        // start hidden
+        cuAPI.HideUI('ability-builder');
+
         $document.click(() => {
             hideSelectIconModal();
             hideComponentSelectionModal();

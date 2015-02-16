@@ -1240,6 +1240,9 @@ module Spellbook {
     }
 
     function initialize() {
+        // start hidden
+        cuAPI.HideUI('spellbook');
+
         $(document).click(hideSearch);
 
         $document.on('contextmenu', ignoreEvent);

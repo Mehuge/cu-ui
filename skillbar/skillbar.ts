@@ -51,13 +51,19 @@ module Skillbar {
         });
     }
 
-    function addAbility(ability, i) {
+    function mapAbility(ability) {
         var a = new Ability(cu);
 
-        a.id = ability.id;
+        a.id = _.isNumber(ability.id) ? ability.id.toString(16) : ability.id.toString();
         a.name = ability.name;
         a.icon = ability.icon;
         a.tooltip = ability.tooltip || ability.notes;
+
+        return a;
+    }
+
+    function addAbility(ability, i) {
+        var a = mapAbility(ability);
 
         var button = a.MakeButton(i);
 
@@ -110,9 +116,35 @@ module Skillbar {
         updateTooltip();
     }
 
+    function registerAbility(craftedAbility) {
+        var abilityID = craftedAbility.id.toString(16);
+        var primaryComponent = getPrimaryComponent(craftedAbility);
+        var primaryComponentBaseID = primaryComponent && primaryComponent.baseComponentID ? primaryComponent.baseComponentID.toString(16) : '';
+        var secondaryComponent = getSecondaryComponent(craftedAbility);
+        var secondaryComponentBaseID = secondaryComponent && secondaryComponent.baseComponentID ? secondaryComponent.baseComponentID.toString(16) : '';
+
+        cuAPI.RegisterAbility(abilityID, primaryComponentBaseID, secondaryComponentBaseID);
+    }
+
+    function getPrimaryComponent(craftedAbility) {
+        if (craftedAbility) {
+            return craftedAbility.rootComponentSlot;
+        }
+    }
+
+    function getSecondaryComponent(craftedAbility) {
+        if (craftedAbility && craftedAbility.rootComponentSlot && craftedAbility.rootComponentSlot.children) {
+            return craftedAbility.rootComponentSlot.children[0];
+        }
+    }
+
     function onCharacterIDChanged(characterID) {
-        getCraftedAbilities(cuAPI.loginToken, characterID).then(ca => {
-            abilities = abilities.concat(ca);
+        getCraftedAbilities(cuAPI.loginToken, characterID).then(craftedAbilities => {
+            craftedAbilities.forEach(craftedAbility => {
+                registerAbility(craftedAbility);
+            });
+
+            abilities = abilities.concat(craftedAbilities);
 
             updateSkillbar();
         }, () => {
