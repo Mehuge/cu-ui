@@ -22,6 +22,7 @@ UI.Modules = {
     "deathspam": { core: false, autoLoad: true },
     "compass": { core: false, autoLoad: true },
     "loc": { core: false, autoLoad: true },
+    "group": { core: false, autoLoad: true },
     "pledges": { core: false }
 };
 UI.Commands = [
