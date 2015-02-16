@@ -48,6 +48,9 @@
     <div id="heatmap"></div>
     <canvas id="overlay" width="200" height="200"></canvas>
     <script src="heatmap.min.js"></script>
+    <script src="../vendor/strophe.js"></script>
+    <script src="../mehuge/xmpp.js"></script>
+    <script src="../mehuge/mehuge.js"></script>
     <script src="../vendor/jquery-2.1.1.js"></script>
     <script src="../vendor/cu-rest/rest.js"></script>
     <script>
@@ -69,6 +72,7 @@
                         '.95': 'red'
                     }
                 }),
+                radar = {},
                 transformX = function (x) {
                     x += (map.w / 2);        // move origin to left
                     x /= (map.w / 200);      // bring into range
@@ -107,16 +111,24 @@
                 },
                 overlay = document.getElementById("overlay"),
                 loc = document.getElementById("loc"),
+                drawRadar = function (ctx) {
+                    for (var name in radar) {
+                        var player = radar[name];
+                        ctx.fillStyle = ["red", "green", "blue"][player.f - 1];
+                        ctx.fillRect(transformX(player.x)-1, transformY(player.y)-1, 2, 2);
+                    }
+                }
                 displayPos = function () {
                     var x = cuAPI.locationX, y = cuAPI.locationY;
                     if (x !== undefined) {
                         var ctx = overlay.getContext("2d");
                         ctx.fillStyle = 'rgba(0,0,0,0)';
                         ctx.clearRect(0, 0, 200, 200);
-                        ctx.fillStyle = 'rgb(255,0,0)';
+                        ctx.fillStyle = 'white';
                         ctx.fillRect(transformX(x) - 2, transformY(y) - 2, 4, 4);
                         loc.textContent = x.toFixed(2) + "," + y.toFixed(2);
                     }
+                    drawRadar(ctx);
                     setTimeout(displayPos, 250);
                 };
             if (typeof cuAPI === "undefined") {
@@ -125,6 +137,18 @@
             var serverURL = cuAPI.serverURL || "http://chat.camelotunchained.com:8000/api/";
             getKills();
             displayPos();
+
+            var channels = [
+                Base64.encode("groupui:faction:1"),
+                Base64.encode("groupui:faction:2"),
+                Base64.encode("groupui:faction:3")
+            ];
+            Mehuge.connect(cuAPI.loginToken, channels, function () {
+                console.log('heatmap: connected to chat channels');
+            });
+            Mehuge.listen(function (msg) {
+                (radar[msg.c] = msg).updated = Date.now();
+            });
         })();
     </script>
 </body>
