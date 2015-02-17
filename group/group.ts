@@ -21,9 +21,9 @@
         return (A * 180 / PI) | 0;
     }
     function compass(angle) {
-        var c = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N" ];
+        var c = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW" ];
         var i = ((angle+((360/16)/2)) / (360/16))|0;
-        return c[i];
+        return c[i%16];
     }
 
     function paint() {
