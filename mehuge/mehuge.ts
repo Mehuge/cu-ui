@@ -37,8 +37,9 @@ module Mehuge {
     export function listen(listener: (any) => void) {
         listeners.push(listener);
     };
-    export function send(o:any) {
-        Xmpp.sendMessage(JSON.stringify(o));
+    export function send(o: any, room: string = undefined) {
+        if (room) room = "$_" + room;
+        Xmpp.sendMessage(JSON.stringify(o), room);
     }
     export function disconnect() {
         Xmpp.disconnect();

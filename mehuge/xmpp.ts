@@ -212,10 +212,13 @@
                                 break;
                             case "status":
                                 status = node.attributes["code"].value;
+                                if (status === "110") {
+                                    o.present = true;
+                                }
                                 break;
                         }
                     }
-                    if (status === "210") {                 // this a status message?
+                    if (o.present) {                 // status 110 confirms the users presence in the room.
                         var name = from.split("@")[0];
                         var room = rooms[name];
                         if (!room.presence) {
@@ -264,8 +267,15 @@
         listeners.push(response);
         connect();
     }
-    export function sendMessage(message: any) {
-        send_($msg({ to: currentRoom.room, from: jid, type: "groupchat", id: nextId() }).c('body').t(message));
+    export function sendMessage(message: any, room: string = null) {
+        if (!room && currentRoom) {
+            room = currentRoom.room;
+        } else {
+            room = rooms[room].room;
+        }
+        if (room) {
+            send_($msg({ to: room, from: jid, type: "groupchat", id: nextId() }).c('body').t(message));
+        }
     }
     export function join(room: string) {
         join_(room);
