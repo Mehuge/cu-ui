@@ -64,6 +64,10 @@
     <TypeScriptCompile Include="ability-training\training.ts" />
     <Content Include="announcement\announcement.css" />
     <Content Include="announcement\announcement.html" />
+    <Content Include="blockselector\blockselector.css" />
+    <Content Include="blockselector\blockselector.html" />
+    <Content Include="buildactions\buildactions.css" />
+    <Content Include="buildactions\buildactions.html" />
     <Content Include="building\building.css" />
     <Content Include="building\building.html" />
     <Content Include="character\character.html" />
@@ -73,6 +77,8 @@
     <TypeScriptCompile Include="group\group.ts" />
     <TypeScriptCompile Include="mehuge\mehuge.ts" />
     <TypeScriptCompile Include="autoexec\autoexec.ts" />
+    <TypeScriptCompile Include="blockselector\blockselector.ts" />
+    <TypeScriptCompile Include="buildactions\buildactions.ts" />
     <TypeScriptCompile Include="building\building.ts" />
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="bot\bot.css" />
@@ -501,6 +507,8 @@
     <Content Include="fonts\vtcgoblinhandregular.ttf" />
     <Content Include="fonts\vtcgoblinhandregular.woff" />
     <Content Include="fonts\vtcgoblinhandregular.woff2" />
+    <Content Include="blockselector.ui" />
+    <Content Include="buildactions.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

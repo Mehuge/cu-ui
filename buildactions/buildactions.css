@@ -1,0 +1,81 @@
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+html, body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+#btn-rotate-x {
+    width: 67px;
+    height: 61px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background-size: 100%;
+    color: white;
+    text-align: center;
+}
+
+#btn-rotate-y {
+    width: 67px;
+    height: 61px;
+    left: 67px;
+    top: 0px;
+    position: absolute;
+    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background-size: 100%;
+    color: white;
+    text-align: center;
+}
+
+#btn-rotate-z {
+    width: 67px;
+    height: 61px;
+    left: 134px;
+    top: 0px;
+    position: absolute;
+    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background-size: 100%;
+    color: white;
+    text-align: center;
+}
+
+#btn-flip-x {
+    width: 67px;
+    height: 61px;
+    left: 201px;
+    top: 0px;
+    position: absolute;
+    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background-size: 100%;
+    color: white;
+    text-align: center;
+}
+
+#btn-flip-y {
+    width: 67px;
+    height: 61px;
+    left: 268px;
+    top: 0px;
+    position: absolute;
+    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background-size: 100%;
+    color: white;
+    text-align: center;
+}
+
+#btn-flip-z {
+    width: 67px;
+    height: 61px;
+    left: 335px;
+    top: 0px;
+    position: absolute;
+    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background-size: 100%;
+    color: white;
+    text-align: center;
+}
