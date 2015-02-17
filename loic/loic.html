@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style type="text/css">
+        body { overflow: hidden; margin: 0; padding: 0; }
+        .noselect {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        #volume {
+            width: 123px;
+            height: 123px;
+            background-image: url(volume.png);
+            background-position-x: 0px;
+            background-position-y: 0px;
+            cursor: pointer;
+        }
+        #volume div {
+            text-align: center;
+            position: relative; 
+            top: 123px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="volume" class="noselect">
+        <div>▲</div>
+    </div>
+    <script src="../vendor/strophe.js"></script>
+    <script src="../mehuge/xmpp.js"></script>
+    <script src="../mehuge/mehuge.js"></script>
+    <script>
+        (function () {
+            Math.log10 = Math.log10 || function (x) {
+                return Math.log(x) / Math.LN10;
+            };
+            var volume = document.getElementById("volume"),
+                vol = 1,
+                freq = function () {
+                    return 5000 - (4700 * Math.log10(vol));
+                }, trigger = function () {
+                    setTimeout(cannon, freq());
+                }, cannon = function () {
+                    Mehuge.send({ payload: "pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew" });
+                    trigger();
+                }, mouse = function (e) {
+                    if (e.clientX > 70 && vol < 11) {
+                        vol++;
+                    } if (e.clientX < 50 && vol > 1) {
+                        vol --;
+                    }
+                    volume.style.backgroundPositionX = ((vol - 1) * -123) + 'px';
+                };
+            volume.addEventListener("click", mouse);
+            Mehuge.connect(cuAPI.loginToken, "LOIC", function () {
+                // connected
+                trigger();
+            });
+        })();
+    </script>
+</body>
+</html>

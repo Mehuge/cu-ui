@@ -55,6 +55,7 @@
     <Content Include="images\skills\fire-Cone.jpg" />
     <Content Include="images\skills\status-Fatigue.jpg" />
     <Content Include="images\skills\water-Cone.jpg" />
+    <Content Include="loic\loic.html" />
     <Content Include="vendor\turn.js" />
     <Content Include="cu\window.css" />
     <TypeScriptCompile Include="ability-training\network1.ts" />
