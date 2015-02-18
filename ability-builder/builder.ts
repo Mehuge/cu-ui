@@ -808,6 +808,9 @@ module AbilityBuilder {
         $builder.fadeOut(() => {
             if (typeof cuAPI === 'object') {
                 cuAPI.HideUI('ability-builder');
+                setTimeout(() => {
+                    $builder.css({ display: 'block' });
+                }, 100);
             }
         });
 
