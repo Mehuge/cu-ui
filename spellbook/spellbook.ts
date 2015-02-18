@@ -994,6 +994,9 @@ module Spellbook {
         $spellbook.fadeOut(() => {
             if (typeof cuAPI === 'object') {
                 cuAPI.HideUI('spellbook');
+                setTimeout(() => {
+                    $spellbook.css({ display: 'block' });
+                }, 100);
             }
         });
 
