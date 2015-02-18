@@ -966,6 +966,23 @@ module AbilityBuilder {
         return false;
     }
 
+    var inputOwnershipTimer: number;
+    function handleInputOwnership(e: any) {
+        if (e.type === "focus") {
+            if (inputOwnershipTimer) {
+                clearTimeout(inputOwnershipTimer);
+                inputOwnershipTimer = null;
+            } else {
+                cuAPI.RequestInputOwnership();
+            }
+        } else {
+            inputOwnershipTimer = setTimeout(() => {
+                inputOwnershipTimer = null;
+                cuAPI.ReleaseInputOwnership();
+            }, 10);
+        }
+    }
+
     function initialize() {
         // start hidden
         cuAPI.HideUI('ability-builder');
@@ -990,6 +1007,11 @@ module AbilityBuilder {
         $window.mousedown(handleWindowMouseDown).mouseup(handleWindowMouseUp);
 
         $abilityName.keyup(handleAbilityNameKeyUp);
+
+        $abilityName.focus(handleInputOwnership);
+        $abilityNotes.focus(handleInputOwnership);
+        $abilityName.blur(handleInputOwnership);
+        $abilityNotes.blur(handleInputOwnership);
 
         $btnBuild.click(handleBuildButtonClick);
 
