@@ -22,15 +22,12 @@ Visual Studio 2013 Express for Web
 
 For convenience, there's a Visual Studio 2013 project that pulls together all the pieces. This can be opened and built in Visual Studio 2013 Express for Web, which is completely free. You can download it at:
 
-&nbsp;&nbsp;&nbsp;&nbsp;[http://www.microsoft.com/en-us/download/details.aspx?id=44912](http://www.microsoft.com/en-us/download/details.aspx?id=44912)
+&nbsp;&nbsp;&nbsp;&nbsp;[http://www.microsoft.com/en-us/download/details.aspx?id=40747](http://www.microsoft.com/en-us/download/details.aspx?id=40747)
 
-&nbsp;&nbsp;&nbsp;&nbsp;**Visual Studio Update 4 (Typescript Support)**
+&nbsp;&nbsp;&nbsp;&nbsp;**Visual Studio Update 2 (Typescript Support)**
 
-&nbsp;&nbsp;&nbsp;&nbsp;[http://www.microsoft.com/en-us/download/details.aspx?id=44921](http://www.microsoft.com/en-us/download/details.aspx?id=44921)
+&nbsp;&nbsp;&nbsp;&nbsp;[http://www.microsoft.com/en-us/download/details.aspx?id=42666](http://www.microsoft.com/en-us/download/details.aspx?id=42666)
 
-Or you can use the Visual Studio Community 2013 edition
-
-&nbsp;&nbsp;&nbsp;&nbsp;[http://www.visualstudio.com/en-us/visual-studio-community-vs](http://www.visualstudio.com/en-us/visual-studio-community-vs)
 
 Modifying your UI
 -----------------
@@ -58,4 +55,4 @@ UI Discussions
 
 For discussion with your fellow intrepid modders and hackers, hang out in our backer forums at:
 
-&nbsp;&nbsp;&nbsp;&nbsp;[https://forums.camelotunchained.com/forum/63-ui-modding-hacking/](https://forums.camelotunchained.com/forum/63-ui-modding-hacking/)
+&nbsp;&nbsp;&nbsp;&nbsp;[http://citystate.vanillaforums.com/categories/ui-modding-hacking](http://citystate.vanillaforums.com/categories/ui-modding-hacking)

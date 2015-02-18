@@ -1089,6 +1089,42 @@ class CU {
         }
     }
 
+    public RotateX(): void {
+        if (cu.HasAPI()) {
+            cuAPI.RotateX();
+        }
+    }
+
+    public RotateY(): void {
+        if (cu.HasAPI()) {
+            cuAPI.RotateY();
+        }
+    }
+
+    public RotateZ(): void {
+        if (cu.HasAPI()) {
+            cuAPI.RotateZ();
+        }
+    }
+
+    public FlipX(): void {
+        if (cu.HasAPI()) {
+            cuAPI.FlipX();
+        }
+    }
+
+    public FlipY(): void {
+        if (cu.HasAPI()) {
+            cuAPI.FlipY();
+        }
+    }
+
+    public FlipZ(): void {
+        if (cu.HasAPI()) {
+            cuAPI.FlipZ();
+        }
+    }
+
     public Fire(event: string, ...args: any[]) {
         if (this.listeners.hasOwnProperty(event)) {
             this.listeners[event].forEach(function (listener) {
@@ -1771,6 +1807,12 @@ interface CUInGameAPI {
     /* Building */
     OnBuildingModeChanged(c: (buildingMode: boolean) => void): void;
     ChangeBuildingMode(): void;
+    RotateX(): void;
+    RotateY(): void;
+    RotateZ(): void;
+    FlipX(): void;
+    FlipY(): void;
+    FlipZ(): void;
 
     /* Announcement */
 
