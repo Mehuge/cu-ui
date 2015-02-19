@@ -29,3 +29,16 @@ UI.Commands = [
     "vsync 1",
     "daytime 0"
 ];
+
+// Autoexec (in offline mode)
+UI.offline = {
+    Modules: {
+        "perfhud": { core: true, close: true },
+        "minimap": { core: true, close: true },
+        "heatmap": { core: false, autoLoad: true }
+    },
+    Commands: [
+        "daytime 10",
+        "fly 1"
+    ]
+}

@@ -1,5 +1,5 @@
 ﻿module Autoexec {
-    var total, progress = 0, bar = document.getElementById("progress");
+    var total, progress = 0, bar = document.getElementById("progress"), online = false;
 
     // Loads the named UI module.
     function OpenUI(name: string) {
@@ -34,15 +34,14 @@
                 cuAPI.ConsoleCommand(parts[j]);
             }
         }
-        cuAPI.CloseUI("autoexec");
     }
 
-    function processUI(keys) {
+    function processUI(Modules, keys) {
         if (progress === 0) total = keys.length;
         var name = keys.shift();
         bar.style.backgroundSize = ((progress / total) * 100) + '% 100%';
         if (name) {
-            var addon = UI.Modules[name];
+            var addon = Modules[name];
             if (addon.autoLoad) {
                 console.log('open UI ' + name);
                 cuAPI.OpenUI(name + ".ui");
@@ -52,16 +51,25 @@
             }
             progress++;
             setTimeout(function () {
-                processUI(keys);
+                processUI(Modules, keys);
             }, 100);
         } else {
-            processCommands(UI.Commands ? UI.Commands : []);
+            cuAPI.CloseUI("autoexec");
         }
     }
 
     if (typeof cuAPI !== "undefined") {
         cuAPI.OnInitialized(() => {
-            processUI(UI.Modules ? Object.keys(UI.Modules) : []);
+            online = cuAPI.pktHash.length > 0;
+            if (online) {
+                processCommands(UI.Commands ? UI.Commands : []);
+                processUI(UI.Modules, UI.Modules ? Object.keys(UI.Modules) : []);
+            } else {
+                if (UI.offline) {
+                    processCommands(UI.offline.Commands ? UI.offline.Commands : []);
+                    processUI(UI.offline.Modules, UI.offline.Modules ? Object.keys(UI.offline.Modules) : []);
+                }
+            }
         });
     }
 
