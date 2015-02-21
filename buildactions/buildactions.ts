@@ -3,6 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 module BuildActions {
+    var $commit = $('#btn-commit');
+    var $cancel = $('#btn-cancel');
     var $rotateX = $('#btn-rotate-x');
     var $rotateY = $('#btn-rotate-y');
     var $rotateZ = $('#btn-rotate-z');
@@ -10,27 +12,35 @@ module BuildActions {
     var $flipY = $('#btn-flip-y');
     var $flipZ = $('#btn-flip-z');
 
+    $commit.click(() => {
+        cu.CommitBlock();
+    });
+
+    $cancel.click(() => {
+        cu.CancelBlockPlacement();
+    });
+
     $rotateX.click(() => {
-        cu.RotateX();
+        cu.BlockRotateX();
     });
 
     $rotateY.click(() => {
-        cu.RotateY();
+        cu.BlockRotateY();
     });
 
     $rotateZ.click(() => {
-        cu.RotateZ();
+        cu.BlockRotateZ();
     });
 
     $flipX.click(() => {
-        cu.FlipX();
+        cu.BlockFlipX();
     });
 
     $flipY.click(() => {
-        cu.FlipY();
+        cu.BlockFlipY();
     });
 
     $flipZ.click(() => {
-        cu.FlipZ();
+        cu.BlockFlipZ();
     });
 }

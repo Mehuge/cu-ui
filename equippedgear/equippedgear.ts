@@ -201,6 +201,9 @@ module EquippedGear {
 
     if (cu.HasAPI()) {
         cu.OnInitialized(() => {
+            // start hidden
+            cuAPI.HideUI('equippedgear');
+
             cuAPI.OnItemEquipped(addItem);
 
             cuAPI.OnItemUnequipped(removeItem);

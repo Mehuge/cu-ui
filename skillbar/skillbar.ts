@@ -116,6 +116,18 @@ module Skillbar {
         updateTooltip();
     }
 
+    function onAbilityDeleted(id) {
+        for (var i = abilities.length - 1; i >= 0; i--) {
+            var ability = abilities[i];
+
+            if (ability.id.toString(16) === id) {
+                abilities.splice(i, 1);
+            }
+        }
+
+        updateSkillbar();
+    }
+
     function registerAbility(craftedAbility) {
         var abilityID = craftedAbility.id.toString(16);
         var primaryComponent = getPrimaryComponent(craftedAbility);
@@ -173,6 +185,8 @@ module Skillbar {
             cuAPI.OnAbilityNumbersChanged(onAbilityNumbersChanged);
 
             cuAPI.OnAbilityCreated(onAbilityCreated);
+
+            cuAPI.OnAbilityDeleted(onAbilityDeleted);
         });
     }
 }

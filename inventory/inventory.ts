@@ -235,6 +235,9 @@ module Inventory {
 
     if (cu.HasAPI()) {
         cu.OnInitialized(() => {
+            // start hidden
+            cuAPI.HideUI('inventory');
+
             cuAPI.OnItemEquipped(removeItem);
 
             cuAPI.OnItemUnequipped(addItem);

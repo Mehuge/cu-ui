@@ -51,11 +51,16 @@
     <Content Include="ability-crafting\components.css" />
     <TypeScriptCompile Include="ability-crafting\componentSlot.ts" />
     <Content Include="images\ability-crafting\ability-icon-transparent-bg.png" />
+    <Content Include="images\blockselector\brick-block-btn.jpg" />
+    <Content Include="images\blockselector\brick-ramp-btn.jpg" />
+    <Content Include="images\blockselector\stone-block-btn.jpg" />
+    <Content Include="images\blockselector\stone-ramp-btn.jpg" />
     <Content Include="images\skills\earth-Cone.jpg" />
     <Content Include="images\skills\fire-Cone.jpg" />
     <Content Include="images\skills\status-Fatigue.jpg" />
     <Content Include="images\skills\water-Cone.jpg" />
     <Content Include="loic\loic.html" />
+    <Content Include="images\spellbook\btn-delete.png" />
     <Content Include="vendor\turn.js" />
     <Content Include="cu\window.css" />
     <TypeScriptCompile Include="ability-training\network1.ts" />

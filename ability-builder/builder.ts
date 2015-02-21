@@ -984,9 +984,6 @@ module AbilityBuilder {
     }
 
     function initialize() {
-        // start hidden
-        cuAPI.HideUI('ability-builder');
-
         $document.click(() => {
             hideSelectIconModal();
             hideComponentSelectionModal();
@@ -1023,6 +1020,9 @@ module AbilityBuilder {
 
         if (typeof cuAPI === 'object') {
             cuAPI.OnInitialized(() => {
+                // start hidden
+                cuAPI.HideUI('ability-builder');
+
                 cuAPI.OnEditAbility(abilityID => {
                     if (trainedComponents.length === 0) {
                         showErrorModal('Failed to load ability components.');

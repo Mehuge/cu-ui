@@ -151,7 +151,7 @@ class CooldownGroup {
 
 class AbilityButton {
     constructor(public ability: Ability, private cu: CU, private index) {
-        this.rootElement = $('<div/>').addClass('abilityButton').mousedown(() => ability.Perform());
+        this.rootElement = $('<div/>').addClass('abilityButton').attr('data-id', ability.id).mousedown(() => ability.Perform());
         this.rootElement.append($('<img/>').addClass('activeHighlight').attr('src', '../images/skillbar/active-frame.gif'));
         this.rootElement.append($('<img/>').addClass('abilityIcon').attr('src', ability.icon));
         this.rootElement.append($('<img/>').addClass('queuedIcon').attr('src', '../images/skillbar/queued-frame.png'));
@@ -751,6 +751,10 @@ class CU {
                     this.gameClient.OnBuildingModeChanged((buildingMode) => this.Fire('HandleBuildingModeChanged', buildingMode));
                 }
 
+                if (_.isFunction(this.gameClient.OnReceiveBlocks)) {
+                    this.gameClient.OnReceiveBlocks((buildingDict) => this.Fire('HandleReceiveBlocks', buildingDict));
+                }
+
                 this.onInit.InvokeCallbacks();
 
                 this.gameServerURL = this.gameClient.serverURL;
@@ -1089,39 +1093,63 @@ class CU {
         }
     }
 
-    public RotateX(): void {
+    public RequestBlocks(): void {
         if (cu.HasAPI()) {
-            cuAPI.RotateX();
+            cuAPI.RequestBlocks();
         }
     }
 
-    public RotateY(): void {
+    public ChangeBlockType(newType): void {
         if (cu.HasAPI()) {
-            cuAPI.RotateY();
+            cuAPI.ChangeBlockType(newType);
         }
     }
 
-    public RotateZ(): void {
+    public CommitBlock(): void {
         if (cu.HasAPI()) {
-            cuAPI.RotateZ();
+            cuAPI.CommitBlock();
         }
     }
 
-    public FlipX(): void {
+    public CancelBlockPlacement(): void {
         if (cu.HasAPI()) {
-            cuAPI.FlipX();
+            cuAPI.CancelBlockPlacement();
         }
     }
 
-    public FlipY(): void {
+    public BlockRotateX(): void {
         if (cu.HasAPI()) {
-            cuAPI.FlipY();
+            cuAPI.BlockRotateX();
         }
     }
 
-    public FlipZ(): void {
+    public BlockRotateY(): void {
         if (cu.HasAPI()) {
-            cuAPI.FlipZ();
+            cuAPI.BlockRotateY();
+        }
+    }
+
+    public BlockRotateZ(): void {
+        if (cu.HasAPI()) {
+            cuAPI.BlockRotateZ();
+        }
+    }
+
+    public BlockFlipX(): void {
+        if (cu.HasAPI()) {
+            cuAPI.BlockFlipX();
+        }
+    }
+
+    public BlockFlipY(): void {
+        if (cu.HasAPI()) {
+            cuAPI.BlockFlipY();
+        }
+    }
+
+    public BlockFlipZ(): void {
+        if (cu.HasAPI()) {
+            cuAPI.BlockFlipZ();
         }
     }
 
@@ -1806,13 +1834,18 @@ interface CUInGameAPI {
 
     /* Building */
     OnBuildingModeChanged(c: (buildingMode: boolean) => void): void;
+    OnReceiveBlocks(c: (buildingDict: any) => void): void;
     ChangeBuildingMode(): void;
-    RotateX(): void;
-    RotateY(): void;
-    RotateZ(): void;
-    FlipX(): void;
-    FlipY(): void;
-    FlipZ(): void;
+    RequestBlocks(): void;
+    ChangeBlockType(c: (newType: number) => void): void;
+    CommitBlock(): void;
+    CancelBlockPlacement(): void;
+    BlockRotateX(): void;
+    BlockRotateY(): void;
+    BlockRotateZ(): void;
+    BlockFlipX(): void;
+    BlockFlipY(): void;
+    BlockFlipZ(): void;
 
     /* Announcement */
 
@@ -1866,6 +1899,9 @@ interface CUInGameAPI {
 
     AbilityCreated(abilityID: string, primaryBaseComponentID: string, secondaryBaseComponentID: string, ability: string): void;
     OnAbilityCreated(callback: (abilityID: string, ability: string) => void): void;
+
+    AbilityDeleted(abilityID: string): void;
+    OnAbilityDeleted(callback: (abilityID: string) => void): void;
 
     RegisterAbility(abilityID: string, primaryBaseComponentID: string, secondaryBaseComponentID: string): void;
 

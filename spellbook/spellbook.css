@@ -426,6 +426,31 @@ html, body {
     filter: opacity(100%);
 }
 
+.btn-delete {
+    position: absolute;
+    top: 83px;
+    right: 16px;
+    width: 59px;
+    height: 24px;
+    background: url(../images/spellbook/btn-delete.png) no-repeat center center;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    -webkit-filter: opacity(60%);
+    filter: opacity(60%);
+    z-index: 999;
+}
+
+.btn-delete:hover {
+    -webkit-filter: opacity(80%);
+    filter: opacity(80%);
+}
+
+.btn-delete:active {
+    -webkit-filter: opacity(100%);
+    filter: opacity(100%);
+}
+
 .ability-component-network {
     display: table-cell;
     vertical-align: middle;

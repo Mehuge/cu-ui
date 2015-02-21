@@ -175,6 +175,25 @@ module Spellbook {
 
             return false;
         }
+
+        public tryDelete() {
+            if (!this.id || !loginToken || !characterID) return Promise.reject();
+
+            return new Promise((resolve, reject) => {
+                var options: JQueryAjaxSettings = {};
+                options.url = cu.SecureApiUrl('api/craftedabilities');
+                options.type = 'DELETE';
+                options.contentType = 'application/json; charset=utf-8';
+                options.data = JSON.stringify({
+                    id: this.id,
+                    loginToken: loginToken,
+                    characterID: characterID
+                });
+                options.success = resolve;
+                options.error = reject;
+                $.ajax(options);
+            });
+        }
     }
 
     class AbilityLeftDetail {
@@ -183,6 +202,7 @@ module Spellbook {
         page: Page;
         $detail: JQuery;
         $btnEdit: JQuery;
+        $btnDelete: JQuery;
 
         constructor(ability: CraftedAbility) {
             this.ability = ability;
@@ -204,6 +224,8 @@ module Spellbook {
             $('<h1>').addClass('ability-name').text(this.ability.name).appendTo($detail);
 
             this.$btnEdit = $('<button>').addClass('btn-edit').appendTo($detail);
+
+            this.$btnDelete = $('<button>').addClass('btn-delete').appendTo($detail);
 
             if (this.network) {
                 var $network = this.$network = $('<div>').addClass('ability-component-network').appendTo($detail);
@@ -252,6 +274,7 @@ module Spellbook {
 
         public bindEvents() {
             var self = this;
+
             if (this.$btnEdit) {
                 this.$btnEdit.off('click').on('click', e => {
                     e.preventDefault();
@@ -267,6 +290,24 @@ module Spellbook {
                     return false;
                 });
             }
+
+            if (this.$btnDelete) {
+                this.$btnDelete.off('click').on('click', e => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    self.ability.tryDelete().then(() => {
+                        if (typeof cuAPI !== 'undefined') {
+                            cuAPI.AbilityDeleted(self.ability.id.toString(16));
+                        }
+                    }, () => {
+                        showErrorModal('Failed to delete ability.');
+                    });
+
+                    return false;
+                });
+            }
+
             return this;
         }
 
@@ -330,41 +371,20 @@ module Spellbook {
 
             var $attributes = $('<ul>').addClass('ability-attributes').appendTo($detail);
 
-            $li = $('<li>').appendTo($attributes);
-            $('<span>').addClass('ability-attribute-label').text('Power: ').appendTo($li);
-            $('<span>').addClass('ability-attribute-value').text('345').appendTo($li);
+            var stats = this.getCombinedComponentStats();
 
-            $li = $('<li>').appendTo($attributes);
-            $('<span>').addClass('ability-attribute-label').text('Activation: ').appendTo($li);
-            $('<span>').addClass('ability-attribute-value').text('345').appendTo($li);
+            for (var stat in stats) {
+                $li = $('<li>').appendTo($attributes);
 
-            $li = $('<li>').appendTo($attributes);
-            $('<span>').addClass('ability-attribute-label').text('Cost 1: ').appendTo($li);
-            $('<span>').addClass('ability-attribute-value').text('345').appendTo($li);
+                var statName = stat.replace(/([A-Z])/g, ' $1').trim();
+                var statValue = stats[stat];
+                if (statValue % 1 !== 0) {
+                    statValue = statValue.toFixed(2);
+                }
 
-            $li = $('<li>').appendTo($attributes);
-            $('<span>').addClass('ability-attribute-label').text('Cost: ').appendTo($li);
-            $('<span>').addClass('ability-attribute-value').text('345').appendTo($li);
-
-            $li = $('<li>').appendTo($attributes);
-            $('<span>').addClass('ability-attribute-label').text('Recovery: ').appendTo($li);
-            $('<span>').addClass('ability-attribute-value').text('345').appendTo($li);
-
-            $li = $('<li>').appendTo($attributes);
-            $('<span>').addClass('ability-attribute-label').text('Cost 2: ').appendTo($li);
-            $('<span>').addClass('ability-attribute-value').text('345').appendTo($li);
-
-            $li = $('<li>').appendTo($attributes);
-            $('<span>').addClass('ability-attribute-label').text('Value: ').appendTo($li);
-            $('<span>').addClass('ability-attribute-value').text('345').appendTo($li);
-
-            $li = $('<li>').appendTo($attributes);
-            $('<span>').addClass('ability-attribute-label').text('Cooldown: ').appendTo($li);
-            $('<span>').addClass('ability-attribute-value').text('345').appendTo($li);
-
-            $li = $('<li>').appendTo($attributes);
-            $('<span>').addClass('ability-attribute-label').text('Cost 3: ').appendTo($li);
-            $('<span>').addClass('ability-attribute-value').text('345').appendTo($li);
+                $('<span>').addClass('ability-attribute-label').text(statName + ': ').appendTo($li);
+                $('<span>').addClass('ability-attribute-value').text(statValue).appendTo($li);
+            }
 
             if (_.isNumber(this.ability.proficiency) && _.isNumber(this.ability.maxProficiency)) {
                 var $div = $('<div>').addClass('ability-proficiency').appendTo($detail);
@@ -433,6 +453,28 @@ module Spellbook {
 
         public bindEvents() {
             return this;
+        }
+
+        private getCombinedComponentStats() {
+            var combinedStats = {};
+
+            if (this.ability && this.ability.componentSlots && this.ability.componentSlots.length) {
+                this.ability.componentSlots.forEach(slot => {
+                    var component = slot.component;
+                    if (!component) return;
+                    var stats = component.stats;
+                    if (!stats) return;
+                    for (var stat in stats) {
+                        if (combinedStats.hasOwnProperty(stat)) {
+                            combinedStats[stat] += stats[stat];
+                        } else {
+                            combinedStats[stat] = stats[stat];
+                        }
+                    }
+                });
+            }
+
+            return combinedStats;
         }
     }
 
@@ -1243,9 +1285,6 @@ module Spellbook {
     }
 
     function initialize() {
-        // start hidden
-        cuAPI.HideUI('spellbook');
-
         $(document).click(hideSearch);
 
         $document.on('contextmenu', ignoreEvent);
@@ -1270,6 +1309,9 @@ module Spellbook {
 
         if (typeof cuAPI === 'object') {
             cuAPI.OnInitialized(() => {
+                // start hidden
+                cuAPI.HideUI('spellbook');
+
                 cuAPI.OnAbilityCreated(onAbilityCreated);
 
                 cuAPI.OnShowAbility(onShowAbility);

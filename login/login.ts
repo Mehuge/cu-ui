@@ -767,10 +767,10 @@ module Login {
     var $characterRaceArchetype = $('#character-race-archetype');
     var $chooseRace = $('#choose-race', $characterRaceArchetype);
     var $chooseArchetype = $('#choose-archetype', $characterRaceArchetype);
-    var $chosenArchetypeAbilities = $('#chosen-archetype-abilities', $characterRaceArchetype);
+    var $chosenArchetypeAbilities = $('#chosen-archetype-abilities', $characterRaceArchetype).hide();
     var $races = $('#races', $chooseRace);
     var $archetypes = $('#archetypes', $chooseArchetype);
-    var $abilities = $('#abilities', $chosenArchetypeAbilities);
+    var $abilities = $('#abilities', $chosenArchetypeAbilities).hide();
 
     var $characterAttributes = $('#character-attributes');
     var $chooseAttributes = $('#choose-attributes', $characterAttributes);
@@ -1528,6 +1528,7 @@ module Login {
     }
 
     function resetAbilities() {
+        /*
         $abilities.empty();
 
         // TODO: get from archetype when abilities are not on race
@@ -1558,6 +1559,7 @@ module Login {
         });
 
         $abilities.parent().fadeIn();
+        */
     }
 
     function resetChosenAttributes() {
@@ -2447,7 +2449,7 @@ module Login {
         $characterFaction[currentPage >= Page.RaceArchetype ? 'fadeIn' : 'fadeOut']();
         $characterRaceArchetype[currentPage == Page.RaceArchetype ? 'fadeIn' : 'fadeOut']();
         $chooseArchetype[currentPage == Page.RaceArchetype && hasRace ? 'fadeIn' : 'fadeOut']();
-        $chosenArchetypeAbilities[currentPage == Page.RaceArchetype && hasRace ? 'fadeIn' : 'fadeOut']();
+        //$chosenArchetypeAbilities[currentPage == Page.RaceArchetype && hasRace ? 'fadeIn' : 'fadeOut']();
         $characterRace[currentPage >= Page.RaceArchetype && hasRace ? 'fadeIn' : 'fadeOut']();
         $characterParchment[currentPage >= Page.RaceArchetype ? 'fadeIn' : 'fadeOut']();
         $characterAttributes[currentPage == Page.Attributes ? 'fadeIn' : 'fadeOut']();

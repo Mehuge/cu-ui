@@ -8,7 +8,7 @@ html, body {
     padding: 0;
 }
 
-#btn-rotate-x {
+#btn-commit {
     width: 67px;
     height: 61px;
     left: 0px;
@@ -20,7 +20,7 @@ html, body {
     text-align: center;
 }
 
-#btn-rotate-y {
+#btn-cancel {
     width: 67px;
     height: 61px;
     left: 67px;
@@ -32,7 +32,7 @@ html, body {
     text-align: center;
 }
 
-#btn-rotate-z {
+#btn-rotate-x {
     width: 67px;
     height: 61px;
     left: 134px;
@@ -44,7 +44,7 @@ html, body {
     text-align: center;
 }
 
-#btn-flip-x {
+#btn-rotate-y {
     width: 67px;
     height: 61px;
     left: 201px;
@@ -56,7 +56,7 @@ html, body {
     text-align: center;
 }
 
-#btn-flip-y {
+#btn-rotate-z {
     width: 67px;
     height: 61px;
     left: 268px;
@@ -68,10 +68,34 @@ html, body {
     text-align: center;
 }
 
-#btn-flip-z {
+#btn-flip-x {
     width: 67px;
     height: 61px;
     left: 335px;
+    top: 0px;
+    position: absolute;
+    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background-size: 100%;
+    color: white;
+    text-align: center;
+}
+
+#btn-flip-y {
+    width: 67px;
+    height: 61px;
+    left: 402px;
+    top: 0px;
+    position: absolute;
+    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background-size: 100%;
+    color: white;
+    text-align: center;
+}
+
+#btn-flip-z {
+    width: 67px;
+    height: 61px;
+    left: 469px;
     top: 0px;
     position: absolute;
     background: url('../images/building/building-btn.jpg') no-repeat top left;

@@ -136,7 +136,7 @@ class Component {
         var $tooltip = $('<div>').addClass('component-tooltip');
 
         if (this.description) {
-            $('<p>').addClass('component-tooltip-description').text(this.description).appendTo($tooltip);
+            $('<p>').addClass('component-tooltip-description').html(this.description).appendTo($tooltip);
         }
 
         if (this.stats && this.stats.length) {
