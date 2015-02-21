@@ -60,7 +60,8 @@
 
     if (typeof cuAPI !== "undefined") {
         cuAPI.OnInitialized(() => {
-            online = cuAPI.pktHash.length > 0;
+            alert('debug');
+            online = cuAPI.serverURL.length > 0;
             if (online) {
                 processCommands(UI.Commands ? UI.Commands : []);
                 processUI(UI.Modules, UI.Modules ? Object.keys(UI.Modules) : []);
