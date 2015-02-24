@@ -60,7 +60,6 @@
 
     if (typeof cuAPI !== "undefined") {
         cuAPI.OnInitialized(() => {
-            alert('debug');
             online = cuAPI.serverURL.length > 0;
             if (online) {
                 processCommands(UI.Commands ? UI.Commands : []);
