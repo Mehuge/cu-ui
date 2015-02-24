@@ -275,16 +275,15 @@
   background-color: #0f0f0f;
 }
 
+.component-tooltip-stats li {
+  display: inline-block;
+  width: 50%;
+}
+
 .component-tooltip-requirements {
   list-style-type: none;
   margin: 0;
   padding: 0;
-}
-
-.component-tooltip-stats li,
-.component-tooltip-requirements li {
-  display: inline-block;
-  width: 50%;
 }
 
 .component-tooltip-requirements-label {

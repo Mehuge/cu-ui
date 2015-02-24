@@ -11,12 +11,24 @@ module MiniMap {
     };
 
     // Set color based on faction
-    var factionColor = {
-        'A': 'red',       // Arthurian
-        'V': 'blue',      // Viking
-        'T': 'green',     // Tuatha
-        'C': 'orange',    // contested
-        'N': 'grey'       // None
+    export var factionSelectors = {
+        'A': 'art',           // Arthurian
+        'V': 'vik',          // Viking
+        'T': 'tdd',         // Tuatha
+        'C': 'contest',    // contested
+        'N': 'none'       // None
+    }
+
+    var sizeToImage = {
+        'S': 'zone.png',
+        'M': 'duck-zone.png',
+        'L': 'duck-mid.png'
+    }
+
+    var sizeToWidth = {
+        'S': 18,
+        'M': 34,
+        'L': 50
     }
 
     export var myFaction = 'V';
@@ -26,9 +38,9 @@ module MiniMap {
     export var spawnPoints = [];
     export var width = 256;
     export var height = 256;
+    export var iconScale = 1.0;
 
-    export var canvas: HTMLCanvasElement;
-    var context: CanvasRenderingContext2D;
+    export var updateFunction = null;
 
     var lastRequest;
     export var mousePos = { x: 0, y: 0 };
@@ -37,80 +49,94 @@ module MiniMap {
     var divisorX: number;
     var divisorY: number;
 
+    var cpOnce = false;
+
+    var map = $('#map');
+
     export interface IPoint {
         x: number;
         y: number;
     }
 
-    // Map Functions
-    function drawCircle(x: number, y: number, r: number, fill: string): void {
-        context.beginPath();
-        context.arc(x, y, r, 0, 2 * Math.PI, false);
-        context.fillStyle = fill;
-        context.fill();
-        context.lineWidth = .25;
-        context.strokeStyle = '#000';
-        context.stroke();
-    }
-
-    function serverToCanvasPoint(x: number, y: number): IPoint {
+    export function serverToCanvasPoint(x: number, y: number): IPoint {
         return {
             x: (x + 1024) / divisorX,
             y: (-y + 1024) / divisorY
         }
     }
 
-
-
     export function radiusForSize(size: string): number {
         switch (size) {
             case 'S':
+            case 'small':
             default:
-                return 5;
+                return 9 * iconScale;
             case 'M':
-                return 10;
+            case 'medium':
+            case 'spawn':
+                return 17 * iconScale;
             case 'L':
-                return 15;
+            case 'large':
+                return 25 * iconScale;
         }
     }
 
-    function drawPoints(points, mouseX: number, mouseY: number): void {
-        if (typeof points === 'undefined' || points === null) return;
-        points.forEach(point => {
-            var r = radiusForSize(point.size);
-            if (point.faction === myFaction) {
-                if (Math.abs(mouseX - point.x) < r &&
-                    Math.abs(mouseY - point.y) < r) {
-                    drawCircle(point.x, point.y, r, 'yellow');
-                }
-                else {
-                    drawCircle(point.x, point.y, r, factionColor[point.faction]);
-                }
-            }
-            else {
-                drawCircle(point.x, point.y, r, factionColor[point.faction]);
-            }
+    function getImageForControlPoint(cp): string {
+        console.log("x: " + cp.x + "y: " + cp.y);
+
+        var width = sizeToWidth[cp.size] * iconScale;
+
+        var img = "<img style='position:absolute; top:" + (cp.y - width * 0.5);
+        img += "px; left:" + (cp.x - width * 0.5) + "px;'";
+        img += " width='" + width + "px' height='" + width + "px'";
+        img += " respawnID='" + cp.id + "'";
+        img += " id='" + cp.id + "'";
+        img += " class='" + factionSelectors[cp.faction] + "'";
+        img += " src='../images/minimap/" + sizeToImage[cp.size] + "'></img>";
+        return img;
+    }
+
+    function getImageForSpawnPoint(cp): string {
+        var width = 30 * iconScale;
+        var img = "<img style='position:absolute; top:" + (cp.y - width * 0.5);
+        img += "px; left:" + (cp.x - width * 0.5) + "px;'";
+        img += " width='" + width + "px' height='" + width + "px'";
+        img += " id='spawn" + cp.faction + "'";
+        img += " class='" + factionSelectors[cp.faction] + "'";
+        img += " src='../images/minimap/main-zone.png'></img>";
+        return img;
+    }
+
+    function getImageForPlayer(x: number, y: number, alive: boolean): string {
+        var img = "<img style='position:absolute; top:" + y;
+        img += "px; left:" + x + "px;'";
+        img += " id='playerPos'";
+        img += " class='player'";
+        if (alive) {
+            img += " src='../images/minimap/player.png'></img>";
+        } else {
+            img += " src='../images/minimap/player-dead.png'></img>";
+        }
+        return img;
+    }
+
+    export function drawMap(): void {
+        // update map
+        controlPoints.forEach(p => {
+            var temp = $('#' + p.id);
+            temp.removeClass();
+            temp.addClass(factionSelectors[p.faction]);
         });
-
-    }
-
-    export function drawMap(mousePos: IPoint): void {
-        if (typeof context === 'undefined' || context == null) return;
-        context.clearRect(0, 0, width, height);
-        try {
-            drawPoints(controlPoints, mousePos.x, mousePos.y);
-        } catch (e) {
-            // ignore if we fail to draw due to not having any control points
-        }
-        drawPoints(spawnPoints, mousePos.x, mousePos.y);
-
         // Draw my position
         myPos = serverToCanvasPoint(cuAPI.locationX, cuAPI.locationY);
-        drawCircle(myPos.x, myPos.y, 2.5, 'white');
+
+        var p = $('#playerPos');
+        p.css('top', myPos.y - 5);
+        p.css('left', myPos.x - 5);
     }
 
     // API Requests
-    function getControlPoints(context) {
+    function getControlPoints() {
         if (getControlPointsState === RequestState.InProgress) return null;
         getControlPointsState = RequestState.InProgress;
 
@@ -128,7 +154,15 @@ module MiniMap {
                         p.x = pos.x;
                         p.y = pos.y;
                     });
-                    drawMap(mousePos);
+
+                    if (!cpOnce && !isNaN(controlPoints[0].x) && typeof (controlPoints[0].x) !== "undefined") {
+                        controlPoints.forEach(p => {
+                            map.append(getImageForControlPoint(p));
+                        });
+                        cpOnce = true;
+                    } else {
+                        updateFunction();
+                    }
                 }
             }).fail((xhr) => {
                 getControlPointsState = RequestState.Failed;
@@ -136,7 +170,7 @@ module MiniMap {
             });
     }
 
-    function getSpawnPoints(context) {
+    function getSpawnPoints() {
         if (getSpawnPointsState === RequestState.InProgress) return null;
 
         getSpawnPointsState = RequestState.InProgress;
@@ -155,18 +189,19 @@ module MiniMap {
                         p.x = pos.x;
                         p.y = pos.y;
                     });
-                    drawMap(mousePos);
+                    spawnPoints.forEach(p => {
+                        map.append(getImageForSpawnPoint(p));
+                    });
                 }
             }).fail((xhr) => {
                 getSpawnPointsState = RequestState.Failed;
-                setTimeout(getControlPoints, 5000 - (new Date().getTime() - start.getTime()));
             });
     }
 
     export function update(mouse: IPoint) {
         mousePos = mouse;
-        if (getControlPointsState !== RequestState.InProgress) getControlPoints(context);
-        drawMap(mouse);
+        if (getControlPointsState !== RequestState.InProgress) getControlPoints();
+        updateFunction();
     }
 
     // INITIALIZE!
@@ -174,16 +209,19 @@ module MiniMap {
         // START
         divisorX = 2048 / width;
         divisorY = 2048 / height;
-        canvas = <HTMLCanvasElement> document.getElementById('map');
-        context = canvas.getContext('2d');
-        getControlPoints(context);
-        getSpawnPoints(context);
+        getControlPoints();
+        getSpawnPoints();
+
+        myPos = serverToCanvasPoint(cuAPI.locationX, cuAPI.locationY);
     }
 
     // START
 
     if (cu.HasAPI()) {
+        iconScale = 0.5;
+        updateFunction = drawMap;
         cu.OnInitialized(initialize);
+        map.append(getImageForPlayer(myPos.x, myPos.y, true));
         if (_.isFunction(cuAPI.OnCharacterFactionChanged)) {
             cuAPI.OnCharacterFactionChanged((newFaction: number) => {
                 switch (newFaction) {
@@ -200,6 +238,6 @@ module MiniMap {
             });
         }
 
-        setInterval(() => update(mousePos),500);
+        setInterval(() => update(mousePos), 500);
     }
 }

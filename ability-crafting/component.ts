@@ -4,17 +4,33 @@
 
 /// <reference path="../vendor/promise.d.ts" />
 
+class TagConstraint {
+    constructor(public constraintType: TagConstraintType, public tags: Array<AbilityTags>) {}
+
+    public checkConstraints(otherTags: Array<AbilityTags>) {
+        if (this.constraintType === TagConstraintType.AllOf &&
+            this.tags.filter(tag => { return otherTags.indexOf(tag) === -1; }).length > 0) return false;
+
+        var intersects = _.intersection(this.tags, otherTags).length > 0;
+        if (this.constraintType === TagConstraintType.AnyOf && !intersects) return false;
+        else if (this.constraintType === TagConstraintType.NoneOf && intersects) return false;
+
+        return true;
+    }
+}
+
 class Component {
-    id;
-    baseComponentID;
+    id: number;
+    baseComponentID: number;
     name: string;
     description: string;
+    icon: string;
     type: ComponentType;
     subType: ComponentSubType;
-    icon: string;
     path: ComponentPath;
     stats: Array<any>;
-    requirements: Array<string>;
+    tags: Array<AbilityTags>;
+    tagConstraints: Array<TagConstraint>;
     slot: ComponentSlot;
     rank: number;
     isTrained: boolean;
@@ -35,10 +51,11 @@ class Component {
         this.description = options.description || '';
         this.type = options.type;
         this.subType = options.subType;
-        this.icon = options.icon || this.getIcon();
+        this.icon = options.icon || '';
         this.path = _.isNumber(options.path) ? options.path : -1;
         this.stats = options.stats || [];
-        this.requirements = options.requirements || [];
+        this.tags = options.tags || [];
+        this.tagConstraints = options.tagConstraints || [];
         if (options.slot) this.slot = options.slot;
         this.rank = options.rank || 1;
         this.isTrained = options.isTrained || false;
@@ -147,13 +164,17 @@ class Component {
             });
         }
 
-        if (this.requirements && this.requirements.length) {
+        if (this.tagConstraints && this.tagConstraints.length) {
             $('<p>').addClass('component-tooltip-requirements-label').text('Requirements:').appendTo($tooltip);
 
             var $requirements = $('<ul>').addClass('component-tooltip-requirements').appendTo($tooltip);
 
-            this.requirements.forEach(requirement => {
-                $('<li>').text(requirement).appendTo($requirements);
+            this.tagConstraints.forEach(tagConstraint => {
+                var constraintType = TagConstraintType[tagConstraint.constraintType].replace(/([A-Z])/g, ' $1').trim();
+
+                var tags = tagConstraint.tags.map(tag => AbilityTags[tag].replace(/([A-Z])/g, ' $1').trim());
+
+                $('<li>').text(constraintType + ': ' + tags.join(', ')).appendTo($requirements);
             });
         }
 
@@ -194,10 +215,11 @@ class Component {
         });
     }
 
-    public getIcon() {
-        var typeName = ComponentType[this.type].replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-        var subTypeName = ComponentSubType[this.subType].replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-        var icon = '../images/components/' + typeName + '-' + subTypeName + '.png';
-        return icon;
+    public tagCheck(tags: Array<AbilityTags>) {
+        for (var i = 0, length = this.tagConstraints.length; i < length; i++) {
+            if (!this.tagConstraints[i].checkConstraints(tags)) return false;
+        }
+
+        return true;
     }
 }

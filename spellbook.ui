@@ -4,9 +4,9 @@
 	"mainFile": "spellbook/spellbook.html",
 	"rect": {
 		"left": 321,
-		"top": 10,
-		"right": 1119,
-		"bottom": 618
+		"top": 146,
+		"right": 1440,
+		"bottom": 900
 	},
 	"handlesInput": true,
     "handlesAbilities": true,

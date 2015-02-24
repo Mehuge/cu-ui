@@ -6,7 +6,7 @@ module Building {
     var $buildingButton = $('#building-button');
 
     $buildingButton.click(() => {
-        cu.ChangeBuildingMode();
+        cu.ToggleBuildingMode();
     });
     cu.Listen('HandleBuildingModeChanged', buildingMode => {
         if (buildingMode) {

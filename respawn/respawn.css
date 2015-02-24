@@ -8,25 +8,17 @@ html, body {
     overflow: hidden;
 }
 
-#respawn {
-    display: none;
-    width: 512px;
-    height: 562px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    margin: -281px 0 0 -256px;
-    text-align: center;
-}
-
-#respawn h2 {
-    padding: 5px;
-    color: #7c7c7c;
-}
-
 #map {
+    position: relative;
+    margin: auto;
     width: 512px;
     height: 512px;
     background-image: url('../images/respawn/map.png');
     background-size: cover;
+    opacity: 1.0;
+}
+
+.canselect:hover {
+    -webkit-filter: grayscale(1) brightness(1.2);
+    filter: grayscale(1) brightness(1.2);
 }

@@ -365,8 +365,10 @@ module AbilityBuilder {
             subType: component.subType,
             name: component.name,
             description: component.description,
+            icon: component.icon,
             stats: component.stats,
-            requirements: component.requirements,
+            tags: mapTags(component.tags),
+            tagConstraints: mapTagConstraints(component.tagConstraints),
             isTrained: true
         }).createElement().appendTo($componentSelectionModal);
 
@@ -379,6 +381,19 @@ module AbilityBuilder {
         }).createElement().on('mousedown', e => chooseComponent(e, trainedComponent)).appendTo($componentSelectionModal);
 
         trainedComponents.push(trainedComponent);
+    }
+
+    function mapTags(tags) {
+        return tags.map(tag => AbilityTags[tag]);
+    }
+
+    function mapTagConstraints(tagConstraints) {
+        return tagConstraints.map(tagConstraint => {
+            var ct: string = tagConstraint.constraintType.toString();
+            var constraintType = TagConstraintType[ct];
+            var tags = tagConstraint.tags.map(tag => AbilityTags[tag]);
+            return new TagConstraint(constraintType, tags);
+        });
     }
 
     function createAbilityIcon(icon) {
@@ -451,7 +466,11 @@ module AbilityBuilder {
         var selectedComponentIDs = selectedComponents.map(component => component.id);
 
         var filteredComponents = trainedComponents.slice(0).filter(component => {
-            return selectedComponentIDs.indexOf(component.id) === -1;
+            if (selectedComponentIDs.indexOf(component.id) !== -1) return false;
+
+            var hasValidTags = selectedComponents.filter(c => !c.tagCheck(component.tags)).length === 0;
+
+            return hasValidTags;
         });
 
         console.log('find components: ' + ComponentType[selectedSlot.type] + ' ' + (selectedSlot.parents.length === 0 ? 'N/A' : ComponentSubTypeValues.filter(t => (selectedSlot.subType & t) === t).map(t => ComponentSubType[t]).join(', ')));
@@ -777,24 +796,26 @@ module AbilityBuilder {
         var combinedStats = selectedComponents.reduce((results, component) => {
             if (!component.stats) return results;
 
-            component.stats.forEach(s => {
-                if (results.hasOwnProperty(s.name)) {
-                    results[s.name] += s.value;
-                } else {
-                    results[s.name] = s.value;
+            for (var stat in component.stats) {
+                if (component.stats.hasOwnProperty(stat)) {
+                    if (results.hasOwnProperty(stat)) {
+                        results[stat] += component.stats[stat];
+                    } else {
+                        results[stat] = component.stats[stat];
+                    }
                 }
-            });
+            }
 
             return results;
         }, {});
 
-        for (var stat in combinedStats) {
-            if (combinedStats.hasOwnProperty(stat)) {
-                var value = combinedStats[stat];
+        for (var combinedStat in combinedStats) {
+            if (combinedStats.hasOwnProperty(combinedStat)) {
+                var value = combinedStats[combinedStat];
 
                 if (value % 1 !== 0) value = value.toFixed(2);
 
-                $('<li>').text(stat + ': ' + value).appendTo($stats);
+                $('<li>').text(combinedStat + ': ' + value).appendTo($stats);
             }
         }
     }

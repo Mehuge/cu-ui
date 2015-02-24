@@ -3,9 +3,9 @@
     "name": "building",
     "mainFile": "building/building.html",
     "rect": {
-        "left": 320,
+        "left": 0,
         "top": 839,
-        "right": 387,
+        "right": 67,
         "bottom": 900
     },
     "handlesBuilding": true,

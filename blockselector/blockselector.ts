@@ -4,13 +4,17 @@
 
 module BlockSelector {
     var $blocklist = $('#block-container');
+    var $selectbutton = $('#select-block-tool');
+    $selectbutton.click(() => {
+        cu.SetBuildingMode(BuildUIMode.SelectingBlock);
+    });
 
     function createBlockIcon(buildingID, icon) {
         var $listItem = $('<div/>').addClass('block-type');
         $listItem.css(
             {
-                left: ((buildingID - 1) % 2 * 75 + 15) + 'px',
-                top: (Math.floor((buildingID - 1) / 2) * 70) + 'px',
+                left: ((buildingID) % 2 * 75 + 15) + 'px',
+                top: (Math.floor((buildingID) / 2) * 70) + 'px',
                 background: "url('../images/blockselector/" + icon + "') no-repeat top left"
             });
 

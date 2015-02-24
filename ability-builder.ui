@@ -4,9 +4,9 @@
 	"mainFile": "ability-builder/builder.html",
 	"rect": {
 		"left": 490,
-		"top": 10,
-		"right": 1340,
-		"bottom": 755
+		"top": 138,
+		"right": 1440,
+		"bottom": 900
 	},
 	"handlesInput": true,
 	"handlesAbilities": true,

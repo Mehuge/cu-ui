@@ -63,6 +63,7 @@ module Spellbook {
         proficiency: number;
         maxProficiency: number;
         componentSlots: Array<ComponentSlot>;
+        stats: any;
         isSelected: boolean;
         isVisible: boolean;
 
@@ -83,6 +84,7 @@ module Spellbook {
             this.proficiency = options.proficiency || 0;
             this.maxProficiency = options.maxProficiency || 0;
             this.componentSlots = options.componentSlots || [];
+            this.stats = options.stats || {};
             this.isSelected = false;
             this.isVisible = true;
         }
@@ -179,13 +181,15 @@ module Spellbook {
         public tryDelete() {
             if (!this.id || !loginToken || !characterID) return Promise.reject();
 
+            var id = _.isNumber(this.id) ? this.id : parseInt(this.id, 16);
+
             return new Promise((resolve, reject) => {
                 var options: JQueryAjaxSettings = {};
                 options.url = cu.SecureApiUrl('api/craftedabilities');
                 options.type = 'DELETE';
                 options.contentType = 'application/json; charset=utf-8';
                 options.data = JSON.stringify({
-                    id: this.id,
+                    id: id,
                     loginToken: loginToken,
                     characterID: characterID
                 });
@@ -223,7 +227,8 @@ module Spellbook {
 
             $('<h1>').addClass('ability-name').text(this.ability.name).appendTo($detail);
 
-            this.$btnEdit = $('<button>').addClass('btn-edit').appendTo($detail);
+            // TODO: re-enable when we have an update Web API method
+            //this.$btnEdit = $('<button>').addClass('btn-edit').appendTo($detail);
 
             this.$btnDelete = $('<button>').addClass('btn-delete').appendTo($detail);
 
@@ -298,7 +303,8 @@ module Spellbook {
 
                     self.ability.tryDelete().then(() => {
                         if (typeof cuAPI !== 'undefined') {
-                            cuAPI.AbilityDeleted(self.ability.id.toString(16));
+                            var id = _.isNumber(self.ability.id) ? self.ability.id.toString(16) : self.ability.id.toString();
+                            cuAPI.AbilityDeleted(id);
                         }
                     }, () => {
                         showErrorModal('Failed to delete ability.');
@@ -371,13 +377,11 @@ module Spellbook {
 
             var $attributes = $('<ul>').addClass('ability-attributes').appendTo($detail);
 
-            var stats = this.getCombinedComponentStats();
-
-            for (var stat in stats) {
+            for (var stat in this.ability.stats) {
                 $li = $('<li>').appendTo($attributes);
 
                 var statName = stat.replace(/([A-Z])/g, ' $1').trim();
-                var statValue = stats[stat];
+                var statValue = this.ability.stats[stat];
                 if (statValue % 1 !== 0) {
                     statValue = statValue.toFixed(2);
                 }
@@ -453,28 +457,6 @@ module Spellbook {
 
         public bindEvents() {
             return this;
-        }
-
-        private getCombinedComponentStats() {
-            var combinedStats = {};
-
-            if (this.ability && this.ability.componentSlots && this.ability.componentSlots.length) {
-                this.ability.componentSlots.forEach(slot => {
-                    var component = slot.component;
-                    if (!component) return;
-                    var stats = component.stats;
-                    if (!stats) return;
-                    for (var stat in stats) {
-                        if (combinedStats.hasOwnProperty(stat)) {
-                            combinedStats[stat] += stats[stat];
-                        } else {
-                            combinedStats[stat] = stats[stat];
-                        }
-                    }
-                });
-            }
-
-            return combinedStats;
         }
     }
 
@@ -739,11 +721,12 @@ module Spellbook {
 
     function mapAbility(ability) {
         return new CraftedAbility({
-            id: ability.id,
+            id: _.isNumber(ability.id) ? ability.id.toString(16) : ability.id.toString(),
             name: ability.name,
             icon: ability.icon,
             notes: ability.notes,
-            componentSlots: mapComponentSlots([ability.rootComponentSlot])
+            componentSlots: mapComponentSlots([ability.rootComponentSlot]),
+            stats: ability.stats
         });
     }
 
@@ -755,6 +738,7 @@ module Spellbook {
                 subType: component.subType,
                 name: component.name,
                 description: component.description,
+                icon: component.icon,
                 stats: component.stats,
                 requirements: component.requirements,
                 isTrained: true
@@ -1046,9 +1030,34 @@ module Spellbook {
     }
 
     function onAbilityCreated(abilityID, a) {
-        // TODO: implement
+        console.log('ability created: ' + abilityID);
+
         var ability = mapAbility(JSON.parse(a));
-        console.log('ability created: ' + abilityID, ability);
+
+        abilities.push(ability);
+
+        initializePages();
+        initializeAbilities();
+        initializeAbilityDetails();
+        initializeComponents();
+        initializeTurnJs();
+    }
+
+    function onAbilityDeleted(abilityID) {
+        console.log('ability deleted: ' + abilityID);
+
+        for (var i = 0, length = abilities.length; i < length; i++) {
+            if (abilities[i].id == abilityID) {
+                abilities.splice(i, 1);
+                break;
+            }
+        }
+
+        initializePages();
+        initializeAbilities();
+        initializeAbilityDetails();
+        initializeComponents();
+        initializeTurnJs();
     }
 
     function onShowAbility(abilityID) {
@@ -1145,12 +1154,20 @@ module Spellbook {
         });
     }
 
+    function sortByAbilityID(a, b) {
+        var aID = !_.isNumber(a.id) ? parseInt(a.id, 16) : a.id;
+        var bID = !_.isNumber(b.id) ? parseInt(b.id, 16) : b.id;
+        return aID - bID;
+    }
+
     function initializeAbilities() {
         var page;
 
         var abilitiesAppended = 0;
 
         var isNewPage = true;
+
+        abilities.sort(sortByAbilityID);
 
         abilities.forEach(ability => {
             ability.isVisible = !searchText || ability.name.toLowerCase().indexOf(searchText) !== -1;
@@ -1313,6 +1330,8 @@ module Spellbook {
                 cuAPI.HideUI('spellbook');
 
                 cuAPI.OnAbilityCreated(onAbilityCreated);
+
+                cuAPI.OnAbilityDeleted(onAbilityDeleted);
 
                 cuAPI.OnShowAbility(onShowAbility);
 

@@ -36,6 +36,82 @@ enum Archetype {
     MeleeCombatTest = 5
 }
 
+enum AbilityTags {
+    SYSTEM = 0,      // Used for abilities applied outside the ability system. e.g. No movement stat mod while casting.
+    NonAggressive,   // Used for effects that should affect caster and/or allies.
+    NonInteractable, // Can't interact or be interacted with
+
+    // Non-elemental
+    NoMagic,
+
+    // 
+    Weapon,
+    Style,
+    Speed,
+    Potential,
+    Targeting,
+
+    // Vocal
+    Voice,
+    Shout,
+    Inflection,
+
+    // Primary elemental magics
+    Air,
+    Earth,
+    Fire,
+    Water,
+
+    // Secondary elemental magics
+    Blast,
+    Lava,
+    Mud,
+    Sand,
+    Steam,
+    Spray,
+
+    // Non-elemental magics
+    Healing,
+    Restoration,
+    Lifedrain,
+    Swiftness,
+    Dispalcement,
+
+    // Shape
+    Self,
+    Direct,
+    Touch,
+    Dart,
+    Ball,
+    Cloud,
+    Fountain,
+    Wall,
+    Wave,
+    Pool,
+    Cone,
+
+    // Meta types
+    Rune,
+    Shape,
+    Range,
+    Size,
+    Infusion,
+    Focus,
+
+    // Combat tags
+    Blocking,
+    CounterAttack,
+    Unblockable,
+
+    COUNT           // Total number of tags.  Do not use as a tag.
+}
+
+enum TagConstraintType {
+    AllOf,
+    AnyOf,
+    NoneOf,
+}
+
 class Ability {
     id: string;
     icon: string;
@@ -212,13 +288,20 @@ class AbilityButton {
         }
 
         var currentCooldown = null;
+
+        var maxDuration = null;
+
         for (var i = 0, len = this.ability.cooldowns.length; i < len; ++i) {
             var c = this.ability.cooldowns[i];
-            if (c.Active()) {
-                var frac = (this.cu.ServerTime() - c.startTime) / c.duration;
-                var timeLeft = (1.0 - frac) * c.duration;
-                if (!(timeLeft > 0.02)) continue;
+            if (c.Active() && c.duration > maxDuration) {
+                maxDuration = c.duration;
+            }
+        }
 
+        if (maxDuration != null) {
+            var frac = (this.cu.ServerTime() - c.startTime) / c.duration;
+            var timeLeft = (1.0 - frac) * c.duration;
+            if (timeLeft > 0.02) {
                 if (!currentCooldown) {
                     currentCooldown = this.cooldownOverlay = $('<div>').addClass('cooldownRoot').appendTo(this.rootElement);
                 }
@@ -228,6 +311,7 @@ class AbilityButton {
                 slide.animate({ height: '100%' }, timeLeft * 1000.0, 'linear', () => this.UpdateVisuals());
             }
         }
+
         this.rootElement.attr('cooldown', (currentCooldown ? 1 : 0));
     }
 
@@ -320,10 +404,19 @@ enum XmppAuthMechanism {
     CSELOGINTOKEN
 }
 
-// These are the tags needed by the C++ Layer to know which variables to send to the window.
+// These are the tags needed by the C++ Layer to know which build variables to send to the window.
 enum Tags {
     KEYBIND = 2,
     INPUT = 6
+}
+
+// This determines which mode of building the UI is currently in.
+enum BuildUIMode {
+    NotBuilding = 0,
+    PlacingPhantom = 1,
+    PhantomPlaced = 2,
+    SelectingBlock = 4,
+    BlockSelected = 8
 }
 
 var KeyCode = {
@@ -720,11 +813,15 @@ class CU {
                 }
 
                 if (_.isFunction(this.gameClient.OnAbilityActive)) {
-                    this.gameClient.OnAbilityActive((curr, start, trigger, queue) =>
+                    this.gameClient.OnAbilityActive((curr, start, trigger, queue) => {
+                        if (curr) curr = parseInt(curr, 16).toString(16);
+                        if (queue) queue = parseInt(queue, 16).toString(16);
+
                         this.HandleAbilityActive(
                             (curr ? this.abilities[curr] : null),
                             start, trigger,
-                            (queue ? this.abilities[queue] : null)));
+                            (queue ? this.abilities[queue] : null));
+                    });
                 }
 
                 if (_.isFunction(this.gameClient.OnAbilityError)) {
@@ -893,7 +990,7 @@ class CU {
     }
 
     // Respawn
-    Respawn(id: number) {
+    Respawn(id) {
         if (this.InGame()) {
             this.gameClient.Respawn(id);
         }
@@ -930,18 +1027,19 @@ class CU {
         }
     }
 
-    RequestAllAbilities(callback: (a: Ability[]) => any): void {
+    RequestAllAbilities(loginToken, characterID, callback: (a: Ability[]) => any) {
         if (!this.allAbilitiesCallback) {
             this.allAbilitiesCallback = [callback];
-            $.getJSON(this.gameServerURL + 'abilities', (abilities) => {
-                this.UpdateAllAbilities(abilities);
+            return $.getJSON(cu.SecureApiUrl('api/craftedabilities'), {
+                loginToken: loginToken,
+                characterID: characterID
             });
         } else {
             this.allAbilitiesCallback.push(callback);
         }
     }
 
-    private UpdateAbility(rawAbility: ServerAbility): Ability {
+    public UpdateAbility(rawAbility: ServerAbility): Ability {
         var a = new Ability(this);
         a.id = rawAbility.id;
         a.icon = rawAbility.icon;
@@ -987,7 +1085,7 @@ class CU {
         return a;
     }
 
-    private UpdateAllAbilities(rawList: ServerAbility[]) {
+    public UpdateAllAbilities(rawList: ServerAbility[]) {
         var convertedList = <Ability[]><any>rawList;
         var oldAbilities = <{ [id: string]: Ability }>$.extend({}, this.abilities);
         for (var i = 0, len = rawList.length; i < len; ++i) {
@@ -1087,9 +1185,15 @@ class CU {
         }
     }
 
-    public ChangeBuildingMode(): void {
+    public ToggleBuildingMode(): void {
         if (cu.HasAPI()) {
-            cuAPI.ChangeBuildingMode();
+            cuAPI.ToggleBuildingMode();
+        }
+    }
+
+    public SetBuildingMode(newMode): void {
+        if (cu.HasAPI()) {
+            cuAPI.SetBuildingMode(newMode);
         }
     }
 
@@ -1782,7 +1886,7 @@ interface CUInGameAPI {
     OnUpdateNameplate(c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void): void;
 
     /* Respawn */
-    Respawn(id : number): void;
+    Respawn(id): void;
 
     /* Abilities */
 
@@ -1835,7 +1939,8 @@ interface CUInGameAPI {
     /* Building */
     OnBuildingModeChanged(c: (buildingMode: boolean) => void): void;
     OnReceiveBlocks(c: (buildingDict: any) => void): void;
-    ChangeBuildingMode(): void;
+    ToggleBuildingMode(): void;
+    SetBuildingMode(c: (newMode: number) => void): void;
     RequestBlocks(): void;
     ChangeBlockType(c: (newType: number) => void): void;
     CommitBlock(): void;
@@ -1904,6 +2009,7 @@ interface CUInGameAPI {
     OnAbilityDeleted(callback: (abilityID: string) => void): void;
 
     RegisterAbility(abilityID: string, primaryBaseComponentID: string, secondaryBaseComponentID: string): void;
+    OnAbilityRegistered(callback: (abilityID: string, cooldowns: string, duration: number, triggerTime: number) => void): void;
 
     /* Stats */
 

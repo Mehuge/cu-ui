@@ -4,16 +4,28 @@
 <head>
     <title>Respawn</title>
     <link rel="stylesheet" type="text/css" href="../cu/cu.css">
+    <link rel="stylesheet" type="text/css" href="../cu/window.css">
+    <link rel="stylesheet" type="text/css" href="../minimap/minimap.css">
     <link rel="stylesheet" type="text/css" href="respawn.css">
 </head>
 <body class="disable-selection default-cursor">
-    <div id="respawn">
-        <h2>Select Respawn Point</h2>
-        <canvas id="map" width="512" height="512"></canvas>
+    <div id="respawn" style="margin: auto; margin-top: 150px; width: 600px; height: 650px;">
+        <div class="window">
+            <div class="window-top">
+                <div class="window-title">Select A Point To Respawn</div>
+            </div>
+            <div class="window-middle">
+                <div id="map"></div>
+            </div>
+            <div class="window-bottom">
+                <div></div>
+            </div>
+        </div>
     </div>
-    <script src="../vendor/jquery-2.1.1.js"></script>
-    <script src="../vendor/lodash.js"></script>
-    <script src="../cu/cu.js"></script>
-    <script src="../minimap/minimap.js"></script>
-    <script src="respawn.js"></script>
+<script src="../vendor/jquery-2.1.1.js"></script>
+<script src="../vendor/jquery-ui.min.js"></script>
+<script src="../vendor/lodash.js"></script>
+<script src="../cu/cu.js"></script>
+<script src="../minimap/minimap.js"></script>
+<script src="respawn.js"></script>
 </body>

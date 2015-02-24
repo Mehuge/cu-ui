@@ -229,21 +229,6 @@ html, body {
     height: 30px;
     margin: 0;
     padding: 0 0 0 35px;
-    border: none;
-    outline-width: 0;
-    background: transparent;
-    color: transparent;
-}
-
-#chat-input::-webkit-input-placeholder {
-    opacity: 0;
-}
-
-#chat-input:focus::-webkit-input-placeholder {
-    opacity: 1;
-}
-
-#chat-input:focus {
     color: #fff;
     border: 1px solid rgba(128, 128, 128, 0.46);
     outline-width: 0;
@@ -256,7 +241,7 @@ html, body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#80000000', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
 }
 
-#chat-input[data-command-mode="1"]:focus {
+#chat-input[data-command-mode="1"] {
     border: none;
     outline-width: 2px;
 }

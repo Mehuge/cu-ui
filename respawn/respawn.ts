@@ -13,59 +13,42 @@ module Respawn {
             cuAPI.HideUI('respawn');
             $respawn.fadeOut();
         } else {
+            var myFaction = $('.' + MiniMap.factionSelectors[MiniMap.myFaction]);
+            myFaction.addClass('canselect');
+            myFaction.on('click', (e) => {
+                var respawnId = $(e.currentTarget).attr('respawnID');
+                cuAPI.Respawn(respawnId);
+            });
             cuAPI.ShowUI('respawn');
-            MiniMap.drawMap(MiniMap.mousePos);
+            MiniMap.drawMap();
             $respawn.fadeIn();
         }
     }
 
-    function getMousePos(canvas, e): MiniMap.IPoint {
-        var rect = canvas.getBoundingClientRect();
-        return {
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-        };
+    function drawMap(): void {
+        // update map
+        MiniMap.controlPoints.forEach(p => {
+            var temp = $('#' + p.id);
+            temp.removeClass();
+            temp.addClass(MiniMap.factionSelectors[p.faction]);
+            if (p.faction == MiniMap.myFaction) {
+                temp.addClass('canselect');
+                temp.on('click', (e) => {
+                    var respawnId = $(e.currentTarget).attr('respawnID');
+                    cuAPI.Respawn(respawnId);
+                });
+            }
+        });
+        // Draw my position
+        MiniMap.myPos = MiniMap.serverToCanvasPoint(cuAPI.locationX, cuAPI.locationY);
+
+        var p = $('#playerPos');
+        p.css('top', MiniMap.myPos.y - 5);
+        p.css('left', MiniMap.myPos.x - 5);
     }
 
     // INITIALIZE!
     function initialize() {
-        
-
-        // Handle hover color change
-        MiniMap.canvas.addEventListener('mousemove', e => {
-            MiniMap.update(getMousePos(MiniMap.canvas, e))
-        }, false);
-
-        // Handle clicks on a spawn point
-        MiniMap.canvas.addEventListener('mousedown', e => {
-            MiniMap.mousePos = getMousePos(MiniMap.canvas, e);
-            if (typeof MiniMap.controlPoints !== 'undefined' && MiniMap.controlPoints !== null) {
-                MiniMap.controlPoints.forEach(point => {
-                    var r = MiniMap.radiusForSize(point.size);
-                    if (point.faction === MiniMap.myFaction &&
-                        Math.abs(MiniMap.mousePos.x - point.x) < r &&
-                        Math.abs(MiniMap.mousePos.y - point.y) < r) {
-
-                        // Request respawn at selected!
-                        cuAPI.Respawn(point.id);
-                    }
-                });
-            }
-
-            if (typeof MiniMap.spawnPoints !== 'undefined' && MiniMap.spawnPoints !== null) {
-                MiniMap.spawnPoints.forEach(point => {
-                    var r = MiniMap.radiusForSize(point.size);
-                    if (point.faction === MiniMap.myFaction &&
-                        Math.abs(MiniMap.mousePos.x - point.x) < r &&
-                        Math.abs(MiniMap.mousePos.y - point.y) < r) {
-
-                        // Request respawn at selected!
-                        cuAPI.Respawn(point.id);
-                    }
-                });
-            }
-        }, false);
-
         cuAPI.OnCharacterHealthChanged(updateHealth);
     }
 
@@ -74,9 +57,13 @@ module Respawn {
     if (cu.HasAPI()) {
         MiniMap.width = 512;
         MiniMap.height = 512;
+        MiniMap.iconScale = 1.0;
+        MiniMap.updateFunction = drawMap;
         MiniMap.initialize();
+        MiniMap.width = 512;
+        MiniMap.height = 512;
+        MiniMap.iconScale = 1.0;
         cu.OnInitialized(initialize);
     }
-
-
+    $(".window").draggable();
 }
