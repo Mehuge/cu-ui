@@ -21,7 +21,7 @@ module Chat {
     var lastLinesSend = [];
     var lastLinesSendIndex = -1;
 
-    var MAX_LINES_SEND_TO_KEEP = 2;
+    var MAX_LINES_SEND_TO_KEEP = 10;
     var MAX_TABS = 7;
 
     function createTab(room) {

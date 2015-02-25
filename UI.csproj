@@ -52,6 +52,7 @@
     <TypeScriptCompile Include="ability-crafting\componentSlot.ts" />
     <Content Include="bandage\bandage.css" />
     <Content Include="bandage\bandage.html" />
+    <Content Include="cu\fonts.css" />
     <Content Include="images\ability-crafting\ability-icon-transparent-bg.png" />
     <Content Include="images\blockselector\brick-block-btn.jpg" />
     <Content Include="images\blockselector\brick-ramp-btn.jpg" />
