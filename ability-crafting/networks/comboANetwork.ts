@@ -117,7 +117,7 @@ var comboA5 = new ComponentSlot({
 
 var comboA4 = new ComponentSlot({
     type: ComponentType.Secondary,
-    subType: ComponentSubType.Shape,
+    subType: ComponentSubType.DeadSecondary,
     x: 14,
     y: 15,
     children: [comboA6, comboA7],
@@ -138,7 +138,7 @@ var comboA4 = new ComponentSlot({
 
 var comboA3 = new ComponentSlot({
     type: ComponentType.Primary,
-    subType: ComponentSubType.Rune,
+    subType: ComponentSubType.DeadPrimary,
     x: 6,
     y: 15,
     children: [comboA4, comboA5],

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 html, body {
     margin: 0;
     padding: 0;
@@ -152,9 +156,12 @@ html, body {
 
 #stats {
     list-style-type: none;
-    margin: 0;
+    margin: 0 0 10px 0;
     padding: 10px 20px;
-    height: 88px;
+    height: 148px;
+    border: 1px solid rgb(39, 39, 39);
+    background: rgb(29, 29, 29);
+    box-shadow: inset 0 0 100px 5px rgba(0, 0, 0, 0.75);
 }
 
 #stats li {
@@ -170,7 +177,7 @@ html, body {
 #network {
     position: relative;
     width: 432px;
-    height: 330px;
+    height: 280px;
     overflow: hidden;
     border: solid 1px rgb(39, 39, 39);
     background: rgb(29, 29, 29);

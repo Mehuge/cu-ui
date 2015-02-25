@@ -816,11 +816,7 @@ class CU {
                     this.gameClient.OnAbilityActive((curr, start, trigger, queue) => {
                         if (curr) curr = parseInt(curr, 16).toString(16);
                         if (queue) queue = parseInt(queue, 16).toString(16);
-
-                        this.HandleAbilityActive(
-                            (curr ? this.abilities[curr] : null),
-                            start, trigger,
-                            (queue ? this.abilities[queue] : null));
+                        this.HandleAbilityActive((curr ? cu.abilities[curr] : null), start, trigger, (queue ? cu.abilities[queue] : null));
                     });
                 }
 
@@ -1015,7 +1011,7 @@ class CU {
             callback(current);
         } else {
             if (!current) {
-                current = new Ability(this);
+                current = this.abilities[id] = new Ability(this);
                 current.id = id;
             }
             if (!current.awaitingUpdate) {
@@ -1023,7 +1019,7 @@ class CU {
             } else {
                 current.awaitingUpdate.push(callback);
             }
-            $.getJSON(this.gameServerURL + 'abilities/' + id, (data) => this.UpdateAbility(data));
+            $.getJSON('http://' + this.ApiHost() + ':8000/api/abilities/' + parseInt(id, 16), (data) => this.UpdateAbility(data));
         }
     }
 
@@ -1041,7 +1037,7 @@ class CU {
 
     public UpdateAbility(rawAbility: ServerAbility): Ability {
         var a = new Ability(this);
-        a.id = rawAbility.id;
+        a.id = parseInt(rawAbility.id, 16).toString(16);
         a.icon = rawAbility.icon;
         if (rawAbility.cooldowns) {
             for (var i = 0; i < rawAbility.cooldowns.length; ++i) {

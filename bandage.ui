@@ -8,5 +8,7 @@
         "right": 1440,
         "bottom": 900
     },
-    "handlesInput":  true
+    "handlesAbilities": true,
+    "handlesConfig": true,
+    "handlesInput": true
 }

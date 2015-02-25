@@ -86,7 +86,10 @@ enum ComponentSubType {
     Shout =         1 << 20,
     Song =          1 << 21,
     Inflection =    1 << 22,
-    Technique =     1 << 23
+    Technique =     1 << 23,
+    // TODO : remove these when abilities get updated, these are to cull components from showing in the UI
+    DeadPrimary =   1 << 24,
+    DeadSecondary = 1 << 25
 }
 
 var ComponentSubTypeValues = _.values(ComponentSubType).filter(value => _.isNumber(value) && value != ComponentSubType.None);

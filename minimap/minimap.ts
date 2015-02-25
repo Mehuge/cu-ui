@@ -82,8 +82,6 @@ module MiniMap {
     }
 
     function getImageForControlPoint(cp): string {
-        console.log("x: " + cp.x + "y: " + cp.y);
-
         var width = sizeToWidth[cp.size] * iconScale;
 
         var img = "<img style='position:absolute; top:" + (cp.y - width * 0.5);
@@ -122,10 +120,10 @@ module MiniMap {
 
     export function drawMap(): void {
         // update map
-        controlPoints.forEach(p => {
-            var temp = $('#' + p.id);
+        controlPoints.forEach(cp => {
+            var temp = $('#' + cp.id);
             temp.removeClass();
-            temp.addClass(factionSelectors[p.faction]);
+            temp.addClass(factionSelectors[cp.faction]);
         });
         // Draw my position
         myPos = serverToCanvasPoint(cuAPI.locationX, cuAPI.locationY);
@@ -146,56 +144,58 @@ module MiniMap {
             type: 'GET',
             url: cuAPI.serverURL + '/game/controlgame'
         }).done((controlGame) => {
-                getControlPointsState = RequestState.Succeeded;
-                controlPoints = controlGame.controlPoints;
-                if (typeof controlPoints !== 'undefined' && controlPoints !== null) {
-                    controlPoints.forEach(p => {
-                        var pos = serverToCanvasPoint(p.x, p.y);
-                        p.x = pos.x;
-                        p.y = pos.y;
-                    });
+            getControlPointsState = RequestState.Succeeded;
+            controlPoints = controlGame.controlPoints;
+            if (typeof controlPoints !== 'undefined' && controlPoints !== null) {
+                controlPoints.forEach(p => {
+                    var pos = serverToCanvasPoint(p.x, p.y);
+                    p.x = pos.x;
+                    p.y = pos.y;
+                });
 
-                    if (!cpOnce && !isNaN(controlPoints[0].x) && typeof (controlPoints[0].x) !== "undefined") {
-                        controlPoints.forEach(p => {
-                            map.append(getImageForControlPoint(p));
-                        });
-                        cpOnce = true;
-                    } else {
-                        updateFunction();
-                    }
+                if (!cpOnce && !isNaN(controlPoints[0].x) && typeof (controlPoints[0].x) !== "undefined") {
+                    controlPoints.forEach(p => {
+                        map.append(getImageForControlPoint(p));
+                    });
+                    cpOnce = true;
+
+                    map.append(getImageForPlayer(myPos.x, myPos.y, true));
+                } else {
+                    updateFunction();
                 }
-            }).fail((xhr) => {
-                getControlPointsState = RequestState.Failed;
-                setTimeout(getControlPoints, 5000 - (new Date().getTime() - start.getTime()));
-            });
+            }
+        }).fail(() => {
+            getControlPointsState = RequestState.Failed;
+            setTimeout(getControlPoints, 5000 - (new Date().getTime() - start.getTime()));
+        });
     }
 
     function getSpawnPoints() {
         if (getSpawnPointsState === RequestState.InProgress) return null;
 
         getSpawnPointsState = RequestState.InProgress;
-        var start = lastRequest = new Date();
+        lastRequest = new Date();
 
         return $.ajax({
             type: 'GET',
             url: cuAPI.serverURL + '/game/spawnpoints'
         }).done((sp) => {
-                getSpawnPointsState = RequestState.Succeeded;
-                spawnPoints = sp.spawns;
-                if (typeof spawnPoints !== 'undefined' && spawnPoints !== null) {
-                    spawnPoints.forEach(p => {
-                        p.id = "0";
-                        var pos = serverToCanvasPoint(p.x, p.y);
-                        p.x = pos.x;
-                        p.y = pos.y;
-                    });
-                    spawnPoints.forEach(p => {
-                        map.append(getImageForSpawnPoint(p));
-                    });
-                }
-            }).fail((xhr) => {
-                getSpawnPointsState = RequestState.Failed;
-            });
+            getSpawnPointsState = RequestState.Succeeded;
+            spawnPoints = sp.spawns;
+            if (typeof spawnPoints !== 'undefined' && spawnPoints !== null) {
+                spawnPoints.forEach(p => {
+                    p.id = "0";
+                    var pos = serverToCanvasPoint(p.x, p.y);
+                    p.x = pos.x;
+                    p.y = pos.y;
+                });
+                spawnPoints.forEach(p => {
+                    map.append(getImageForSpawnPoint(p));
+                });
+            }
+        }).fail(() => {
+            getSpawnPointsState = RequestState.Failed;
+        });
     }
 
     export function update(mouse: IPoint) {
@@ -221,7 +221,7 @@ module MiniMap {
         iconScale = 0.5;
         updateFunction = drawMap;
         cu.OnInitialized(initialize);
-        map.append(getImageForPlayer(myPos.x, myPos.y, true));
+
         if (_.isFunction(cuAPI.OnCharacterFactionChanged)) {
             cuAPI.OnCharacterFactionChanged((newFaction: number) => {
                 switch (newFaction) {
@@ -232,7 +232,7 @@ module MiniMap {
                         myFaction = 'V';
                         break;
                     case 1:
-                        myFaction = 'T'
+                        myFaction = 'T';
                     break;
                 }
             });

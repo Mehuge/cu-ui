@@ -18,7 +18,10 @@ module Chat {
     var selectedRoom = null;
     var savedText = '';
     var faction: number = -1;
+    var lastLinesSend = [];
+    var lastLinesSendIndex = -1;
 
+    var MAX_LINES_SEND_TO_KEEP = 2;
     var MAX_TABS = 7;
 
     function createTab(room) {
@@ -217,8 +220,18 @@ module Chat {
     }
 
     function onSubmitChat(event) {
+        // shift + Arrow Up/Down to cycle through last send texts
+        if (cycleLastLinesSend(event)) {
+            // nothing to do here
+        }
+        // when ESC is pressed: Abort and clear chat
+        else if (event.which == 27) {
+            $chatInput.val('');
+            savedText = '';
+            lastLinesSendIndex = -1;
+        }
         // when enter key is pressed
-        if (event.which == 13) {
+        else if (event.which == 13) {
             var body = $chatInput.val();
             var commandMode = $chatInput.attr('data-command-mode') || '0';
             if (body && body.length) {
@@ -238,7 +251,44 @@ module Chat {
                 setTextEntryMode(0);
                 $chatInput.blur();
             }
+            addToLastSendLines(body);
         }
+    }
+
+    function addToLastSendLines(body) {
+        if (body != "") {
+            lastLinesSend.unshift(body);
+            if (lastLinesSend.length > MAX_LINES_SEND_TO_KEEP) {
+                lastLinesSend.pop();
+            }
+            lastLinesSendIndex = -1;
+        }
+    }
+
+    function cycleLastLinesSend(event) {
+        if (event.shiftKey && (event.which == 38 || event.which == 40)) {
+            if (lastLinesSendIndex == -1) {
+                savedText = $chatInput.val()
+            }
+
+            // cycle through last send lines using shift + Arrow Up/Down
+            if (event.which == 38 && lastLinesSendIndex < (lastLinesSend.length - 1)) {
+                lastLinesSendIndex++;
+                $chatInput.val(lastLinesSend[lastLinesSendIndex]);
+            
+            }
+            else if (event.which == 40 && lastLinesSendIndex >= 0) {
+                lastLinesSendIndex--;
+                if (lastLinesSendIndex < 0) {
+                    $chatInput.val(savedText);
+                }
+                else {
+                    $chatInput.val(lastLinesSend[lastLinesSendIndex]);
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
     function onFocus() {

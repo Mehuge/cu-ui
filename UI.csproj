@@ -581,6 +581,7 @@
     <Content Include="fonts\vtcgoblinhandregular.woff2" />
     <Content Include="blockselector.ui" />
     <Content Include="buildactions.ui" />
+    <Content Include="bandage.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
