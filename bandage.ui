@@ -3,8 +3,8 @@
     "name": "bandage",
     "mainFile": "bandage/bandage.html",
     "rect": {
-        "left": 1373,
-        "top": 839,
+        "left": 1150,
+        "top": 700,
         "right": 1440,
         "bottom": 900
     },

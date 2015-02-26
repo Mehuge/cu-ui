@@ -692,8 +692,8 @@ module Login {
     var BOON_BANE_OFFSET_X = 40;
     var BOON_BANE_OFFSET_Y = 40;
 
-    var NAME_MIN_LENGTH = 3;
-    var NAME_MAX_LENGTH = 32;
+    var NAME_MIN_LENGTH = 2;
+    var NAME_MAX_LENGTH = 25;
 
     var REQUEST_RETRY_DELAY = 5000;
 

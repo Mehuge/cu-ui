@@ -890,6 +890,8 @@ module Spellbook {
         var $ul = $('<ul>').appendTo($abilityPagesModal);
 
         if (_.isNumber(firstAbilitiesPage) && _.isNumber(lastAbilitiesPage)) {
+            $('<li>').addClass('page-label').text('Page').appendTo($ul);
+
             _.range(firstAbilitiesPage - 1, lastAbilitiesPage).forEach(i => {
                 $('<li>').text(romanize(i)).on('click', evt => turnToPage(evt, i + 1)).appendTo($ul);
             });
@@ -946,6 +948,8 @@ module Spellbook {
         var pageModifier = lastAbilitiesPage - 1;
 
         if (_.isNumber(firstComponentsPage) && _.isNumber(lastComponentsPage)) {
+            $('<li>').addClass('page-label').text('Page').appendTo($ul);
+
             _.range(firstComponentsPage - 1 - pageModifier, lastComponentsPage - pageModifier).forEach(i => {
                 $('<li>').text(i).on('click', evt => turnToPage(evt, i + 1 + pageModifier)).appendTo($ul);
             });

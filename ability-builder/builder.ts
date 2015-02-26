@@ -74,6 +74,7 @@ module AbilityBuilder {
     var $stats = $('#stats');
     var $network = $('#network');
     var $btnSelectIcon = $('#btn-select-icon');
+    var $btnReset = $('#btn-reset');
     var $btnBuild = $('#btn-build');
     var $selectIconModal = $('#select-icon-modal');
     var $componentSelectionModal = $('#component-selection-modal');
@@ -82,6 +83,9 @@ module AbilityBuilder {
     var $errorModalErrors = $('#error-modal-errors');
     var $btnCloseErrorModal = $('#btn-close-error-modal');
     var $loading = $('#loading');
+    var $abilityNameRequired = $('#ability-name-required');
+    var $abilityIconRequired = $('#ability-icon-required');
+    var $abilityComponentsRequired = $('#ability-components-required');
     var $hiddenLayer = null;
 
     /* Variables */
@@ -95,7 +99,7 @@ module AbilityBuilder {
 
     var trainedComponents = [];
 
-    var selectedSlot;
+    var selectedSlot = null;
     var selectedComponents = [];
 
     var networkOffset = $network.offset();
@@ -185,7 +189,11 @@ module AbilityBuilder {
         $abilityName.removeClass('error');
 
         if (!hasAbilityName) {
+            $abilityNameRequired.fadeIn();
+
             toggleErrorClassRepeatedly($abilityName);
+        } else {
+            $abilityNameRequired.hide();
         }
 
         var hasAbilityIcon = selectedAbilityIcon.length > 0;
@@ -193,28 +201,52 @@ module AbilityBuilder {
         $btnSelectIcon.removeClass('error');
 
         if (!hasAbilityIcon) {
+            $abilityIconRequired.fadeIn();
+
             toggleErrorClassRepeatedly($btnSelectIcon);
+        } else {
+            $abilityIconRequired.hide();
         }
 
         var abilityNotes = $abilityNotes.val();
 
-        var rootComponents = selectedComponents.filter(component => component.slot.parents.length === 0);
+        var primaryComponent = null;
+        var secondaryComponent = null;
 
-        var rootComponent;
+        selectedComponents.forEach(component => {
+            if (_.isNull(primaryComponent)) {
+                var isRootComponent = component.slot.parents.length === 0;
+                var isPrimaryComponent = component.type === ComponentType.Primary;
+                if (isRootComponent && isPrimaryComponent) {
+                    primaryComponent = component;
+                    return;
+                }
+            }
 
-        if (rootComponents.length === 1) {
-            rootComponent = rootComponents[0];
-        }
+            if (_.isNull(secondaryComponent)) {
+                var isSecondaryComponent = component.type === ComponentType.Secondary;
+                if (isSecondaryComponent) {
+                    secondaryComponent = component;
+                    return;
+                }
+            }
+        });
 
-        var hasRootComponent = typeof rootComponent !== 'undefined';
+        var hasPrimaryComponent = !_.isNull(primaryComponent);
+
+        var hasSecondaryComponent = !_.isNull(secondaryComponent);
 
         $network.removeClass('error');
 
-        if (!hasRootComponent) {
+        if (!hasPrimaryComponent || !hasSecondaryComponent) {
+            $abilityComponentsRequired.fadeIn();
+            
             toggleErrorClassRepeatedly($network);
+        } else {
+            $abilityComponentsRequired.hide();
         }
 
-        if (hasAbilityName && hasAbilityIcon && hasRootComponent) {
+        if (hasAbilityName && hasAbilityIcon && hasPrimaryComponent && hasSecondaryComponent) {
             $btnBuild.prop('disabled', true).addClass('waiting');
 
             buildAbility({
@@ -223,28 +255,12 @@ module AbilityBuilder {
                 name: abilityName,
                 notes: abilityNotes,
                 icon: selectedAbilityIcon,
-                rootComponentSlot: getComponentSlotViewModel(rootComponent)
+                rootComponentSlot: getComponentSlotViewModel(primaryComponent)
             }).then(ability => {
                 $btnBuild.prop('disabled', false).removeClass('waiting');
 
                 if (ability && ability.id && typeof cuAPI === 'object') {
-                    console.log('ability created ' + ability.id, ability);
-
-                    var primaryComponent = getPrimaryComponent(ability);
-                    var primaryBaseComponentID = primaryComponent && primaryComponent.baseComponentID ? primaryComponent.baseComponentID.toString(16) : '';
-
-                    var secondaryComponent = getSecondaryComponent(ability);
-                    var secondaryBaseComponentID = secondaryComponent && secondaryComponent.baseComponentID ? secondaryComponent.baseComponentID.toString(16) : '';
-
-                    cuAPI.AbilityCreated(ability.id.toString(16), primaryBaseComponentID, secondaryBaseComponentID, JSON.stringify(ability));
-
-                    // TODO: what should the flow here be?
-                    /*
-                    cuAPI.ReleaseInputOwnership();
-                    cuAPI.HideUI('ability-builder');
-                    cuAPI.ShowAbility(ability.id.toString());
-                    cuAPI.ShowUI('spellbook');
-                    */
+                    abilityCreated(ability);
                 }
             }, xhr => {
                 $btnBuild.prop('disabled', false).removeClass('waiting');
@@ -261,6 +277,28 @@ module AbilityBuilder {
                 showErrorModal('Building ability failed!', errors);
             });
         }
+    }
+
+    function abilityCreated(ability) {
+        console.log('ability created ' + ability.id, ability);
+
+        var primaryComponent = getPrimaryComponent(ability);
+        var primaryBaseComponentID = primaryComponent && primaryComponent.baseComponentID ? primaryComponent.baseComponentID.toString(16) : '';
+
+        var secondaryComponent = getSecondaryComponent(ability);
+        var secondaryBaseComponentID = secondaryComponent && secondaryComponent.baseComponentID ? secondaryComponent.baseComponentID.toString(16) : '';
+
+        cuAPI.AbilityCreated(ability.id.toString(16), primaryBaseComponentID, secondaryBaseComponentID, JSON.stringify(ability));
+
+        // TODO: what should the flow here be?
+        /*
+        cuAPI.ReleaseInputOwnership();
+        cuAPI.HideUI('ability-builder');
+        cuAPI.ShowAbility(ability.id.toString());
+        cuAPI.ShowUI('spellbook');
+        */
+
+        resetComponentNetwork();
     }
 
     function getComponentSlotViewModel(component) {
@@ -407,6 +445,10 @@ module AbilityBuilder {
 
         if (icon && icon.length) {
             setSelectIcon(icon);
+
+            $abilityIconRequired.hide();
+        } else {
+            $abilityIconRequired.fadeIn();
         }
 
         return hideSelectIconModal(e);
@@ -555,6 +597,8 @@ module AbilityBuilder {
 
         if (hasComponents) {
             $network.removeClass('error');
+
+            $abilityComponentsRequired.hide();
         }
 
         return false;
@@ -975,7 +1019,36 @@ module AbilityBuilder {
 
         if (hasAbilityName) {
             $abilityName.removeClass('error');
+
+            $abilityNameRequired.hide();
         }
+    }
+
+    function resetComponentNetwork() {
+        $network.removeClass('error');
+
+        $abilityNameRequired.hide();
+        $abilityIconRequired.hide();
+        $abilityComponentsRequired.hide();
+
+        $abilityName.val('').removeClass('error');
+        $abilityNotes.val('');
+
+        setSelectIcon('');
+
+        selectedSlot = null;
+        selectedComponents = [];
+        selectedAbilityIcon = '';
+        showDefaultNetwork();
+    }
+
+    function handleResetButtonClick(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        resetComponentNetwork();
+
+        return false;
     }
 
     function handleBuildButtonClick(e) {
@@ -1031,6 +1104,7 @@ module AbilityBuilder {
         $abilityName.blur(handleInputOwnership);
         $abilityNotes.blur(handleInputOwnership);
 
+        $btnReset.click(handleResetButtonClick);
         $btnBuild.click(handleBuildButtonClick);
 
         $btnCloseErrorModal.click(hideErrorModal);

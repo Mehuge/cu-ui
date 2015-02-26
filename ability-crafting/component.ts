@@ -68,7 +68,7 @@ class Component {
         var $component = this.$component = $('<div>').addClass('component');
 
         if (this.icon) {
-            $component.css('background', 'url(' + this.icon + ') no-repeat center center');
+            $component.css({ 'background': 'url(' + this.icon + ') no-repeat center center', 'background-size': 'contain' });
         }
 
         return this.updateElement();

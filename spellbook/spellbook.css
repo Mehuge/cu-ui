@@ -642,14 +642,14 @@ html, body {
     filter: brightness(0.6);
 }
 
-#ability-pages-modal li:hover,
-#component-pages-modal li:hover {
+#ability-pages-modal li:not(.page-label):hover,
+#component-pages-modal li:not(.page-label):hover {
     -webkit-filter: brightness(0.8);
     filter: brightness(0.8);
 }
 
-#ability-pages-modal li:active,
-#component-pages-modal li:active {
+#ability-pages-modal li:not(.page-label):active,
+#component-pages-modal li:not(.page-label):active {
     -webkit-filter: brightness(1.0);
     filter: brightness(1.0);
 }
@@ -660,6 +660,12 @@ html, body {
 
 #component-pages-modal li {
     color: #CBA066;
+}
+
+#ability-pages-modal li.page-label,
+#component-pages-modal li.page-label {
+    cursor: default;
+    text-transform: uppercase;
 }
 
 /* Error Message */

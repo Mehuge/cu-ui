@@ -17,19 +17,11 @@ module Bandage {
 
     cu.OnInitialized(() => {
         cu.RequestAbility(BANDAGE_ABILITY_ID, ability => {
-            $bandage.empty();
-
             var button = ability.MakeButton(0);
 
-            var elem = button.rootElement;
+            $bandage.empty().append(button.rootElement);
 
-            if (ability.name) elem.attr('data-tooltip-title', ability.name);
-
-            if (ability.tooltip) elem.attr('data-tooltip-content', ability.tooltip);
-
-            $bandage.append(elem);
-
-            var tooltip = new Tooltip(elem, { leftOffset: 0, topOffset: -30 });
+            var tooltip = new Tooltip(button.rootElement, { title: ability.name, content: ability.tooltip, leftOffset: 0, topOffset: -30 });
         }, true);
     });
 }

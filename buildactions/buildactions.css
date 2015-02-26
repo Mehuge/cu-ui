@@ -8,25 +8,84 @@ html, body {
     padding: 0;
 }
 
+.button-active {
+    width: 100%;
+    height: 100%;
+}
+
+.key {
+    position: absolute;
+    bottom: -14px;
+    left: 0px;
+    width: 67px;
+    text-align: center;
+    color: #ffbf80;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
+}
+
+#action-bar {
+    position: absolute;
+    margin: 0 auto;
+    top: 155px;
+    left: 40px;
+    width: 537px;
+    height: 76px;
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
+}
+
+#btn-commit:before {
+    position: absolute;
+    top: 36px;
+    left: -40px;
+    width: 40px;
+    height: 40px;
+    content: url('../images/skillbar/cap-left.png');
+}
+
+#btn-flip-z:after {
+    position: absolute;
+    top: 36px;
+    right: -40px;
+    width: 40px;
+    height: 40px;
+    content: url('../images/skillbar/cap-right.png');
+}
+
 #btn-commit {
     width: 67px;
     height: 61px;
-    left: 0px;
-    top: 0px;
+    left: 40px;
+    top: 155px;
     position: absolute;
-    background: url('../images/building/building-btn.jpg') no-repeat top left;
     background-size: 100%;
     color: white;
     text-align: center;
 }
 
+.add-btn {
+    background: url('../images/buildactions/add.png') no-repeat top left;
+}
+
+.remove-btn {
+    background: url('../images/buildactions/remove-block.jpg') no-repeat top left;
+}
+
 #btn-cancel {
     width: 67px;
     height: 61px;
-    left: 67px;
-    top: 0px;
+    left: 107px;
+    top: 155px;
     position: absolute;
-    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background: url('../images/buildactions/undo.jpg') no-repeat top left;
     background-size: 100%;
     color: white;
     text-align: center;
@@ -35,10 +94,10 @@ html, body {
 #btn-rotate-x {
     width: 67px;
     height: 61px;
-    left: 134px;
-    top: 0px;
+    left: 174px;
+    top: 155px;
     position: absolute;
-    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background: url('../images/buildactions/x-rotate-red.jpg') no-repeat top left;
     background-size: 100%;
     color: white;
     text-align: center;
@@ -47,10 +106,10 @@ html, body {
 #btn-rotate-y {
     width: 67px;
     height: 61px;
-    left: 201px;
-    top: 0px;
+    left: 241px;
+    top: 155px;
     position: absolute;
-    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background: url('../images/buildactions/y-rotate-grn.jpg') no-repeat top left;
     background-size: 100%;
     color: white;
     text-align: center;
@@ -59,10 +118,10 @@ html, body {
 #btn-rotate-z {
     width: 67px;
     height: 61px;
-    left: 268px;
-    top: 0px;
+    left: 308px;
+    top: 155px;
     position: absolute;
-    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background: url('../images/buildactions/z-rotate-blue.jpg') no-repeat top left;
     background-size: 100%;
     color: white;
     text-align: center;
@@ -71,10 +130,10 @@ html, body {
 #btn-flip-x {
     width: 67px;
     height: 61px;
-    left: 335px;
-    top: 0px;
+    left: 375px;
+    top: 155px;
     position: absolute;
-    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background: url('../images/buildactions/x-flip.jpg') no-repeat top left;
     background-size: 100%;
     color: white;
     text-align: center;
@@ -83,10 +142,10 @@ html, body {
 #btn-flip-y {
     width: 67px;
     height: 61px;
-    left: 402px;
-    top: 0px;
+    left: 442px;
+    top: 155px;
     position: absolute;
-    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background: url('../images/buildactions/y-flip.jpg') no-repeat top left;
     background-size: 100%;
     color: white;
     text-align: center;
@@ -95,10 +154,10 @@ html, body {
 #btn-flip-z {
     width: 67px;
     height: 61px;
-    left: 469px;
-    top: 0px;
+    left: 509px;
+    top: 155px;
     position: absolute;
-    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background: url('../images/buildactions/z-flip.jpg') no-repeat top left;
     background-size: 100%;
     color: white;
     text-align: center;
