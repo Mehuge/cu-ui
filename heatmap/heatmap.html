@@ -14,18 +14,19 @@
         body {
             margin: 0;
             padding: 0;
+            overflow: hidden;
         }
         #heatmap { 
             position: absolute;
-            width: 200px; height: 200px;
+            width: 100%; height: 100%;
             top: 0;
         }
         #map {
             position:absolute;
-            background-image: url(2048topo.jpg);
-            background-size: contain;
+            background-image: url(heatmap.png);
+            background-size: 100% 100%;
             opacity: 0.6;
-            width: 200px; height: 200px;
+            width: 100%; height: 100%;
             top: 0;
         }
         #overlay {
@@ -56,6 +57,7 @@
     <script>
         (function () {
             var map = { w: 2048, h: 2048, z: 2048 },
+                screenW = window.innerWidth, screenH = window.innerHeight,
                 heatmap = h337.create({
                     container: document.getElementById("heatmap"),
                     maxOpacity: .3,
@@ -75,13 +77,13 @@
                 radar = {},
                 transformX = function (x) {
                     x += (map.w / 2);        // move origin to left
-                    x /= (map.w / 200);      // bring into range
+                    x /= (map.w / screenW);      // bring into range
                     return x;          // flip origin to bottom
                 },
                 transformY = function (y) {
                     y += (map.h / 2);        // move origin to top
-                    y /= (map.h / 200);      // bring into range
-                    return 200-y;            // flip origin to bottom
+                    y /= (map.h / screenH);      // bring into range
+                    return screenH - y;            // flip origin to bottom
                 },
                 getKills = function () {
                     var since = new Date();
@@ -101,7 +103,7 @@
                             if (h < since) {
                                 var r = 1 - ((low + (h / (since / (high - low)))) / 100);
                                 var o = { x: transformX(pos.y), y: transformY(pos.x), value: r };
-                                //heatmap.addData(o);
+                                heatmap.addData(o);
                             }
                         }
                     };
@@ -149,6 +151,11 @@
             Mehuge.listen(function (msg) {
                 (radar[msg.c] = msg).updated = Date.now();
             });
+            window.addEventListener("resize", function() {
+                screenW = window.innerWidth;
+                screenH = window.innerHeight;
+            });
+
         })();
     </script>
 </body>
