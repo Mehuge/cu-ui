@@ -287,32 +287,30 @@ class AbilityButton {
             this.activeStartTime = -1;
         }
 
-        var currentCooldown = null;
-
-        var maxDuration = null;
+        var cooldown = null;
 
         for (var i = 0, len = this.ability.cooldowns.length; i < len; ++i) {
             var c = this.ability.cooldowns[i];
-            if (c.Active() && c.duration > maxDuration) {
-                maxDuration = c.duration;
+            if (c.Active() && (!cooldown || c.duration > cooldown.duration)) {
+                cooldown = c;
             }
         }
 
-        if (maxDuration != null) {
-            var frac = (this.cu.ServerTime() - c.startTime) / c.duration;
-            var timeLeft = (1.0 - frac) * c.duration;
+        if (cooldown) {
+            var frac = (this.cu.ServerTime() - cooldown.startTime) / cooldown.duration;
+            var timeLeft = (1.0 - frac) * cooldown.duration;
             if (timeLeft > 0.02) {
-                if (!currentCooldown) {
-                    currentCooldown = this.cooldownOverlay = $('<div>').addClass('cooldownRoot').appendTo(this.rootElement);
+                if (!this.cooldownOverlay) {
+                    this.cooldownOverlay = $('<div>').addClass('cooldownRoot').appendTo(this.rootElement);
                 }
 
-                var slide = $('<div>').addClass('cooldownSlide').css('height', Math.round(frac * 100.0) + '%').appendTo(currentCooldown);
+                var slide = $('<div>').addClass('cooldownSlide').css('height', Math.round(frac * 100.0) + '%').appendTo(this.cooldownOverlay);
 
                 slide.animate({ height: '100%' }, timeLeft * 1000.0, 'linear', () => this.UpdateVisuals());
             }
         }
 
-        this.rootElement.attr('cooldown', (currentCooldown ? 1 : 0));
+        this.rootElement.attr('cooldown', (cooldown ? 1 : 0));
     }
 
     rootElement: JQuery;
@@ -397,7 +395,6 @@ enum XmppRoomStatus {
     REMOVED_NONMEMBER = 322,
     REMOVED_SHUTDOWN = 332,
 }
-
 
 enum XmppAuthMechanism {
     PLAIN,

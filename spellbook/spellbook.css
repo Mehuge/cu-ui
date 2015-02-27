@@ -489,8 +489,9 @@ html, body {
 .ability-attributes li {
     float: left;
     display: inline-block;
-    width: 33.333%;
+    width: 32%;
     margin-bottom: 8px;
+    margin-right: 4px;
     font-family: 'vtcgoblinhandbold', sans-serif;
     font-size: 12px;
 }

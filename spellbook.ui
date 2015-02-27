@@ -4,7 +4,7 @@
 	"mainFile": "spellbook/spellbook.html",
 	"rect": {
 		"left": 321,
-		"top": 146,
+		"top": 0,
 		"right": 1440,
 		"bottom": 900
 	},

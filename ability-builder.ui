@@ -4,7 +4,7 @@
 	"mainFile": "ability-builder/builder.html",
 	"rect": {
 		"left": 490,
-		"top": 138,
+		"top": 0,
 		"right": 1440,
 		"bottom": 900
 	},

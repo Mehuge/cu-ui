@@ -264,17 +264,20 @@ module AbilityBuilder {
                 }
             }, xhr => {
                 $btnBuild.prop('disabled', false).removeClass('waiting');
-
-                var errors = [];
-                var json = xhr.responseJSON;
-                if (json) {
-                    for (var key in json) {
-                        if (json.hasOwnProperty(key)) {
-                            errors.push(json[key]);
+                if (xhr.responseText) {
+                    showErrorModal('Building ability failed!', [xhr.responseText]);
+                } else {
+                    var errors = [];
+                    var json = xhr.responseJSON;
+                    if (json) {
+                        for (var key in json) {
+                            if (json.hasOwnProperty(key)) {
+                                errors.push(json[key]);
+                            }
                         }
                     }
+                    showErrorModal('Building ability failed!', errors);
                 }
-                showErrorModal('Building ability failed!', errors);
             });
         }
     }
@@ -855,11 +858,13 @@ module AbilityBuilder {
 
         for (var combinedStat in combinedStats) {
             if (combinedStats.hasOwnProperty(combinedStat)) {
+                var statName = combinedStat.charAt(0).toUpperCase() + combinedStat.substring(1).replace(/([A-Z])/g, ' $1');
+
                 var value = combinedStats[combinedStat];
 
                 if (value % 1 !== 0) value = value.toFixed(2);
 
-                $('<li>').text(combinedStat + ': ' + value).appendTo($stats);
+                $('<li>').text(statName + ': ' + value).appendTo($stats);
             }
         }
     }
@@ -1036,10 +1041,14 @@ module AbilityBuilder {
 
         setSelectIcon('');
 
+        $stats.empty();
+
         selectedSlot = null;
         selectedComponents = [];
         selectedAbilityIcon = '';
         showDefaultNetwork();
+
+        hideComponentSelectionModal();
     }
 
     function handleResetButtonClick(e) {

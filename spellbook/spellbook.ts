@@ -413,39 +413,39 @@ module Spellbook {
 
             $li = $('<li>').appendTo($stats);
             $('<span>').addClass('ability-stat-label').text('Number of successful casts:').appendTo($li);
-            $('<span>').addClass('ability-stat-value').text('983').appendTo($li);
+            $('<span>').addClass('ability-stat-value').text('0').appendTo($li);
 
             $li = $('<li>').appendTo($stats);
             $('<span>').addClass('ability-stat-label').text('Number of failed casts:').appendTo($li);
-            $('<span>').addClass('ability-stat-value').text('362').appendTo($li);
+            $('<span>').addClass('ability-stat-value').text('0').appendTo($li);
 
             $li = $('<li>').appendTo($stats);
             $('<span>').addClass('ability-stat-label').text('Total damage inflicted:').appendTo($li);
-            $('<span>').addClass('ability-stat-value').text('39393939393').appendTo($li);
+            $('<span>').addClass('ability-stat-value').text('0').appendTo($li);
 
             $li = $('<li>').appendTo($stats);
             $('<span>').addClass('ability-stat-label').text('Average damage inflicted:').appendTo($li);
-            $('<span>').addClass('ability-stat-value').text('43').appendTo($li);
+            $('<span>').addClass('ability-stat-value').text('0').appendTo($li);
 
             $li = $('<li>').appendTo($stats);
             $('<span>').addClass('ability-stat-label').text('Enemies killed:').appendTo($li);
-            $('<span>').addClass('ability-stat-value').text('324').appendTo($li);
+            $('<span>').addClass('ability-stat-value').text('0').appendTo($li);
 
             $li = $('<li>').appendTo($stats);
             $('<span>').addClass('ability-stat-label').text('Structures destroyed:').appendTo($li);
-            $('<span>').addClass('ability-stat-value').text('43').appendTo($li);
+            $('<span>').addClass('ability-stat-value').text('0').appendTo($li);
 
             $li = $('<li>').appendTo($stats);
             $('<span>').addClass('ability-stat-label').text('Critical successes:').appendTo($li);
-            $('<span>').addClass('ability-stat-value').text('29').appendTo($li);
+            $('<span>').addClass('ability-stat-value').text('0').appendTo($li);
 
             $li = $('<li>').appendTo($stats);
             $('<span>').addClass('ability-stat-label').text('Critical failures:').appendTo($li);
-            $('<span>').addClass('ability-stat-value').text('95').appendTo($li);
+            $('<span>').addClass('ability-stat-value').text('0').appendTo($li);
 
             $li = $('<li>').appendTo($stats);
             $('<span>').addClass('ability-stat-label').text('Disruptions:').appendTo($li);
-            $('<span>').addClass('ability-stat-value').text('345').appendTo($li);
+            $('<span>').addClass('ability-stat-value').text('0').appendTo($li);
 
             return this;
         }

@@ -10,13 +10,20 @@ html, body {
 
 #map {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 15px;
+    left: 5px;
     width: 256px;
     height: 256px;
-    background-image: url('../images/respawn/map.png');
+    background-image: url('../images/minimap/alpha-map_02.png');
     background-size: cover;
     opacity: 0.75;
+}
+
+#Map::before{
+    content:url('../images/minimap/mapframe.png');
+    position:absolute;
+    top:-10px;
+    left:-5px;
 }
 
 #hidden {

@@ -13,12 +13,18 @@ html, body {
     margin: auto;
     width: 512px;
     height: 512px;
-    background-image: url('../images/respawn/map.png');
+    background-image: url('../images/minimap/alpha-map_02.png');
     background-size: cover;
     opacity: 1.0;
+    top: 0px;
+    left: 0px;
 }
 
 .canselect:hover {
     -webkit-filter: grayscale(1) brightness(1.2);
     filter: grayscale(1) brightness(1.2);
+}
+
+#Map::before {
+     content:'';
 }
