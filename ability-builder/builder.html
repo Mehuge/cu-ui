@@ -10,58 +10,41 @@
     <link rel="stylesheet" href="builder.css">
 </head>
 <body class="disable-selection simple-scrollbar">
-    <div id="builder" class="window">
-        <div class="window-top">
-            <div class="window-title">Ability Builder</div>
-            <button class="window-close"></button>
-        </div>
-        <div class="window-middle">
-            <span id="ability-name-required">Enter the ability name</span>
-            <span id="ability-icon-required">Choose an ability icon</span>
-            <div id="ability-name-container">
-                <label id="ability-name-label" for="ability-name">Ability Name</label>
-                <input type="text" id="ability-name" placeholder="Enter name here" size="36" tabindex="1" />
+    <div id="builder-wrapper">
+        <div id="builder" class="window">
+            <div class="window-top">
+                <div class="window-title">Ability Builder</div>
+                <button class="window-close"></button>
             </div>
-            <button id="btn-select-icon"></button>
-            <div id="ability-notes-container">
-                <label id="ability-notes-label" for="ability-notes">Ability Notes</label>
-                <input type="text" id="ability-notes" size="36" tabindex="2" />
+            <div class="window-middle">
+                <span id="ability-name-required">Enter the ability name</span>
+                <span id="ability-icon-required">Choose an ability icon</span>
+                <div id="ability-name-container">
+                    <label id="ability-name-label" for="ability-name">Ability Name</label>
+                    <input type="text" id="ability-name" placeholder="Enter name here" size="36" tabindex="1" />
+                </div>
+                <button id="btn-select-icon"></button>
+                <div id="ability-notes-container">
+                    <label id="ability-notes-label" for="ability-notes">Ability Notes</label>
+                    <input type="text" id="ability-notes" size="36" tabindex="2" />
+                </div>
+                <ul id="stats"></ul>
+                <span id="ability-components-required">Choose ability components</span>
+                <div id="network"></div>
             </div>
-            <ul id="stats"></ul>
-            <span id="ability-components-required">Choose ability components</span>
-            <div id="network"></div>
+            <div class="window-bottom">
+                <button id="btn-build">Build</button>
+                <button id="btn-reset">Reset</button>
+            </div>
         </div>
-        <div class="window-bottom">
-            <button id="btn-build">Build</button>
-            <button id="btn-reset">Reset</button>
+        <div id="select-icon-modal"></div>
+        <div id="error-modal">
+            <div id="error-modal-message"></div>
+            <ul id="error-modal-errors"></ul>
+            <button id="btn-close-error-modal">Close</button>
         </div>
     </div>
-    <div id="select-icon-modal"></div>
     <div id="component-selection-modal" class="fifty-percent-zoom"></div>
-    <div id="error-modal">
-        <div id="error-modal-message"></div>
-        <ul id="error-modal-errors"></ul>
-        <button id="btn-close-error-modal">Close</button>
-    </div>
-    <div id="loading">
-        <div class="demo">
-            <div class="circle">
-                <div class="inner"></div>
-            </div>
-            <div class="circle">
-                <div class="inner"></div>
-            </div>
-            <div class="circle">
-                <div class="inner"></div>
-            </div>
-            <div class="circle">
-                <div class="inner"></div>
-            </div>
-            <div class="circle">
-                <div class="inner"></div>
-            </div>
-        </div>
-    </div>
     <script src="../vendor/jquery-2.1.1.js"></script>
     <script src="../vendor/lodash.js"></script>
     <script src="../cu/cu.js"></script>

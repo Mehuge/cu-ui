@@ -1332,6 +1332,7 @@ module Spellbook {
             cuAPI.OnInitialized(() => {
                 // start hidden
                 cuAPI.HideUI('spellbook');
+                $spellbook.hide();
 
                 cuAPI.OnAbilityCreated(onAbilityCreated);
 

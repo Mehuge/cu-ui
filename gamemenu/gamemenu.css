@@ -8,35 +8,52 @@ body {
     overflow: hidden;
     font-family: 'Merriweather', sans-serif;
     cursor: default;
+    background: rgba(0, 0, 0, 0.70);
+    -webkit-box-shadow: inset 0 0 370px #000000;
 }
 
 #btn-container {
     margin: 0 auto;
     padding: 0;
     text-align: center;
-    width: 232px;
-    height: 225px;
+    padding: 10px 0px;
     background-color: rgba(0, 0, 0, 0.5);
+}
+ 
+#gamemenu {
+    width: 230px;
+    margin: auto;
+    top: 250px;
 }
 
 .btn-normal {
-    background: url('../images/login/btn-normal-sprite.png') no-repeat 0 0;
-    width: 232px;
-    height: 75px;
-    font-size: 22px;
-    text-shadow:  2px  2px 3px rgba(0,0,0,0.3),
-                  2px -2px 3px rgba(0,0,0,0.3),
-                 -2px  2px 3px rgba(0,0,0,0.3),
-                 -2px -2px 3px rgba(0,0,0,0.3);
-    line-height: 75px;
-    color: green;
+    background: transparent url(../images/login/btn-complete.png) no-repeat -2px -260px;
+    background-size: cover;
+    font-size: 16px;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.3), 2px -2px 3px rgba(0,0,0,0.3), -2px 2px 3px rgba(0,0,0,0.3), -2px -2px 3px rgba(0,0,0,0.3);
+    line-height: 50px;
     cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    width: 155px;
+    height: 50px;
+    border: 0;
+    outline: 0;
+    font-family: 'Cinzel', serif;
+    color: #eee;
+    margin-bottom: 5px;
 }
 
-.btn-normal:hover {
-    background-position: 0 -76px;
-}
+    .btn-normal:hover {
+        color: #fff;
+        background-position: -2px -209px;
+    }
 
-.btn-normal:active {
-    background-position: 0 -152px;
+    .btn-normal:active {
+        color: #eee;
+        background-position: -2px -156px;
+    }
+
+#btn-cancel {
+    margin-top: 13px;
 }

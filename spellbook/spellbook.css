@@ -8,9 +8,18 @@ html, body {
     overflow: hidden;
 }
 
+#spellbook-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  	-webkit-transform: translate(-50%, -50%);
+  	-ms-transform: translate(-50%, -50%);
+  	transform: translate(-50%, -50%);
+    width: 798px;
+    height: 608px;
+}
+
 #spellbook {
-    display: none;
-    position: relative;
     width: 798px;
     height: 608px;
     background: url(../images/spellbook/bg.png) no-repeat top left;

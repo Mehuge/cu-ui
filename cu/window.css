@@ -1,164 +1,143 @@
 .window {
-  position: relative;
+    position: relative;
 }
 
 .window-top {
-  margin: 0 4px;
-  height: 46px;
-  line-height: 32px;
-  text-align: center;
-  overflow: hidden;
-  color: #fff;
-  background: #0f0f0f url(../images/window/top-middle.png) repeat-x;
+    position: relative;
+    margin: 0 4px;
+    height: 46px;
+    line-height: 32px;
+    text-align: center;
+    overflow: hidden;
+    color: #fff;
+    background: #0f0f0f url(../images/window/top-middle.png) repeat-x;
 }
 
 .window-top:before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 48px;
-  height: 44px;
-  content: url(../images/window/top-left.png);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 44px;
+    content: url(../images/window/top-left.png);
 }
 
 .window-top:after {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 48px;
-  height: 44px;
-  content: url(../images/window/top-right.png);
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 48px;
+    height: 44px;
+    content: url(../images/window/top-right.png);
 }
 
 .window-title {
-  text-transform: uppercase;
-  color: rgb(182, 182, 182);
-  font-family: 'Cinzel', serif;
-  font-size: 13px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  cursor: default;
+    text-transform: uppercase;
+    color: rgb(182, 182, 182);
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: default;
 }
 
 .window-close {
-  position: absolute;
-  top: 7px;
-  right: 12px;
-  width: 13px;
-  height: 13px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  z-index: 999;
-  background: url(../images/window/btn-close.png) no-repeat center center;
-  -webkit-filter: brightness(0.6);
-  filter: brightness(0.6);
+    position: absolute;
+    top: 7px;
+    right: 12px;
+    width: 13px;
+    height: 13px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    z-index: 999;
+    background: url(../images/window/btn-close.png) no-repeat center center;
+    -webkit-filter: brightness(0.6);
+    filter: brightness(0.6);
 }
 
 .window-close:hover {
-  -webkit-filter: brightness(0.8);
-  filter: brightness(0.8);
+    -webkit-filter: brightness(0.8);
+    filter: brightness(0.8);
 }
 
 .window-close:active {
-  -webkit-filter: brightness(1.0);
-  filter: brightness(1.0);
+    -webkit-filter: brightness(1.0);
+    filter: brightness(1.0);
 }
 
 .window-middle {
-  position: relative;
-  margin: 0 4px;
-  padding: 0 10px 10px 10px;
-  color: #fff;
-  background-color: #0f0f0f;
-  font-family: 'Merriweather Sans', sans-serif;
-  font-size: 12px;
+    position: relative;
+    margin: 0 4px;
+    padding: 0 10px 10px 10px;
+    color: #fff;
+    background-color: #0f0f0f;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 12px;
 }
 
 .window-middle input[type=text] {
-  color: #d3d3d3;
-  padding: 5px;
-  border: solid 1px rgb(39, 39, 39);
-  background: rgb(39, 39, 39);
-  box-shadow: inset 0 0 20px 5px rgba(0, 0, 0, 0.75);
-  outline: none;
+    color: #d3d3d3;
+    padding: 5px;
+    border: solid 1px rgb(39, 39, 39);
+    background: rgb(39, 39, 39);
+    box-shadow: inset 0 0 20px 5px rgba(0, 0, 0, 0.75);
+    outline: none;
 }
 
 .window-bottom {
-  margin: -5px 4px 0 4px;
-  height: 49px;
-  line-height: 49px;
-  text-align: center;
-  overflow: hidden;
-  color: #fff;
-  background: url(../images/window/bottom-middle.png) repeat-x;
+    position: relative;
+    margin: -5px 4px 0 4px;
+    height: 49px;
+    line-height: 49px;
+    text-align: center;
+    overflow: hidden;
+    color: #fff;
+    background: url(../images/window/bottom-middle.png) repeat-x;
 }
 
 .window-bottom:before {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 28px;
-  height: 49px;
-  content: url(../images/window/bottom-left.png);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 28px;
+    height: 49px;
+    content: url(../images/window/bottom-left.png);
 }
 
 .window-bottom:after {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 28px;
-  height: 49px;
-  content: url(../images/window/bottom-right.png);
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 28px;
+    height: 49px;
+    content: url(../images/window/bottom-right.png);
 }
 
 .window-bottom button {
-  width: 105px;
-  height: 29px;
-  font-family: 'Cinzel', serif;
-  font-size: 11px;
-  color: #fff;
-  background: url(../images/window/btn.png) no-repeat 0 0;
-  border: none;
-  outline: none;
+    width: 105px;
+    height: 29px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: #fff;
+    background: url(../images/window/btn.png) no-repeat 0 0;
+    border: none;
+    outline: none;
 }
 
 .window-bottom button:disabled {
-  -webkit-filter: brightness(0.4);
-  filter: brightness(0.4);
+    -webkit-filter: brightness(0.4);
+    filter: brightness(0.4);
 }
 
 .window-bottom button:not(:disabled) {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .window-bottom button:hover:not(:disabled) {
-  background-position: 0 -29px;
+    background-position: 0 -29px;
 }
 
 .window-bottom button:active:not(:disabled) {
-  background-position: 0 -58px;
-}
-
-/* TODO: replace with cu.css stuff */
-.simple-scrollbar ::-webkit-scrollbar {
-    width: 5px;
-}
- 
-.simple-scrollbar ::-webkit-scrollbar-track {
-    background-color: rgba(68, 68, 68, 0.45);
-}
- 
-.simple-scrollbar ::-webkit-scrollbar-thumb {
-    background-color: rgba(138, 138, 138, 0.47);
-}
-
-/* TODO: remove later */
-.disable-selection * {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+    background-position: 0 -58px;
 }

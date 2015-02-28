@@ -12,6 +12,10 @@ module GameMenu {
         cuAPI.Quit();
     });
 
+    $('window-close').click(() => {
+        cuAPI.CloseUI('gamemenu');
+    });
+
     $('#btn-cancel').click(() => {
         cuAPI.CloseUI('gamemenu');
     });

@@ -8,29 +8,31 @@
     <link rel="stylesheet" href="spellbook.css">
 </head>
 <body class="disable-selection">
-    <div id="spellbook">
-        <div id="header">
-            <button id="btn-abilities"></button>
-            <button id="btn-components"></button>
-            <!--
-            <button id="btn-search"></button>
-            -->
-            <div id="proficiency"></div>
-            <button id="btn-help"></button>
-            <button id="btn-close"></button>
+    <div id="spellbook-wrapper">
+        <div id="spellbook">
+            <div id="header">
+                <button id="btn-abilities"></button>
+                <button id="btn-components"></button>
+                <!--
+                <button id="btn-search"></button>
+                -->
+                <div id="proficiency"></div>
+                <button id="btn-help"></button>
+                <button id="btn-close"></button>
+            </div>
+            <div id="pages"></div>
         </div>
-        <div id="pages"></div>
-    </div>
-    <!--
-    <div id="search-modal">
-        <input type="text" id="search" />
-    </div>
-    -->
-    <div id="ability-pages-modal"></div>
-    <div id="component-pages-modal"></div>
-    <div id="error-modal">
-        <div id="error-modal-message"></div>
-        <button id="btn-close-error-modal">Close</button>
+        <!--
+        <div id="search-modal">
+            <input type="text" id="search" />
+        </div>
+        -->
+        <div id="ability-pages-modal"></div>
+        <div id="component-pages-modal"></div>
+        <div id="error-modal">
+            <div id="error-modal-message"></div>
+            <button id="btn-close-error-modal">Close</button>
+        </div>
     </div>
     <script src="../vendor/jquery-2.1.1.js"></script>
     <script src="../vendor/turn.js"></script>

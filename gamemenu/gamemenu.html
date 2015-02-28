@@ -4,14 +4,26 @@
 <head>
     <title>Game Menu</title>
     <link rel="stylesheet" type="text/css" href="../cu/cu.css">
+    <link rel="stylesheet" href="../cu/window.css">
     <link rel="stylesheet" type="text/css" href="gamemenu.css">
 </head>
 <body class="disable-selection">
-    <div id="btn-container">
-        <div id="btn-options" class="btn-normal">Options</div>
-        <div id="btn-quit" class="btn-normal">Quit Game</div>
-        <div id="btn-cancel" class="btn-normal">Close Menu</div>
+    <div id="gamemenu" class="window">
+        <div class="window-top">
+            <div class="window-title">Menu</div>
+            <button class="window-close"></button>
+        </div>
+        <div class="window-middle">
+            <div id="btn-container">
+                <div id="btn-options" class="btn-normal">Options</div>
+                <div id="btn-quit" class="btn-normal">Quit Game</div>
+            </div>
+        </div>
+        <div class="window-bottom">
+            <button id="btn-cancel">Close Menu</button>
+        </div>
     </div>
+
     <script src="../vendor/jquery-2.1.1.js"></script>
     <script src="../vendor/lodash.js"></script>
     <script src="../cu/cu.js"></script>

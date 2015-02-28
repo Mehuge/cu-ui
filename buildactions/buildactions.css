@@ -26,11 +26,15 @@ html, body {
                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
 }
 
+#action-bar-wrapper {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
 #action-bar {
-    position: absolute;
+    position: relative;
     margin: 0 auto;
-    top: 155px;
-    left: 40px;
     width: 537px;
     height: 76px;
     background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
@@ -63,8 +67,8 @@ html, body {
 #btn-commit {
     width: 67px;
     height: 61px;
-    left: 40px;
-    top: 155px;
+    left: 0px;
+    top: 0px;
     position: absolute;
     background-size: 100%;
     color: white;
@@ -82,8 +86,8 @@ html, body {
 #btn-cancel {
     width: 67px;
     height: 61px;
-    left: 107px;
-    top: 155px;
+    left: 67px;
+    top: 0px;
     position: absolute;
     background: url('../images/buildactions/undo.jpg') no-repeat top left;
     background-size: 100%;
@@ -94,8 +98,8 @@ html, body {
 #btn-rotate-x {
     width: 67px;
     height: 61px;
-    left: 174px;
-    top: 155px;
+    left: 134px;
+    top: 0px;
     position: absolute;
     background: url('../images/buildactions/x-rotate-red.jpg') no-repeat top left;
     background-size: 100%;
@@ -106,8 +110,8 @@ html, body {
 #btn-rotate-y {
     width: 67px;
     height: 61px;
-    left: 241px;
-    top: 155px;
+    left: 201px;
+    top: 0px;
     position: absolute;
     background: url('../images/buildactions/y-rotate-grn.jpg') no-repeat top left;
     background-size: 100%;
@@ -118,8 +122,8 @@ html, body {
 #btn-rotate-z {
     width: 67px;
     height: 61px;
-    left: 308px;
-    top: 155px;
+    left: 268px;
+    top: 0px;
     position: absolute;
     background: url('../images/buildactions/z-rotate-blue.jpg') no-repeat top left;
     background-size: 100%;
@@ -130,8 +134,8 @@ html, body {
 #btn-flip-x {
     width: 67px;
     height: 61px;
-    left: 375px;
-    top: 155px;
+    left: 335px;
+    top: 0px;
     position: absolute;
     background: url('../images/buildactions/x-flip.jpg') no-repeat top left;
     background-size: 100%;
@@ -142,8 +146,8 @@ html, body {
 #btn-flip-y {
     width: 67px;
     height: 61px;
-    left: 442px;
-    top: 155px;
+    left: 402px;
+    top: 0px;
     position: absolute;
     background: url('../images/buildactions/y-flip.jpg') no-repeat top left;
     background-size: 100%;
@@ -154,8 +158,8 @@ html, body {
 #btn-flip-z {
     width: 67px;
     height: 61px;
-    left: 509px;
-    top: 155px;
+    left: 469px;
+    top: 0px;
     position: absolute;
     background: url('../images/buildactions/z-flip.jpg') no-repeat top left;
     background-size: 100%;

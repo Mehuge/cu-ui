@@ -10,6 +10,13 @@ module AbilityBuilder {
 
     var ABILITY_ICONS = [
         'default.jpg',
+        'shower.jpg',
+        'lightning-mace.jpg',
+        'kameha.jpg',
+        'hammer-smash.jpg',
+        'energy-sword.jpg',
+        'eclipse.jpg',
+        'doom-swirl.jpg',
         'all-heal.jpg',
         'earth-Ball.jpg',
         'earth-Cone.jpg',
@@ -82,7 +89,6 @@ module AbilityBuilder {
     var $errorModalMessage = $('#error-modal-message');
     var $errorModalErrors = $('#error-modal-errors');
     var $btnCloseErrorModal = $('#btn-close-error-modal');
-    var $loading = $('#loading');
     var $abilityNameRequired = $('#ability-name-required');
     var $abilityIconRequired = $('#ability-icon-required');
     var $abilityComponentsRequired = $('#ability-components-required');
@@ -92,6 +98,7 @@ module AbilityBuilder {
 
     var loginToken = '';
     var characterID = '';
+    var nameIsAutogen = true;
 
     var selectedAbilityIcon = '';
 
@@ -127,6 +134,192 @@ module AbilityBuilder {
 
     var currentNetwork, previousCurrentNetwork;
 
+    var ADJECTIVE_LIST = [
+        'Adamant',
+        'Adroit',
+        'Adumbrated',
+        'Alluring',
+        'Animalistic',
+        'Antediluvian',
+        'Antic',
+        'Archaic',
+        'Ascerbic',
+        'Authentic',
+        'Backwards',
+        'Baleful',
+        'Bellicose',
+        'Bilious',
+        'Bitter',
+        'Blasphemous',
+        'Bleak',
+        'Blue',
+        'Brave',
+        'Brutish',
+        'Bulbous',
+        'Bumpy',
+        'Calamitous',
+        'Catawampus',
+        'Caustic',
+        'Comely',
+        'Corpulent',
+        'Consuming',
+        'Crapulous',
+        'Crazy',
+        'Cringeworthy',
+        'Cruel',
+        'Daft',
+        'Daunting',
+        'Deceptive',
+        'Decrepit',
+        'Deep',
+        'Defamatory',
+        'Demoniac',
+        'Dirty',
+        'Disappointed',
+        'Doughty',
+        'Draconian',
+        'Effervescent',
+        'Egregious',
+        'Electric',
+        'Elusive',
+        'Enchanting',
+        'Endemic',
+        'Enduring',
+        'Enormous',
+        'Ephemeral',
+        'Excruciating',
+        'Execrable',
+        'Existential',
+        'Fantastic',
+        'Fastidious',
+        'Feckless',
+        'Fecund',
+        'Fierce',
+        'Fleeting',
+        'Fortuitous',
+        'Fractious',
+        'Friendly',
+        'Fungal',
+        'Fuzzy',
+        'Garrulous',
+        'Gelatinous',
+        'Gibbous',
+        'Gleaming',
+        'Greasy',
+        'Grueling',
+        'Grumpy',
+        'Guileless',
+        'Hairy',
+        'Hard',
+        'Hilarious',
+        'Hissing',
+        'Histrionic',
+        'Hot',
+        'Hubristic',
+        'Husky',
+        'Ill-Conceived',
+        'Illusive',
+        'Improbable',
+        'Inconsequential',
+        'Insidious',
+        'Insolent',
+        'Intransigent',
+        'Ironic',
+        'Irksome',
+        'Itchy',
+        'Jocular',
+        'Judicious',
+        'Juicy',
+        'Lachrymose',
+        'Limp',
+        'Loquacious',
+        'Loving',
+        'Lugubrious',
+        'Luminous',
+        'Mad',
+        'Manic',
+        'Meaty',
+        'Mendacious',
+        'Menial',
+        'Mesmeric',
+        'Moist',
+        'Narcissistic',
+        'Naughty',
+        'Nefarious',
+        'Nervous',
+        'Non-Euclidian',
+        'Noxious',
+        'Nutritious',
+        'Obnoxious',
+        'Obtuse',
+        'Obvious',
+        'Octarine',
+        'Odd',
+        'Outlandish',
+        'Parasitic',
+        'Parsimonious',
+        'Pedantic',
+        'Pendulous',
+        'Perilous',
+        'Pernicious',
+        'Pervasive',
+        'Petulant',
+        'Platitudinous',
+        'Prickly',
+        'Puckish',
+        'Pugnacious',
+        'Querulous',
+        'Quiescent',
+        'Raucous',
+        'Redolent',
+        'Repulsive',
+        'Resounding',
+        'Resplendent',
+        'Ripe',
+        'Ruminative',
+        'Sad',
+        'Sagacious',
+        'Seaworthy',
+        'Serendipitous',
+        'Serpentine',
+        'Shaggy',
+        'Slippery',
+        'Smarmy',
+        'Spasmodic',
+        'Strident',
+        'Succulent',
+        'Sundered',
+        'Sisyphean',
+        'Taciturn',
+        'Tenacious',
+        'Testy',
+        'Throbbing',
+        'Tight',
+        'Titillating',
+        'Tremulous',
+        'Trenchant',
+        'Turbulent',
+        'Turgid',
+        'Ubiquitous',
+        'Unholy',
+        'Unlikely',
+        'Unrelenting',
+        'Unwise',
+        'Verdant',
+        'Visceral',
+        'Voluble',
+        'Voracious',
+        'Well-Mannered',
+        'Wet',
+        'Wheedling',
+        'Whimsical',
+        'Wicked',
+        'Withering',
+        'Wretched',
+        'Wondrous',
+        'Zealous'
+    ];
+
     /* Functions */
 
     function ignoreEvent(e) {
@@ -159,7 +352,10 @@ module AbilityBuilder {
 
     function getPrimaryComponent(ability) {
         if (!ability) return null;
+        return getSelectedPrimaryComponent();
+    }
 
+    function getSelectedPrimaryComponent() {
         for (var i = 0, length = selectedComponents.length; i < length; i++) {
             var component = selectedComponents[i];
 
@@ -171,7 +367,10 @@ module AbilityBuilder {
 
     function getSecondaryComponent(ability) {
         if (!ability) return null;
+        return getSelectedSecondaryComponent();
+    }
 
+    function getSelectedSecondaryComponent() {
         for (var i = 0, length = selectedComponents.length; i < length; i++) {
             var component = selectedComponents[i];
 
@@ -181,10 +380,40 @@ module AbilityBuilder {
         }
     }
 
+    function selectRandomAdjective() {
+        var selectedIndex = Math.floor((Math.random() * ADJECTIVE_LIST.length));
+        return ADJECTIVE_LIST[selectedIndex];
+    }
+
+    function generateRandomAbilityName() {
+        var primary = getSelectedPrimaryComponent();
+        var secondary = getSelectedSecondaryComponent();
+        if (_.isNull(primary) || _.isNull(secondary)) {
+            return '';
+        }
+
+        var s1, s2, s3, s4;
+        s1 = ComponentSubType[primary.subType].replace(/([A-Z])/g, ' $1');
+
+        s2 = secondary.name;
+        if (secondary.name.indexOf('e', secondary.name.length - 1) !== -1) {
+            s2 = secondary.name.slice(0, -1);
+        }
+        s3 = primary.name;
+        if (primary.name.indexOf('ness', primary.name.length - 4) !== -1) {
+            s3 = primary.name.slice(0, -4);
+        }
+
+        s4 = selectRandomAdjective();
+        var whole = s2.concat('ing').concat(s1).concat(' of ').concat(s4).concat(' ').concat(s3).concat('ness');
+        return whole;
+    }
+
     function tryBuildAbility() {
         var abilityName = $abilityName.val();
 
         var hasAbilityName = abilityName.length > 0;
+        nameIsAutogen = nameIsAutogen || !hasAbilityName;
 
         $abilityName.removeClass('error');
 
@@ -375,7 +604,6 @@ module AbilityBuilder {
         if (!loginToken || !characterID) return null;
 
         $network.addClass('loading');
-        $loading.show();
 
         var options: JQueryAjaxSettings = {};
         options.url = cu.SecureApiUrl('api/craftedabilities/components');
@@ -387,7 +615,6 @@ module AbilityBuilder {
         };
         options.success = components => {
             $network.removeClass('loading');
-            $loading.hide();
 
             components.forEach(addTrainedComponent);
         };
@@ -595,6 +822,10 @@ module AbilityBuilder {
         }
 
         updateStats();
+
+        if (nameIsAutogen) {
+            $abilityName.val(generateRandomAbilityName());
+        }
 
         var hasComponents = selectedComponents.length > 0;
 
@@ -1021,6 +1252,7 @@ module AbilityBuilder {
         var abilityName = $abilityName.val();
 
         var hasAbilityName = abilityName.length > 0;
+        nameIsAutogen = !hasAbilityName;
 
         if (hasAbilityName) {
             $abilityName.removeClass('error');
@@ -1047,6 +1279,7 @@ module AbilityBuilder {
         selectedComponents = [];
         selectedAbilityIcon = '';
         showDefaultNetwork();
+        nameIsAutogen = true;
 
         hideComponentSelectionModal();
     }
@@ -1126,6 +1359,7 @@ module AbilityBuilder {
             cuAPI.OnInitialized(() => {
                 // start hidden
                 cuAPI.HideUI('ability-builder');
+                $builder.hide();
 
                 cuAPI.OnEditAbility(abilityID => {
                     if (trainedComponents.length === 0) {
@@ -1145,6 +1379,8 @@ module AbilityBuilder {
                     var loadTrainedComponentsPromise = loadTrainedComponents();
 
                     if (loadTrainedComponentsPromise) loadTrainedComponentsPromise.done(showDefaultNetwork);
+
+                    $builder.fadeIn();
                 });
             });
         }

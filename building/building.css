@@ -9,9 +9,12 @@ html, body {
 }
 
 #building-button {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
     width: 67px;
     height: 61px;
-    background: url('../images/building/building-btn.jpg') no-repeat top left;
+    background: url('../images/building/building-btn.jpg') no-repeat bottom left;
 }
 
 .button-active {

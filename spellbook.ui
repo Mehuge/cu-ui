@@ -2,15 +2,9 @@
 	"_LICENSE": "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
 	"name": "spellbook",
 	"mainFile": "spellbook/spellbook.html",
-	"rect": {
-		"left": 321,
-		"top": 146,
-		"right": 1440,
-		"bottom": 900
-	},
 	"handlesInput": true,
     "handlesAbilities": true,
     "handlesCharacter": true,
 	"hidden": true,
-	"layer": 1
+	"layer": 2
 }
