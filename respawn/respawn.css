@@ -20,6 +20,10 @@ html, body {
     left: 0px;
 }
 
+.wrongfaction {
+    opacity: 0.4;
+}
+
 .canselect:hover {
     -webkit-filter: grayscale(1) brightness(1.2);
     filter: grayscale(1) brightness(1.2);

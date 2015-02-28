@@ -37,6 +37,8 @@ module Respawn {
                     var respawnId = $(e.currentTarget).attr('respawnID');
                     cuAPI.Respawn(respawnId);
                 });
+            } else {
+                temp.addClass("wrongfaction");
             }
         });
         // Draw my position
