@@ -10,6 +10,16 @@ module AbilityBuilder {
 
     var ABILITY_ICONS = [
         'default.jpg',
+        'cast-b.jpg',
+        'cast-g.jpg',
+        'cast-p.jpg',
+        'cast-r.jpg',
+        'charging-b.jpg',
+        'charging-g.jpg',
+        'charging-p.jpg',
+        'charging-r.jpg',
+        'shout-lead.jpg',
+        'shout-p.jpg',
         'shower.jpg',
         'lightning-mace.jpg',
         'kameha.jpg',

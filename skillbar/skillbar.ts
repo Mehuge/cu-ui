@@ -113,11 +113,15 @@ module Skillbar {
     }
 
     function onCharacterIDChanged(characterID) {
-        cu.RequestAllAbilities(cuAPI.loginToken, characterID, abils => {
+        var req = cu.RequestAllAbilities(cuAPI.loginToken, characterID, abils => {
             abilities = abils;
 
             updateSkillbar();
-        }).then(abils => {
+        });
+
+        if (!req) return;
+
+        req.then(abils => {
             if (!abils || !abils.length) return;
 
             abils.sort(sortByAbilityID);

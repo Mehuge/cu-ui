@@ -880,11 +880,14 @@ class CU {
     public CHAT_SERVICE = 'conference.' + this.CHAT_DOMAIN;
     public GLOBAL_CHATROOM_NAME = '_global';
     public COMBAT_CHATROOM_NAME = '_combat';
+    public CUBE_CHATROOM_NAME = '_cube';
     public GLOBAL_CHATROOM = this.GLOBAL_CHATROOM_NAME + '@' + this.CHAT_SERVICE;
     public COMBAT_CHATROOM = this.COMBAT_CHATROOM_NAME + '@' + this.CHAT_SERVICE;
+    public CUBE_CHATROOM = this.CUBE_CHATROOM_NAME + '@' + this.CHAT_SERVICE;
 
     private WEB_API_HOST = 'chat.camelotunchained.com';
     private WEB_API_PORT = 8000;
+    private CHAT_API_PORT = 8222;
 
     private XMPP_SASL = 'urn:ietf:params:xml:ns:xmpp-sasl';
     private XMPP_BIND = 'urn:ietf:params:xml:ns:xmpp-bind';
@@ -908,6 +911,7 @@ class CU {
     ready = false;
     gameClient: CUInGameAPI = null;
     gameClientReady = false;
+    public forceWebSocketChat = false;
     private onInit = new CallbackSet('onInit');
     private listeners = {};
     private webSocket: WebSocket = null;
@@ -1021,6 +1025,8 @@ class CU {
     }
 
     RequestAllAbilities(loginToken, characterID, callback: (a: Ability[]) => any) {
+        if (!loginToken || !characterID) return null;
+
         if (!this.allAbilitiesCallback) {
             this.allAbilitiesCallback = [callback];
             return $.getJSON(cu.SecureApiUrl('api/craftedabilities'), {
@@ -1312,7 +1318,7 @@ class CU {
     }
 
     public SendChat(messageType, room, input): void {
-        if (cu.HasAPI()) {
+        if (!cu.forceWebSocketChat && cu.HasAPI()) {
             cuAPI.SendChat(messageType, room, input);
         } else {
             this.SendWebSocketChatMessage(messageType, room, input);
@@ -1346,7 +1352,7 @@ class CU {
             return null;
         }
 
-        this.webSocket = new WebSocket('ws://' + this.WEB_API_HOST + ':' + this.WEB_API_PORT + '/api/chat', 'xmpp');
+        this.webSocket = new WebSocket('ws://' + this.WEB_API_HOST + ':' + this.CHAT_API_PORT + '/api/chat', 'xmpp');
 
         this.webSocket.onopen = e => {
             console.log('onopen', e);

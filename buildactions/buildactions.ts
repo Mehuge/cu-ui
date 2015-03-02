@@ -19,6 +19,10 @@ module BuildActions {
                     }
                 }
             });
+
+            cu.Listen('HandleSavedConfigChanges', () => {
+                cu.GetConfigVar(keyBindName);
+            });
         }
         rootElement: JQuery;
     }
@@ -75,66 +79,82 @@ module BuildActions {
 
         commit.rootElement.click(() => {
             cu.CommitBlock();
-            commit.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
-            setTimeout(() => {
-                commit.rootElement.find('.button-active').remove();
-            }, 1000);
+            if (!commit.rootElement.find('.button-active').length) {
+                commit.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
+                setTimeout(() => {
+                    commit.rootElement.find('.button-active').remove();
+                }, 1000);
+            }
         });
 
         cancel.rootElement.click(() => {
             cu.CancelBlockPlacement();
-            cancel.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
-            setTimeout(() => {
-                cancel.rootElement.find('.button-active').remove();
-            }, 1000);
+            if (!cancel.rootElement.find('.button-active').length) {
+                cancel.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
+                setTimeout(() => {
+                    cancel.rootElement.find('.button-active').remove();
+                }, 1000);
+            }
         });
 
         rotateX.rootElement.click(() => {
             cu.BlockRotateX();
-            rotateX.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
-            setTimeout(() => {
-                rotateX.rootElement.find('.button-active').remove();
-            }, 1000);
+            if (!rotateX.rootElement.find('.button-active').length) {
+                rotateX.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
+                setTimeout(() => {
+                    rotateX.rootElement.find('.button-active').remove();
+                }, 1000);
+            }
         });
 
         rotateY.rootElement.click(() => {
             cu.BlockRotateY();
-            rotateY.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
-            setTimeout(() => {
-                rotateY.rootElement.find('.button-active').remove();
-            }, 1000);
+            if (!rotateY.rootElement.find('.button-active').length) {
+                rotateY.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
+                setTimeout(() => {
+                    rotateY.rootElement.find('.button-active').remove();
+                }, 1000);
+            }
         });
 
         rotateZ.rootElement.click(() => {
             cu.BlockRotateZ();
-            rotateZ.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
-            setTimeout(() => {
-                rotateZ.rootElement.find('.button-active').remove();
-            }, 1000);
+            if (!rotateZ.rootElement.find('.button-active').length) {
+                rotateZ.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
+                setTimeout(() => {
+                    rotateZ.rootElement.find('.button-active').remove();
+                }, 1000);
+            }
         });
 
         flipX.rootElement.click(() => {
             cu.BlockFlipX();
-            flipX.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
-            setTimeout(() => {
-                flipX.rootElement.find('.button-active').remove();
-            }, 1000);
+            if (!flipX.rootElement.find('.button-active').length) {
+                flipX.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
+                setTimeout(() => {
+                    flipX.rootElement.find('.button-active').remove();
+                }, 1000);
+            }
         });
 
         flipY.rootElement.click(() => {
             cu.BlockFlipY();
-            flipY.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
-            setTimeout(() => {
-                flipY.rootElement.find('.button-active').remove();
-            }, 1000);
+            if (!flipY.rootElement.find('.button-active').length) {
+                flipY.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
+                setTimeout(() => {
+                    flipY.rootElement.find('.button-active').remove();
+                }, 1000);
+            }
         });
 
         flipZ.rootElement.click(() => {
             cu.BlockFlipZ();
-            flipZ.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
-            setTimeout(() => {
-                flipZ.rootElement.find('.button-active').remove();
-            }, 1000);
+            if (!flipZ.rootElement.find('.button-active').length) {
+                flipZ.rootElement.append($('<img/>').addClass('button-active').attr('src', '../images/skillbar/active-frame.gif'));
+                setTimeout(() => {
+                    flipZ.rootElement.find('.button-active').remove();
+                }, 1000);
+            }
         });
     });
 

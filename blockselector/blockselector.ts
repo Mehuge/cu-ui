@@ -12,7 +12,6 @@ module BlockSelector {
         }
         else if (currBuildingMode === BuildUIMode.SelectingBlock || currBuildingMode === BuildUIMode.BlockSelected) {
             cu.SetBuildingMode(BuildUIMode.PlacingPhantom);
-            cu.ChangeBlockType(1);
         }
     });
 

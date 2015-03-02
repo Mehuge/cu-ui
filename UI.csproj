@@ -52,6 +52,8 @@
     <TypeScriptCompile Include="ability-crafting\componentSlot.ts" />
     <Content Include="bandage\bandage.css" />
     <Content Include="bandage\bandage.html" />
+    <Content Include="cubechat\cubechat.css" />
+    <Content Include="cubechat\cubechat.html" />
     <Content Include="cu\fonts.css" />
     <Content Include="images\ability-crafting\ability-icon-transparent-bg.png" />
     <Content Include="images\blockselector\select-block.jpg" />
@@ -467,9 +469,11 @@
     <Content Include="images\window\top-right.png" />
     <Content Include="inventory\inventory.css" />
     <Content Include="inventory\inventory.html" />
+    <TypeScriptCompile Include="shared\chatlib.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
     <TypeScriptCompile Include="cu\fake-cuAPI.ts" />
     <TypeScriptCompile Include="deathspam\deathspam.ts" />
+    <TypeScriptCompile Include="cubechat\cubechat.ts" />
     <TypeScriptCompile Include="enemytarget\enemytarget.ts" />
     <TypeScriptCompile Include="equippedgear\equippedgear.ts" />
     <TypeScriptCompile Include="friendlytarget\friendlytarget.ts" />
@@ -594,6 +598,7 @@
     <Content Include="buildactions.ui" />
     <Content Include="bandage.ui" />
     <Content Include="mehuge-combatlog.ui" />
+    <Content Include="cubechat.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
