@@ -158,6 +158,9 @@
     <Content Include="images\skills\water-Cone.jpg" />
     <Content Include="loic\loic.html" />
     <Content Include="images\spellbook\btn-delete.png" />
+    <Content Include="mehuge-combatlog\combatlog.css" />
+    <Content Include="mehuge-combatlog\combatlog.html" />
+    <Content Include="mehuge-combatlog\combatlog.js" />
     <Content Include="vendor\jquery-ui.min.js" />
     <Content Include="vendor\turn.js" />
     <Content Include="cu\window.css" />
@@ -590,6 +593,7 @@
     <Content Include="blockselector.ui" />
     <Content Include="buildactions.ui" />
     <Content Include="bandage.ui" />
+    <Content Include="mehuge-combatlog.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

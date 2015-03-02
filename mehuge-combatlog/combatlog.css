@@ -1,0 +1,43 @@
+body {
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Merriweather Sans', sans-serif;
+    cursor: default;
+}
+
+div.shadow {
+    cursor: default;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
+}
+
+div.stamina.lost {
+    color: rgb(0, 38, 255);
+}
+div.stamina.gained {
+    color: rgb(0, 255, 255);
+}
+
+div.health.lost {
+    color: red;
+}
+div.health.gained {
+    color: rgb(0, 255, 33);
+}
+
+div.enemy.lost {
+    color: yellow;
+}
+
+div.enemy.gained {
+    color: orange;
+}
+
+div.friendly.lost {
+    color: darkred;
+}
+
+div.friendly.gained {
+    color: green;
+}
