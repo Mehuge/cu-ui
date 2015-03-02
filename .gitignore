@@ -14,5 +14,6 @@ announcer/*.ogg
 !/mehuge-bot/example.js
 !/mehuge-bot/healbot.js
 !/mehuge-bot/uiu.js
+!/mehuge-heatmap/heatmap.min.js
 !/mehuge-pledges/pledges.js
 !/mehuge-web/*.js
