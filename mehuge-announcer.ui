@@ -1,0 +1,16 @@
+{
+	"_LICENSE": "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
+	"name": "mehuge-announcer",
+	"mainFile": "mehuge-announcer/announcer.html",
+	"rect": {
+		"left": 67,
+		"top": 0,
+		"right": 200,
+		"bottom": 10
+	},
+	"handlesCharacter": true,
+	"handlesInput": true,
+	"handlesChat": true,
+	"managed": true,
+	"enabled": true
+}

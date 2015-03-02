@@ -1,0 +1,12 @@
+{
+    "_LICENSE": "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
+	"name" : "mehuge-group",
+	"mainFile" : "mehuge-group/group.html",
+    "rect": {
+        "left": 1000,
+        "top": 370,
+        "right": 1149,
+        "bottom": 600
+    },
+    "handlesCharacter": true
+}

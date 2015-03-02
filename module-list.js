@@ -13,17 +13,18 @@ UI.Modules = {
     "equippedgear": { core: true },
     "inventory": { core: true },
     // custom-ui's go below...
-    "lb": { core: false, autoLoad: true },
-    "heatmap": { core: false, autoLoad: true },
-    "perf": { core: false, autoLoad: true },
-    "pop": { core: false, autoLoad: true },
-    "bct": { core: false, autoLoad: true },
-    "announcer": { core: false, autoLoad: true },
-    "deathspam": { core: false, autoLoad: true },
-    "compass": { core: false, autoLoad: true },
-    "loc": { core: false, autoLoad: true },
-    "group": { core: false, autoLoad: true },
-    "pledges": { core: false }
+    "mehuge-lb": { core: false, autoLoad: true },
+    "mehuge-heatmap": { core: false, autoLoad: true },
+    "mehuge-perf": { core: false, autoLoad: true },
+    "mehuge-pop": { core: false, autoLoad: true },
+    "mehuge-bct": { core: false, autoLoad: true },
+    "mehuge-announcer": { core: false, autoLoad: true },
+    "mehuge-deathspam": { core: false, autoLoad: true },
+    "mehuge-loc": { core: false, autoLoad: true },
+    "mehuge-group": { core: false, autoLoad: true },
+    "mehuge-combatlog": { core: false, autoLoad: true },
+    "mehuge-pledges": { core: false },
+    "ortu-compass": { core: false, autoLoad: true }
 };
 UI.Commands = [
     "vsync 1",
@@ -35,8 +36,8 @@ UI.offline = {
     Modules: {
         "perfhud": { core: true, close: true },
         "minimap": { core: true, close: true },
-        "heatmap": { core: false, autoLoad: true },
-        "loc": { core: false, autoLoad: true }
+        "mehuge-heatmap": { core: false, autoLoad: true },
+        "mehuge-loc": { core: false, autoLoad: true }
 },
     Commands: [
         "daytime 10",
