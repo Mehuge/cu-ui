@@ -10,3 +10,9 @@ node_modules/
 !GruntFile.js
 announcer/*.ogg
 !/vendor/*.js
+!/mehuge-bct/bct.js
+!/mehuge-bot/example.js
+!/mehuge-bot/healbot.js
+!/mehuge-bot/uiu.js
+!/mehuge-pledges/pledges.js
+!/mehuge-web/*.js
