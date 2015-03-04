@@ -17,6 +17,9 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="g-castbar\castbar.css" />
+    <Content Include="g-castbar\castbar.html" />
+    <Content Include="g-castbar\castbar.js" />
     <Content Include="mehuge-addons\addons.css" />
     <Content Include="mehuge-addons\addons.html" />
     <Content Include="mehuge-announcer\announcer.html" />
@@ -602,6 +605,7 @@
     <Content Include="bandage.ui" />
     <Content Include="mehuge-combatlog.ui" />
     <Content Include="cubechat.ui" />
+    <Content Include="g-castbar.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
