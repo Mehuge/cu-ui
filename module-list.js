@@ -24,6 +24,7 @@ UI.Modules = {
     "mehuge-group": { core: false, autoLoad: true },
     "mehuge-combatlog": { core: false, autoLoad: true },
     "mehuge-pledges": { core: false },
+    "g-castbar": { core: false, autoLoad: true },
     "ortu-compass": { core: false, autoLoad: true }
 };
 UI.Commands = [
