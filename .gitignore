@@ -4,6 +4,7 @@ obj/
 *.js.map
 *.suo
 *.user
+uninst.json
 node_modules/
 .idea/
 .tscache/
