@@ -124,7 +124,7 @@ module Spellbook {
                 this.$detailPage = $('<div>').addClass('ability-detail-page').text('Page ' + pageNumber).appendTo(this.$ability);
             }
 
-            return this;
+            return this.bindEvents();
         }
 
         public appendTo(target) {
@@ -133,7 +133,14 @@ module Spellbook {
         }
 
         public bindEvents() {
-            if (this.$ability) this.$ability.off('click').on('click', this.select.bind(this));
+            if (this.$ability) {
+                this.$ability.off('click').on('click', this.select.bind(this));
+            }
+
+            if (this.componentSlots && this.componentSlots.length) {
+                this.componentSlots.forEach(slot => slot.bindEvents());
+            }
+
             return this;
         }
 
@@ -314,6 +321,10 @@ module Spellbook {
                 });
             }
 
+            if (this.ability) this.ability.bindEvents();
+
+            if (this.network) this.network.bindEvents();
+
             return this;
         }
 
@@ -484,6 +495,10 @@ module Spellbook {
         }
 
         public bindEvents() {
+            if (this.component && this.component.slot) {
+                this.component.slot.bindEvents();
+            }
+
             return this;
         }
     }
@@ -493,6 +508,7 @@ module Spellbook {
         pageNumber: number = 0;
         isRomanized: boolean = false;
         elements = [];
+        components = [];
         header = null;
 
         constructor(options) {
@@ -525,6 +541,12 @@ module Spellbook {
             });
 
             if (this.header && typeof this.header.bindEvents === 'function') this.header.bindEvents();
+
+            if (this.components) {
+                this.components.forEach(c => {
+                    if (c.container) c.container.bindEvents();
+                });
+            }
 
             return this;
         }
@@ -1258,7 +1280,9 @@ module Spellbook {
 
         var isNewPage = true;
 
-        components.forEach(component => {
+        components.forEach(c => {
+            var component = c.clone();
+
             component.isVisible = !searchText || component.name.toLowerCase().indexOf(searchText) !== -1;
 
             if (component.$component) component.$component[0].style.display = component.isVisible ? 'block' : 'none';
@@ -1294,6 +1318,8 @@ module Spellbook {
             }
 
             component.createElement().appendTo(component.container.$container);
+
+            page.components.push(component);
 
             if (++componentsAppended % COMPONENTS_PER_PAGE === 0) {
                 isNewPage = true;

@@ -61,6 +61,14 @@ class ComponentNetwork {
         return this;
     }
 
+    public bindEvents() {
+        this.slots.forEach(slot => {
+            slot.bindEvents();
+        });
+
+        return this;
+    }
+
     public appendTo(target) {
         if (this.$network) this.$network.appendTo(target);
         return this;

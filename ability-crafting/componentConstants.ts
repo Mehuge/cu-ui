@@ -95,3 +95,9 @@ enum ComponentSubType {
 var ComponentSubTypeValues = _.values(ComponentSubType).filter(value => _.isNumber(value) && value != ComponentSubType.None);
 
 var ComponentBranchStateCssClasses = ComponentBranchStateNames.map(name => name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase());
+
+// Keep in sync with ValueModifierType in Server
+enum ValueModifierType {
+    Additive,
+    Multiplicative,
+}

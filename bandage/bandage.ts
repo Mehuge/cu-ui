@@ -17,6 +17,8 @@ module Bandage {
 
     cu.OnInitialized(() => {
         cu.RequestAbility(BANDAGE_ABILITY_ID, ability => {
+            ability.icon = '../images/skills/bandage.png';
+
             var button = ability.MakeButton(0);
 
             $bandage.empty().append(button.rootElement);

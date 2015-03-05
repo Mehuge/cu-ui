@@ -157,6 +157,7 @@
     <Content Include="images\minimap\player-dead.png" />
     <Content Include="images\minimap\player.png" />
     <Content Include="images\minimap\zone.png" />
+    <Content Include="images\skills\bandage.png" />
     <Content Include="images\skills\earth-Cone.jpg" />
     <Content Include="images\skills\fire-Cone.jpg" />
     <Content Include="images\skills\status-Fatigue.jpg" />

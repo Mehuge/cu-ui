@@ -145,24 +145,26 @@ module MiniMap {
             url: cuAPI.serverURL + '/game/controlgame'
         }).done((controlGame) => {
             getControlPointsState = RequestState.Succeeded;
+
+            if (!_.isArray(controlGame.controlPoints)) return;
+
             controlPoints = controlGame.controlPoints;
-            if (typeof controlPoints !== 'undefined' && controlPoints !== null) {
+
+            controlPoints.forEach(p => {
+                var pos = serverToCanvasPoint(p.x, p.y);
+                p.x = pos.x;
+                p.y = pos.y;
+            });
+
+            if (!cpOnce && !isNaN(controlPoints[0].x) && typeof (controlPoints[0].x) !== "undefined") {
                 controlPoints.forEach(p => {
-                    var pos = serverToCanvasPoint(p.x, p.y);
-                    p.x = pos.x;
-                    p.y = pos.y;
+                    map.append(getImageForControlPoint(p));
                 });
+                cpOnce = true;
 
-                if (!cpOnce && !isNaN(controlPoints[0].x) && typeof (controlPoints[0].x) !== "undefined") {
-                    controlPoints.forEach(p => {
-                        map.append(getImageForControlPoint(p));
-                    });
-                    cpOnce = true;
-
-                    map.append(getImageForPlayer(myPos.x, myPos.y, true));
-                } else {
-                    updateFunction();
-                }
+                map.append(getImageForPlayer(myPos.x, myPos.y, true));
+            } else {
+                updateFunction();
             }
         }).fail(() => {
             getControlPointsState = RequestState.Failed;

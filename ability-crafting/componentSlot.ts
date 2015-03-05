@@ -54,22 +54,13 @@ class ComponentSlot {
 
         var $slot = this.$slot = $('<div>').addClass('component-slot ' + typeCssClass);
 
-        var tooltip = this.tooltip = new Tooltip($slot, {
+        this.tooltip = new Tooltip($slot, {
             showDelay: 500,
             hideDelay: 200,
-            title: () => this.component ? this.component.name : '',
-            content: () => this.component ? this.component.createTooltip() : null,
+            title: this.component ? this.component.name : '',
+            content: this.component ? this.component.createTooltip() : null,
             left: e => e.clientX + 10,
             top: e => e.clientY + 10
-        });
-
-        $slot.on('mousemove', e => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            tooltip.move(e.clientX + 10, e.clientY + 10);
-
-            return false;
         });
 
         return this.updateElement();
@@ -101,6 +92,29 @@ class ComponentSlot {
 
             this.branch.state = branchState;
             this.branch.updateElement();
+        }
+
+        return this.bindEvents();
+    }
+
+    public bindEvents() {
+        var self = this;
+
+        if (this.tooltip) {
+            this.tooltip.bindEvents();
+        }
+
+        if (this.$slot) {
+            this.$slot.off('mousemove').on('mousemove', e => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (self.tooltip) {
+                    self.tooltip.move(e.clientX + 10, e.clientY + 10);
+                }
+
+                return false;
+            });
         }
 
         return this;

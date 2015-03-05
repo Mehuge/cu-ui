@@ -403,7 +403,7 @@ module AbilityBuilder {
     function generateRandomAbilityName() {
         var primary = getSelectedPrimaryComponent();
         var secondary = getSelectedSecondaryComponent();
-        if (_.isNull(primary) || _.isNull(secondary)) {
+        if (!primary || !secondary) {
             return '';
         }
 
@@ -1089,12 +1089,21 @@ module AbilityBuilder {
         var combinedStats = selectedComponents.reduce((results, component) => {
             if (!component.stats) return results;
 
-            for (var stat in component.stats) {
-                if (component.stats.hasOwnProperty(stat)) {
-                    if (results.hasOwnProperty(stat)) {
-                        results[stat] += component.stats[stat];
+            for (var cs in component.stats) {
+                if (component.stats.hasOwnProperty(cs)) {
+                    var componentStat = component.stats[cs];
+                    if (results.hasOwnProperty(cs)) {
+                        var smodType: string = componentStat.modType;
+                        var modType = ValueModifierType[smodType];
+                        if (modType === ValueModifierType.Additive) {
+                            results[cs].count++;
+                            results[cs].value += componentStat.value;
+                        } else if (modType === ValueModifierType.Multiplicative) {
+                            results[cs].count++;
+                            results[cs].value *= componentStat.value;
+                        }
                     } else {
-                        results[stat] = component.stats[stat];
+                        results[cs] = { count: 1, value: componentStat.value };
                     }
                 }
             }
@@ -1104,9 +1113,13 @@ module AbilityBuilder {
 
         for (var combinedStat in combinedStats) {
             if (combinedStats.hasOwnProperty(combinedStat)) {
+                var stat = combinedStats[combinedStat];
+
+                if (stat.count <= 1) continue;
+
                 var statName = combinedStat.charAt(0).toUpperCase() + combinedStat.substring(1).replace(/([A-Z])/g, ' $1');
 
-                var value = combinedStats[combinedStat];
+                var value = stat.value;
 
                 if (value % 1 !== 0) value = value.toFixed(2);
 

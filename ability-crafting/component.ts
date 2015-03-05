@@ -89,6 +89,10 @@ class Component {
             }
         }
 
+        return this.bindEvents();
+    }
+
+    public bindEvents() {
         return this;
     }
 
