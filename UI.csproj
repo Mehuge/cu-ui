@@ -166,6 +166,7 @@
     <Content Include="mehuge-combatlog\combatlog.css" />
     <Content Include="mehuge-combatlog\combatlog.html" />
     <Content Include="mehuge-combatlog\combatlog.js" />
+    <Content Include="mehuge-pop\bg-small.png" />
     <Content Include="mehuge-worker\worker.css" />
     <Content Include="mehuge-worker\worker.html" />
     <Content Include="vendor\jquery-ui.min.js" />
@@ -492,7 +493,6 @@
     <Content Include="mehuge-map\RvR-Map-Shifting.jpg" />
     <Content Include="mehuge-perf\perf.css" />
     <Content Include="mehuge-perf\perf.html" />
-    <Content Include="mehuge-pop\bg.png" />
     <Content Include="mehuge-pop\pop.html" />
     <Content Include="mehuge-tweaks\tweaks.css" />
     <Content Include="mehuge-tweaks\tweaks.html" />

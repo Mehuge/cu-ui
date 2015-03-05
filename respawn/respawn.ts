@@ -13,16 +13,14 @@ module Respawn {
             cuAPI.HideUI('respawn');
             $respawn.fadeOut();
         } else {
-            var myFaction = $('.' + MiniMap.factionSelectors[MiniMap.myFaction]);
-            myFaction.addClass('canselect');
-            myFaction.on('click', (e) => {
-                var respawnId = $(e.currentTarget).attr('respawnID');
-                cuAPI.Respawn(respawnId);
-            });
             cuAPI.ShowUI('respawn');
-            MiniMap.drawMap();
             $respawn.fadeIn();
         }
+    }
+
+    function bindClicks(e) {
+        var respawnId = $(e.currentTarget).attr('respawnID');
+        cuAPI.Respawn(respawnId);
     }
 
     function drawMap(): void {
@@ -33,10 +31,8 @@ module Respawn {
             temp.addClass(MiniMap.factionSelectors[p.faction]);
             if (p.faction == MiniMap.myFaction) {
                 temp.addClass('canselect');
-                temp.on('click', (e) => {
-                    var respawnId = $(e.currentTarget).attr('respawnID');
-                    cuAPI.Respawn(respawnId);
-                });
+                temp.off('click', bindClicks);
+                temp.on('click', bindClicks);
             } else {
                 temp.addClass("wrongfaction");
             }
@@ -48,6 +44,8 @@ module Respawn {
         p.css('top', MiniMap.myPos.y - 5);
         p.css('left', MiniMap.myPos.x - 5);
     }
+
+    
 
     // INITIALIZE!
     function initialize() {
