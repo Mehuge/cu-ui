@@ -219,13 +219,13 @@
                         }
                     }
                     if (o.present) {                 // status 110 confirms the users presence in the room.
-                        var name = from.split("@")[0];
+                        var name = from.split("@")[0], account = from.split("/")[1];
                         var room = rooms[name];
                         if (!room.presence) {
                             room.presence = {};
                         }
                         room.presence[from] = o;            // full presence name
-                        fire({ type: "joined", from: from, room: name });
+                        fire({ type: "joined", from: from, room: name, account: account });
                     }
                     break;
                 case 'message':
@@ -277,6 +277,8 @@
             send_($msg({ to: room, from: jid, type: "groupchat", id: nextId() }).c('body').t(message));
         }
     }
+
+    // Join named room.
     export function join(room: string) {
         join_(room);
     }
