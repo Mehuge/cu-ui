@@ -42,10 +42,21 @@
             padding: 0.1em 0.5em;
             background-color: black;
         }
-    </style>
+        #history {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            font-size: 6pt;
+            color: white;
+            margin: 1em;
+            padding: 0.1em 0.5em;
+            background-color: black;
+            opacity: 0.3
+        }
+        </style>
 </head>
 <body>
-    <div id="map"><div id="loc"></div></div>
+    <div id="map"><div id="loc"></div><div id="history"></div></div>
     <div id="heatmap"></div>
     <canvas id="overlay" width="200" height="200"></canvas>
     <script src="heatmap.min.js"></script>
@@ -57,6 +68,9 @@
     <script>
         (function () {
             var map = { w: 2048, h: 2048, z: 2048 },
+                historyWindow = 5,      // show 5 mins history (initially - this is a sliding window)
+                maxHistory = 15,        // maximum history will display
+                maxSamples = 25,        // maximum samples to show
                 screenW = window.innerWidth, screenH = window.innerHeight,
                 heatmap = h337.create({
                     container: document.getElementById("heatmap"),
@@ -87,8 +101,14 @@
                 },
                 getKills = function () {
                     var since = new Date();
-                    since.setHours(since.getHours()-1);
+                    since.setMinutes(since.getMinutes() - historyWindow);
                     Rest.getKills({ start: since.toISOString() }).then(function (kills) {
+                        history.textContent = "W:" + historyWindow + ", S:" + kills.length;
+                        if (kills.length > maxSamples && historyWindow > 1) {
+                            historyWindow--;
+                        } else if (kills.length < maxSamples && historyWindow < maxHistory) {
+                            historyWindow++;
+                        }
                         displayKills(kills);
                     }, function (e) {
                         loc.textContent = e;
@@ -102,17 +122,18 @@
                             var h = h / 1000;
                             if (h < since) {
                                 var r = 1 - ((low + (h / (since / (high - low)))) / 100);
-                                var o = { x: transformX(pos.y), y: transformY(pos.x), value: r };
+                                var o = { x: transformX(pos.x), y: transformY(pos.y), value: r };
                                 heatmap.addData(o);
                             }
                         }
                     };
                     heatmap.setData({ min: 0, max: 0, data: [] });
-                    draw(900, 0, 100);                               
+                    draw(maxHistory*60, 0, 100);
                     setTimeout(getKills, 10000);
                 },
                 overlay = document.getElementById("overlay"),
                 loc = document.getElementById("loc"),
+                history = document.getElementById("history"),
                 drawRadar = function (ctx) {
                     for (var name in radar) {
                         var player = radar[name];
@@ -141,9 +162,9 @@
             displayPos();
 
             var channels = [
-                Base64.encode("groupui:faction:1"),
-                Base64.encode("groupui:faction:2"),
-                Base64.encode("groupui:faction:3")
+                "$_" + Base64.encode("groupui:faction:1"),
+                "$_" + Base64.encode("groupui:faction:2"),
+                "$_" + Base64.encode("groupui:faction:3")
             ];
             Mehuge.connect(cuAPI.loginToken, channels, function () {
                 console.log('heatmap: connected to chat channels');
@@ -155,7 +176,6 @@
                 screenW = window.innerWidth;
                 screenH = window.innerHeight;
             });
-
         })();
     </script>
 </body>
