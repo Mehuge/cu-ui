@@ -36,8 +36,8 @@
             $('<div>').addClass("account").text("("+player.account+")").appendTo($unit);
             var $health: JQuery = $('<div>').addClass("health").appendTo($unit);
             $('<div>').addClass("text").text(player.health > -1 ? player.health + ' / ' + player.max : player.health ? 'respawning' : '...').appendTo($health);
-            $('<div>').addClass("dist").text(player.dist + 'm').appendTo($health);
-            $('<div>').addClass("compass").text(compass(player.direction)).appendTo($health);
+            $('<div>').addClass("dist").text(player.name === state.c ? cuAPI.speed.toFixed(1) : player.dist + 'm').appendTo($health);
+            $('<div>').addClass("compass").text(player.name === state.c ? ' ' : compass(player.direction)).appendTo($health);
             $('<div>').addClass("bar").css({ backgroundSize: player.health > -1 ? ((player.health / player.max) * 100) + '% 100%' : '0px' }).appendTo($health);
         }
 
@@ -116,7 +116,7 @@
 
     function join() {
 
-        Mehuge.connect(token, Base64.encode("groupui:faction:"+state.f), function () {
+        Mehuge.connect(token, "$_" + Base64.encode("groupui:faction:"+state.f), function () {
             // connected
             connected = true;
             pulse();
