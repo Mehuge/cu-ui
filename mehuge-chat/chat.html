@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="chat.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="chat">
+        <div id="history"></div>
+        <table id="box" cellspacing="0" cellpadding="0">
+        <tr><td class="disable-selection" id="clicker"><span id="channel"></span>:</td><td id="command-box" class="chat-mode"><input id="input-box" type="text" maxlength="255"></td></tr>
+        </table>
+    </div>
+    <script src="../cu/fake-cuAPI.js"></script>
+    <script src="../vendor/strophe.js"></script>
+    <script src="../mehuge/xmpp.js"></script>
+    <script src="../mehuge/mehuge.js"></script>
+    <script src="chat.js"></script>
+</body>
+</html>

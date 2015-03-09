@@ -23,6 +23,8 @@
     <Content Include="mehuge-addons\addons.css" />
     <Content Include="mehuge-addons\addons.html" />
     <Content Include="mehuge-announcer\announcer.html" />
+    <Content Include="mehuge-chat\chat.css" />
+    <Content Include="mehuge-chat\chat.html" />
     <Content Include="mehuge-group\group.html" />
     <Content Include="mehuge-autoexec\autoexec.html" />
     <Content Include="mehuge-bct\bct.css" />
@@ -190,6 +192,7 @@
     <Content Include="character\character.css" />
     <TypeScriptCompile Include="announcement\announcement.ts" />
     <TypeScriptCompile Include="mehuge-announcer\announcer.ts" />
+    <TypeScriptCompile Include="mehuge-chat\chat.ts" />
     <TypeScriptCompile Include="mehuge-group\group.ts" />
     <TypeScriptCompile Include="mehuge-worker\worker.ts" />
     <TypeScriptCompile Include="mehuge\mehuge.ts" />
@@ -607,6 +610,7 @@
     <Content Include="mehuge-combatlog.ui" />
     <Content Include="cubechat.ui" />
     <Content Include="g-castbar.ui" />
+    <Content Include="mehuge-chat.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

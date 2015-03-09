@@ -1,0 +1,99 @@
+﻿body {
+    margin: 0; padding: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
+#chat>#history {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 26px;
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+    overflow-y: scroll;
+    background-color: rgba(0,0,0,0.6);
+    overflow-wrap: break-word;
+}
+
+::-webkit-scrollbar              { background-color: transparent; }
+::-webkit-scrollbar-button       {  }
+::-webkit-scrollbar-track        {  }
+::-webkit-scrollbar-track-piece  { border-left: 1px solid black; }
+::-webkit-scrollbar-thumb        { background-color: rgba(0,0,0,0.5); }
+::-webkit-scrollbar-corner       { /* 6 */ }
+::-webkit-resizer                { /* 7 */ }
+
+#chat>#box {
+    position: absolute;
+    bottom: 0;
+    height: 26px;
+    width: 100%;
+    color: white;
+    background-color: rgba(0,0,0,0.6);
+}
+#chat>#box tr>td:nth-child(1) {
+    width: 4.5em;                   /* includes history view margin amount */
+    white-space: nowrap;
+    background-color: rgba(0,255,0,0.1);
+    -webkit-user-select: none;
+    user-select: none;
+    text-align: right;
+    padding-right: 0.5em;
+}
+#chat>#box tr>td:nth-child(2) {
+    padding-left: 0.5em;
+}
+
+#chat > #box tr > td:nth-child(2).command-mode {
+    background-color: rgba(255,231,0,0.1);
+}
+#chat > #box tr > td:nth-child(2).chat-mode {
+    background-color: rgba(128,0,0,0.1);
+}
+
+
+#chat>#box td>input { 
+    border: 0; 
+    height: 1.5em;
+    background-color: transparent; 
+    width: 100%; 
+    outline: none;
+    color: white;
+}
+#chat>#history .entry {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+#chat>#history .room {
+    width: 4em;
+    margin-right: 0.5em;
+    display: inline-block;
+    text-align: right;
+    opacity: 0.8;
+    color: white;
+}
+#chat>#history .account { 
+    margin-right: 0.5em;
+    display: inline-block;
+    opacity: 0.8;
+    color: white;
+}
+#chat>#history .message { 
+    opacity: 0.9;
+    color: white;
+}
+
+/* TODO: Move into a config */
+._ch__global { 
+    color: yellow; 
+}
+._ch__cube { 
+    color: aquamarine; 
+}
+._ch__it { 
+    color: rgb(255, 0, 0); 
+}
+._ch_uidev { 
+    color: rgb(76, 255, 0); 
+}
+._ch__combat, ._ch__combat .message {
+    color: orange!important;
+}
+
