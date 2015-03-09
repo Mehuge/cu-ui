@@ -1,7 +1,7 @@
 ﻿var UI = UI || {};
 UI.Modules = {
     "character": { core: true },
-    "chat": { core: true },
+    "chat": { core: true, close: true },
     "errormessages": { core: true },
     "kills": { core: true },
     "login": { core: true },
@@ -24,8 +24,9 @@ UI.Modules = {
     "mehuge-group": { core: false, autoLoad: true },
     "mehuge-combatlog": { core: false, autoLoad: true },
     "mehuge-pledges": { core: false },
-    "g-castbar": { core: false, autoLoad: true },
-    "ortu-compass": { core: false, autoLoad: true }
+    "castbar": { core: false, autoLoad: true },
+    "ortu-compass": { core: false, autoLoad: true },
+    "mehuge-chat": { core: false, autoLoad: true },
 };
 UI.Commands = [
     "vsync 1",
