@@ -1,0 +1,3 @@
+ChatConfig = {
+    join: [ "uidev" ]
+};

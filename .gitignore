@@ -18,3 +18,4 @@ announcer/*.ogg
 !/mehuge-heatmap/heatmap.min.js
 !/mehuge-pledges/pledges.js
 !/mehuge-web/*.js
+!/mehuge-chat/chat-config*.js
