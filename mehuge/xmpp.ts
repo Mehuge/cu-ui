@@ -177,6 +177,7 @@
                     break;
                 case 'failure': // auth failure
                     failure_(doc.documentElement);
+                    fire({ type: "error", reason: "Authentication failed" });
                     break;              
                 case 'success': // auth failure
                     success_(doc.documentElement);
@@ -233,10 +234,15 @@
                         type = message.attributes["type"].value,
                         id = message.attributes["id"].value,
                         from = message.attributes["from"].value,
-                        body = message.childNodes[0].textContent;
-                    if (type === "groupchat") {
-                        fire({ type: "groupchat", id: id, from: from, body: body });
+                        body;
+                    for (var i = 0; i < message.childNodes.length; i++) {
+                        var node = message.childNodes[i];
+                        if (node.nodeName === "body") {
+                            body = node.textContent;
+                            break;
+                        }
                     }
+                    fire({ type: type, id: id, from: from, body: body });
                     break;
                 default:
                     break;
@@ -276,6 +282,16 @@
         if (room) {
             send_($msg({ to: room, from: jid, type: "groupchat", id: nextId() }).c('body').t(message));
         }
+    }
+
+    export function sendIM(message: string, who: string) {
+        var from = jid.split(/[@\/]/);
+        if (typeof cuAPI !== "undefined" && cuAPI.serverURL.length) {
+            from = from[0] + "@shard." + from[1];
+        } else {
+            from = from[0] + "@" + from[1];
+        }
+        send_($msg({ to: who, from: from, type: "im", id: nextId() }).c('body').t(message));
     }
 
     // Join named room.
