@@ -58,6 +58,7 @@ done <<-EOF
 	mehuge-autoexec.zip 	mehuge-autoexec		mehuge-autoexec.ui
 	mehuge-bct.zip 		mehuge-bct 		mehuge-bct.ui
 	mehuge-combatlog.zip 	mehuge-combatlog 	mehuge-combatlog.ui
+	mehuge-chat.zip 	mehuge-chat 	mehuge-chat.ui    mehuge	-mehuge-chat/chat-config.js
 	mehuge-deathspam.zip 	mehuge-deathspam 	mehuge-deathspam.ui
 	mehuge-group.zip 	mehuge-group 		mehuge-group.ui		mehuge
 	mehuge-heatmap.zip 	mehuge-heatmap 		mehuge-heatmap.ui	vendor/cu-rest mehuge
