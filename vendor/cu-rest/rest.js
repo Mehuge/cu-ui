@@ -94,8 +94,8 @@ var Rest;
     }
     Rest.getPlayers = getPlayers;
 
-    function getControlGame() {
-        return call("game/controlgame", { timeout: 2000 });
+    function getControlGame(query) {
+        return call("game/controlgame", { query: query, timeout: 2000 });
     }
     Rest.getControlGame = getControlGame;
 

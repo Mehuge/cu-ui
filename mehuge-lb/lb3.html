@@ -128,7 +128,7 @@
                     if (killsTimeout) clearTimeout(killsTimeout);
                     killsTimeout = null;
                 };
-            Rest.getControlGame().then(function (game) {
+            Rest.getControlGame({ includesControlPoints: false }).then(function (game) {
                 switch (game.gameState) {
                     case 0: // Inactive
                         endGame();
