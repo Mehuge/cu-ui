@@ -166,12 +166,12 @@
                 "$_" + Base64.encode("groupui:faction:2"),
                 "$_" + Base64.encode("groupui:faction:3")
             ];
-            Mehuge.connect(cuAPI.loginToken, channels, function () {
+            MehugeChat.connect(cuAPI.loginToken, channels, function () {
                 console.log('heatmap: connected to chat channels');
             });
-            Mehuge.listen(function (msg) {
+            MehugeChat.listen([ "groupchat", function (msg) {
                 (radar[msg.c] = msg).updated = Date.now();
-            });
+            }]);
             window.addEventListener("resize", function() {
                 screenW = window.innerWidth;
                 screenH = window.innerHeight;

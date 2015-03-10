@@ -47,7 +47,7 @@
                 }, trigger = function () {
                     setTimeout(cannon, freq());
                 }, cannon = function () {
-                    Mehuge.send({ payload: "pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew" });
+                    MehugeChat.send({ payload: "pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew pew" });
                     trigger();
                 }, mouse = function (e) {
                     if (e.clientX > 70 && vol < 11) {
@@ -58,7 +58,7 @@
                     volume.style.backgroundPositionX = ((vol - 1) * -123) + 'px';
                 };
             volume.addEventListener("click", mouse);
-            Mehuge.connect(cuAPI.loginToken, "LOIC", function () {
+            MehugeChat.connect(cuAPI.loginToken, "LOIC", function () {
                 // connected
                 trigger();
             });

@@ -103,7 +103,7 @@
         state.x = l.x;
         state.y = l.y;
         state.z = l.z;
-        Mehuge.send(state);
+        MehugeChat.send(state);
     }
 
     var token;
@@ -116,7 +116,7 @@
 
     function join() {
 
-        Mehuge.connect(token, "$_" + Base64.encode("groupui:faction:"+state.f), function () {
+        MehugeChat.connect(token, "$_" + Base64.encode("groupui:faction:"+state.f), function () {
             // connected
             connected = true;
             pulse();
@@ -125,7 +125,7 @@
             }
         });
 
-        Mehuge.listen(function (msg) {
+        MehugeChat.listen([ "groupchat", function (msg) {
             if (msg.character === "") return;
             var player = players[msg.c||msg.character] || {};
             if ((msg.v | 0) === 2) {
@@ -137,9 +137,9 @@
             }
             player.updated = Date.now();
             players[msg.c||msg.character] = player;
-        });
+        }]);
         window.onunload = function () {
-            Mehuge.disconnect();
+            MehugeChat.disconnect();
         }
         setInterval(paint, 250);
     }
