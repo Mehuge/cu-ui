@@ -25,6 +25,7 @@
     <Content Include="mehuge-announcer\announcer.html" />
     <Content Include="mehuge-chat\chat.css" />
     <Content Include="mehuge-chat\chat.html" />
+    <Content Include="mehuge-chat\config.js" />
     <Content Include="mehuge-group\group.html" />
     <Content Include="mehuge-autoexec\autoexec.html" />
     <Content Include="mehuge-bct\bct.css" />

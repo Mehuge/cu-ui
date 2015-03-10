@@ -1,4 +1,6 @@
-﻿module MehugeChat {
+﻿declare var ChatConfig : any;
+
+module Chat {
 
     var screenW, screenH,
         channel: any = document.getElementById("channel"),
@@ -6,12 +8,13 @@
         history = document.getElementById("history"),
         input: any = document.getElementById("input-box"),
         command: any = document.getElementById("command-box"),
-        commandMode = false;
+        commandMode: boolean = false,
+        savedText: string = "";
 
     // channel list.  Note, : tells Mehuge chat API to join channel as-is, 
     // otherwise channel names are mangles
     var channels = [
-        "_global", "_it", "_cube", "uidev", "*"
+        "_global", "_it", "_cube"
     ], selectedIndex = 0;
 
     // slash commands
@@ -214,6 +217,77 @@
         }
     }
 
+    function setCommandMode(on) {
+        commandMode = on;
+        command.className = on ? "command-mode" : "chat-mode";
+    }
+
+    function handleEnter(shift: boolean) {
+        var run = function (cmd) {
+            addMessage({ from: "_console", message: cmd });
+            cuAPI.ConsoleCommand(cmd);
+        };
+        // Is this a / command (slash commands work in or out of command mode)
+        if (input.value[0] === '/') {
+            doSlashCommand(input.value.substr(1).split(" "));
+            input.value = '';
+        } else {
+            // If not in command mode, and a command<shift+enter> is pressed
+            if (!commandMode && shift && input.value.length) {
+                // then run as a single command
+                run(input.value);
+            } else {
+                var old = commandMode;
+                // else check if we are toggling command mode
+                if (shift) {
+                    // toggle command mode
+                    setCommandMode(!commandMode);
+                }
+
+                // Do we have something to run?
+                if (input.value.length) {
+                    // How we run it depends on command mode
+                    if (commandMode) {
+                        run(input.value);
+                    } else {
+                        MehugeChat.sendText(input.value, channels[selectedIndex]);
+                    }
+                } else {
+                    // <ENTER> on empty input that wasn't a toggle, work same as ESC
+                    if (old === commandMode) {
+                        setCommandMode(false);
+                        cuAPI.ReleaseInputOwnership();
+                    }
+                }
+            }
+        }
+        input.value = '';
+        input.focus();
+    }
+
+    function selectChannel(i) {
+        channel.textContent = channels[i];
+        channel.className = '_ch_' + channels[i];
+        selectedIndex = i;
+    }
+
+    function setDefaultChannel() {
+        if (cuAPI.serverURL && cuAPI.serverURL.indexOf("hatchery.") > -1) {
+            selectChannel(1);
+        } else {
+            selectChannel(0);
+        }
+    }
+
+    function processConfig(config : any) {
+        var join = config.join;
+        if (join) {
+            for (var i = 0; i < join.length; i++) {
+                channels.push(join[i]);
+            }
+        }
+    }
+
     function init() {
 
         var rebuildChannelUI = function () {
@@ -225,9 +299,13 @@
             channel.innerHTML = opts;
         };
 
+        if (typeof ChatConfig !== "undefined") {
+            processConfig(ChatConfig);
+        }
+
         // Connect to chat channels
         try {
-        MehugeChat.connect(cuAPI.loginToken, channels, function (channel:any) {
+            MehugeChat.connect(cuAPI.loginToken, channels, function (channel:any) {
                 addMessage({ from: 'system', message: 'connected to channel ' + channel.room });
                 if (channels.indexOf(channel.room) == -1) {
                     channels.push(channel.room);
@@ -241,52 +319,19 @@
         }
 
         // Respond to chat
-        MehugeChat.listen([ "groupchat", "chat", "error", function (msg) {
+        MehugeChat.listen(["groupchat", "chat", "error", function (msg) {
             addMessage(msg);
         }]);
 
         // Respond to sending chat
-        input.addEventListener("keyup", (ev: KeyboardEvent) => {
+        input.addEventListener("keydown", (ev: KeyboardEvent) => {
             if (ev.keyCode === 13) {
-                var run = function (cmd) {
-                    addMessage({ from: "_console", message: cmd });
-                    cuAPI.ConsoleCommand(cmd);
-                };
-                if (input.value[0] === '/') {
-                    doSlashCommand(input.value.substr(1).split(" "));
-                    input.value = '';
-                } else {
-                    // If not in command mode, and a command<shift+enter> is pressed
-                    // then run as a single command
-                    if (!commandMode && ev.shiftKey && input.value.length) {
-                        run(input.value);
-                    } else {
-                        if (ev.shiftKey) {
-                            commandMode = !commandMode;
-                            command.className = commandMode ? "command-mode" : "chat-mode";
-                        }
-                        if (input.value.length) {
-                            if (commandMode) {
-                                run(input.value);
-                            } else {
-                                MehugeChat.sendText(input.value, channels[selectedIndex]);
-                            }
-                            input.value = '';
-                        }
-                    }
-                }
-                input.value = '';
-                input.focus();
+                handleEnter(ev.shiftKey);
             } else if (ev.keyCode === 27) {
+                setCommandMode(false);
                 cuAPI.ReleaseInputOwnership();
             }
         });
-
-        function selectChannel(i) {
-            channel.textContent = channels[i];
-            channel.className = '_ch_' + channels[i];
-            selectedIndex = i;
-        }
 
         // handle focus and input ownership
         input.addEventListener("focus", (ev: Event) => {
@@ -296,6 +341,7 @@
         input.addEventListener("blur", (ev: Event) => {
             console.log('ReleaseInputOwnership');
             cuAPI.ReleaseInputOwnership();
+            savedText = input.value;
         });
 
         clicker.addEventListener("click", (ev: MouseEvent) => {
@@ -305,38 +351,39 @@
                 selectedIndex = 0;
             }
             selectChannel(selectedIndex);
-            //setTimeout(function () { input.focus(); }, 100);
-        });
-
-        // watch UI sizing
-        window.addEventListener("resize", function () {
-            screenW = window.innerWidth;
-            screenH = window.innerHeight;
         });
 
         cuAPI.CloseUI("chat");
 
-        if (cuAPI.serverURL && cuAPI.serverURL.indexOf("hatchery.") > -1) {
-            selectChannel(1);
-        } else {
-            selectChannel(0);
-        }
-
-        // catch ENTER
-        cuAPI.OnBeginChat((commandMode: number, text: string) => {
+        // catch ENTER (or /)
+        cuAPI.OnBeginChat((mode: number, text: string) => {
             input.focus();
+            input.value = text ? text : savedText;
+            commandMode = mode === 1;
+            command.className = commandMode ? "command-mode" : "chat-mode";
         });
 
+        // Handle combat messages
         cuAPI.OnChat((type: number, from: string, body: string, nick: string, iscse: boolean) => {
             if (iscse && from.substr(0, 8) === "_combat@") {
                 addMessage({ from: "_combat", message: body });
             }
         });
 
+        // Handle console text
         cuAPI.OnConsoleText((text: string) => {
             addMessage({ from: "_console", message: text });
         });
+
+        // Set default channel
+        setDefaultChannel();
     }
 
-    init();
+    if (typeof cuAPI !== "undefined") {
+        cuAPI.OnInitialized(function () {
+            init();
+        });
+    } else {
+        setTimeout(init, 100);
+    }
 }; 
