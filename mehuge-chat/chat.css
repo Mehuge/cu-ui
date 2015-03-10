@@ -82,19 +82,19 @@
 
 /* TODO: Move into a config */
 ._ch__global { 
-    color: yellow; 
+    color: #CC0000; 
 }
 ._ch__cube { 
-    color: aquamarine; 
+    color: #06DCFB; 
 }
 ._ch__it { 
-    color: rgb(76, 255, 0); 
+    color: #48FB0D; 
 }
 ._ch_uidev { 
-    color: rgb(255, 0, 0); 
+    color: #CC0099; 
 }
 ._ch__combat, ._ch__combat .message {
-    color: gold!important;
+    color: #FFCC33!important;
 }
 ._ch_IM, ._ch_IM .message {
     color: yellow!important;
