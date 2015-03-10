@@ -5,11 +5,27 @@
     <title>Block Selector</title>
     <link rel="stylesheet" type="text/css" href="../cu/cu.css">
     <link rel="stylesheet" type="text/css" href="blockselector.css">
+    <link rel="stylesheet" href="../cu/window.css">
 </head>
-<body class="simple-scrollbar">
-
-    <div id="block-container">
-        <div id="select-block-tool" />
+<body class="disable-selection simple-scrollbar">
+    <div id="block-tray" class="window">
+        <div class="window-top">
+            <div class="window-title">Blocks</div>
+        </div>
+        <div class="window-middle">
+            <div id="shape-filter-container">
+                <label id="shape-filter-label" for="shape-filter">Shape: </label>
+                <input type="text" id="shape-filter" placeholder="" size="12" tabindex="1" />
+            </div>
+            <div id="type-filter-container">
+                <label id="type-filter-label" for="type-filter">Type: </label>
+                <input type="text" id="type-filter" placeholder="" size="12" tabindex="1" />
+            </div>
+            <div id="block-container">
+                <div id="select-block-tool"></div>
+            </div>
+        </div>
+        <div class="window-bottom"></div>
     </div>
     <script src="../vendor/jquery-2.1.1.js"></script>
     <script src="../vendor/lodash.js"></script>

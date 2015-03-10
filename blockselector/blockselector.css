@@ -6,39 +6,70 @@ html, body {
     overflow: hidden;
     margin: 0;
     padding: 0;
-    background: url('../images/inventory/bg.png') no-repeat top left;
     background-size: 100%;
 }
 
+#block-tray {
+    width: 252px;
+    left: 20px;
+    right: 0px;
+}
+
+#shape-filter-container,
+#type-filter-container {
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+}
+
+#shape-filter-container {
+    display: inline-block;
+}
+
+#shape-filter-label,
+#type-filter-label {
+    font-size: 12px;
+    letter-spacing: .5px;
+    margin-right: 5px;
+    text-transform: uppercase;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    color: rgb(166, 166, 166);
+}
+
+#type-filter-label {
+    margin-right: 16px;
+}
+
+#shape-filter,
+#type-filter {
+    width: 155px;
+}
+
 #block-container {
-    position: absolute;
-    top: 30px;
-    left: 0px;
+    display: inline-block;
     width: 100%;
-    height: 201px;
-    
-    overflow-y: auto;
+    height: 261px;
+    overflow-y: scroll;
 }
 
 #select-block-tool {
-    position:absolute;
-    top: 0px;
-    left: 15px;
+    position: relative;
     margin: 0px;
     padding: 0px;
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
+    display: inline-block;
     background: url('../images/blockselector/select-block.jpg') no-repeat top left;
     background-size: 100%;
 }
 
 .block-type {
-    position:absolute;
+    position: relative;
     width: 64px;
     height: 64px;
     background-size: 100%;
-    text-align: center;
-    color: white;
+    display: inline-block;
     margin: 0px;
     padding: 0px;
 }

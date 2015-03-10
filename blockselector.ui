@@ -3,10 +3,10 @@
     "name": "blockselector",
     "mainFile": "blockselector/blockselector.html",
     "rect": {
-        "left": 1228,
-        "top": 282,
+        "left": 1148,
+        "top": 232,
         "right": 1420,
-        "bottom": 618
+        "bottom": 668
     },
     "handlesBuilding": true,
     "handlesInput":  true
