@@ -36,16 +36,17 @@
     slash["openui"] = {
         help: "Open named UI",
         handler: function (name: string, args: string[]) {
-            var name = _parseUIName(args[1]);
+            var name = _parseUIName(args[0]);
             if (name) {
                 cuAPI.OpenUI(name + ".ui");
+                if (name === "chat") cuAPI.CloseUI("mehuge-chat");
             }
         }
     };
     slash["closeui"] = {
         help: "Close a named UI",
         handler: function (name: string, args: string[]) {
-            var name = _parseUIName(args[1]);
+            var name = _parseUIName(args[0]);
             if (name) {
                 if (name === "mehuge-chat") cuAPI.OpenUI("chat.ui");
                 cuAPI.CloseUI(name);
@@ -55,7 +56,7 @@
     slash["showui"] = {
         help: "Show named UI",
         handler: function (name: string, args: string[]) {
-            var name = _parseUIName(args[1]);
+            var name = _parseUIName(args[0]);
             if (name) {
                 cuAPI.ShowUI(name);
             }
@@ -64,7 +65,7 @@
     slash["hideui"] = {
         help: "Hide a named UI",
         handler: function (name: string, args: string[]) {
-            var name = _parseUIName(args[1]);
+            var name = _parseUIName(args[0]);
             if (name) {
                 cuAPI.HideUI(name);
             }
@@ -130,7 +131,41 @@
         help: "join a chat channel",
         handler: function (name: string, args: string[]) {
             if (args.length > 0) {
-                Mehuge.join(args[0]);
+                MehugeChat.join(args[0]);
+            }
+        }
+    };
+    slash["it"] = {
+        help: "talk in IT chat",
+        handler: function (name: string, args: string[]) {
+            if (args.length > 0) {
+                MehugeChat.sendText(args.join(" "), "_it");
+            }
+        }
+    };
+    slash["global"] = {
+        help: "talk in global chat",
+        handler: function (name: string, args: string[]) {
+            if (args.length > 0) {
+                MehugeChat.sendText(args.join(" "), "_global");
+            }
+        }
+    };
+    slash["cube"] = {
+        help: "talk in global chat",
+        handler: function (name: string, args: string[]) {
+            if (args.length > 0) {
+                MehugeChat.sendText(args.join(" "), "_cube");
+            }
+        }
+    };
+    slash["w"] = slash["whisper"] = slash["tell"] = {
+        help: "Send personal message",
+        handler: function (name: string, args: string[], full: string) {
+            if (args.length > 1) {
+                var who = args.shift(), message = full.substr(who.length + 1);
+                addMessage({ from: "IM", account: "me > " + who, message: message });
+                MehugeChat.sendIM(message, who + "@chat.camelotunchained.com");
             }
         }
     };
@@ -175,7 +210,7 @@
         var command = slash[args[0]];
         if (command && command.handler) {
             var name = args.shift();
-            command.handler(name, args);
+            command.handler(name, args, input.value.substr(name.length+1));
         }
     }
 
@@ -192,7 +227,7 @@
 
         // Connect to chat channels
         try {
-            Mehuge.connect(cuAPI.loginToken, channels, function (channel:any) {
+        MehugeChat.connect(cuAPI.loginToken, channels, function (channel:any) {
                 addMessage({ from: 'system', message: 'connected to channel ' + channel.room });
                 if (channels.indexOf(channel.room) == -1) {
                     channels.push(channel.room);
@@ -206,10 +241,9 @@
         }
 
         // Respond to chat
-        Mehuge.listen(function (msg) {
-            console.log(JSON.stringify(msg));
+        MehugeChat.listen([ "groupchat", "chat", "error", function (msg) {
             addMessage(msg);
-        });
+        }]);
 
         // Respond to sending chat
         input.addEventListener("keyup", (ev: KeyboardEvent) => {
@@ -235,7 +269,7 @@
                             if (commandMode) {
                                 run(input.value);
                             } else {
-                                Mehuge.sendText(input.value, channels[selectedIndex]);
+                                MehugeChat.sendText(input.value, channels[selectedIndex]);
                             }
                             input.value = '';
                         }
@@ -255,12 +289,13 @@
         }
 
         // handle focus and input ownership
-        input.addEventListener("focus", (ev: Event) => { cuAPI.RequestInputOwnership(); });
-        input.addEventListener("blur", (ev: Event) => { cuAPI.ReleaseInputOwnership(); });
-
-        // If we change the channel, refocus on text field
-        channel.addEventListener("change", (ev: Event) => {
-            input.focus();
+        input.addEventListener("focus", (ev: Event) => {
+            console.log('RequestInputOwnership');
+            cuAPI.RequestInputOwnership();
+        });
+        input.addEventListener("blur", (ev: Event) => {
+            console.log('ReleaseInputOwnership');
+            cuAPI.ReleaseInputOwnership();
         });
 
         clicker.addEventListener("click", (ev: MouseEvent) => {
@@ -270,6 +305,7 @@
                 selectedIndex = 0;
             }
             selectChannel(selectedIndex);
+            //setTimeout(function () { input.focus(); }, 100);
         });
 
         // watch UI sizing
@@ -280,7 +316,7 @@
 
         cuAPI.CloseUI("chat");
 
-        if (cuAPI.serverURL && cuAPI.serverURL.indexOf("hatchery") > -1) {
+        if (cuAPI.serverURL && cuAPI.serverURL.indexOf("hatchery.") > -1) {
             selectChannel(1);
         } else {
             selectChannel(0);

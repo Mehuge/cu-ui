@@ -88,12 +88,15 @@
     color: aquamarine; 
 }
 ._ch__it { 
-    color: rgb(255, 0, 0); 
-}
-._ch_uidev { 
     color: rgb(76, 255, 0); 
 }
+._ch_uidev { 
+    color: rgb(255, 0, 0); 
+}
 ._ch__combat, ._ch__combat .message {
-    color: orange!important;
+    color: gold!important;
+}
+._ch_IM, ._ch_IM .message {
+    color: yellow!important;
 }
 
