@@ -42,6 +42,7 @@ module MehugeChat {
                         msg = { message: ev.body, id: ev.id };
                     }
                     msg.from = room;
+                    msg.iscse = ev.iscse;
                     msg.account = ev.from.split("/")[1];
                     msg.type = ev.type;
                     break;
@@ -51,7 +52,8 @@ module MehugeChat {
                         account: ev.from.split("@")[0],
                         type: ev.type,
                         message: ev.body,
-                        id: ev.id
+                        id: ev.id,
+                        iscse: ev.iscse
                     };
                     break;
                 case "error":
