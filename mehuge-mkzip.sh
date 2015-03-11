@@ -6,19 +6,17 @@ Zip() {
 		rm -f "./$z"
 		main="$1" ; shift
 		case "$main" in
-		mehuge-full) ;;
-		*) zip -r $z $main ;;
+		*) zip -r $z $main ; zip -r mehuge-full.zip $main ;;
 		esac
 		for arg in "$@" ; do
 			case "$arg" in
 			mehuge-full) ;;	# Dummy
-			-*) zip -d $z "${arg#-}" ;;
-			+*) zip -r $z "${arg#+}" ;;
-			*) zip -r $z "$arg" ;;
+			-*) zip -d $z "${arg#-}" ; zip -d mehuge-full.zip "${arg#-}" ;;
+			+*) zip -r $z "${arg#+}" ; zip -r mehuge-full.zip "${arg#+}" ;;
+			*) zip -r $z "$arg" ; zip -r mehuge-full.zip "$arg" ;;
 			esac
 		done
 		case "$main" in
-		mehuge-full) ;;
 		*)	files=`unzip -l $zip | while read length date time name ; do
 				case "$length" in
 				[0-9]*) echo $name ;;
@@ -39,6 +37,7 @@ Zip() {
 				EOF
 			} > $main/uninst.json
 			zip $z $main/uninst.json
+			zip mehuge-full.zip $main/uninst.json
 			;;
 		esac
 		mv $z /d/Dropbox/Public
@@ -48,11 +47,10 @@ Zip() {
 	esac
 }
 
-bigzip=""
+rm -f mehuge-full.zip
 while read zip files
 do
 	Zip $zip $files
-	bigzip="$bigzip $files"
 done <<-EOF
 	mehuge-announcer.zip 	mehuge-announcer	mehuge-announcer.ui -mehuge-announcer/*.ogg +mehuge-announcer/WilhelmScream.ogg
 	mehuge-autoexec.zip 	mehuge-autoexec		mehuge-autoexec.ui
@@ -69,6 +67,5 @@ done <<-EOF
 	mehuge-tweaks.zip 	mehuge-tweaks 		mehuge-tweaks.ui
 EOF
 
-# Finally add them all to a single zip
-Zip mehuge-full.zip mehuge-full $bigzip
-
+mv mehuge-full.zip /d/Dropbox/Public
+ls -l /d/Dropbox/Public/mehuge-full.zip
