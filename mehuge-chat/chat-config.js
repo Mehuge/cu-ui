@@ -1,3 +1,7 @@
 ChatConfig = {
-    join: [ "uidev" ]
+    join: ["uidev"],
+    leave: [],
+    autoexec: [
+        "jumpdelay 0"
+    ]
 };

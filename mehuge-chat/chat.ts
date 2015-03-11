@@ -15,7 +15,7 @@ module Chat {
     // channel list.  Note, : tells Mehuge chat API to join channel as-is, 
     // otherwise channel names are mangles
     var channels = [
-        "_global", "_it", "_cube"
+        "_global", "_it", "_cube", "_combat"
     ], selectedIndex = 0;
 
     // slash commands
@@ -135,7 +135,12 @@ module Chat {
         help: "join a chat channel",
         handler: function (name: string, args: string[]) {
             if (args.length > 0) {
-                MehugeChat.join(args[0]);
+                var c = channels.indexOf(args[0]);
+                if (c === -1) {
+                    MehugeChat.join(args[0]);
+                } else {
+                    selectChannel(c);
+                }
             }
         }
     };
@@ -156,7 +161,7 @@ module Chat {
         }
     };
     slash["cube"] = {
-        help: "talk in global chat",
+        help: "talk in cube chat",
         handler: function (name: string, args: string[]) {
             if (args.length > 0) {
                 MehugeChat.sendText(args.join(" "), "_cube");
@@ -164,7 +169,7 @@ module Chat {
         }
     };
     slash["w"] = slash["whisper"] = slash["tell"] = {
-        help: "Send personal message",
+        help: "Send personal message. e.g. /w mehuge hello",
         handler: function (name: string, args: string[], full: string) {
             if (args.length > 1) {
                 var who = args.shift(), message = full.substr(who.length + 1);
@@ -173,6 +178,17 @@ module Chat {
             }
         }
     };
+    slash["ch"] = {
+        help: "talk in named chat channel.  e.g. /ch _general hello general",
+        handler: function (name: string, args: string[]) {
+            if (args.length > 1) {
+                var channel = args.shift();
+                MehugeChat.sendText(args.join(" "), channel);
+            }
+        }
+    };
+
+
 
     // Add a message to chat window. The msg argument contains the details of the
     // message.
@@ -216,11 +232,12 @@ module Chat {
         }
     }
 
-    function doSlashCommand(args: string[]) {
+    function doSlashCommand(full: string) {
+        var args : string[] = full.split(" ");
         var command = slash[args[0]];
         if (command && command.handler) {
             var name = args.shift();
-            command.handler(name, args, input.value.substr(name.length+1));
+            command.handler(name, args, full.substr(name.length+1));
         }
     }
 
@@ -231,12 +248,12 @@ module Chat {
 
     function handleEnter(shift: boolean) {
         var run = function (cmd) {
-            addMessage({ from: "_console", message: cmd });
+            addMessage({ from: "console", message: cmd });
             cuAPI.ConsoleCommand(cmd);
         };
         // Is this a / command (slash commands work in or out of command mode)
         if (input.value[0] === '/') {
-            doSlashCommand(input.value.substr(1).split(" "));
+            doSlashCommand(input.value.substr(1));
             input.value = '';
         } else {
             // If not in command mode, and a command<shift+enter> is pressed
@@ -286,16 +303,49 @@ module Chat {
         }
     }
 
-    function processConfig(config : any) {
+    function processConfig(config: any) {
         var join = config.join;
         if (join) {
             for (var i = 0; i < join.length; i++) {
                 channels.push(join[i]);
             }
         }
+        var leave = config.leave;
+        if (leave) {
+            for (i = 0; i < leave.length; i++) {
+                var c = channels.indexOf(leave[i]);
+                if (c !== -1) channels.splice(c, 1);
+            }
+        }
+    }
+
+    function autoexec(autoexec: any) {
+        var runCommand = function (i) {
+            if (i < autoexec.length) {
+                var delay: number = 100;
+                if (autoexec[i][0] === '/') {
+                    doSlashCommand(autoexec[i].substr(1));
+                    if (autoexec[i].substr(0, 6) === "/join") {
+                        delay = 500;
+                    }
+                } else {
+                    if (autoexec[i].substr(0, 5) === "sleep") {
+                        delay = autoexec[i].substr(6) | 0;
+                    } else {
+                        addMessage({ from: "console", message: autoexec[i] });
+                        cuAPI.ConsoleCommand(autoexec[i]);
+                        delay = 200;
+                    }
+                }
+                setTimeout(function () { runCommand(i+1); }, delay);
+            }
+        };
+        runCommand(0);
     }
 
     function init() {
+
+        var hasRunAutoexec = false;
 
         var rebuildChannelUI = function () {
             // Add channels to dropdown
@@ -318,6 +368,12 @@ module Chat {
                     channels.push(channel.room);
                     rebuildChannelUI();
                     selectChannel(channels.length - 1);
+                }
+                if (typeof ChatConfig !== "undefined" && ChatConfig.autoexec && !hasRunAutoexec) {
+                    hasRunAutoexec = true;
+                    setTimeout(function () {
+                        autoexec(ChatConfig.autoexec);
+                    }, 500);
                 }
             });
         } catch (e) {
@@ -384,7 +440,7 @@ module Chat {
 
         // Handle console text
         cuAPI.OnConsoleText((text: string) => {
-            addMessage({ from: "_console", message: text });
+            addMessage({ from: "console", message: text });
         });
 
         // Set default channel
