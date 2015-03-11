@@ -15,7 +15,7 @@ module Chat {
     // channel list.  Note, : tells Mehuge chat API to join channel as-is, 
     // otherwise channel names are mangles
     var channels = [
-        "_global", "_it", "_cube", "_combat"
+        "_global", "_it", "_cube"
     ], selectedIndex = 0;
 
     // slash commands
