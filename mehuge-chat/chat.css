@@ -69,6 +69,12 @@
     opacity: 0.8;
     color: white;
 }
+#chat > #history img.cse {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 0.2em;
+}
 #chat>#history .account { 
     margin-right: 0.5em;
     display: inline-block;

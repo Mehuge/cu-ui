@@ -9,7 +9,8 @@ module Chat {
         input: any = document.getElementById("input-box"),
         command: any = document.getElementById("command-box"),
         commandMode: boolean = false,
-        savedText: string = "";
+        savedText: string = "",
+        lastWhisper;
 
     // channel list.  Note, : tells Mehuge chat API to join channel as-is, 
     // otherwise channel names are mangles
@@ -192,6 +193,12 @@ module Chat {
         if (msg.account) {
             span = document.createElement("span");
             span.className = 'account';
+            if (msg.iscse) {
+                var img: HTMLImageElement = document.createElement("img");
+                img.className = "cse";
+                img.src = "../images/chat/CSE_icon_badge.png";
+                span.appendChild(img);
+            }
             span2 = document.createElement("span");
             span2.innerText = '[' + msg.account + ']';
             span2.className = '_ch_' + msg.from;
@@ -320,6 +327,9 @@ module Chat {
 
         // Respond to chat
         MehugeChat.listen(["groupchat", "chat", "error", function (msg) {
+            if (msg.type === "chat" && msg.from === "IM") {
+                lastWhisper = msg.account;
+            }
             addMessage(msg);
         }]);
 
@@ -330,16 +340,18 @@ module Chat {
             } else if (ev.keyCode === 27) {
                 setCommandMode(false);
                 cuAPI.ReleaseInputOwnership();
+            } else if (ev.keyCode === 8) {
+                if (input.value === '' && lastWhisper) {
+                    input.value = "/w " + lastWhisper + "  ";
+                }
             }
         });
 
         // handle focus and input ownership
         input.addEventListener("focus", (ev: Event) => {
-            console.log('RequestInputOwnership');
             cuAPI.RequestInputOwnership();
         });
         input.addEventListener("blur", (ev: Event) => {
-            console.log('ReleaseInputOwnership');
             cuAPI.ReleaseInputOwnership();
             savedText = input.value;
         });
