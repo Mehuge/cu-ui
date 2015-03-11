@@ -234,15 +234,21 @@
                         type = message.attributes["type"].value,
                         id = message.attributes["id"].value,
                         from = message.attributes["from"].value,
-                        body;
+                        body, iscse = false, nick;
                     for (var i = 0; i < message.childNodes.length; i++) {
                         var node = message.childNodes[i];
                         if (node.nodeName === "body") {
                             body = node.textContent;
-                            break;
+                        }
+                        if (node.nodeName === "cseflags") {
+                            var cse = node.attributes["cse"];
+                            iscse = cse && cse.value === "cse";
+                        }
+                        if (node.nodeName === "nick") {
+                            nick = node.nodeValue;
                         }
                     }
-                    fire({ type: type, id: id, from: from, body: body });
+                    fire({ type: type, id: id, from: from, body: body, iscse: iscse });
                     break;
                 default:
                     break;
@@ -291,7 +297,7 @@
         } else {
             from = from[0] + "@" + from[1];
         }
-        send_($msg({ to: who, from: from, type: "im", id: nextId() }).c('body').t(message));
+        send_($msg({ to: who, from: from, type: "chat", id: nextId() }).c('body').t(message));
     }
 
     // Join named room.
