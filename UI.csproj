@@ -23,9 +23,10 @@
     <Content Include="mehuge-addons\addons.css" />
     <Content Include="mehuge-addons\addons.html" />
     <Content Include="mehuge-announcer\announcer.html" />
+    <Content Include="mehuge-chat\chat-config.js" />
     <Content Include="mehuge-chat\chat.css" />
     <Content Include="mehuge-chat\chat.html" />
-    <Content Include="mehuge-chat\config.js" />
+    <Content Include="mehuge-chat\chat-config-sample.js" />
     <Content Include="mehuge-group\group.html" />
     <Content Include="mehuge-autoexec\autoexec.html" />
     <Content Include="mehuge-bct\bct.css" />
@@ -612,6 +613,7 @@
     <Content Include="cubechat.ui" />
     <Content Include="g-castbar.ui" />
     <Content Include="mehuge-chat.ui" />
+    <Content Include="mehuge-mkzip.sh" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
