@@ -103,6 +103,23 @@
     color: #FFCC33!important;
 }
 ._ch_IM, ._ch_IM .message {
-    color: yellow!important;
+    color: #99FF66!important;
 }
+
+._ch_announce, ._ch_announce .message {
+    color: #FFFF00!important;
+}
+
+._ch_tty, ._ch_tty .message {
+    color: #808080!important;
+}
+._ch_tty .message { 
+    font-family: monospace;
+}
+
+._ch_tty .room,
+._ch__combat .room,
+._ch_system .room,
+._ch_console .room { display: none!important; }
+
 

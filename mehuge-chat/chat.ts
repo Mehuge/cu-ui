@@ -10,7 +10,8 @@ module Chat {
         command: any = document.getElementById("command-box"),
         commandMode: boolean = false,
         savedText: string = "",
-        lastWhisper;
+        lastWhisper,
+        showCombatMessages = true;
 
     // channel list.  Note, : tells Mehuge chat API to join channel as-is, 
     // otherwise channel names are mangles
@@ -317,6 +318,9 @@ module Chat {
                 if (c !== -1) channels.splice(c, 1);
             }
         }
+        if (config.hideDeathSpam) {
+            showCombatMessages = false;
+        }
     }
 
     function autoexec(autoexec: any) {
@@ -384,7 +388,12 @@ module Chat {
         // Respond to chat
         MehugeChat.listen(["groupchat", "chat", "error", function (msg) {
             if (msg.type === "chat" && msg.from === "IM") {
-                lastWhisper = msg.account;
+                if (msg.account === "chat.camelotunchained.com/Warning") {
+                    msg.from = "announce";
+                    msg.account = null;
+                } else {
+                    lastWhisper = msg.account;
+                }
             }
             addMessage(msg);
         }]);
@@ -432,15 +441,21 @@ module Chat {
         });
 
         // Handle combat messages
-        cuAPI.OnChat((type: number, from: string, body: string, nick: string, iscse: boolean) => {
-            if (iscse && from.substr(0, 8) === "_combat@") {
-                addMessage({ from: "_combat", message: body });
-            }
-        });
+        if (showCombatMessages) {
+            cuAPI.OnChat((type: number, from: string, body: string, nick: string, iscse: boolean) => {
+                if (iscse && from.substr(0, 8) === "_combat@") {
+                    addMessage({ from: "_combat", message: body });
+                }
+            });
+        }
 
         // Handle console text
         cuAPI.OnConsoleText((text: string) => {
-            addMessage({ from: "console", message: text });
+            var lines: string[] = text.split("\n");
+            if (lines[lines.length-1].length === 0) lines.pop();
+            for (var i = 0; i < lines.length; i++) {
+                addMessage({ from: "tty", message: lines[i] });
+            }
         });
 
         // Set default channel
