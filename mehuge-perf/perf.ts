@@ -16,7 +16,7 @@ module Perf {
         target: { hp: 0, max: 0 }
     };
     var CLS = { CPS: 1, PARTICLES: 2, MS: 3, HP: 4, SPEED: 5, BYTES: 6, BITS: 7, STAMINA: 8 };
-    var colors = ['#fff', '#0f0', '#00f', '#ff0', '#0ff', '#f00', '#80f', '#f08', '#f80', '#08f', '#888' ];
+    var colors = ['#fff', '#0f0', '#00f', '#ff0', '#0ff', '#f00', '#80f', '#f08', '#f80', '#08f', '#888', '#487' ];
     var graphData = [
         { cls: CLS.CPS, label: "FPS", show: true, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.PARTICLES, label: "Particles", show: true, lines: { show: true, lineWidth: 1 } },
@@ -25,6 +25,7 @@ module Perf {
         { cls: CLS.STAMINA, label: "Stamina", show: false, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.HP, label: "TargetHP", show: false, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.SPEED, label: "Speed", show: false, lines: { show: true, lineWidth: 1 } },
+        { cls: CLS.SPEED, label: "H.Speed", show: true, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.BYTES, label: "TCP", show: false, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.BYTES, label: "UDP", show: false, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.BITS, label: "New Bits", show: false, lines: { show: true, lineWidth: 1 } },
@@ -32,7 +33,7 @@ module Perf {
     ];
 
     function Paint() {
-        var fps = [], particles = [], lag = [], hps = [], stamina = [], thps = [], speed = [], tcp = [], udp = [], nbits = [], ubits = [],
+        var fps = [], particles = [], lag = [], hps = [], stamina = [], thps = [], speed = [], hspeed = [], tcp = [], udp = [], nbits = [], ubits = [],
             b = samples[0].time;
         for (var i = 0; i < samples.length; i++) {
             var s = samples[i], t = (s.time - b) / 200;
@@ -43,10 +44,11 @@ module Perf {
             if (graphData[4].show) stamina.push([t, s.stamina]);
             if (graphData[5].show) thps.push([t, s.thp]);
             if (graphData[6].show) speed.push([t, s.speed]);
-            if (graphData[7].show) tcp.push([t, s.tcp]);
-            if (graphData[8].show) udp.push([t, s.udp]);
-            if (graphData[9].show) nbits.push([t, s.newBits]);
-            if (graphData[10].show) ubits.push([t, s.updBits]);
+            if (graphData[7].show) hspeed.push([t, s.hspeed]);
+            if (graphData[8].show) tcp.push([t, s.tcp]);
+            if (graphData[9].show) udp.push([t, s.udp]);
+            if (graphData[10].show) nbits.push([t, s.newBits]);
+            if (graphData[11].show) ubits.push([t, s.updBits]);
         }
         var gd = [], ax = {}, nextAxis = 1;
         var addToGraph = function (i, arr) {
@@ -64,10 +66,11 @@ module Perf {
         addToGraph(4, stamina);
         addToGraph(5, thps);
         addToGraph(6, speed);
-        addToGraph(7, tcp);
-        addToGraph(8, udp);
-        addToGraph(9, nbits);
-        addToGraph(10, ubits);
+        addToGraph(7, hspeed);
+        addToGraph(8, tcp);
+        addToGraph(9, udp);
+        addToGraph(10, nbits);
+        addToGraph(11, ubits);
         $.plot($("#graph"), gd, {
             yaxis: { position: "left", color: 'black' },
             yaxes: [{}],
@@ -90,6 +93,7 @@ module Perf {
             stamina: data.stamina,
             thp: data.target.hp,
             speed: cuAPI.speed,
+            hspeed: cuAPI.horizontalSpeed,
             tcp: cuAPI.netstats_tcpBytes,
             udp: cuAPI.netstats_udpBytes,
             newBits: cuAPI.netstats_players_newBits,

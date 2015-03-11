@@ -2054,6 +2054,7 @@ interface CUInGameAPI {
     netstats_lag: number;
     particlesRenderedCount: number;
     speed: number;
+    horizontalSpeed: number;
     locationX: number;
     locationY: number;
     locationZ: number;
