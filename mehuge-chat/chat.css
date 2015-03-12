@@ -6,17 +6,20 @@
 #chat>#history {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 26px;
-    border-bottom: 1px solid rgba(0,0,0,0.5);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
     overflow-y: scroll;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0,0,0,0.4);
     overflow-wrap: break-word;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border: 0px 1px;
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 70%,rgba(0,0,0,0.15) 100%); /* Chrome10+,Safari5.1+ */
 }
 
 ::-webkit-scrollbar              { background-color: transparent; }
 ::-webkit-scrollbar-button       {  }
 ::-webkit-scrollbar-track        {  }
-::-webkit-scrollbar-track-piece  { border-left: 1px solid black; }
-::-webkit-scrollbar-thumb        { background-color: rgba(0,0,0,0.5); }
+::-webkit-scrollbar-track-piece  { border-left: 1px solid rgba(255,255,255,0.06); }
+::-webkit-scrollbar-thumb        { background-color: rgba(128,128,128,0.4); }
 ::-webkit-scrollbar-corner       { /* 6 */ }
 ::-webkit-resizer                { /* 7 */ }
 
@@ -26,12 +29,14 @@
     height: 26px;
     width: 100%;
     color: white;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0,0,0,0.4);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    background: -webkit-linear-gradient(left,  rgba(0,0,0,0.7) 0%,rgba(0,0,0,0.7) 70%,rgba(0,0,0,0.15) 100%); /* Chrome10+,Safari5.1+ */
 }
 #chat>#box tr>td:nth-child(1) {
     width: 4em;                   /* includes history view margin amount */
     white-space: nowrap;
-    background-color: rgba(0,255,0,0.1);
+    background-color: rgba(0,255,0,0.07);
     -webkit-user-select: none;
     user-select: none;
     text-align: right;
@@ -42,10 +47,10 @@
 }
 
 #chat > #box tr > td:nth-child(2).command-mode {
-    background-color: rgba(255,231,0,0.1);
+    background-color: rgba(255,231,0,0.2);
 }
 #chat > #box tr > td:nth-child(2).chat-mode {
-    background-color: rgba(128,0,0,0.1);
+    background-color: rgba(0,0,0,0.1);
 }
 
 
@@ -121,5 +126,3 @@
 ._ch__combat .room,
 ._ch_system .room,
 ._ch_console .room { display: none!important; }
-
-
