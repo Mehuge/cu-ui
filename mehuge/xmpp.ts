@@ -283,6 +283,7 @@
         if (!room && currentRoom) {
             room = currentRoom.room;
         } else {
+            if (!(room in rooms)) return;
             room = rooms[room].room;
         }
         if (room) {
