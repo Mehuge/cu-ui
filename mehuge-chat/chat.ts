@@ -10,8 +10,9 @@ module Chat {
         command: any = document.getElementById("command-box"),
         commandMode: boolean = false,
         savedText: string = "",
-        lastWhisper,
-        showCombatMessages = true;
+        lastWhisper : string,
+        showCombatMessages: boolean = true,
+        cmdHistory: string[] = [], cmdhpos = -1;
 
     // channel list.  Note, : tells Mehuge chat API to join channel as-is, 
     // otherwise channel names are mangles
@@ -252,6 +253,14 @@ module Chat {
             addMessage({ from: "console", message: cmd });
             cuAPI.ConsoleCommand(cmd);
         };
+
+        // Track command history
+        if (input.value.length > 0) {
+            cmdHistory.unshift(input.value);
+            if (cmdHistory.length > 20) cmdHistory.pop();
+            cmdhpos = -1;
+        }
+
         // Is this a / command (slash commands work in or out of command mode)
         if (input.value[0] === '/') {
             doSlashCommand(input.value.substr(1));
@@ -409,14 +418,32 @@ module Chat {
                 if (input.value === '' && lastWhisper) {
                     input.value = "/w " + lastWhisper + "  ";
                 }
+            } else if (ev.keyCode == 38) {
+                cmdhpos++;
+                if (cmdhpos < cmdHistory.length) {
+                    input.value = cmdHistory[cmdhpos];
+                } else {
+                    input.value = '';
+                    cmdhpos = -1;
+                }
+            } else if (ev.keyCode == 40) {
+                cmdhpos--;
+                if (cmdhpos >= 0) {
+                    input.value = cmdHistory[cmdhpos];
+                } else {
+                    input.value = '';
+                    cmdhpos = cmdHistory.length;
+                }
             }
         });
 
         // handle focus and input ownership
         input.addEventListener("focus", (ev: Event) => {
+            console.log('focus - grabbing input');
             cuAPI.RequestInputOwnership();
         });
         input.addEventListener("blur", (ev: Event) => {
+            console.log('blur - releasing input');
             cuAPI.ReleaseInputOwnership();
             savedText = input.value;
         });
