@@ -1365,16 +1365,21 @@ class CU {
         this.webSocket = new WebSocket('ws://' + this.WEB_API_HOST + ':' + this.CHAT_API_PORT + '/api/chat', 'xmpp');
 
         this.webSocket.onopen = e => {
-            console.log('onopen', e);
+            try {
+                console.log('websocket onopen', e);
 
-            // open stream
-            self.SendWebSocketMessage(self.$openStream({ hasOpenXmlTag: true, to: domain }));
+                // open stream
+                self.SendWebSocketMessage(self.$openStream({ hasOpenXmlTag: true, to: domain }));
+            } catch (e) {
+                console.log('websocket error onopen: ' + e.message, e);
+            }
         };
 
         this.webSocket.onmessage = e => {
-            var xmlDoc = self.ParseXml(e.data);
+            try {
+                var xmlDoc = self.ParseXml(e.data);
 
-            switch (xmlDoc.documentElement.nodeName) {
+                switch (xmlDoc.documentElement.nodeName) {
                 case 'stream:stream':
                     console.log('stream:stream response', xmlDoc.documentElement);
                     break;
@@ -1547,17 +1552,20 @@ class CU {
 
                     break;
                 default:
-                    console.log('unhandled response', xmlDoc.documentElement.nodeName, xmlDoc.documentElement);
+                    console.log('websocket unhandled response', xmlDoc.documentElement.nodeName, xmlDoc.documentElement);
                     break;
+                }
+            } catch (e) {
+                console.log('websocket onmessage error: ' + e.message, e);
             }
         };
 
         this.webSocket.onerror = e => {
-            console.log('onerror', e);
+            console.log('websocket onerror: ' + e.message, e);
         };
 
         this.webSocket.onclose = e => {
-            console.log('onclose', e);
+            console.log('websocket onclose', e);
 
             self.webSocket = null;
             self.idCounter = 0;
@@ -1595,7 +1603,11 @@ class CU {
     }
 
     private SendWebSocketMessage(msg: any): void {
-        if (this.HasOpenWebSocket()) this.webSocket.send(msg.toString());
+        if (this.HasOpenWebSocket()) {
+            this.webSocket.send(msg.toString());
+        } else {
+            console.log('websocket error: tried sending message "' + msg.toString() + '" to closed web socket');
+        }
     }
 
     private HasRoomPresence(room): boolean {
@@ -1796,7 +1808,6 @@ class Tooltip {
         }
 
         var hasContent = !_.isEmpty(content);
-        console.log("HasContent: " + hasContent + " " + content);
 
         if (!hasTitle && !hasContent) return;
 
@@ -1905,6 +1916,7 @@ interface CUInGameAPI {
     HideUI(name: string): void;
     ShowUI(name: string): void;
     ToggleUIVisibility(name: string): void;
+    FocusUI(name: string): void;
     RequestInputOwnership(): void;
     ReleaseInputOwnership(): void;
     Quit(): void;

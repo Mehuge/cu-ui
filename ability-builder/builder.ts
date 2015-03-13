@@ -1092,18 +1092,23 @@ module AbilityBuilder {
             for (var cs in component.stats) {
                 if (component.stats.hasOwnProperty(cs)) {
                     var componentStat = component.stats[cs];
+                    var smodType: string = componentStat.modType;
+                    var modType = ValueModifierType[smodType];
+
                     if (results.hasOwnProperty(cs)) {
-                        var smodType: string = componentStat.modType;
-                        var modType = ValueModifierType[smodType];
                         if (modType === ValueModifierType.Additive) {
                             results[cs].count++;
                             results[cs].value += componentStat.value;
                         } else if (modType === ValueModifierType.Multiplicative) {
                             results[cs].count++;
-                            results[cs].value *= componentStat.value;
+                            results[cs].multiplier += componentStat.value;
                         }
                     } else {
-                        results[cs] = { count: 1, value: componentStat.value };
+                        if (modType === ValueModifierType.Additive) {
+                            results[cs] = { count: 1, value: componentStat.value, multiplier: 1 };
+                        } else if (modType === ValueModifierType.Multiplicative) {
+                            results[cs] = { count: 1, value: 0, multiplier: 1 + componentStat.value };
+                        }
                     }
                 }
             }
@@ -1119,7 +1124,7 @@ module AbilityBuilder {
 
                 var statName = combinedStat.charAt(0).toUpperCase() + combinedStat.substring(1).replace(/([A-Z])/g, ' $1');
 
-                var value = stat.value;
+                var value: any = stat.value * stat.multiplier;
 
                 if (value % 1 !== 0) value = value.toFixed(2);
 

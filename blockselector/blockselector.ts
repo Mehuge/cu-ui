@@ -123,7 +123,7 @@ module BlockSelector {
         $shapeFilter.focus(function () {
             cuAPI.RequestInputOwnership();
         }).blur(function () {
-                cuAPI.ReleaseInputOwnership();
+            cuAPI.ReleaseInputOwnership();
         });
 
         $typeFilter.change(function () {
@@ -133,7 +133,7 @@ module BlockSelector {
         $typeFilter.focus(function () {
             cuAPI.RequestInputOwnership();
         }).blur(function () {
-                cuAPI.ReleaseInputOwnership();
+            cuAPI.ReleaseInputOwnership();
         });
     });
 

@@ -10,6 +10,7 @@
 	},
 	"handlesCharacter": true,
 	"handlesChat": true,
+	"handlesBeginChat": true,
 	"handlesConsole": true,
 	"handlesInput": true
 }

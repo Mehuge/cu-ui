@@ -503,6 +503,7 @@ html, body {
     margin-right: 4px;
     font-family: 'vtcgoblinhandbold', sans-serif;
     font-size: 12px;
+    word-wrap: break-word;
 }
 
 .ability-proficiency {
