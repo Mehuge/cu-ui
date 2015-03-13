@@ -19,3 +19,4 @@ announcer/*.ogg
 !/mehuge-pledges/pledges.js
 !/mehuge-web/*.js
 !/mehuge-chat/chat-config*.js
+!/mehuge-combatlog/combatlog.js
