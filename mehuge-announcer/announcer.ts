@@ -92,12 +92,10 @@
         });
         cuAPI.OnChat(OnChat);
         debug = document.getElementById("debug");
-        setTimeout(function () { cuAPI.OpenUI("chat.ui"); }, 0);
     }
 
     // initialise 
     if (typeof cuAPI !== "undefined") {
-        cuAPI.CloseUI("chat");
         if (cuAPI.initialized) {  // already initialised
             init();
         } else {

@@ -73,12 +73,10 @@
         cuAPI.OnChat(OnChat);
         deathspam = document.getElementById("deathspam");
         maxHeight = window.innerHeight;
-        setTimeout(function () { cuAPI.OpenUI("chat.ui"); }, 0);
     }
 
     // initialise 
     if (typeof cuAPI !== "undefined") {
-        cuAPI.CloseUI("chat");
         if (cuAPI.initialized) {  // already initialised
             init();
         } else {
