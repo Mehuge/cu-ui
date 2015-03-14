@@ -1,0 +1,92 @@
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+html, body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    /*opacity: .8;*/
+}
+
+#progress {
+ width: 95%;   
+ border: 2px solid black;
+ position: relative;
+ height: 25px;
+ background-color: rgba(0,0,0,0.25);
+}
+
+#timeRemaining {
+ position: absolute;   
+ right: 6px;
+ float: right;
+  
+
+    line-height: 25px;
+
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 14px;
+    color: #efefef;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
+}
+
+#abilityName {
+ position: absolute;   
+ left: 6px;
+ float: left;
+ width: 70%; 
+
+    line-height: 25px;
+
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 14px;
+    color: #efefef;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
+}
+
+/*#barContainer {
+ height: 25px;
+ background-color: yellow;
+
+}*/
+
+#bar {
+ height: 100%;
+ width: 0%;
+ background: -webkit-linear-gradient(45deg, #1a0000 1%,#490200 3%,#ff2600 41%,#ffa538 100%); /* Chrome10+,Safari5.1+ */
+}
+
+#barContainer {
+position: absolute;
+top: 0; 
+left: 27px; /*Set left value to WidthOfFrameDiv*/
+right: 0;
+bottom: 0;
+overflow: hidden; 
+
+}
+
+#im {
+    border-right: 2px solid black;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 25px;
+    width: 25px;
+    float: left;
+    max-width:25px;
+    max-height:25px;
+}
+

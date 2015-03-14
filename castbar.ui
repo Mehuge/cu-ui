@@ -1,0 +1,13 @@
+{
+	"_LICENSE": "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
+	"name": "castbar",
+	"mainFile": "castbar/castbar.html",
+	"rect": {
+		"left": 580,
+		"top": 765,
+		"right": 880,
+		"bottom": 800
+	},
+    "handlesAbilities": true,
+    "handlesCharacter": true
+}
