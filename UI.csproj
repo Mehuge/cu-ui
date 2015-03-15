@@ -611,7 +611,6 @@
     <Content Include="bandage.ui" />
     <Content Include="mehuge-combatlog.ui" />
     <Content Include="cubechat.ui" />
-    <Content Include="g-castbar.ui" />
     <Content Include="mehuge-chat.ui" />
     <Content Include="mehuge-mkzip.sh" />
     <Content Include=".gitignore" />
