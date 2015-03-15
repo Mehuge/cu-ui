@@ -197,7 +197,7 @@
     <TypeScriptCompile Include="mehuge-chat\chat.ts" />
     <TypeScriptCompile Include="mehuge-group\group.ts" />
     <TypeScriptCompile Include="mehuge-worker\worker.ts" />
-    <TypeScriptCompile Include="mehuge\mehuge.ts" />
+    <TypeScriptCompile Include="mehuge\mehuge-chat.ts" />
     <TypeScriptCompile Include="mehuge-autoexec\autoexec.ts" />
     <TypeScriptCompile Include="bandage\bandage.ts" />
     <TypeScriptCompile Include="blockselector\blockselector.ts" />
