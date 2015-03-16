@@ -482,6 +482,7 @@
     <Content Include="images\window\top-right.png" />
     <Content Include="inventory\inventory.css" />
     <Content Include="inventory\inventory.html" />
+    <TypeScriptCompile Include="mehuge\mehuge-events.ts" />
     <TypeScriptCompile Include="shared\chatlib.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
     <TypeScriptCompile Include="cu\fake-cuAPI.ts" />
