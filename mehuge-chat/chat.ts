@@ -18,7 +18,7 @@ module Chat {
     // otherwise channel names are mangles
     var channels = [
         "_global", "_it", "_cube"
-    ], selectedIndex = 0;
+    ], selectedIndex = 0, faction;
 
     // slash commands
     var slash = {};
@@ -356,7 +356,7 @@ module Chat {
         runCommand(0);
     }
 
-    function init() {
+    function initChat() {
 
         var hasRunAutoexec = false;
 
@@ -487,6 +487,28 @@ module Chat {
 
         // Set default channel
         setDefaultChannel();
+    }
+
+    function init() {
+        cuAPI.OnCharacterFactionChanged((factionId: number) => {
+            var f2s = function (id) {
+                switch (id) {
+                    case 1:
+                        return "tdd";
+                    case 2:
+                        return "viking";
+                    case 3:
+                        return "arthurian";
+                }
+            }
+            if (!faction) {
+                channels.push(f2s(factionId));
+                initChat();
+            } else if (f2s(factionId) !== faction) {
+                alert('faction change not supported ... yet');
+            }
+
+        });
     }
 
     if (typeof cuAPI !== "undefined") {

@@ -128,3 +128,14 @@
 ._ch__combat .room,
 ._ch_system .room,
 ._ch_console .room { display: none!important; }
+
+/* faction colors */
+._ch_tdd  {
+    color: green;
+}
+._ch_arthurian  {
+    color: red;
+}
+._ch_viking {
+    color: blue;
+}
