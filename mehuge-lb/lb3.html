@@ -115,6 +115,7 @@
 //                        console.log('[[[[ let the games begin ]]]]');
                         if (killsTimeout) clearTimeout(killsTimeout);
                         killsTimeout = null;
+                        if (typeof cuAPI !== "undefined") cuAPI.Fire("chat-announce", "Control Game Start");
                         getKills(displayKills);
                     }
                     displayKills(cache);
