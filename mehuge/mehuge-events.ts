@@ -1,23 +1,19 @@
-﻿module MehugeEvents {
+﻿/// <reference path="../cu/cu.ts" />
+module MehugeEvents {
     var subscribers: any = {};
     var listener;
-/*
-    export function sub(topic: string, handler: (data: any) => void) {
+
+    export function sub(topic: string, handler: (...data: any[]) => void) {
         var subs = subscribers[topic] = subscribers[topic] || { listeners: [] };
         subs.listeners.push({ listener: handler });
 
         // first handler for any topic?  Register event handler
         if (!listener) {
-            cuAPI.OnEvent(listener = function (topic: string, data: any) {
+            cuAPI.OnEvent(listener = function (topic: string, ...data: any[]) {
                 var listeners = subscribers[topic].listeners, parsedData;
-                try {
-                    parsedData = JSON.parse(data);
-                } catch (e) {
-                    parsedData = data;
-                }
                 for (var i = 0; i < listeners.length; i++) {
                     if (listeners[i].listener) {
-                        listeners[i].listener(event, parsedData);
+                        listeners[i].listener(event, data);
                     }
                 }
             });
@@ -29,8 +25,11 @@
         }
     }
 
-    export function pub(topic: string, data: any) {
-        cuAPI.Fire(topic, JSON.stringify(data));
+    export function unsub(topic: string) {
+        cuAPI.Ignore(topic);
     }
-*/
+
+    export function pub(topic: string, ...data: any[]) {
+        cuAPI.Fire(topic, data);
+    }
 }
