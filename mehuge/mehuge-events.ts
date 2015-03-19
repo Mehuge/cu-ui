@@ -13,14 +13,14 @@ module MehugeEvents {
                 var listeners = subscribers[topic].listeners, parsedData;
                 for (var i = 0; i < listeners.length; i++) {
                     if (listeners[i].listener) {
-                        listeners[i].listener(event, data);
+                        listeners[i].listener(topic, data);
                     }
                 }
             });
         }
 
         // first handler for this topic, ask client to send these events
-        if (subs.handlers.length === 1) {
+        if (subs.listeners.length === 1) {
             cuAPI.Listen(topic);
         }
     }
