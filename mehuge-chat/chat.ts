@@ -507,8 +507,15 @@ module Chat {
             } else if (f2s(factionId) !== faction) {
                 alert('faction change not supported ... yet');
             }
-
         });
+
+        MehugeEvents.sub("chat-announce", (topic: string, ...data: any[]) => {
+            for (var i = 0; i < data.length; i++) {
+                addMessage({ from: "system", message: data[i] });
+            }
+        });
+        MehugeEvents.pub("chat-announce", "Mehuge Chat v1.0");
+
     }
 
     if (typeof cuAPI !== "undefined") {
