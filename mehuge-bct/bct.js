@@ -194,6 +194,7 @@
 		        friendlyHealth = health;
 		    }
 		});
+		cuAPI.Fire("chat-announce", "Mehuge BCT v1.0");
 	};
 	// initialise 
 	if (typeof cuAPI !== "undefined") { 
