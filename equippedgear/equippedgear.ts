@@ -25,7 +25,12 @@ module EquippedGear {
         1: 'Chest',
         2: 'Left Hand',
         4: 'Right Hand',
-        6: 'Two-Handed'
+        6: 'Two-Handed',
+        8: 'Pants',
+        16: 'Boots',
+        32: 'Left Glove',
+        64: 'Right Glove',
+        128: 'Helmet'
     };
 
     function createGearSlots() {

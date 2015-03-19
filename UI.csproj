@@ -174,6 +174,8 @@
     <Content Include="mehuge-pop\bg-small.png" />
     <Content Include="mehuge-worker\worker.css" />
     <Content Include="mehuge-worker\worker.html" />
+    <Content Include="physhud\physhud.css" />
+    <Content Include="physhud\physhud.html" />
     <Content Include="vendor\jquery-ui.min.js" />
     <Content Include="vendor\turn.js" />
     <Content Include="cu\window.css" />
@@ -483,6 +485,7 @@
     <Content Include="inventory\inventory.css" />
     <Content Include="inventory\inventory.html" />
     <TypeScriptCompile Include="mehuge\mehuge-events.ts" />
+    <TypeScriptCompile Include="physhud\physhud.ts" />
     <TypeScriptCompile Include="shared\chatlib.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
     <TypeScriptCompile Include="cu\fake-cuAPI.ts" />
@@ -616,6 +619,7 @@
     <Content Include="mehuge-mkzip.sh" />
     <Content Include=".gitignore" />
     <Content Include="castbar.ui" />
+    <Content Include="physhud.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
