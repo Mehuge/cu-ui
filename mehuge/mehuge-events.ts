@@ -32,4 +32,9 @@ module MehugeEvents {
     export function pub(topic: string, ...data: any[]) {
         cuAPI.Fire(topic, data);
     }
+
+    // fire/onevent/ignore aliases (work exactly like pub/sub/unsub)
+    export var fire = pub;
+    export var onevent = sub;
+    export var ignore = unsub;
 }
