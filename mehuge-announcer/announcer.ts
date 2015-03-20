@@ -93,10 +93,11 @@
         cuAPI.OnChat(OnChat);
         debug = document.getElementById("debug");
 
+        // Register /scream and respond to it when user types it
+        MehugeEvents.pub("chat-register-slash", "scream");
         MehugeEvents.sub("slash-scream", (topic: string, ...data: any[]) => {
             play("WilhelmScream.ogg");
         });
-        MehugeEvents.pub("chat-register-slash", "scream");
     }
 
     // initialise 
