@@ -337,6 +337,7 @@ module Chat {
             if (i < autoexec.length) {
                 var delay: number = 100;
                 if (autoexec[i][0] === '/') {
+                    console.log('exec ' + autoexec[i].substr(1));
                     doSlashCommand(autoexec[i].substr(1));
                     if (autoexec[i].substr(0, 6) === "/join") {
                         delay = 500;
@@ -514,8 +515,19 @@ module Chat {
                 addMessage({ from: "system", message: data[i] });
             }
         });
-        MehugeEvents.pub("chat-announce", "Mehuge Chat v1.0");
 
+        MehugeEvents.sub("chat-register-slash", (topic: string, ...data: any[]) => {
+            console.log('register new slash command ' + topic + ' ' + data[0]);
+            slash[data[0]] = {
+                help: data[1],
+                handler: function (name: string, args: string[]) {
+                    console.log('execute new slash command ', name, args);
+                    MehugeEvents.pub("slash-" + name, args);
+                }
+            };
+        });
+
+        MehugeEvents.pub("chat-announce", "Mehuge Chat v1.0");
     }
 
     if (typeof cuAPI !== "undefined") {
