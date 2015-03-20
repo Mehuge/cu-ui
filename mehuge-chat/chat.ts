@@ -335,7 +335,7 @@ module Chat {
     function autoexec(autoexec: any) {
         var runCommand = function (i) {
             if (i < autoexec.length) {
-                var delay: number = 100;
+                var delay: number = 0;
                 if (autoexec[i][0] === '/') {
                     console.log('exec ' + autoexec[i].substr(1));
                     doSlashCommand(autoexec[i].substr(1));
@@ -351,7 +351,11 @@ module Chat {
                         delay = 200;
                     }
                 }
-                setTimeout(function () { runCommand(i+1); }, delay);
+                if (delay > 0) {
+                    setTimeout(function () { runCommand(i + 1); }, delay);
+                } else {
+                    runCommand(i + 1);
+                }
             }
         };
         runCommand(0);
