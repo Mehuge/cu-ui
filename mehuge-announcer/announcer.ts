@@ -92,6 +92,11 @@
         });
         cuAPI.OnChat(OnChat);
         debug = document.getElementById("debug");
+
+        MehugeEvents.sub("slash-scream", (topic: string, ...data: any[]) => {
+            play("WilhelmScream.ogg");
+        });
+        MehugeEvents.pub("chat-register-slash", "scream");
     }
 
     // initialise 
