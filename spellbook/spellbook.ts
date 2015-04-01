@@ -3,10 +3,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /// <reference path="../vendor/jquery.d.ts" />
+/// <reference path="../vendor/soundjs.d.ts" />
 
 module Spellbook {
     /* Constants */
-
+    
     var ABILITIES_PER_PAGE = 7;
     var COMPONENTS_PER_PAGE = 7;
     var SEARCH_DELAY = 100;
@@ -15,15 +16,15 @@ module Spellbook {
     /* jQuery Elements */
 
     var $document = $(document);
-    var $spellbook = $('#spellbook');
+    export var $spellbook = $('#spellbook');
     var $btnAbilities = $('#btn-abilities');
     var $abilityPagesModal = $('#ability-pages-modal');
     var $btnComponents = $('#btn-components');
     var $componentPagesModal = $('#component-pages-modal');
     var $btnSearch = $('#btn-search');
-    // var $btnHelp = $('#btn-help');
+    export var $btnHelp = $('#btn-help');
     var $btnClose = $('#btn-close');
-    var $pages = $('#pages');
+    export var $pages = $('#pages');
     var $searchModal = $('#search-modal');
     var $search = $('#search');
     var $errorModal = $('#error-modal');
@@ -51,6 +52,26 @@ module Spellbook {
     var hideComponentPagesTimeout = null;
     var isShowingAbilityPagesModal = false;
     var isShowingComponentPagesModal = false;
+
+    var lastVisitedPage = 2;
+
+    /* Audio */
+    var soundOpenSpellbookID = "UI_SpellBook_Open";
+    var soundCloseSpellbookID = "UI_SpellBook_Putaway";
+    var soundPageFlipForwardID = "UI_SpellBook_PageFlip_Forward";
+    var soundPageFlipBackID = "UI_SpellBook_PageFlip_Backward";
+
+
+    function loadSound() {
+        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_Open.ogg", soundOpenSpellbookID);
+        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_Putaway.ogg", soundCloseSpellbookID);
+        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_PageFlip_Forward.ogg", soundPageFlipForwardID);
+        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_PageFlip_Backward.ogg", soundPageFlipBackID);
+    }
+
+    function playSound(soundID: string) {
+        createjs.Sound.play(soundID);
+    }
 
     /* Functions */
 
@@ -914,14 +935,25 @@ module Spellbook {
         if (_.isNumber(firstAbilitiesPage) && _.isNumber(lastAbilitiesPage)) {
             $('<li>').addClass('page-label').text('Page').appendTo($ul);
 
-            _.range(firstAbilitiesPage - 1, lastAbilitiesPage).forEach(i => {
-                $('<li>').text(romanize(i)).on('click', evt => turnToPage(evt, i + 1)).appendTo($ul);
+            var currentPage = getCurrentPage() - 1;
+
+            _.range(firstAbilitiesPage - 1, lastAbilitiesPage, 2).forEach(i => {
+                var $li = $('<li>').text(romanize(i)).appendTo($ul);
+
+                if (currentPage !== i && currentPage !== i + 1) {
+                    $li.on('click', evt => {
+                        $li.addClass('current').siblings().removeClass('current');
+
+                        turnToPage(evt, i + 1);
+                    });
+                } else {
+                    $li.addClass('current');
+                }
             });
         }
 
         $btnAbilities.addClass('hovered');
         $abilityPagesModal.stop().fadeIn();
-
         return false;
     }
 
@@ -972,8 +1004,20 @@ module Spellbook {
         if (_.isNumber(firstComponentsPage) && _.isNumber(lastComponentsPage)) {
             $('<li>').addClass('page-label').text('Page').appendTo($ul);
 
-            _.range(firstComponentsPage - 1 - pageModifier, lastComponentsPage - pageModifier).forEach(i => {
-                $('<li>').text(i).on('click', evt => turnToPage(evt, i + 1 + pageModifier)).appendTo($ul);
+            var currentPage = getCurrentPage() - 1;
+
+            _.range(firstComponentsPage - 1 - pageModifier, lastComponentsPage - pageModifier, 2).forEach(i => {
+                var $li = $('<li>').text(i).appendTo($ul);
+
+                if (currentPage !== i + pageModifier && currentPage !== i + pageModifier + 1) {
+                    $li.on('click', evt => {
+                        $li.addClass('current').siblings().removeClass('current');
+
+                        turnToPage(evt, i + 1 + pageModifier);
+                    });
+                } else {
+                    $li.addClass('current');
+                }
             });
         }
 
@@ -1052,6 +1096,7 @@ module Spellbook {
             }
         });
 
+        playSound(soundCloseSpellbookID);
         return false;
     }
 
@@ -1159,6 +1204,13 @@ module Spellbook {
 
                 turning: (event, page) => {
                     if (page == 1) event.preventDefault();
+
+                    if (page > lastVisitedPage) {
+                        playSound(soundPageFlipForwardID);
+                    } else if (page < lastVisitedPage) {
+                        playSound(soundPageFlipBackID);
+                    }
+                    lastVisitedPage = page;
 
                     updateSelectedButton(page);
                 },
@@ -1332,6 +1384,10 @@ module Spellbook {
     }
 
     function initialize() {
+
+        // Load sounds
+        loadSound();
+
         $(document).click(hideSearch);
 
         $document.on('contextmenu', ignoreEvent);
@@ -1356,6 +1412,10 @@ module Spellbook {
 
         if (typeof cuAPI === 'object') {
             cuAPI.OnInitialized(() => {
+                if (typeof spellBookInitialize === 'function') {
+                    spellBookInitialize();
+                }
+
                 // start hidden
                 cuAPI.HideUI('spellbook');
                 $spellbook.hide();

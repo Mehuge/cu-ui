@@ -8,11 +8,18 @@
 </head>
 <body class="disable-selection default-cursor">
     <div id="control-game">
-        <div id="game-status"></div>
+        <div id="total-players">
+            <div id="total-players-count"></div>
+            <div id="total-players-label">online</div>
+        </div>
+        <div id="game-status">round in progress</div>
+        <div id="countdown"></div>
+        <div id="tdd-players"><span id="tdd-players-count"></span> <span id="tdd-players-label"></span></div>
+        <div id="arthurian-players"><span id="arthurian-players-count"></span> <span id="arthurian-players-label"></span></div>
+        <div id="viking-players"><span id="viking-players-count"></span> <span id="viking-players-label"></span></div>
         <div id="tdd-score"></div>
         <div id="arthurian-score"></div>
         <div id="viking-score"></div>
-        <div id="countdown"></div>
     </div>
     <script src="../vendor/jquery-2.1.1.js"></script>
     <script src="../vendor/lodash.js"></script>

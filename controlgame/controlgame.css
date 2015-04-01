@@ -10,53 +10,130 @@ html, body {
 
 #control-game {
     display: none;
-    width: 360px;
-    height: 70px;
+    width: 470px;
+    height: 82px;
     margin: 0 auto;
     text-align: center;
     background: transparent url(../images/controlgame/bg.png) no-repeat center center;
 }
 
-#game-status {
-    font-size: 10px;
+#total-players {
+    position: absolute;
+    top: 8px;
+    left: calc(50% - 230px);
+    margin: 0;
+    padding: 0;
+    width: 72px;
+    height: 30px;
+    color: #fff;
     font-family: 'Arial', sans-serif;
-    color: rgb(151, 151, 151);
-    text-transform: uppercase;
     text-align: center;
-    padding-top: 2px;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#total-players-count {
+    font-size: 12px;
+}
+
+#total-players-label {
+    font-size: 10px;
+}
+
+#game-status {
+    position: absolute;
+    top: 6px;
+    left: calc(50% - 150px);
+    margin: 0;
+    padding: 0;
+    width: 300px;
+    height: 18px;
+    color: rgb(151, 151, 151);
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#countdown {
+    position: absolute;
+    top: 0;
+    left: calc(50% + 159px);
+    margin: 0;
+    padding: 0;
+    width: 72px;
+    height: 42px;
+    line-height: 42px;
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    text-align: center;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#tdd-score,
+#tdd-players {
+    color: rgb(154, 211, 0);
+}
+
+#arthurian-score,
+#arthurian-players {
+    color: rgb(255, 54, 0);
+}
+
+#viking-score,
+#viking-players {
+    color: rgb(0, 162, 255);
+}
+
+#tdd-players,
+#arthurian-players,
+#viking-players {
+    position: absolute;
+    top: 28px;
+    width: 98px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 11px;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#tdd-players {
+    left: calc(50% - 149px);
+}
+
+#arthurian-players {
+    left: calc(50% - 49px);
+}
+
+#viking-players {
+    left: calc(50% + 51px);
 }
 
 #tdd-score,
 #arthurian-score,
 #viking-score {
-    display: inline-block;
+    position: absolute;
+    top: 54px;
     width: 98px;
-    margin-top: 9px;
-    margin-bottom: 7px;
+    height: 25px;
+    line-height: 25px;
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    text-align: center;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 #tdd-score {
-    font-size: 18px;
-    font-family: 'Cinzel', serif;
-    color: rgb(154, 211, 0);
+    left: calc(50% - 149px);
 }
 
 #arthurian-score {
-    font-size: 18px;
-    font-family: 'Cinzel', serif;
-    color: rgb(255, 54, 0);
+    left: calc(50% - 49px);
 }
 
 #viking-score {
-    font-size: 18px;
-    font-family: 'Cinzel', serif;
-    color: rgb(0, 162, 255);
-}
-
-#countdown {
-    display: inline-block;
-    width: 100px;
-    font-size: 12px;
-    font-family: 'Arial', sans-serif;
-    color: rgb(225, 225, 225);
+    left: calc(50% + 51px);
 }

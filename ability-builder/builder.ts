@@ -4,11 +4,12 @@
 
 /// <reference path="../vendor/jquery.d.ts" />
 /// <reference path="../ability-crafting/networks/physicalNetwork.ts" />
+/// <reference path="../vendor/soundjs.d.ts" />
 
 module AbilityBuilder {
     /* Constants */
 
-    var ABILITY_ICONS = [
+     var ABILITY_ICONS = [
         'default.jpg',
         'cast-b.jpg',
         'cast-g.jpg',
@@ -85,7 +86,7 @@ module AbilityBuilder {
     var $window = $(window);
     var $document = $(document);
     var $btnClose = $('.window-close');
-    var $builder = $('#builder');
+    export var $builder = $('#builder');
     var $abilityName = $('#ability-name');
     var $abilityNotes = $('#ability-notes');
     var $stats = $('#stats');
@@ -335,6 +336,49 @@ module AbilityBuilder {
         'Zealous'
     ];
 
+    /* Audio */
+
+    //var audioPath = "../audio/ability-builder/";
+    var soundAddSelection = "UI_AbilityCrafting_AddSelection";
+    var soundSidePanel_Open = "UI_AbilityCrafting_SidePanel_Open";
+    var soundBuildAbility1 = "UI_AbilityCrafting_Build_v1_01";
+    var soundBuildAbility2 = "UI_AbilityCrafting_Build_v1_02";
+    var soundBuildAbility3 = "UI_AbilityCrafting_Build_v1_03";
+    var soundBuildAbility4 = "UI_AbilityCrafting_Build_v1_04";
+    var soundBuildAbility5 = "UI_AbilityCrafting_Build_v1_05";
+    
+    var soundArrayBuildAbility = [soundBuildAbility1,
+        soundBuildAbility2,
+        soundBuildAbility3,
+        soundBuildAbility4,
+        soundBuildAbility5
+    ];
+
+    /*var soundsAbilityBuild = [
+        { id: "soundBuildAbility1", src: "UI_AbilityCrafting_Build_v1_01" },
+        { id: "soundBuildAbility2", src: "UI_AbilityCrafting_Build_v1_02" },
+        { id: "soundBuildAbility3", src: "UI_AbilityCrafting_Build_v1_03" },
+        { id: "soundBuildAbility4", src: "UI_AbilityCrafting_Build_v1_04" },
+        { id: "soundBuildAbility5", src: "UI_AbilityCrafting_Build_v1_05" },
+    ];
+    */
+
+
+    function loadSound() {      
+        createjs.Sound.registerSound("../audio/ability-builder/UI_AbilityCrafting_AddSelection_v1_01.ogg", soundAddSelection);
+        createjs.Sound.registerSound("../audio/ability-builder/UI_AbilityCrafting_SidePanel_Open_v1_01.ogg", soundSidePanel_Open);
+        createjs.Sound.registerSound("../audio/ability-builder/UI_AbilityCrafting_Build_v1_01.ogg", soundBuildAbility1);
+        createjs.Sound.registerSound("../audio/ability-builder/UI_AbilityCrafting_Build_v1_02.ogg", soundBuildAbility2);
+        createjs.Sound.registerSound("../audio/ability-builder/UI_AbilityCrafting_Build_v1_03.ogg", soundBuildAbility3);
+        createjs.Sound.registerSound("../audio/ability-builder/UI_AbilityCrafting_Build_v1_04.ogg", soundBuildAbility4);
+        createjs.Sound.registerSound("../audio/ability-builder/UI_AbilityCrafting_Build_v1_05.ogg", soundBuildAbility5);
+        //load an array for random sound option
+    }
+
+    function playSound(soundID: string) {
+        createjs.Sound.play(soundID);
+    }
+
     /* Functions */
 
     function ignoreEvent(e) {
@@ -529,6 +573,12 @@ module AbilityBuilder {
     function abilityCreated(ability) {
         console.log('ability created ' + ability.id, ability);
 
+        /*Audio playback for ability creation
+        */
+        var randomSound = Math.floor(Math.random() * (soundArrayBuildAbility.length));
+        playSound(soundArrayBuildAbility[randomSound]);
+        //playSound(soundBuildAbility1);
+
         var primaryComponent = getPrimaryComponent(ability);
         var primaryBaseComponentID = primaryComponent && primaryComponent.baseComponentID ? primaryComponent.baseComponentID.toString(16) : '';
 
@@ -690,7 +740,7 @@ module AbilityBuilder {
 
         if (icon && icon.length) {
             setSelectIcon(icon);
-
+            cuAPI.Fire("iconselect");
             $abilityIconRequired.hide();
         } else {
             $abilityIconRequired.fadeIn();
@@ -708,6 +758,9 @@ module AbilityBuilder {
         e.stopPropagation();
 
         $selectIconModal.stop().fadeIn({ duration: 200 }).scrollTop(0);
+
+        //Audio -- play panel open sound
+        playSound(soundSidePanel_Open);
 
         return false;
     }
@@ -728,6 +781,9 @@ module AbilityBuilder {
     }
 
     function showComponentSelectionModal(e) {
+        //Audio -- play a sound for the pop out window
+        playSound(soundSidePanel_Open);
+
         e.preventDefault();
         e.stopPropagation();
 
@@ -815,6 +871,9 @@ module AbilityBuilder {
         }
 
         if (component) {
+            //Audio -- plays a sound for when you select an ability component from the popup menu
+            playSound(soundAddSelection);
+
             console.log('chosen component: ' + ComponentType[component.type] + ' ' + ComponentSubType[component.subType]);
 
             var clone = component.clone();
@@ -848,6 +907,19 @@ module AbilityBuilder {
             $network.removeClass('error');
 
             $abilityComponentsRequired.hide();
+        }
+
+        if (component) {
+            console.log("FIRE: chosen something");
+
+            if (component.type === ComponentType.Primary) {
+                console.log("FIRE: primary chosen");
+                cuAPI.Fire("primarychosen");
+
+            } else if (component.type === ComponentType.Secondary) {
+                console.log("FIRE: Secondary chosen");
+                cuAPI.Fire("secondarychosen");
+            }
         }
 
         return false;
@@ -1353,6 +1425,9 @@ module AbilityBuilder {
     }
 
     function initialize() {
+        // Load sounds
+        loadSound();
+
         $document.click(() => {
             hideSelectIconModal();
             hideComponentSelectionModal();
@@ -1390,6 +1465,10 @@ module AbilityBuilder {
 
         if (typeof cuAPI === 'object') {
             cuAPI.OnInitialized(() => {
+                if (typeof builderTourInitialize === 'function') {
+                    builderTourInitialize();
+                }
+
                 // start hidden
                 cuAPI.HideUI('ability-builder');
                 $builder.hide();

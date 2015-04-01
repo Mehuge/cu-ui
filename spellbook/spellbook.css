@@ -653,14 +653,14 @@ html, body {
     filter: brightness(0.6);
 }
 
-#ability-pages-modal li:not(.page-label):hover,
-#component-pages-modal li:not(.page-label):hover {
+#ability-pages-modal li:not(.page-label):not(.current):hover,
+#component-pages-modal li:not(.page-label):not(.current):hover {
     -webkit-filter: brightness(0.8);
     filter: brightness(0.8);
 }
 
-#ability-pages-modal li:not(.page-label):active,
-#component-pages-modal li:not(.page-label):active {
+#ability-pages-modal li:not(.page-label):not(.current):active,
+#component-pages-modal li:not(.page-label):not(.current):active {
     -webkit-filter: brightness(1.0);
     filter: brightness(1.0);
 }
@@ -677,6 +677,13 @@ html, body {
 #component-pages-modal li.page-label {
     cursor: default;
     text-transform: uppercase;
+}
+
+#ability-pages-modal li.current,
+#component-pages-modal li.current {
+    cursor: default;
+    -webkit-filter: brightness(1.0);
+    filter: brightness(1.0);
 }
 
 /* Error Message */

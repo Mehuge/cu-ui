@@ -1922,6 +1922,10 @@ interface CUInGameAPI {
     Quit(): void;
     CrashTheGame(): void;
     OnUpdateNameplate(c: (cell: number, colorMod: number, name: string, gtag: string, title: string) => void): void;
+    OnOpenUI(callback: (name: string) => void): void;
+    OnCloseUI(callback: (name: string) => void): void;
+    OnShowUI(callback: (name: string) => void): void;
+    OnHideUI(callback: (name: string) => void): void;
 
     Listen(event: string);
     Ignore(event: string);

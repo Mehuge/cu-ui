@@ -7,14 +7,22 @@
 
 module ControlGame {
     var $controlGame = cu.FindElement('#control-game');
+    var $totalPlayersCount = cu.FindElement('#total-players-count');
     var $gameStatus = cu.FindElement('#game-status');
+    var $countdown = cu.FindElement('#countdown');
+    var $tddPlayersCount = $('#tdd-players-count');
+    var $tddPlayersLabel = $('#tdd-players-label');
+    var $arthurianPlayersCount = $('#arthurian-players-count');
+    var $arthurianPlayersLabel = $('#arthurian-players-label');
+    var $vikingPlayersCount = $('#viking-players-count');
+    var $vikingPlayersLabel = $('#viking-players-label');
     var $arthurianScore = cu.FindElement('#arthurian-score');
     var $tddScore = cu.FindElement('#tdd-score');
     var $vikingScore = cu.FindElement('#viking-score');
-    var $countdown = cu.FindElement('#countdown');
 
     var countdownTimer = null;
-    var hasRequestInProgress = false;
+    var hasControlGameRequestInProgress = false;
+    var hasPlayersRequestInProgress = false;
 
     enum ControlGameState {
         Inactive = 0,
@@ -22,22 +30,48 @@ module ControlGame {
         BasicGame = 2,
         AdvancedGame = 3
     }
+
+    function getPlayers() {
+        return new Promise((resolve, reject) => {
+            if (!cu.HasAPI()) return reject();
+
+            if (hasPlayersRequestInProgress) return reject();
+
+            hasPlayersRequestInProgress = true;
+
+            var options: JQueryAjaxSettings = {};
+            options.type = 'GET';
+            options.url = cuAPI.serverURL + 'game/players';
+            options.success = (players) => {
+                hasPlayersRequestInProgress = false;
+                resolve(players);
+            };
+            options.error = () => {
+                hasPlayersRequestInProgress = false;
+                reject();
+            };
+
+            $.ajax(options);
+        });
+    }
     
     function getControlGame() {
         return new Promise((resolve, reject) => {
-            if (!cu.HasAPI()) reject();
+            if (!cu.HasAPI()) return reject();
 
-            hasRequestInProgress = true;
+            if (hasControlGameRequestInProgress) return reject();
+
+            hasControlGameRequestInProgress = true;
 
             var options: JQueryAjaxSettings = {};
             options.type = 'GET';
             options.url = cuAPI.serverURL + 'game/controlgame';
             options.success = (controlGame) => {
-                hasRequestInProgress = false;
+                hasControlGameRequestInProgress = false;
                 resolve(controlGame);
             };
             options.error = () => {
-                hasRequestInProgress = false;
+                hasControlGameRequestInProgress = false;
                 reject();
             };
 
@@ -110,6 +144,21 @@ module ControlGame {
         $countdown.text(getTimeRemaining(secondsRemaining));
     }
 
+    function updatePlayers(players) {
+        var total = players.arthurians + players.tuathaDeDanann + players.vikings;
+
+        $totalPlayersCount.text(total);
+
+        $tddPlayersCount.text(players.tuathaDeDanann);
+        $tddPlayersLabel.text(players.tuathaDeDanann === 1 ? 'player' : 'players');
+
+        $arthurianPlayersCount.text(players.arthurians);
+        $arthurianPlayersLabel.text(players.arthurians === 1 ? 'player' : 'players');
+
+        $vikingPlayersCount.text(players.vikings);
+        $vikingPlayersLabel.text(players.vikings === 1 ? 'player' : 'players');
+    }
+
     function show(controlGame) {
         $controlGame.fadeIn();
 
@@ -123,15 +172,17 @@ module ControlGame {
     }
 
     function update() {
-        if (hasRequestInProgress) return;
-
         getControlGame().then(controlGame => {
             if (controlGame && controlGame.gameState > ControlGameState.Inactive) {
                 show(controlGame);
             } else {
                 hide();
             }
-        }, hide);
+        });
+
+        getPlayers().then(players => {
+            updatePlayers(players);
+        });
     }
 
     cu.OnServerConnected(() => {

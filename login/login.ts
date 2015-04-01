@@ -4,6 +4,8 @@
 
 /// <reference path="../vendor/numeral.d.ts" />
 /// <reference path="../vendor/jquery.d.ts" />
+/// <reference path="../tour/logintour.ts" />
+/// <reference path="../vendor/hopscotch.d.ts" />
 
 module Login {
     document.oncontextmenu = () => false;
@@ -34,7 +36,7 @@ module Login {
         IT = 5, // called InternalTest on /api/servers
         Devs = 6, // called Employees on /api/servers
     }
-    
+
 
     var servers = [
         { name: 'localhost', host: 'localhost', isOnline: true, playerCounts: { arthurians: 0, tuathaDeDanann: 0, vikings: 0, total: 0 } }
@@ -126,10 +128,10 @@ module Login {
             data: { channelID: cu.HasAPI() ? cuAPI.patchResourceChannel : 4 },
             timeout: 1000 * 6
         }).done((data) => {
-            servers = data;
+                servers = data;
 
-            updateServerSelection();
-        }).fail(getServers);
+                updateServerSelection();
+            }).fail(getServers);
 
         setTimeout(getServers, 1000 * 60);
     }
@@ -144,8 +146,8 @@ module Login {
             type: 'GET',
             url: getSelectedServerApiUrl() + '/craftedabilities/defaults'
         }).done((data) => {
-            getDefaultAbilitiesState = RequestState.Succeeded;
-            defaultAbilities = data;
+                getDefaultAbilitiesState = RequestState.Succeeded;
+                defaultAbilities = data;
             }).fail(() => {
                 getDefaultAbilitiesState = RequestState.Failed;
                 setTimeout(getDefaultAbilities, 5000 - (new Date().getTime() - start.getTime()));
@@ -245,7 +247,7 @@ module Login {
 
     function showServerSelection() {
         selectedServer = null;
-
+        hopscotch.startTour(tour, 1);
         $characterSelection.fadeOut(() => {
             if (!$serversModalContainer) {
                 $serversModalContainer = createServersModal();
@@ -342,37 +344,37 @@ module Login {
             url: getServerApiUrl(server) + '/game/players',
             timeout: delay
         }).done((data) => {
-            server.isOnline = true;
+                server.isOnline = true;
 
-            server.playerCounts = data;
-            server.playerCounts.total = (data.arthurians || 0) + (data.tuathaDeDanann || 0) + (data.vikings || 0);
+                server.playerCounts = data;
+                server.playerCounts.total = (data.arthurians || 0) + (data.tuathaDeDanann || 0) + (data.vikings || 0);
 
-            row.$row.removeClass('offline');
-            row.$arthurians.text(server.playerCounts.arthurians);
-            row.$tdd.text(server.playerCounts.tuathaDeDanann);
-            row.$vikings.text(server.playerCounts.vikings);
-            row.$total.text(server.playerCounts.total);
+                row.$row.removeClass('offline');
+                row.$arthurians.text(server.playerCounts.arthurians);
+                row.$tdd.text(server.playerCounts.tuathaDeDanann);
+                row.$vikings.text(server.playerCounts.vikings);
+                row.$total.text(server.playerCounts.total);
 
-            if (!selectedServer) {
-                var elapsed = new Date().getTime() - start.getTime();
+                if (!selectedServer) {
+                    var elapsed = new Date().getTime() - start.getTime();
 
-                serverTimeouts.push(setTimeout(() => updateServerEntry(server, row), delay - elapsed));
-            }
-        }).fail(() => {
-            server.isOnline = false;
+                    serverTimeouts.push(setTimeout(() => updateServerEntry(server, row), delay - elapsed));
+                }
+            }).fail(() => {
+                server.isOnline = false;
 
-            row.$row.addClass('offline');
-            row.$arthurians.text('?');
-            row.$tdd.text('?');
-            row.$vikings.text('?');
-            row.$total.text('?');
+                row.$row.addClass('offline');
+                row.$arthurians.text('?');
+                row.$tdd.text('?');
+                row.$vikings.text('?');
+                row.$total.text('?');
 
-            if (!selectedServer) {
-                var elapsed = new Date().getTime() - start.getTime();
+                if (!selectedServer) {
+                    var elapsed = new Date().getTime() - start.getTime();
 
-                serverTimeouts.push(setTimeout(() => updateServerEntry(server, row), delay - elapsed));
-            }
-        });
+                    serverTimeouts.push(setTimeout(() => updateServerEntry(server, row), delay - elapsed));
+                }
+            });
     }
 
     function trySelectServer(server) {
@@ -414,10 +416,10 @@ module Login {
 
             selectServer(server);
         }).fail(() => {
-            clearInterval(loadingInterval);
+                clearInterval(loadingInterval);
 
-            $td.text('Failed to load characters. Please try again.');
-        });
+                $td.text('Failed to load characters. Please try again.');
+            });
     }
 
     function tryFetchCharacters(server): any {
@@ -432,18 +434,18 @@ module Login {
             url: getSecureServerApiUrl(server) + '/characters?loginToken=' + loginToken,
             timeout: 10000
         }).done((data) => {
-            server.characters = data;
+                server.characters = data;
 
-            server.characters.sort((a, b) => {
-                var aLastLogin = new Date(a.lastLogin);
-                var bLastLogin = new Date(b.lastLogin);
-                return (+bLastLogin) - (+aLastLogin);
+                server.characters.sort((a, b) => {
+                    var aLastLogin = new Date(a.lastLogin);
+                    var bLastLogin = new Date(b.lastLogin);
+                    return (+bLastLogin) - (+aLastLogin);
+                });
+
+                serverCharacterRequests[server.host] = null;
+            }).fail(() => {
+                serverCharacterRequests[server.host] = null;
             });
-
-            serverCharacterRequests[server.host] = null;
-        }).fail(() => {
-            serverCharacterRequests[server.host] = null;
-        });
     }
 
     function resetServerTimeouts() {
@@ -470,8 +472,11 @@ module Login {
     function showCharacterSelectionOrCreation() {
         if (selectedServer && selectedServer.characters && selectedServer.characters.length) {
             showCharacterSelect();
+            $('.hopscotch-bubble').css({ 'display': 'none', 'visibility': 'hidden' });
         } else {
             showCharacterCreationPage();
+            $('.hopscotch-bubble').css({ 'display': 'block', 'visibility': 'visible' });
+            hopscotch.startTour(tour, 1);
         }
     }
 
@@ -715,7 +720,7 @@ module Login {
         Succeeded,
         Failed
     };
-    
+
     /* Constants */
 
     var ANIMATION_DURATION = 400;
@@ -873,28 +878,28 @@ module Login {
             type: 'GET',
             url: getSelectedServerApiUrl() + '/game/factions'
         }).done((factions) => {
-            getFactionsState = RequestState.Succeeded;
+                getFactionsState = RequestState.Succeeded;
 
-            factions.forEach(faction => {
-                switch (faction.name) {
-                    case 'Arthurian':
-                        factionArthurians = faction;
-                        break;
-                    case 'TDD':
-                        factionTdd = faction;
-                        break;
-                    case 'Viking':
-                        factionVikings = faction;
-                        break;
-                }
+                factions.forEach(faction => {
+                    switch (faction.name) {
+                        case 'Arthurian':
+                            factionArthurians = faction;
+                            break;
+                        case 'TDD':
+                            factionTdd = faction;
+                            break;
+                        case 'Viking':
+                            factionVikings = faction;
+                            break;
+                    }
+                });
+            }).fail((xhr) => {
+                getFactionsState = RequestState.Failed;
+
+                queueShowModal(createErrorModal('Error Fetching Factions: ' + xhr.status + ' ' + xhr.statusText));
+
+                setTimeout(getFactions, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
             });
-        }).fail((xhr) => {
-            getFactionsState = RequestState.Failed;
-
-            queueShowModal(createErrorModal('Error Fetching Factions: ' + xhr.status + ' ' + xhr.statusText));
-
-            setTimeout(getFactions, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
-        });
     }
 
     function getAttributes() {
@@ -906,16 +911,16 @@ module Login {
             type: 'GET',
             url: getSelectedServerApiUrl() + '/game/attributes'
         }).done((attrs) => {
-            getAttributesState = RequestState.Succeeded;
+                getAttributesState = RequestState.Succeeded;
 
-            attributes = attrs;
-        }).fail((xhr) => {
-            getAttributesState = RequestState.Failed;
+                attributes = attrs;
+            }).fail((xhr) => {
+                getAttributesState = RequestState.Failed;
 
-            queueShowModal(createErrorModal('Error Fetching Attributes: ' + xhr.status + ' ' + xhr.statusText));
+                queueShowModal(createErrorModal('Error Fetching Attributes: ' + xhr.status + ' ' + xhr.statusText));
 
-            setTimeout(getAttributes, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
-        });
+                setTimeout(getAttributes, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
+            });
     }
 
     function getBoons() {
@@ -927,71 +932,71 @@ module Login {
             type: 'GET',
             url: getSelectedServerApiUrl() + '/game/boons'
         }).done((boons) => {
-            getBoonsState = RequestState.Succeeded;
+                getBoonsState = RequestState.Succeeded;
 
-            boons.forEach((boon) => {
-                if (!boon.category) boon.category = Category.General;
+                boons.forEach((boon) => {
+                    if (!boon.category) boon.category = Category.General;
 
-                switch (boon.category) {
-                    case Category.General:
-                        boonsGeneral.push(boon);
-                        break;
-                    case Category.Faction:
-                        boonsFaction.push(boon);
-                        break;
-                    case Category.Race:
-                        boonsRace.push(boon);
-                        break;
-                    case Category.Archetype:
-                        boonsArchetype.push(boon);
-                        break;
-                }
+                    switch (boon.category) {
+                        case Category.General:
+                            boonsGeneral.push(boon);
+                            break;
+                        case Category.Faction:
+                            boonsFaction.push(boon);
+                            break;
+                        case Category.Race:
+                            boonsRace.push(boon);
+                            break;
+                        case Category.Archetype:
+                            boonsArchetype.push(boon);
+                            break;
+                    }
+                });
+            }).fail((xhr) => {
+                getBoonsState = RequestState.Failed;
+
+                queueShowModal(createErrorModal('Error Fetching Boons: ' + xhr.status + ' ' + xhr.statusText));
+
+                setTimeout(getBoons, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
             });
-        }).fail((xhr) => {
-            getBoonsState = RequestState.Failed;
-
-            queueShowModal(createErrorModal('Error Fetching Boons: ' + xhr.status + ' ' + xhr.statusText));
-
-            setTimeout(getBoons, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
-        });
     }
 
     function getBanes() {
         getBanesState = RequestState.InProgress;
-        
+
         var start = new Date();
 
         return $.ajax({
             type: 'GET',
             url: getSelectedServerApiUrl() + '/game/banes'
         }).done((banes) => {
-            getBanesState = RequestState.Succeeded;
+                getBanesState = RequestState.Succeeded;
 
-            banes.forEach((bane) => {
-                if (!bane.category) bane.category = Category.General;
+                banes.forEach((bane) => {
+                    if (!bane.category) bane.category = Category.General;
 
-                switch (bane.category) {
-                    case Category.General:
-                        banesGeneral.push(bane);
-                        break;
-                    case Category.Faction:
-                        banesFaction.push(bane);
-                        break;
-                    case Category.Race:
-                        banesRace.push(bane);
-                        break;
-                    case Category.Archetype:
-                        banesArchetype.push(bane);
-                        break;
-                }
+                    switch (bane.category) {
+                        case Category.General:
+                            banesGeneral.push(bane);
+                            break;
+                        case Category.Faction:
+                            banesFaction.push(bane);
+                            break;
+                        case Category.Race:
+                            banesRace.push(bane);
+                            break;
+                        case Category.Archetype:
+                            banesArchetype.push(bane);
+                            break;
+                    }
+                });
+            }).fail((xhr) => {
+                getBanesState = RequestState.Failed;
+
+                queueShowModal(createErrorModal('Error Fetching Banes: ' + xhr.status + ' ' + xhr.statusText));
+
+                setTimeout(getBanes, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
             });
-        }).fail((xhr) => {
-            getBanesState = RequestState.Failed;
-
-            queueShowModal(createErrorModal('Error Fetching Banes: ' + xhr.status + ' ' + xhr.statusText));
-
-            setTimeout(getBanes, REQUEST_RETRY_DELAY - (new Date().getTime() - start.getTime()));
-        });
     }
 
     function getValidationErrors() {
@@ -1319,30 +1324,30 @@ module Login {
     function getRaceIndexForChosenArchetype() {
         if (!chosenFaction || !chosenArchetype) return 0;
         switch (chosenFaction.value) {
-        case Faction.Arthurians:
-            switch (chosenArchetype.value) {
-            case Archetype.FireMage: return 0; // Fire Mage = Strm
-            case Archetype.Fighter: return 1; // Fighter = Cait Sith
-            case Archetype.Healer: return 2; // Healer = Golem
-            case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderA
-            }
-            break;
-        case Faction.TDD:
-            switch (chosenArchetype.value) {
-            case Archetype.EarthMage: return 2; // Earth Mage = Firbog
-            case Archetype.Fighter: return 0; // Fighter = Hamadryad
-            case Archetype.Healer: return 1; // Healer = Luchorpan
-            case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderT
-            }
-            break;
-        case Faction.Vikings:
-            switch (chosenArchetype.value) {
-            case Archetype.WaterMage: return 0; // Water Mage = Valkyrie
-            case Archetype.Fighter: return 2; // Fighter = Frost Giant
-            case Archetype.Healer: return 1; // Healer = Helbound
-            case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderV
-            }
-            break;
+            case Faction.Arthurians:
+                switch (chosenArchetype.value) {
+                    case Archetype.FireMage: return 0; // Fire Mage = Strm
+                    case Archetype.Fighter: return 1; // Fighter = Cait Sith
+                    case Archetype.Healer: return 2; // Healer = Golem
+                    case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderA
+                }
+                break;
+            case Faction.TDD:
+                switch (chosenArchetype.value) {
+                    case Archetype.EarthMage: return 2; // Earth Mage = Firbog
+                    case Archetype.Fighter: return 0; // Fighter = Hamadryad
+                    case Archetype.Healer: return 1; // Healer = Luchorpan
+                    case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderT
+                }
+                break;
+            case Faction.Vikings:
+                switch (chosenArchetype.value) {
+                    case Archetype.WaterMage: return 0; // Water Mage = Valkyrie
+                    case Archetype.Fighter: return 2; // Fighter = Frost Giant
+                    case Archetype.Healer: return 1; // Healer = Helbound
+                    case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderV
+                }
+                break;
         }
         return 0;
     }
@@ -1510,8 +1515,8 @@ module Login {
             $('<input>').attr({
                 id: 'choose-race-' + index, type: 'radio', name: 'race'
             }).val(index).click(function () {
-                $(this).closest('form').submit();
-            }).appendTo($li);
+                    $(this).closest('form').submit();
+                }).appendTo($li);
 
             var raceName = addSpaceBetweenCapitalLetters(race.name);
 
@@ -1549,9 +1554,9 @@ module Login {
                 id: 'choose-archetype-' + index,
                 type: 'radio',
                 name: 'archetype'
-            }).click(function() {
-                $(this).closest('form').submit();
-            }).val(index).appendTo($li);
+            }).click(function () {
+                    $(this).closest('form').submit();
+                }).val(index).appendTo($li);
 
             var $label = $('<label>').attr({
                 'for': 'choose-archetype-' + index,
@@ -1629,10 +1634,10 @@ module Login {
             var $input = $('<input>').attr({
                 type: 'text', name: 'attribute', 'data-min': attribute.min, 'data-max': attribute.max
             }).val(attribute.min).change(() => {
-                var value = parseInt($input.val(), 10);
-                updateCurrentValue(isNaN(value) ? attribute.min : value);
-                $(this).closest('form').submit();
-            }).appendTo($td);
+                    var value = parseInt($input.val(), 10);
+                    updateCurrentValue(isNaN(value) ? attribute.min : value);
+                    $(this).closest('form').submit();
+                }).appendTo($td);
 
             $td = $('<td>').appendTo($tr);
 
@@ -1792,8 +1797,8 @@ module Login {
             left: boonBane.x * BOON_BANE_OFFSET_X,
             top: boonBane.y * BOON_BANE_OFFSET_Y
         }).attr({
-            'data-tooltip-title': boonBane.name
-        }).addClass(category);
+                'data-tooltip-title': boonBane.name
+            }).addClass(category);
 
         new Tooltip($li, {
             showDelay: 0,
@@ -2155,7 +2160,7 @@ module Login {
 
     function updateSummaryBoonBaneList(list, elements, callback) {
         var boonBaneIDs = [];
-        
+
         list.children().each((i, boon) => {
             var $boon = $(boon);
             var id = $boon.attr('data-id');
@@ -2745,9 +2750,11 @@ module Login {
         currentPage = Page.Faction;
 
         updateView();
+        hopscotch.showStep(2);
     }
 
     function showChooseRaceArchetypePage() {
+
         if (!isValid(Page.Faction)) return;
 
         currentPage = Page.RaceArchetype;
@@ -2756,6 +2763,8 @@ module Login {
     }
 
     function showChooseAttributesPage() {
+
+        hopscotch.showStep(6);
         if (!isValid(Page.RaceArchetype)) return;
 
         currentPage = Page.Attributes;
@@ -2764,6 +2773,8 @@ module Login {
     }
 
     function showChooseBoonsBanesPage() {
+
+        hopscotch.showStep(9);
         if (!isValid(Page.Attributes)) return;
 
         currentPage = Page.BoonsBanes;
@@ -2794,26 +2805,26 @@ module Login {
         $shieldArthurians.unbind('mouseenter mouseleave').hover(() => {
             changeFaction(Faction.Arthurians);
         }, () => {
-            if (!hasChosenFaction()) resetChosenFaction();
-        }).click(() => {
-            tryChooseFaction(Faction.Arthurians);
-        });
+                if (!hasChosenFaction()) resetChosenFaction();
+            }).click(() => {
+                tryChooseFaction(Faction.Arthurians);
+            });
 
         $shieldTdd.unbind('mouseenter mouseleave').hover(() => {
             changeFaction(Faction.TDD);
         }, () => {
-            if (!hasChosenFaction()) resetChosenFaction();
-        }).click(() => {
-            tryChooseFaction(Faction.TDD);
-        });
+                if (!hasChosenFaction()) resetChosenFaction();
+            }).click(() => {
+                tryChooseFaction(Faction.TDD);
+            });
 
         $shieldVikings.unbind('mouseenter mouseleave').hover(() => {
             changeFaction(Faction.Vikings);
         }, () => {
-            if (!hasChosenFaction()) resetChosenFaction();
-        }).click(() => {
-            tryChooseFaction(Faction.Vikings);
-        });
+                if (!hasChosenFaction()) resetChosenFaction();
+            }).click(() => {
+                tryChooseFaction(Faction.Vikings);
+            });
 
         getFactions();
         getAttributes();
@@ -2874,8 +2885,8 @@ module Login {
 
             updateView();
         }).focus(() => {
-            $characterName.addClass('has-focused').removeClass('highlight');
-        });
+                $characterName.addClass('has-focused').removeClass('highlight');
+            });
 
         $chooseRace.unbind('submit').submit(() => {
             setChosenRace();
@@ -2936,20 +2947,20 @@ module Login {
 
         $btnReset.unbind('click').click(() => {
             switch (currentPage) {
-            case Page.RaceArchetype:
-                if (hasChosenRace()) {
-                    resetChosenRace();
-                    resetChosenArchetype();
-                    resetAbilities();
-                }
-                break;
-            case Page.Attributes:
-                if (hasChosenAttributes()) resetChosenAttributes();
-                break;
-            case Page.BoonsBanes:
-                if (hasChosenBoons()) resetChosenBoons();
-                if (hasChosenBanes()) resetChosenBanes();
-                break;
+                case Page.RaceArchetype:
+                    if (hasChosenRace()) {
+                        resetChosenRace();
+                        resetChosenArchetype();
+                        resetAbilities();
+                    }
+                    break;
+                case Page.Attributes:
+                    if (hasChosenAttributes()) resetChosenAttributes();
+                    break;
+                case Page.BoonsBanes:
+                    if (hasChosenBoons()) resetChosenBoons();
+                    if (hasChosenBanes()) resetChosenBanes();
+                    break;
             }
 
             updateView();
@@ -2957,12 +2968,12 @@ module Login {
 
         $characterNext.unbind('submit').submit(() => {
             switch (currentPage) {
-            case Page.RaceArchetype:
-                showChooseAttributesPage();
-                break;
-            case Page.Attributes:
-                showChooseBoonsBanesPage();
-                break;
+                case Page.RaceArchetype:
+                    showChooseAttributesPage();
+                    break;
+                case Page.Attributes:
+                    showChooseBoonsBanesPage();
+                    break;
             }
 
             return false;
@@ -2973,110 +2984,113 @@ module Login {
                 flashCharacterName();
             }
         }).submit(() => {
-            if (!isValid()) return false;
+                if (!isValid()) return false;
 
-            $btnComplete.prop('disabled', true).addClass('waiting');
+                $btnComplete.prop('disabled', true).addClass('waiting');
 
-            var attrs = chosenAttributes.reduce((result, attribute) => {
-                result[attribute.name] = attribute.value;
-                return result;
-            }, {});
+                var attrs = chosenAttributes.reduce((result, attribute) => {
+                    result[attribute.name] = attribute.value;
+                    return result;
+                }, {});
 
-            var boons = {};
+                var boons = {};
 
-            boons = chosenBoonsGeneral.reduce((result, boon) => {
-                result[boon.id] = boon.ranks;
-                return result;
-            }, boons);
+                boons = chosenBoonsGeneral.reduce((result, boon) => {
+                    result[boon.id] = boon.ranks;
+                    return result;
+                }, boons);
 
-            boons = chosenBoonsFaction.reduce((result, boon) => {
-                result[boon.id] = boon.ranks;
-                return result;
-            }, boons);
+                boons = chosenBoonsFaction.reduce((result, boon) => {
+                    result[boon.id] = boon.ranks;
+                    return result;
+                }, boons);
 
-            boons = chosenBoonsRace.reduce((result, boon) => {
-                result[boon.id] = boon.ranks;
-                return result;
-            }, boons);
+                boons = chosenBoonsRace.reduce((result, boon) => {
+                    result[boon.id] = boon.ranks;
+                    return result;
+                }, boons);
 
-            boons = chosenBoonsArchetype.reduce((result, boon) => {
-                result[boon.id] = boon.ranks;
-                return result;
-            }, boons);
+                boons = chosenBoonsArchetype.reduce((result, boon) => {
+                    result[boon.id] = boon.ranks;
+                    return result;
+                }, boons);
 
-            var banes = {};
+                var banes = {};
 
-            banes = chosenBanesGeneral.reduce((result, bane) => {
-                result[bane.id] = bane.ranks;
-                return result;
-            }, banes);
+                banes = chosenBanesGeneral.reduce((result, bane) => {
+                    result[bane.id] = bane.ranks;
+                    return result;
+                }, banes);
 
-            banes = chosenBanesFaction.reduce((result, bane) => {
-                result[bane.id] = bane.ranks;
-                return result;
-            }, banes);
+                banes = chosenBanesFaction.reduce((result, bane) => {
+                    result[bane.id] = bane.ranks;
+                    return result;
+                }, banes);
 
-            banes = chosenBanesRace.reduce((result, bane) => {
-                result[bane.id] = bane.ranks;
-                return result;
-            }, banes);
+                banes = chosenBanesRace.reduce((result, bane) => {
+                    result[bane.id] = bane.ranks;
+                    return result;
+                }, banes);
 
-            banes = chosenBanesArchetype.reduce((result, bane) => {
-                result[bane.id] = bane.ranks;
-                return result;
-            }, banes);
+                banes = chosenBanesArchetype.reduce((result, bane) => {
+                    result[bane.id] = bane.ranks;
+                    return result;
+                }, banes);
 
-            var character = {
-                loginToken: loginToken,
-                name: chosenName,
-                faction: chosenFaction.name,
-                race: chosenRace.name,
-                archetype: chosenArchetype.name,
-                attributes: attrs,
-                boons: boons,
-                banes: banes
-            };
+                var character = {
+                    loginToken: loginToken,
+                    name: chosenName,
+                    faction: chosenFaction.name,
+                    race: chosenRace.name,
+                    archetype: chosenArchetype.name,
+                    attributes: attrs,
+                    boons: boons,
+                    banes: banes
+                };
 
-            var options: JQueryAjaxSettings = {};
-            options.url = getSecureSelectedServerApiUrl() + '/characters';
-            options.type = 'POST';
-            options.contentType = 'application/json; charset=utf-8';
-            options.data = JSON.stringify(character);
-            options.success = result => {
-                $btnComplete.prop('disabled', false).removeClass('waiting');
+                var options: JQueryAjaxSettings = {};
+                options.url = getSecureSelectedServerApiUrl() + '/characters';
+                options.type = 'POST';
+                options.contentType = 'application/json; charset=utf-8';
+                options.data = JSON.stringify(character);
+                options.success = result => {
+                    $btnComplete.prop('disabled', false).removeClass('waiting');
 
-                if (result && result.results) {
-                    if (result.results.success && result.character && result.character.id) {
-                        $characterCreation.fadeOut().promise().done(() => {
-                            beginConnect(result.character);
-                        });
+                    if (result && result.results) {
+                        if (result.results.success && result.character && result.character.id) {
+                            $characterCreation.fadeOut().promise().done(() => {
+                                beginConnect(result.character);
+                            });
+                        } else {
+                            showModal(createErrorModal(result.results.join(' ')));
+                        }
                     } else {
-                        showModal(createErrorModal(result.results.join(' ')));
+                        showModal(createErrorModal('An unknown error occurred.'));
                     }
-                } else {
-                    showModal(createErrorModal('An unknown error occurred.'));
-                }
-            };
-            options.error = (xhr, status, err) => {
-                $btnComplete.prop('disabled', false).removeClass('waiting');
+                };
+                options.error = (xhr, status, err) => {
+                    $btnComplete.prop('disabled', false).removeClass('waiting');
 
-                showModal(createErrorModal(err));
-            };
-            $.ajax(options);
+                    showModal(createErrorModal(err));
+                };
+                $.ajax(options);
 
-            return false;
-        });
+                return false;
+            });
 
         $btnRaceArchetypePage.unbind('click').click(() => {
             showChooseRaceArchetypePage();
+            hopscotch.showStep(3);
         });
 
         $btnAttributesPage.unbind('click').click(() => {
             showChooseAttributesPage();
+            hopscotch.showStep(6);
         });
 
         $btnBoonsBanesPage.unbind('click').click(() => {
             showChooseBoonsBanesPage();
+            hopscotch.showStep(9);
         });
 
         $btnBack.unbind('click').click(() => {
@@ -3084,14 +3098,16 @@ module Login {
                 resetChosenFaction();
 
                 showChooseFactionPage();
+                hopscotch.showStep(2);
             } else {
                 showBackground($bgDefault);
-
                 $characterCreation.fadeOut(() => {
                     if ($characters.children().length) {
                         showCharacterSelect();
+                        hopscotch.showStep(0);
                     } else {
                         showServerSelection();
+                        hopscotch.showStep(1);
                     }
                 });
             }
