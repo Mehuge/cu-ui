@@ -506,11 +506,14 @@ module Chat {
                         return "arthurian";
                 }
             }
-            if (!faction) {
-                channels.push(f2s(factionId));
-                initChat();
-            } else if (f2s(factionId) !== faction) {
-                alert('faction change not supported ... yet');
+            if (factionId !== -1) {
+                if (!faction) {
+                    faction = f2s(factionId);
+                    channels.push(faction);
+                    initChat();
+                } else if (f2s(factionId) !== faction) {
+                    alert('faction change not supported ... yet');
+                }
             }
         });
 
