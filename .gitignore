@@ -9,8 +9,9 @@ node_modules/
 .idea/
 .tscache/
 !GruntFile.js
-announcer/*.ogg
 !/vendor/*.js
+// vv-- Mehuge UI stuff below 
+announcer/*.ogg
 !/mehuge-bct/bct.js
 !/mehuge-bot/example.js
 !/mehuge-bot/healbot.js
