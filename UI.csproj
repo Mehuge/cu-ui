@@ -191,6 +191,7 @@
     <Content Include="mehuge-pop\bg-small.png" />
     <Content Include="mehuge-worker\worker.css" />
     <Content Include="mehuge-worker\worker.html" />
+    <Content Include="mehuge\basic-promise.js" />
     <Content Include="physhud\physhud.css" />
     <Content Include="physhud\physhud.html" />
     <Content Include="images\tour\arrow.png" />
@@ -224,6 +225,7 @@
     <TypeScriptCompile Include="mehuge-announcer\announcer.ts" />
     <TypeScriptCompile Include="mehuge-chat\chat.ts" />
     <TypeScriptCompile Include="mehuge-group\group.ts" />
+    <TypeScriptCompile Include="mehuge-worker\modules\abilities.ts" />
     <TypeScriptCompile Include="mehuge-worker\worker.ts" />
     <TypeScriptCompile Include="mehuge\mehuge-chat.ts" />
     <TypeScriptCompile Include="mehuge-autoexec\autoexec.ts" />
@@ -511,6 +513,7 @@
     <Content Include="inventory\inventory.css" />
     <Content Include="inventory\inventory.html" />
     <TypeScriptCompile Include="mehuge\mehuge-events.ts" />
+    <TypeScriptCompile Include="mehuge\mehuge-rest.ts" />
     <TypeScriptCompile Include="physhud\physhud.ts" />
     <TypeScriptCompile Include="shared\chatlib.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
