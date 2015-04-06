@@ -7,13 +7,14 @@ module Options {
 
     var $btnKeys = $('#btn-keys').addClass('active');
     var $btnInput = $('#btn-input');
+    var $btnAudio = $('#btn-audio');
     var $btnApply = $('#btn-apply');
     var $btnSave = $('#btn-save');
     var $btnDefaults = $('#btn-defaults');
     var $btnCancel = $('#btn-cancel');
     var $btnSide = $('.btn-side');
     var $btnX = $('#btn-x');
-    var cancel : any;
+    var cancel: any;
 
     cu.OnInitialized(() => {
         cu.GetConfigVars(activeConfigIndex);
@@ -55,6 +56,15 @@ module Options {
         $btnSide.removeClass('active');
         $btnInput.addClass('active');
         activeConfigIndex = Tags.INPUT;
+        cu.GetConfigVars(activeConfigIndex);
+    });
+
+    $btnAudio.click(() => {
+        if (activeConfigIndex == Tags.AUDIO) return;
+
+        $btnSide.removeClass('active');
+        $btnAudio.addClass('active');
+        activeConfigIndex = Tags.AUDIO;
         cu.GetConfigVars(activeConfigIndex);
     });
 }
@@ -113,6 +123,55 @@ module Input {
             $container.empty();
             for (var item in configs) {
                 handleBool(item, configs[item]);
+            }
+        }
+    });
+}
+
+module AudioOptions {
+    var $container = $('#binding-container');
+
+    function handleBool(item, value) {
+        var $item = $('<div/>');
+        $('<div/>').addClass('binding-name').text(item).appendTo($item);
+        var text = value == 'true' ? 'Yes' : 'No';
+        var $value = $('<div/>').addClass('binding-value').text(text).appendTo($item);
+        $item.addClass('binding-item').click(() => {
+            value = value == 'true' ? 'false' : 'true';
+            cu.ChangeConfigVar(item, value);
+            $value.text((value == 'true') ? 'Yes' : 'No');
+        }).appendTo($container);
+    }
+
+    function handleVolume(item, value) {
+        var $item = $('<div/>');
+        $('<div/>').addClass('binding-name').text(item).appendTo($item);
+
+        var $slider = $('<div class="binding-item"/>');
+
+        $slider.slider({
+            value: value,
+            stop: (e, ui) => {
+                value = ui.value;
+                cu.ChangeConfigVar(item, value);
+            }
+        }).appendTo($item);
+
+        $item.appendTo($container);
+
+    }
+
+    cu.Listen('HandleReceiveConfigVars', configs => {
+        if (configs && Options.activeConfigIndex == Tags.AUDIO) {
+            configs = $.parseJSON(configs);
+
+            $container.empty();
+            for (var item in configs) {
+                if (item === 'Mute Volume') {
+                    handleBool(item, configs[item]);
+                } else {
+                    handleVolume(item, configs[item]);
+                }
             }
         }
     });

@@ -131,6 +131,7 @@ module MiniMap {
         var p = $('#playerPos');
         p.css('top', myPos.y - 5);
         p.css('left', myPos.x - 5);
+        p.css('z-index', 999);
     }
 
     // API Requests

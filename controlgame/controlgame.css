@@ -10,7 +10,7 @@ html, body {
 
 #control-game {
     display: none;
-    width: 470px;
+    width: auto;
     height: 82px;
     margin: 0 auto;
     text-align: center;

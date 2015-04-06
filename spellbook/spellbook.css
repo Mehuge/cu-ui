@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+@import "../cu/fonts.css"
+
 html, body {
     margin: 0;
     padding: 0;
@@ -224,7 +226,7 @@ html, body {
     margin: 0;
     padding: 20px;
     cursor: default;
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 26px;
     opacity: 0.7;
 }
@@ -234,7 +236,7 @@ html, body {
     bottom: 4px;
     right: 12px;
     width: 100%;
-    font-family: 'vtcgoblinhandbold', serif;
+    font-family: 'Trade winds', serif;
     font-size: 14px;
     cursor: default;
 }
@@ -261,8 +263,8 @@ html, body {
     line-height: 52px;
     padding-left: 20px;
     overflow: hidden;
-    opacity: 0.7;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.49);
+    opacity: 0.9;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
     cursor: pointer;
 }
 
@@ -331,7 +333,7 @@ html, body {
     height: 52px;
     vertical-align: middle;
     line-height: 15px;
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 12px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -343,7 +345,7 @@ html, body {
     vertical-align: middle;
     width: 90px;
     height: 52px;
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 12px;
     overflow: hidden;
 }
@@ -501,7 +503,7 @@ html, body {
     width: 32%;
     margin-bottom: 8px;
     margin-right: 4px;
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 12px;
     word-wrap: break-word;
 }
@@ -512,18 +514,18 @@ html, body {
 }
 
 .ability-proficiency-label {
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 12px;
 }
 
 .ability-proficiency-value {
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 15px;
 }
 
 .ability-description-label {
     padding-top: 20px;
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 12px;
 }
 
@@ -534,7 +536,7 @@ html, body {
 
 .ability-notes-label {
     padding-top: 20px;
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 12px;
 }
 
@@ -552,7 +554,7 @@ html, body {
 .ability-stat-label {
     display: inline-block;
     width: 230px;
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 12px;
 }
 
@@ -560,7 +562,7 @@ html, body {
     display: inline-block;
     width: 104px;
     text-align: center;
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 12px;
 }
 
@@ -590,7 +592,7 @@ html, body {
     position: absolute;
     top: 0;
     left: 80px;
-    font-family: 'vtcgoblinhandbold', sans-serif;
+    font-family: 'Trade winds', sans-serif;
     font-size: 12px;
     cursor: default;
 }

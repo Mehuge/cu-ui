@@ -82,6 +82,7 @@ var buildertour = {
             target: document.querySelector("#btn-build"),
             placement: "bottom",
             zindex: -9999,
+            yOffset: -500,
             onShow: function () {
                 $('.hopscotch-bubble').css({ 'margin-top': '-25px', 'opacity': '0' });
                 AbilityBuilder.$builder.fadeOut(() => {
@@ -115,7 +116,7 @@ var buildertour = {
         $('.hopscotch-bubble').css({ 'margin-top': '-25px', 'opacity': '0' });
     },
     onClose: function () {
-        $('.hopscotch-bubble').css({ 'margin-top': '0', 'opacity': '1', 'display': 'none', 'visibility': 'hidden' }).animate({ 'margin-top': '-25px', 'opacity': '0' }, 700);
+        cuAPI.Fire("spellbookopen");
     }
 };
 
@@ -128,6 +129,7 @@ function builderTourInitialize() {
     cuAPI.Listen("primarychosen");
     cuAPI.Listen("secondarychosen");
     cuAPI.Listen("iconselect");
+    cuAPI.Listen("touruistart");
 
     cuAPI.OnEvent((event, data) => {
         console.log("2 " + event);
@@ -143,9 +145,14 @@ function builderTourInitialize() {
             hopscotch.showStep(2);
         } else if (event == "iconselect") {
             console.log("Listen: iconselect");
-            hopscotch.showStep(4); 
+            hopscotch.showStep(4);
+        } else if (event == "touruistart") {
+            AbilityBuilder.$btnHelp.click(function () {
+                cuAPI.Fire("abilitybuilderopen");
+            });
         }
     });
 };
 
 cu.OnInitialized(builderTourInitialize);
+

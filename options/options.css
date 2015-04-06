@@ -154,6 +154,14 @@ body {
     padding-left: 15px;
 }
 
+#btn-audio {
+    position: absolute;
+    top: 105px;
+    left: 20px;
+    line-height: 29px;
+    padding-left: 15px;
+}
+
 #binding-container {
     position: absolute;
     top: 45px;

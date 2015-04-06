@@ -13,23 +13,23 @@
     background: #0f0f0f url(../images/window/top-middle.png) repeat-x;
 }
 
-.window-top:before {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 48px;
-    height: 44px;
-    content: url(../images/window/top-left.png);
-}
+    .window-top:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 48px;
+        height: 44px;
+        content: url(../images/window/top-left.png);
+    }
 
-.window-top:after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 48px;
-    height: 44px;
-    content: url(../images/window/top-right.png);
-}
+    .window-top:after {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 48px;
+        height: 44px;
+        content: url(../images/window/top-right.png);
+    }
 
 .window-title {
     text-transform: uppercase;
@@ -43,8 +43,8 @@
 
 .window-close {
     position: absolute;
-    top: 7px;
-    right: 12px;
+    top: 8px;
+    right: 14px;
     width: 13px;
     height: 13px;
     border: none;
@@ -56,15 +56,43 @@
     filter: brightness(0.6);
 }
 
-.window-close:hover {
-    -webkit-filter: brightness(0.8);
-    filter: brightness(0.8);
+    .window-close:hover {
+        -webkit-filter: brightness(0.8);
+        filter: brightness(0.8);
+    }
+
+    .window-close:active {
+        -webkit-filter: brightness(1.0);
+        filter: brightness(1.0);
+    }
+
+.window-help {
+    position: absolute;
+    top: 6px;
+    right: 31px;
+    width: 15px;
+    height: 15px;
+    font-weight: bold;
+    border: none;
+    background: none;
+    color: rgb(180, 180, 180);
+    text-shadow: 1px 1px black;
+    cursor: pointer;
+    z-index: 999;
+    outline: none;
+    -webkit-filter: brightness(0.6);
+    filter: brightness(0.6);
 }
 
-.window-close:active {
-    -webkit-filter: brightness(1.0);
-    filter: brightness(1.0);
-}
+    .window-help:hover {
+        -webkit-filter: brightness(0.8);
+        filter: brightness(0.8);
+    }
+
+    .window-help:active {
+        -webkit-filter: brightness(1.0);
+        filter: brightness(1.0);
+    }
 
 .window-middle {
     position: relative;
@@ -76,14 +104,14 @@
     font-size: 12px;
 }
 
-.window-middle input[type=text] {
-    color: #d3d3d3;
-    padding: 5px;
-    border: solid 1px rgb(39, 39, 39);
-    background: rgb(39, 39, 39);
-    box-shadow: inset 0 0 20px 5px rgba(0, 0, 0, 0.75);
-    outline: none;
-}
+    .window-middle input[type=text] {
+        color: #d3d3d3;
+        padding: 5px;
+        border: solid 1px rgb(39, 39, 39);
+        background: rgb(39, 39, 39);
+        box-shadow: inset 0 0 20px 5px rgba(0, 0, 0, 0.75);
+        outline: none;
+    }
 
 .window-bottom {
     position: relative;
@@ -96,48 +124,48 @@
     background: url(../images/window/bottom-middle.png) repeat-x;
 }
 
-.window-bottom:before {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 28px;
-    height: 49px;
-    content: url(../images/window/bottom-left.png);
-}
+    .window-bottom:before {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 28px;
+        height: 49px;
+        content: url(../images/window/bottom-left.png);
+    }
 
-.window-bottom:after {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 28px;
-    height: 49px;
-    content: url(../images/window/bottom-right.png);
-}
+    .window-bottom:after {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 28px;
+        height: 49px;
+        content: url(../images/window/bottom-right.png);
+    }
 
-.window-bottom button {
-    width: 105px;
-    height: 29px;
-    font-family: 'Cinzel', serif;
-    font-size: 11px;
-    color: #fff;
-    background: url(../images/window/btn.png) no-repeat 0 0;
-    border: none;
-    outline: none;
-}
+    .window-bottom button {
+        width: 105px;
+        height: 29px;
+        font-family: 'Cinzel', serif;
+        font-size: 11px;
+        color: #fff;
+        background: url(../images/window/btn.png) no-repeat 0 0;
+        border: none;
+        outline: none;
+    }
 
-.window-bottom button:disabled {
-    -webkit-filter: brightness(0.4);
-    filter: brightness(0.4);
-}
+        .window-bottom button:disabled {
+            -webkit-filter: brightness(0.4);
+            filter: brightness(0.4);
+        }
 
-.window-bottom button:not(:disabled) {
-    cursor: pointer;
-}
+        .window-bottom button:not(:disabled) {
+            cursor: pointer;
+        }
 
-.window-bottom button:hover:not(:disabled) {
-    background-position: 0 -29px;
-}
+        .window-bottom button:hover:not(:disabled) {
+            background-position: 0 -29px;
+        }
 
-.window-bottom button:active:not(:disabled) {
-    background-position: 0 -58px;
-}
+        .window-bottom button:active:not(:disabled) {
+            background-position: 0 -58px;
+        }

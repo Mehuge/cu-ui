@@ -29,7 +29,7 @@ var spellbooktour = {
             showNextButton: true,
             onShow: function () {
                 $('.animated').css({ 'margin-top': '-25px', 'opacity': '0' }).animate({ 'margin-top': '0', 'opacity': '1' }, 700);
-                Spellbook.$pages.turn('page', 1);
+                Spellbook.$pages.turn('page', 2);
                 console.log('PAGE: Abilities page');
             }
         },
@@ -88,6 +88,7 @@ var spellbooktour = {
             target: document.querySelector("#spellbook"),
             placement: "bottom",
             zindex: -9999,
+            xOffset: -9999,
             onShow: function () {
                 $('.hopscotch-bubble').css({ 'margin-top': '-25px', 'opacity': '0' });
                 Spellbook.$spellbook.fadeOut(() => {
@@ -98,9 +99,9 @@ var spellbooktour = {
                         setTimeout(() => {
                             Spellbook.$spellbook.css({ display: 'block' });
                         }, 100);
-                    } 
+                    }
                 });
-                
+
             }
         }
     ],
@@ -119,24 +120,24 @@ var spellbooktour = {
     },
     onNext: function () {
         $('.hopscotch-bubble').css({ 'margin-top': '-25px', 'opacity': '0' });
-    },
-    onClose: function () {
-        $('.hopscotch-bubble').css({ 'margin-top': '0', 'opacity': '1', 'display': 'none', 'visibility': 'hidden' }).animate({ 'margin-top': '-25px', 'opacity': '0' }, 700);
     }
 };
 
 
 function spellBookInitialize() {
     cuAPI.Listen("spellbookopen");
+    cuAPI.Listen("touruistart");
 
     cuAPI.OnEvent((event, data) => {
         if (event == "spellbookopen") {
             hopscotch.startTour(spellbooktour, 0);
             console.log("START: Start tour Spellbook");
-        } 
+        } else if (event == "touruistart") {
+            Spellbook.$btnHelp.click(function () {
+                cuAPI.Fire("spellbookopen")
+            });
+        }
     });
 };
 
 cu.OnInitialized(spellBookInitialize);
-
-Spellbook.$btnHelp.click(cuAPI.Fire("spellbookopen"));

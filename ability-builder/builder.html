@@ -8,12 +8,14 @@
     <link rel="stylesheet" href="../cu/window.css">
     <link rel="stylesheet" href="../ability-crafting/components.css">
     <link rel="stylesheet" href="builder.css">
+    <link rel="stylesheet" type="text/css" href="../tour/tour.css"> 
 </head>
 <body class="disable-selection simple-scrollbar">
     <div id="builder-wrapper">
         <div id="builder" class="window">
             <div class="window-top">
                 <div class="window-title">Ability Builder</div>
+                <button class="window-help">?</button>
                 <button class="window-close"></button>
             </div>
             <div class="window-middle">
@@ -47,7 +49,6 @@
     <div id="component-selection-modal" class="fifty-percent-zoom"></div>
     <script src="../vendor/jquery-2.1.1.js"></script>
     <script src="../vendor/lodash.js"></script>
-    <script src="../vendor/soundjs-0.6.0.min.js"></script>
     <script src="../cu/cu.js"></script>
     <script src="../ability-crafting/componentConstants.js"></script>
     <script src="../ability-crafting/componentNetwork.js"></script>
@@ -63,4 +64,6 @@
     <script src="../ability-crafting/networks/shoutNetwork.js"></script>
     <script src="../ability-crafting/networks/songNetwork.js"></script>
     <script src="builder.js"></script>
+    <script src="../vendor/hopscotch.js"></script>
+    <script src="../tour/buildertour.js"></script>
 </body>

@@ -202,8 +202,8 @@
     <Content Include="vendor\hopscotch.css" />
     <Content Include="vendor\hopscotch.js" />
     <Content Include="vendor\hopscotch.min.js" />
+    <Content Include="vendor\jquery-ui.css" />
     <Content Include="vendor\jquery-ui.min.js" />
-    <Content Include="vendor\soundjs-0.6.0.min.js" />
     <Content Include="vendor\turn.js" />
     <Content Include="cu\window.css" />
     <TypeScriptCompile Include="ability-training\network1.ts" />
@@ -584,7 +584,6 @@
     <TypeScriptCompile Include="vendor\lodash.d.ts" />
     <TypeScriptCompile Include="vendor\numeral.d.ts" />
     <TypeScriptCompile Include="vendor\promise.d.ts" />
-    <TypeScriptCompile Include="vendor\soundjs.d.ts" />
     <TypeScriptCompile Include="vendor\turn.d.ts" />
   </ItemGroup>
   <ItemGroup>

@@ -237,11 +237,31 @@ div.hopscotch-bubble .hopscotch-nav-button.next {
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
     background-color: #BC7128;
     background-image: -webkit-linear-gradient(top, rgba(47, 37, 24, 1) 0%, rgba(82, 63, 40, 1) 100%);
+    border-radius: inherit;
+    outline: none;
 }
 
     div.hopscotch-bubble .hopscotch-nav-button.next:hover {
         border-color: #000000;
         background-image: -webkit-linear-gradient(top, rgba(32, 25, 16, 1) 0%, rgba(50, 38, 24, 1) 100%);
+        outline: none;
+    }
+
+div.hopscotch-bubble .hopscotch-nav-button.prev {
+    border-color: #24190C;
+    color: #fff;
+    margin: 0 0 0 10px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.35);
+    background-color: #BC7128;
+    background-image: -webkit-linear-gradient(top, rgba(29, 23, 14, 1) 0%, rgba(56, 43, 26, 1) 100%);
+    border-radius: inherit;
+    outline: none;
+}
+
+    div.hopscotch-bubble .hopscotch-nav-button.prev:hover {
+        border-color: #000000;
+        background-image: -webkit-linear-gradient(top, rgba(32, 25, 16, 1) 0%, rgba(50, 38, 24, 1) 100%);
+        outline: none;
     }
 
 div.hopscotch-bubble {
@@ -268,7 +288,7 @@ div.hopscotch-bubble {
     }
 
     div.hopscotch-bubble .hopscotch-bubble-container {
-        padding: 25px !important;
+        padding: 25px 20px 15px 25px !important;
     }
 
     div.hopscotch-bubble .hopscotch-content {
@@ -300,10 +320,22 @@ div.hopscotch-bubble {
         height: 30px;
     }
 
-    div.hopscotch-bubble .hopscotch-bubble-close, div.hopscotch-bubble .hopscotch-bubble-number {
-        color: #000;
-        background: none;
+    div.hopscotch-bubble .hopscotch-bubble-close {
+        color: #33281A;
+        background: url(../images/window/btn-close.png) no-repeat center center;
+        -webkit-filter: sepia(1) saturate(100%) brightness(0.3);
+        opacity: .7 ;
+        font-size: 16px;
+        text-indent: -99999px;
+        width: 10px;
+        height: 18px;
+        cursor: pointer;
     }
+
+        div.hopscotch-bubble .hopscotch-bubble-close.hide,
+        div.hopscotch-bubble .hopscotch-bubble-close.hide-all {
+            display: none;
+        }
 
     div.hopscotch-bubble .hopscotch-bubble-arrow-container.up .hopscotch-bubble-arrow {
         position: relative;
@@ -361,83 +393,179 @@ div.hopscotch-bubble {
 
 /*  Overlay  */
 .overlaytour {
-	height:100%;
-	width:100%;
-	position: absolute;
-	overflow:hidden;
-	
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+    opacity: 0;
 }
-.overlaytour div{
-	 display:inline-block;
-	 vertical-align:top;
-	 margin-right:-4px;
-}
-.overlaytour .boxleft{
-	height: 100%;
-  width: 336px;
- 
-}
-.overlaytour .boxright{
-	height: 100%;
-	width: 100%;
-}
-.overlaytour .boxtop{
-	height: 215px;
-  width: 100%;
-	overflow: hidden;
-}
-.overlaytour .boxtop div{
-	display:inline-block;
-	margin-right:-4px;
-}
-.overlaytour .black{
-	background:rgba(0, 0, 0, .8);
-}
-.overlaytour .emptymap{
-	-webkit-box-shadow: inset 0px 0px 52px 45px rgba(0,0,0,.8);
-}
-.overlaytour .emptybar{
-	  -webkit-box-shadow: inset 0px -74px 60px 54px rgba(0,0,0,.8);
-}
-#box1{
-	width: 100%;
-	height: 234px;
-}
-#box2{
-	width: 100%;
-  height: 336px;
-}
-#box3{
-	width: 100%;
-  height: 100%;
-}
-#box4{  width: calc(50% - 250px);
-  height: 100%;
-}
-#box5{
-  width: 500px;
-  height: 100%;
-}
-#box6{
-	width: calc(50% - 250px);
-  height: 100%;
-}
-#box7{
-	height: 100%;
-  width: calc(100% - 336px);
-}
-.overlaytour span#minimap{
-        position: fixed;
-        top:200px;
-        left:20px;
+
+    .overlaytour div {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: -4px;
     }
-    .overlaytour span#points{
-        position: fixed;
-        top:10px;
-        left:20px;
+
+    .overlaytour .boxleft {
+        height: 100%;
+        width: 360px;
     }
-    .overlaytour span#time{
+
+    .overlaytour .boxright {
+        height: 100%;
+        width: 100%;
+    }
+
+    .overlaytour .boxtop {
+        height: 200px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+        .overlaytour .boxtop div {
+            display: inline-block;
+            margin-right: -4px;
+        }
+
+    .overlaytour .black {
+        background: rgba(0, 0, 0, .85);
+    }
+
+    .overlaytour .emptymap {
+        -webkit-box-shadow: inset -70px 0px 52px 45px rgba(0,0,0,.85);
+    }
+
+    .overlaytour .emptybar {
+        -webkit-box-shadow: inset 0px -74px 60px 54px rgba(0,0,0,.85);
+    }
+
+#box1 {
+    width: 100%;
+    margin-bottom: calc(1px - 0.5px);
+    height: calc(30% - 200px);
+}
+
+#box2 {
+    width: 360px;
+    height: 236px;
+}
+
+#box3 {
+    width: 100%;
+    height: 100%;
+}
+
+#box4 {
+    width: calc(50% - 250px);
+    height: 100%;
+}
+
+#box5 {
+    width: 500px;
+    height: 100%;
+}
+
+#box6 {
+    width: calc(50% - 250px);
+    height: 100%;
+}
+
+#box7 {
+    height: 100%;
+    width: calc(100% - 360px);
+}
+
+.overlaytour span {
+    color: #ccc2ae;
+    font-family: 'Cinzel';
+    letter-spacing: 1.5px;
+    font-size: 16px;
+}
+
+    .overlaytour span:after {
+        content: "";
+        position: absolute;
+        height: 5px;
+        border-left: 1px solid #d5cab3;
+        top: 0;
+        width: 25px;
+    }
+
+    .overlaytour span#minimap {
         position: fixed;
-        top:30px;
-        left:20px;
+        margin-top: -40px;
+        left: 80px;
+    }
+
+        .overlaytour span#minimap:after {
+            top: 25px;
+            border-left: 1px solid #d5cab3;
+            margin-left: -42px;
+            height: 25px;
+        }
+
+    .overlaytour span#points {
+        position: fixed;
+        margin-left: 170px;
+        top: 100px;
+    }
+
+        .overlaytour span#points:after {
+            -webkit-transform: rotate(180deg);
+            height: 10px;
+            border-top: 1px solid #d5cab3;
+            border-left: 1px solid #d5cab3;
+            border-right: 1px solid #d5cab3;
+            top: -15px;
+            margin-left: -212px;
+            width: 255px;
+        }
+
+    .overlaytour span#time {
+        position: fixed;
+        top: 80px;
+        margin-left: 430px;
+    }
+
+        .overlaytour span#time:after {
+            border-left: 1px solid #d5cab3;
+            border-top: none;
+            top: -30px;
+            margin-left: -180px;
+            height: 25px;
+        }
+
+.overlaytour #controlpoint {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    display: block;
+    border: 2px solid #d5cab3;
+    border-radius: 50px;
+    opacity: 0;
+    margin-left: 190px;
+    margin-top: 56px;
+}
+
+    .overlaytour #controlpoint:before {
+        content: "";
+        position: absolute;
+        height: 5px;
+        border-top: 1px solid #ccc2ae;
+        top: 0;
+        width: 35px;
+        margin-top: 15px;
+        margin-left: 40px;
+    }
+
+    .overlaytour #controlpoint:after {
+        content: "Control Point";
+        font-size: 16px;
+        color: #ccc2ae;
+        display: block;
+        width: 150px;
+        font-family: 'Cinzel';
+        letter-spacing: 1.5px;
+        margin-left: 85px;
+        margin-top: 5px;
     }

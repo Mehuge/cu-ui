@@ -3,7 +3,6 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /// <reference path="../vendor/jquery.d.ts" />
-/// <reference path="../vendor/soundjs.d.ts" />
 
 module Spellbook {
     /* Constants */
@@ -54,24 +53,6 @@ module Spellbook {
     var isShowingComponentPagesModal = false;
 
     var lastVisitedPage = 2;
-
-    /* Audio */
-    var soundOpenSpellbookID = "UI_SpellBook_Open";
-    var soundCloseSpellbookID = "UI_SpellBook_Putaway";
-    var soundPageFlipForwardID = "UI_SpellBook_PageFlip_Forward";
-    var soundPageFlipBackID = "UI_SpellBook_PageFlip_Backward";
-
-
-    function loadSound() {
-        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_Open.ogg", soundOpenSpellbookID);
-        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_Putaway.ogg", soundCloseSpellbookID);
-        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_PageFlip_Forward.ogg", soundPageFlipForwardID);
-        createjs.Sound.registerSound("../audio/spellbook/UI_SpellBook_PageFlip_Backward.ogg", soundPageFlipBackID);
-    }
-
-    function playSound(soundID: string) {
-        createjs.Sound.play(soundID);
-    }
 
     /* Functions */
 
@@ -1096,7 +1077,7 @@ module Spellbook {
             }
         });
 
-        playSound(soundCloseSpellbookID);
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_SPELLBOOK_PUTAWAY);
         return false;
     }
 
@@ -1206,9 +1187,9 @@ module Spellbook {
                     if (page == 1) event.preventDefault();
 
                     if (page > lastVisitedPage) {
-                        playSound(soundPageFlipForwardID);
+                        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_SPELLBOOK_PAGEFLIP_FORWARD);
                     } else if (page < lastVisitedPage) {
-                        playSound(soundPageFlipBackID);
+                        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_SPELLBOOK_PAGEFLIP_BACKWARD);
                     }
                     lastVisitedPage = page;
 
@@ -1384,9 +1365,6 @@ module Spellbook {
     }
 
     function initialize() {
-
-        // Load sounds
-        loadSound();
 
         $(document).click(hideSearch);
 
