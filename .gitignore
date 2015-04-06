@@ -10,6 +10,7 @@ node_modules/
 .tscache/
 !GruntFile.js
 !/vendor/*.js
+UI.csproj.user
 // vv-- Mehuge UI stuff below 
 announcer/*.ogg
 !/mehuge-bct/bct.js
