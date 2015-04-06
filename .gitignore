@@ -20,3 +20,4 @@ announcer/*.ogg
 !/mehuge-web/*.js
 !/mehuge-chat/chat-config*.js
 !/mehuge-combatlog/combatlog.js
+!/mehuge/basic-promise.js

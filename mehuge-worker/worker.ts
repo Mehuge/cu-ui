@@ -1,44 +1,33 @@
-﻿module MehugeWorker {
+﻿
+module MehugeWorker {
+    var modules = {}, init = false;
 
-    var abilities : any[] = [];
+    // Allow modules to register themselves with the worker.
+    export function registerModule(name: string, mod: any) {
+        modules[name] = mod;
+        if (init) mod.start(MehugeWorker);
+    };
 
-    function _findAbilityById(abilityID: string) : number {
-        for (var i: number = 0; i < abilities.length; i++) {
-            if (abilities[i].id === abilityID) return i;
-        }
-        return null;
+    // listen for worker events
+    export function on(topic: string, handler: (...data: any[]) => void) {
+        MehugeEvents.sub(topic, handler);
     }
 
+    export function fire(topic, ...data: any[]) {
+        MehugeEvents.pub(topic, data);
+    }
+
+    // Initialise the modules
     function _init() {
-
-        cuAPI.OnAbilityCreated((abilityID: string, ability: string) => {
-            var i: number = _findAbilityById(abilityID),
-                o = JSON.parse(ability);
-            o.id = abilityID;
-            if (i !== null) {
-                abilities[i] = o;
-            } else {
-                abilities.push(o);
+        for (var mod in modules) {
+            if (modules.hasOwnProperty(mod)) {
+                modules[mod].start(MehugeWorker);
             }
-        });
-
-        cuAPI.OnAbilityDeleted((abilityID: string) => {
-            var i: number = _findAbilityById(abilityID);
-            if (i !== null) {
-                abilities.splice(i, 1);
-            }
-        });
+        }
+        init = true;
     }
 
-    function _sortAbilities(a: any, b: any): number {
-        return a.id < b.id ? -1 : a.id > b.id ? 1 : 0;
-    }
-
-    export function getAbilities (): any[] {
-        abilities.sort(_sortAbilities);
-        return abilities;
-    }
-
+    // Bootstrap
     if (typeof cuAPI !== "undefined") {
         cuAPI.OnInitialized(() => {
             _init();
