@@ -67,6 +67,8 @@
 #chat>#history .entry {
     padding-left: 0.5em;
     padding-right: 0.5em;
+    word-wrap: break-word;
+    white-space: pre;
 }
 #chat>#history .room {
     min-width: 4em;
