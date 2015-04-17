@@ -3,9 +3,9 @@
 	"name" : "mehuge-lb",
 	"mainFile" : "mehuge-lb/lb3.html",
 	"rect" : {
-		"left" : 900,
+		"left" : 1077,
 		"top" : 0,
-		"right" : 1096,
+		"right" : 1286,
 		"bottom" : 200
 	}
 }

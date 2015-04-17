@@ -3,10 +3,10 @@
 	"name": "mehuge-perf",
 	"mainFile": "mehuge-perf/perf.html",
 	"rect": {
-		"left": 1100,
-		"top": 25,
+		"left": 1000,
+		"top": 205,
 		"right": 1440,
-		"bottom": 190
+		"bottom": 380
 	},
 	"handlesEnemyTarget": true,
 	"handlesInput": true,
