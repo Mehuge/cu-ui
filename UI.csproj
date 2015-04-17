@@ -666,6 +666,9 @@
     <Content Include="audio\ability-builder\UI_AbilityCrafting_Build_v1_05.ogg" />
     <Content Include="audio\ability-builder\UI_AbilityCrafting_SidePanel_Open_v1_01.ogg" />
     <Content Include="tour.ui" />
+    <Content Include="mehuge-loic.ui" />
+    <Content Include="mehuge-tweaks.ui" />
+    <Content Include="mehuge-worker.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
