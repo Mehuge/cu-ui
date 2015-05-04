@@ -189,6 +189,8 @@
     <Content Include="mehuge-combatlog\combatlog.html" />
     <Content Include="mehuge-combatlog\combatlog.js" />
     <Content Include="mehuge-pop\bg-small.png" />
+    <Content Include="mehuge-reticle\reticle.css" />
+    <Content Include="mehuge-reticle\reticle.html" />
     <Content Include="mehuge-worker\worker.css" />
     <Content Include="mehuge-worker\worker.html" />
     <Content Include="mehuge\basic-promise.js" />
@@ -669,6 +671,7 @@
     <Content Include="mehuge-loic.ui" />
     <Content Include="mehuge-tweaks.ui" />
     <Content Include="mehuge-worker.ui" />
+    <Content Include="mehuge-reticle.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>

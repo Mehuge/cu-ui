@@ -17,7 +17,7 @@ module MehugeRest {
                 }
             }
             return {
-                host: (server === "Hatchery" ? "chat" : server.toLowerCase()) + "." + domain
+                host: (server === "Hatchery" ? "hatchery" : server.toLowerCase()) + "." + domain
             };
         }
         return {
