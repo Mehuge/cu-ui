@@ -1,0 +1,25 @@
+﻿<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<head>
+    <title>Target</title>
+    <link rel="stylesheet" type="text/css" href="../cu/cu.css">
+    <link rel="stylesheet" type="text/css" href="target.css">
+</head>
+<body class="disable-selection default-cursor">
+    <div id="target">
+        <div id="name"></div>
+        <div id="health-bar"></div>
+        <div id="health-text"></div>
+        <div id="energy-bar"></div>
+        <div id="energy-text"></div>
+        <div id="effects"></div>
+    </div>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../vendor/lodash.js"></script>
+    <script src="../cu/cu.js"></script>
+    <script src="target.js"></script>
+    <script>
+        var target = new Target();
+    </script>
+</body>

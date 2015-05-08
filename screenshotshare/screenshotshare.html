@@ -1,0 +1,29 @@
+﻿<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<head>
+    <title>Share Screenshot</title>
+    <link rel="stylesheet" href="../cu/cu.css">
+    <link rel="stylesheet" href="screenshotshare.css">
+    <link rel="stylesheet" href="../cu/window.css">
+</head>
+<body class="disable-selection simple-scrollbar">
+    <div id="share-window" class="window">
+        <div class="window-top">
+            <div class="window-title">Share Screenshot</div>
+            <div class="window-close"></div>
+        </div>
+        <div class="window-middle">
+            <img id="screenshot-image" />
+            <iframe id="fb-frame" src="http://camelotunchained.com/fb/FacebookScreenshot.html" frameborder="0"></iframe>
+        </div>
+        <div class="window-bottom">
+            <button id="btn-facebook">Post To FB</button>
+            <button id="btn-twitter">Post To Twitter</button>
+        </div>
+    </div>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../vendor/lodash.js"></script>
+    <script src="../cu/cu.js"></script>
+    <script src="screenshotshare.js"></script>
+</body>

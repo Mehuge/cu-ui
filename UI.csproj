@@ -61,7 +61,12 @@
     <Content Include="bandage\bandage.html" />
     <Content Include="cubechat\cubechat.css" />
     <Content Include="cubechat\cubechat.html" />
+    <Content Include="cubewatermark\cubewatermark.css" />
+    <Content Include="cubewatermark\cubewatermark.html" />
     <Content Include="cu\fonts.css" />
+    <Content Include="Facebook Links\FacebookScreenshot.css" />
+    <Content Include="Facebook Links\FacebookScreenshot.html" />
+    <Content Include="Facebook Links\FacebookScreenshot.js" />
     <Content Include="images\ability-crafting\ability-icon-transparent-bg.png" />
     <Content Include="images\blockselector\select-block.jpg" />
     <Content Include="images\buildactions\add.png" />
@@ -76,7 +81,6 @@
     <Content Include="images\components\ind-frame.png" />
     <Content Include="images\components\opt-Acceleration.png" />
     <Content Include="images\components\opt-AncientSkull.png" />
-    <Content Include="images\components\opt-close.png" />
     <Content Include="images\components\opt-Conservation.png" />
     <Content Include="images\components\opt-CrazyBat.png" />
     <Content Include="images\components\opt-DemonicSigil.png" />
@@ -89,7 +93,6 @@
     <Content Include="images\components\opt-extended.png" />
     <Content Include="images\components\opt-Extension.png" />
     <Content Include="images\components\opt-far.png" />
-    <Content Include="images\components\opt-fast.png" />
     <Content Include="images\components\opt-Fatigue.png" />
     <Content Include="images\components\opt-FlawedCrystal.png" />
     <Content Include="images\components\opt-frame.png" />
@@ -99,10 +102,12 @@
     <Content Include="images\components\opt-LivingTwig.png" />
     <Content Include="images\components\opt-MagicHourglass.png" />
     <Content Include="images\components\opt-massive.png" />
+    <Content Include="images\components\opt-near.png" />
     <Content Include="images\components\opt-NecroticHand.png" />
     <Content Include="images\components\opt-Persistence.png" />
-    <Content Include="images\components\opt-power.png" />
+    <Content Include="images\components\opt-powerful.png" />
     <Content Include="images\components\opt-Precision.png" />
+    <Content Include="images\components\opt-quick.png" />
     <Content Include="images\components\opt-Reduction.png" />
     <Content Include="images\components\opt-RubberDuck.png" />
     <Content Include="images\components\opt-Severity.png" />
@@ -153,6 +158,7 @@
     <Content Include="images\components\sec-wall.png" />
     <Content Include="images\components\sec-wave.png" />
     <Content Include="images\components\spe-frame.png" />
+    <Content Include="images\cubewatermark\cubewatermark.png" />
     <Content Include="images\minimap\alpha-map_02.png" />
     <Content Include="images\minimap\duck-mid.png" />
     <Content Include="images\minimap\duck-zone.png" />
@@ -161,6 +167,7 @@
     <Content Include="images\minimap\player-dead.png" />
     <Content Include="images\minimap\player.png" />
     <Content Include="images\minimap\zone.png" />
+    <Content Include="images\screenshotbutton\building-camera-icon.png" />
     <Content Include="images\skills\bandage.png" />
     <Content Include="images\skills\cast-b.jpg" />
     <Content Include="images\skills\cast-g.jpg" />
@@ -205,6 +212,10 @@
     <Content Include="vendor\hopscotch.js" />
     <Content Include="vendor\hopscotch.min.js" />
     <Content Include="vendor\jquery-ui.css" />
+    <Content Include="screenshotbutton\screenshotbutton.css" />
+    <Content Include="screenshotbutton\screenshotbutton.html" />
+    <Content Include="screenshotshare\screenshotshare.css" />
+    <Content Include="screenshotshare\screenshotshare.html" />
     <Content Include="vendor\jquery-ui.min.js" />
     <Content Include="vendor\turn.js" />
     <Content Include="cu\window.css" />
@@ -517,6 +528,8 @@
     <TypeScriptCompile Include="mehuge\mehuge-events.ts" />
     <TypeScriptCompile Include="mehuge\mehuge-rest.ts" />
     <TypeScriptCompile Include="physhud\physhud.ts" />
+    <TypeScriptCompile Include="screenshotbutton\screenshotbutton.ts" />
+    <TypeScriptCompile Include="screenshotshare\screenshotshare.ts" />
     <TypeScriptCompile Include="shared\chatlib.ts" />
     <TypeScriptCompile Include="controlgame\controlgame.ts" />
     <TypeScriptCompile Include="cu\fake-cuAPI.ts" />
@@ -668,6 +681,9 @@
     <Content Include="audio\ability-builder\UI_AbilityCrafting_Build_v1_05.ogg" />
     <Content Include="audio\ability-builder\UI_AbilityCrafting_SidePanel_Open_v1_01.ogg" />
     <Content Include="tour.ui" />
+    <Content Include="screenshotbutton.ui" />
+    <Content Include="screenshotshare.ui" />
+    <Content Include="cubewatermark.ui" />
     <Content Include="mehuge-loic.ui" />
     <Content Include="mehuge-tweaks.ui" />
     <Content Include="mehuge-worker.ui" />
@@ -689,7 +705,6 @@
   <ItemGroup>
     <Reference Include="System.Data" />
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

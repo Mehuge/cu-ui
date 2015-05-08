@@ -312,7 +312,7 @@ var physical10 = new ComponentSlot({
 
 var physical9 = new ComponentSlot({
     type: ComponentType.Secondary,
-    subType: ComponentSubType.DeadSecondary,
+    subType: ComponentSubType.DeadSecondary, // Style,
     x: 22,
     y: 5,
     children: [physical17, physical18, physical19, physical21],
@@ -427,7 +427,7 @@ var physical4 = new ComponentSlot({
 
 var physical3 = new ComponentSlot({
     type: ComponentType.Primary,
-    subType: ComponentSubType.DeadPrimary,
+    subType: ComponentSubType.DeadPrimary, // Weapon,
     x: 6,
     y: 15,
     children: [physical7, physical8],

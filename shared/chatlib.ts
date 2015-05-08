@@ -310,13 +310,17 @@ module ChatLib {
         setTextEntryMode(cmdKind);
     }
 
-    function onConsoleText(output) {
+    export function onConsoleText(output, room = null) {
+        var theRoom = getRoom(room);
+        if (theRoom == null || typeof(theRoom) == 'undefined') {
+            theRoom = selectedRoom;
+        }
         var lines = output.split(/[\r\n]+/);
         var len = lines.length;
         messageBufferSize = Math.max(minMessageBufferSize, messageBufferSize + len - 2);
         for (var i = 0; i < len; ++i) {
             var $command = $('<div>').text(lines[i]).addClass('console-body output');
-            appendChat(selectedRoom, $command, null, null);
+            appendChat(theRoom, $command, null, null);
         }
     }
 
@@ -328,22 +332,31 @@ module ChatLib {
         // Make sure we've got jQuery.terminal (for command processing)
         if (typeof $.terminal == 'undefined') return false;
 
-        // If we don't have a leading slash or we held shift while sending the command,
-        // we just send a chat message to the default channel (global for now)
-        if (input.substring(0, 1) != '/' || event.shiftKey) {
-            var room = selectedRoom;
-            if (!room) {
-                room = cu.GLOBAL_CHATROOM_NAME;
+        // If we have a leading slash and didn't hold shift while sending the command,
+        // try to process it as a command.
+        if (input.substring(0, 1) == '/' && !event.shiftKey) {
+            var processed = $.terminal.parseCommand(input);
+            var commandHandler = getSlashCommandHandler(processed.name.substring(1));
+            if (commandHandler && commandHandler(processed, input)) {
+                return true;
             }
-            cu.SendChat(XmppMessageType.GROUPCHAT, room + '@' + cu.CHAT_SERVICE, input);
-            return true;
+            // Command wasn't handled.  Send command to server instead.
+            if (cu.HasAPI()) {
+                // If text is just a command, then rest includes the whole command. We want that empty.
+                var rest = processed.rest;
+                if (rest == processed.name) rest = "";
+                cuAPI.SendSlashCommand(processed.name.substring(1).toLowerCase(), rest);
+                return true;
+            }
         }
 
-        var processed = $.terminal.parseCommand(input);
-
-        var commandHandler = getSlashCommandHandler(processed.name.substring(1));
-
-        return commandHandler ? commandHandler(processed, input) : false;
+        // Send a chat message to the default channel (global for now)
+        var room = selectedRoom;
+        if (!room) {
+            room = cu.GLOBAL_CHATROOM_NAME;
+        }
+        cu.SendChat(XmppMessageType.GROUPCHAT, room + '@' + cu.CHAT_SERVICE, input);
+        return true;
     }
 
     var slashCommands = {};

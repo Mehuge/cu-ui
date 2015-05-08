@@ -179,7 +179,7 @@ var magic5 = new ComponentSlot({
 
 var magic4 = new ComponentSlot({
     type: ComponentType.Primary,
-    subType: ComponentSubType.Rune,
+    subType: ComponentSubType.DeadPrimary, //Rune,
     x: 6,
     y: 15,
     children: [magic5, magic6],

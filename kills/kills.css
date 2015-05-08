@@ -1,0 +1,47 @@
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#kills {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+}
+
+#close {
+    position: absolute;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    text-align: center;
+}
+
+.kill {
+    position: relative;
+    text-align: center;
+}
+
+.viking {
+    background-color: blue;
+}
+
+.tdd {
+    background-color: green;
+}
+
+.arthurian {
+    background-color: red;
+}

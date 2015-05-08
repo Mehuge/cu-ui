@@ -1,0 +1,19 @@
+﻿body {
+}
+
+#screenshot-image {
+    width: 360px;
+    height: 225px;
+}
+
+#fb-frame {
+    width: 250px;
+    height: 85px;
+}
+
+#btn-facebook {
+    font-size: 10px;
+}
+#btn-twitter {
+    font-size: 10px;
+}

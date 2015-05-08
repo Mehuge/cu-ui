@@ -1,0 +1,78 @@
+﻿.maxHPBar {
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    width: 100px;
+    height: 20px;
+    background-color: black;
+}
+
+.hpBar {
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    width: 100px;
+    height: 20px;
+    background-color: red;
+}
+
+.hpPct {
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    width: 100px;
+    height: 20px;
+    text-align: center;
+    color: white;
+}
+
+.perfContainer {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.perfHud {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 200px;
+    height: 40px;
+}
+
+.raceCounts {
+    position: absolute;
+    bottom: 40px;
+    RIGHT: 0px;
+    width: 100px;
+    height: 30px;
+}
+
+.toggleButton {
+    position: absolute;
+    top: 0;
+    RIGHT: 0px;
+    width: 80px;
+    height: 20px;
+    background-color: white;
+    text-align: center;
+}
+
+.chatWindow {
+    position: absolute;
+    top: 0;
+    RIGHT: 0px;
+    width: 500px;
+    height: 300px;
+    display: none;
+}
+
+.cuWindow {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    display: none;
+}

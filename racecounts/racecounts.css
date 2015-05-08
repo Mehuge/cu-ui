@@ -1,0 +1,14 @@
+﻿.raceCountsContainer {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.raceCounts {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 100px;
+    height: 80px;
+}

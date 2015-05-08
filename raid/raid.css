@@ -1,0 +1,67 @@
+﻿div.raidMember {
+    background-image: url('../images/raid/bar_raidmember_plate.png');
+    width: 174px;
+    height: 24px;
+    position: absolute;
+}
+
+div.healthBar {
+    background-image: url('../images/raid/bar_raidmember_health.png');
+    width: 102px;
+    height: 10px;
+    position: absolute;
+    top: 11px;
+    left: 68px;
+}
+
+div.name {
+    position: absolute;
+    top: 6px;
+    width: 55px;
+    left: 8px;
+    height: 11px;
+    font-family: "Arial", Arial, Sans-serif;
+    color: #00FF00;
+    white-space: nowrap;
+    font-size: 50%;
+}
+
+div#raidMember0 {
+    top: 0;
+    left: 0;
+}
+
+div#raidMember1 {
+    top: 25px;
+    left: 0;
+}
+
+div#raidMember2 {
+    top: 50px;
+    left: 0;
+}
+
+div#raidMember3 {
+    top: 75px;
+    left: 0;
+}
+
+div#raidMember4 {
+    top: 0;
+    left: 175px;
+}
+
+div#raidMember5 {
+    top: 25px;
+    left: 175px;
+}
+
+div#raidMember6 {
+    top: 50px;
+    left: 175px;
+}
+
+div#raidMember7 {
+    top: 75px;
+    left: 175px;
+}

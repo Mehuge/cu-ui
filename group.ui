@@ -1,0 +1,10 @@
+{
+	"name" : "group",
+	"mainFile" : "group/group.html",
+	"rect" : {
+		"left" : 20,
+		"top" : 150,
+		"right" : 210,
+		"bottom" : 350
+	}
+}

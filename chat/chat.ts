@@ -19,8 +19,18 @@ module Chat {
         //ChatLib.connect(cuAPI.loginToken);
     }
 
+    function onAnnouncement(message, type) {
+        // Only handle text announcements here.
+        if (type == Announcement.AnnouncementType.Text) {
+            ChatLib.onConsoleText(message, cu.GLOBAL_CHATROOM_NAME);
+        }
+    }
+
     // START
     cu.OnInitialized(() => {
         initialize();
+        if (cu.HasAPI()) {
+            cuAPI.OnAnnouncement(onAnnouncement);
+        }
     });
 }

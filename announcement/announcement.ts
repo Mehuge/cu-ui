@@ -5,7 +5,15 @@
 /// <reference path="../vendor/jquery.d.ts" />
 /// <reference path="../cu/cu.ts" />
 
+// Keep in sync with enum on the server in Network/UserConnection.cs
+
 module Announcement {
+    export enum AnnouncementType {
+        Text = 0,       // In the chat window.
+        Notice = 1,     // At the top.
+        Vital = 2       // In the middle.
+    }
+
     var $announcement = cu.FindElement('#announcement');
     var $message = cu.FindElement('#message');
 
@@ -13,7 +21,14 @@ module Announcement {
 
     $announcement.click(hide);
 
-    function show(message, type) {
+    function onAnnouncement(message, type) {
+        // Text should be handled by chat.
+        if (type != AnnouncementType.Text) {
+            show(message);
+        }
+    }
+
+    function show(message) {
         resetTimeout();
 
         $message[message.length < 20 ? 'addClass' : 'removeClass']('large').html(message);
@@ -39,6 +54,6 @@ module Announcement {
     }
 
     if (cu.HasAPI()) {
-        cuAPI.OnAnnouncement(show);
+        cuAPI.OnAnnouncement(onAnnouncement);
     }
 }
