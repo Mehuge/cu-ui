@@ -1,6 +1,6 @@
-﻿ /* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+* License, v. 2.0. If a copy of the MPL was not distributed with this
+* file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 /// <reference path="../vendor/jquery.d.ts" />
 /// <reference path="../vendor/jquery.terminal.d.ts" />
@@ -312,7 +312,7 @@ module ChatLib {
 
     export function onConsoleText(output, room = null) {
         var theRoom = getRoom(room);
-        if (theRoom == null || typeof(theRoom) == 'undefined') {
+        if (theRoom == null || typeof (theRoom) == 'undefined') {
             theRoom = selectedRoom;
         }
         var lines = output.split(/[\r\n]+/);
@@ -375,6 +375,21 @@ module ChatLib {
         }
         return null;
     }
+
+    addSlashCommand('droplight', 'drop a light at your location, options: (colors are 0-255) droplight <intensity> <radius> <red> <green> <blue>', (processed) => {
+        var intensity = processed.args.length >= 0 ? processed.args[0] : 1;
+        var radius = processed.args.length > 1 ? processed.args[1] : 20;
+        var red = processed.args.length > 2 ? processed.args[2] : 100;
+        var green = processed.args.length > 3 ? processed.args[3] : 100;
+        var blue = processed.args.length > 4 ? processed.args[4] : 100;
+        cuAPI.DropLight(intensity, radius, red, green, blue);
+        return true;
+    });
+
+    addSlashCommand('resetlights', 'removes all dropped lights from the world.', () => {
+        cuAPI.ResetLights();
+        return true;
+    });
 
     addSlashCommand('help', 'show available slash commands', () => {
         _.each(slashCommands, (command: any, name: string) => {
@@ -492,6 +507,11 @@ module ChatLib {
 
     addSlashCommand('zone', 'changes zone', (processed) => {
         cuAPI.ChangeZone(parseInt(processed.args[0]));
+        return true;
+    });
+
+    addSlashCommand('togglecamera', 'toggles camera mode', (processed) => {
+        cuAPI.ToggleCamera();
         return true;
     });
 

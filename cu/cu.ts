@@ -1977,9 +1977,13 @@ interface CUInGameAPI {
     serverTime: number;
     vsync: number;
 
+    DropLight(intensity: number, radius: number, red: number, green: number, blue: number): void;
+    ResetLights():void;
+
     OnServerConnected(c: (isConnected: boolean) => void): number;
     CancelOnServerConnected(c: number): void;
     PlaySoundEvent(id: number): void;
+    ToggleCamera(): void;
     OpenUI(name: string): void;
     CloseUI(name: string): void;
     HideUI(name: string): void;
