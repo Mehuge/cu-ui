@@ -1,0 +1,4 @@
+﻿label { font-size: 10px; color: silver; font-weight: bold; }
+#drop, #reset { cursor: pointer; font-size: 10px; line-height: 10px; height: 16px; vertical-align: middle; }
+input { height: 12px; border: 1px solid #f0f0f0; width: 3em; text-align: center; font-size: 10px; vertical-align: middle; }
+#color { display: inline-block; width: 16px; height: 14px; vertical-align: middle; border: 1px solid black; }
