@@ -91,10 +91,16 @@ module Chat {
     };
     slash["zone"] = {
         help: "Gets your character unstuck",
-        handler: function (name: string, args: string[]) {
+        handler: function (name: string, args: any[]) {
             if (args.length) {
-                cuAPI.ChangeZone(parseInt(args[0]));
+                cuAPI.ChangeZone(args[0]|0);
             }
+        }
+    };
+    slash["togglecamera"] = {
+        help: "toggles camera mode",
+        handler: function (name: string, args: string[]) {
+            cuAPI.ToggleCamera();
         }
     };
     slash["crashthegame"] = {
@@ -133,6 +139,25 @@ module Chat {
             cuAPI.Emote(4);
         }
     };
+    slash["droplight"] = {
+        help: "drop a light at your location, options: (colors are 0-255) droplight <intensity> <radius> <red> <green> <blue>",
+        handler: function (name: string, args: any[]) {
+            var intensity : number = args.length >= 0 ? args[0] : 1;
+            var radius: number = args.length > 1 ? args[1] : 20;
+            var red: number = args.length > 2 ? args[2] : 100;
+            var green: number = args.length > 3 ? args[3] : 100;
+            var blue: number = args.length > 4 ? args[4] : 100;
+            cuAPI.DropLight(intensity, radius, red, green, blue);
+        }
+    };
+
+    slash['resetlights'] = {
+        help: 'removes all dropped lights from the world.',
+        handler: function (name: string, args: string[]) {
+            cuAPI.ResetLights();
+        }
+    };
+
     slash["join"] = {
         help: "join a chat channel",
         handler: function (name: string, args: string[]) {
