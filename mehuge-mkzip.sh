@@ -65,6 +65,7 @@ done <<-EOF
 	mehuge-perf.zip 	mehuge-perf 		mehuge-perf.ui		vendor/flot
 	mehuge-pop.zip 		mehuge-pop 		mehuge-pop.ui		vendor/cu-rest
 	mehuge-tweaks.zip 	mehuge-tweaks 		mehuge-tweaks.ui
+	mehuge-lights.zip 	mehuge-lights 		mehuge-lights.ui
 EOF
 
 mv mehuge-full.zip /d/Dropbox/Public

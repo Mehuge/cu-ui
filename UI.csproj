@@ -191,6 +191,8 @@
     <Content Include="images\skills\shower.jpg" />
     <Content Include="images\skills\status-Fatigue.jpg" />
     <Content Include="images\skills\water-Cone.jpg" />
+    <Content Include="mehuge-lights\lights.css" />
+    <Content Include="mehuge-lights\lights.html" />
     <Content Include="mehuge-loic\loic.html" />
     <Content Include="images\spellbook\btn-delete.png" />
     <Content Include="mehuge-combatlog\combatlog.css" />
@@ -241,6 +243,7 @@
     <TypeScriptCompile Include="mehuge-announcer\announcer.ts" />
     <TypeScriptCompile Include="mehuge-chat\chat.ts" />
     <TypeScriptCompile Include="mehuge-group\group.ts" />
+    <TypeScriptCompile Include="mehuge-lights\lights.ts" />
     <TypeScriptCompile Include="mehuge-worker\modules\abilities.ts" />
     <TypeScriptCompile Include="mehuge-worker\worker.ts" />
     <TypeScriptCompile Include="mehuge\mehuge-chat.ts" />
@@ -692,6 +695,7 @@
     <Content Include="mehuge-worker.ui" />
     <Content Include="mehuge-reticle.ui" />
     <Content Include="reticle.ui" />
+    <Content Include="mehuge-lights.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
