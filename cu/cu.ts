@@ -22,7 +22,7 @@ enum Race {
     Golem = 10,
     //Gargoyle = 11
 
-    StormRiderA = 12,
+    StormRider = 12,
     StormRiderT = 13,
     StormRiderV = 14
 }
@@ -1300,6 +1300,12 @@ class CU {
         }
     }
 
+    public RemoveIslands(): void {
+        if (cu.HasAPI()) {
+            cuAPI.RemoveIslands();
+        }
+    }
+
     public BlockFlipX(): void {
         if (cu.HasAPI()) {
             cuAPI.BlockFlipX();
@@ -2071,6 +2077,7 @@ interface CUInGameAPI {
     BlockRotateX(): void;
     BlockRotateY(): void;
     BlockRotateZ(): void;
+    RemoveIslands(): void;
     BlockFlipX(): void;
     BlockFlipY(): void;
     BlockFlipZ(): void;

@@ -4,13 +4,14 @@
 module ScreenshotShare {
     var $fbShareButton = $('#btn-facebook');
     var fbFrame: any = document.getElementById('fb-frame');
+    var twitterFrame: any = document.getElementById('twitter-frame');
     var imageData;
     var img: any = document.getElementById('screenshot-image');
     var isLoaded = false;
     var $btnClose = $('.window-close');
-    var $btnTwitter = $('#btn-twitter');
-    $btnTwitter.prop('disabled', true);
-    
+    var $twitterShareButton = $('#btn-twitter');
+    $twitterShareButton.prop('disabled', true);
+    var statusMessage = document.getElementById('status-message');
 
     function hideScreenshotShare(e) {
         if (e) {
@@ -32,9 +33,26 @@ module ScreenshotShare {
         return false;
     }
 
+    var $btnTwitterLogin = $('#btn-twitter-login');
+
+    $btnTwitterLogin.click(function () {
+        twitterFrame.contentWindow.postMessage("Signin", 'http://camelotunchained.com');
+    });
+
     $btnClose.click(hideScreenshotShare);
 
-    
+    $twitterShareButton.click(() => {
+        if (isLoaded) {
+            var canvas: any = document.createElement('canvas');
+            canvas.width = 1080;
+            canvas.height = 675;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            var dataUrl = canvas.toDataURL('image/png');
+            twitterFrame.contentWindow.postMessage({ image: dataUrl, message: $('#user-text').val() }, 'http://camelotunchained.com');
+            $twitterShareButton.prop('disabled', true);
+        }
+    });
 
     $fbShareButton.click(() => {
         // access the raw image data
@@ -45,11 +63,8 @@ module ScreenshotShare {
             var ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0);
             var dataUrl = canvas.toDataURL('image/png');
-            fbFrame.contentWindow.postMessage(dataUrl, 'http://camelotunchained.com');
+            fbFrame.contentWindow.postMessage({ image: dataUrl, message: $('#user-text').val() }, 'http://camelotunchained.com');
             $fbShareButton.prop('disabled', true);
-            setTimeout(() => {
-                $fbShareButton.prop('disabled', false);
-            }, 10000);
         }
     });
 
@@ -69,4 +84,40 @@ module ScreenshotShare {
             isLoaded = true;
         }
     });
+
+    function enablePost(evt) {
+        var target = evt.data;
+        if (target === "Twitter") {
+            console.log("Twitter Login Successful!");
+            $twitterShareButton.prop('disabled', false);
+            $btnTwitterLogin.css('display', 'none');
+        } else if (target === "Facebook") {
+            console.log("Facebook Login Successful!");
+            $fbShareButton.prop('disabled', false);
+        } else if (target === "Success") {
+            console.log("Post successful!");
+            statusMessage.innerText = "Post successful!";
+            setTimeout(function () {
+                statusMessage.innerText = "";
+            }, 5000);
+            $fbShareButton.prop('disabled', false);
+            $twitterShareButton.prop('disabled', false);
+        } else if (target === "Failure") {
+            console.log("Post failed.");
+            statusMessage.innerText = "Post failed.";
+            setTimeout(function () {
+                statusMessage.innerText = "";
+            }, 5000);
+            $fbShareButton.prop('disabled', false);
+            $twitterShareButton.prop('disabled', false);
+        }
+    }
+
+    if (window.addEventListener) {
+        // For standards-compliant web browsers
+        window.addEventListener("message", enablePost, false);
+    }
+    else {
+        window.attachEvent("onmessage", enablePost);
+    }
 }
