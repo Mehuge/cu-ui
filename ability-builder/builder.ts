@@ -1194,8 +1194,7 @@ module AbilityBuilder {
                     span = '<span class="' + getStatChangeClass(change, stat.valType) + useMajor + '"><span class="stat-change-cell"> ' + (change > 0 ? '+' : '') + change.toFixed(2) + '</span><span class="stat-change-cell"> ' + (changeP > 0 ? '+' : '') + changeP.toFixed(1) + '%</span></span>';
 				}
 
-                if (value % 1 !== 0) value = '<span class="stat-change-cell">' + value.toFixed(2) + '</span>';
-
+                value = '<span class="stat-change-cell">' + value.toFixed(2) + '</span>';
 				statName = '<span class="stat-label">' + statName + ': </span>';
 
                 $('<li>').html(statName + value + span).appendTo($stats);
