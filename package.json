@@ -21,7 +21,7 @@
     "grunt-contrib-connect": "^0.8.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-open": "^0.2.3",
-    "grunt-ts": "^1.11.4",
-    "typescript": "^1.0.1"
+    "grunt-ts": "^4.0.1",
+    "jit-grunt": "^0.9.1"
   }
 }
