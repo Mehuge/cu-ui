@@ -120,6 +120,8 @@ module AbilityBuilder {
     var selectedSlot = null;
     var selectedComponents = [];
 
+	var oldCombinedStats = {};
+
     var networkOffset = $network.offset();
 
     var currentScale = 1;
@@ -485,7 +487,7 @@ module AbilityBuilder {
 
         if (!hasPrimaryComponent || !hasSecondaryComponent) {
             $abilityComponentsRequired.fadeIn();
-            
+
             toggleErrorClassRepeatedly($network);
         } else {
             $abilityComponentsRequired.hide();
@@ -644,13 +646,14 @@ module AbilityBuilder {
     }
 
     function addTrainedComponent(component) {
+		extendComponentDescription(component);
         var trainedComponent = new Component({
             id: component.id,
             baseComponentID: component.baseComponentID,
             type: component.type,
             subType: component.subType,
             name: component.name,
-            description: component.description,
+            description: component.description + component.statDescription,
             icon: component.icon,
             stats: component.stats,
             tags: mapTags(component.tags),
@@ -668,6 +671,28 @@ module AbilityBuilder {
 
         trainedComponents.push(trainedComponent);
     }
+
+	function extendComponentDescription(component){
+        component.statDescription = '<hr>';
+		for (var stat in component.stats) {
+            if (component.stats.hasOwnProperty(stat)) {
+				var statName = stat.charAt(0).toUpperCase() + stat.substring(1).replace(/([A-Z])/g, ' $1');
+
+				var change = '+';
+				if(component.stats[stat].value < 0)
+					change = '';
+
+				var modType = ' &nbsp;(Base)';
+				if(component.stats[stat].modType == 'Multiplicative')
+					modType = ' &nbsp;(Multiplier)';
+
+				component.statDescription += '<span class="stat-label">' + statName + ': </span>';
+				component.statDescription += '<span class="' + getStatChangeClass(component.stats[stat].value, component.stats[stat].valType) + '-major">';
+				component.statDescription += '<span class="stat-change-cell"> ' + change + component.stats[stat].value.toFixed(2) + '</span></span>';
+				component.statDescription += ' ' + modType + '<br/>';
+			}
+		}
+	}
 
     function mapTags(tags) {
         return tags.map(tag => AbilityTags[tag]);
@@ -1134,28 +1159,67 @@ module AbilityBuilder {
                             results[cs] = { count: 1, value: 0, multiplier: 1 + componentStat.value };
                         }
                     }
+					results[cs].valType = componentStat.valType;
                 }
             }
 
             return results;
         }, {});
 
+		$('<li>').html('<span class="stat-label">Stat Name</span><span class="stat-change-cell">Value</span><span class="stat-change-cell">Change</span><span class="stat-change-cell">Change%</span>').appendTo($stats);
+
         for (var combinedStat in combinedStats) {
             if (combinedStats.hasOwnProperty(combinedStat)) {
                 var stat = combinedStats[combinedStat];
+
+				var oldStatVal = 0.0;
+				if (oldCombinedStats.hasOwnProperty(combinedStat)) {
+					oldStatVal = oldCombinedStats[combinedStat];
+				}
 
                 if (stat.count <= 1) continue;
 
                 var statName = combinedStat.charAt(0).toUpperCase() + combinedStat.substring(1).replace(/([A-Z])/g, ' $1');
 
                 var value: any = stat.value * stat.multiplier;
+				var change = value - oldStatVal;
+				var changeP = (1.0 - (oldStatVal / value)) * 100.0;
+				var useMajor = (changeP >= 25.0 || changeP <= -25.0) ? '-major' : '';
+                var span = '';
 
-                if (value % 1 !== 0) value = value.toFixed(2);
+				if(change == 0){
+                    span = '<span class="' + getStatChangeClass(change, stat.valType) + '"><span class="stat-change-cell"> --</span><span class="stat-change-cell"> --</span></span>';
+				}
+				else{
+                    span = '<span class="' + getStatChangeClass(change, stat.valType) + useMajor + '"><span class="stat-change-cell"> ' + (change > 0 ? '+' : '') + change.toFixed(2) + '</span><span class="stat-change-cell"> ' + (changeP > 0 ? '+' : '') + changeP.toFixed(1) + '%</span></span>';
+				}
 
-                $('<li>').text(statName + ': ' + value).appendTo($stats);
+                if (value % 1 !== 0) value = '<span class="stat-change-cell">' + value.toFixed(2) + '</span>';
+
+				statName = '<span class="stat-label">' + statName + ': </span>';
+
+                $('<li>').html(statName + value + span).appendTo($stats);
             }
         }
+
+        for (var combinedStat in combinedStats) {
+            if (combinedStats.hasOwnProperty(combinedStat)) {
+                oldCombinedStats[combinedStat] = combinedStats[combinedStat].value * combinedStats[combinedStat].multiplier;
+			}
+		}
     }
+
+	function getStatChangeClass(value, valType){
+		var cl = '';
+		if(valType == 'Power'){
+			cl = (value > 0 ? 'stat-change-improve' : (value < 0 ? 'stat-change-diminish' : 'stat-change-even'));
+		}
+		else{
+			cl = (value > 0 ? 'stat-change-diminish' : (value < 0 ? 'stat-change-improve' : 'stat-change-even'));
+		}
+
+		return cl;
+	}
 
     function hideAbilityBuilder(e) {
         if (e) {

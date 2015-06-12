@@ -182,10 +182,37 @@ html, body {
 
 #stats li {
     display: inline-block;
-    width: 50%;
+    width: 100%;
     color: #8F775B;
     font-weight: bold;
     font-size: 11px;
+	padding:2px 0px;
+	border-bottom:1px solid #333;
+}
+.stat-label{
+	width:35%;
+	display:inline-block;
+}
+.stat-change-cell{
+	width:18%;
+	display:inline-block;
+	text-align:right;
+}
+.stat-change-even{
+	color:#aaa;
+}
+.stat-change-improve-major{
+	color:#0c0;
+}
+.stat-change-improve{
+	color:#008f00;
+}
+.stat-change-diminish-major{
+	color:#d00;
+}
+.stat-change-diminish{
+	color:#b80000;
+	font-weight:400;
 }
 
 /* Component Networks */
