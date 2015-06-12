@@ -59,6 +59,8 @@
     <TypeScriptCompile Include="ability-crafting\componentSlot.ts" />
     <Content Include="bandage\bandage.css" />
     <Content Include="bandage\bandage.html" />
+    <Content Include="buildblueprints\buildblueprints.css" />
+    <Content Include="buildblueprints\buildblueprints.html" />
     <Content Include="cubechat\cubechat.css" />
     <Content Include="cubechat\cubechat.html" />
     <Content Include="cubewatermark\cubewatermark.css" />
@@ -259,6 +261,7 @@
     <TypeScriptCompile Include="bandage\bandage.ts" />
     <TypeScriptCompile Include="blockselector\blockselector.ts" />
     <TypeScriptCompile Include="buildactions\buildactions.ts" />
+    <TypeScriptCompile Include="buildblueprints\buildblueprints.ts" />
     <TypeScriptCompile Include="building\building.ts" />
     <TypeScriptCompile Include="character\character.ts" />
     <Content Include="mehuge-bot\bot.css" />
@@ -704,6 +707,7 @@
     <Content Include="mehuge-reticle.ui" />
     <Content Include="reticle.ui" />
     <Content Include="mehuge-lights.ui" />
+    <Content Include="buildblueprints.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -721,6 +725,7 @@
   <ItemGroup>
     <Reference Include="System.Data" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

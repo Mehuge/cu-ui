@@ -53,17 +53,6 @@ html, body {
     overflow-y: scroll;
 }
 
-#select-block-tool {
-    position: relative;
-    margin: 0px;
-    padding: 0px;
-    width: 64px;
-    height: 64px;
-    display: inline-block;
-    background: url('../images/blockselector/select-block.jpg') no-repeat top left;
-    background-size: 100%;
-}
-
 .block-type {
     position: relative;
     width: 64px;

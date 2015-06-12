@@ -69,15 +69,6 @@ module BlockSelector {
     var currBuildingMode = BuildUIMode.PlacingPhantom;
     var $blockContainer = $('#block-container');
     var blockList = [];
-    var $selectbutton = $('#select-block-tool');
-    $selectbutton.click(() => {
-        if (currBuildingMode === BuildUIMode.PlacingPhantom || currBuildingMode === BuildUIMode.PhantomPlaced) {
-            cu.SetBuildingMode(BuildUIMode.SelectingBlock);
-        }
-        else if (currBuildingMode === BuildUIMode.SelectingBlock || currBuildingMode === BuildUIMode.BlockSelected) {
-            cu.SetBuildingMode(BuildUIMode.PlacingPhantom);
-        }
-    });
 
     function createBlockIcon(index, buildingID, icon) {
         blockList[index] = new BlockIcon(icon, buildingID, cu);
@@ -139,9 +130,5 @@ module BlockSelector {
 
     cuAPI.OnInitialized(() => {
         cu.RequestBlocks();
-    });
-
-    cu.Listen('HandleBuildingModeChanged', buildingMode => {
-        currBuildingMode = buildingMode;
     });
 }

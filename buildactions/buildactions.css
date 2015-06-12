@@ -35,7 +35,7 @@ html, body {
 #action-bar {
     position: relative;
     margin: 0 auto;
-    width: 537px;
+    width: 604px;
     height: 76px;
     background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.65))); /* Chrome,Safari4+ */
@@ -46,7 +46,7 @@ html, body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
 }
 
-#btn-commit:before {
+#select-block-tool:before {
     position: absolute;
     top: 36px;
     left: -40px;
@@ -64,10 +64,22 @@ html, body {
     content: url('../images/skillbar/cap-right.png');
 }
 
-#btn-commit {
+#select-block-tool {
     width: 67px;
     height: 61px;
     left: 0px;
+    top: 0px;
+    position: absolute;
+    background: url('../images/blockselector/select-block.jpg') no-repeat top left;
+    background-size: 100%;
+    color: white;
+    text-align: center;
+}
+
+#btn-commit {
+    width: 67px;
+    height: 61px;
+    left: 67px;
     top: 0px;
     position: absolute;
     background-size: 100%;
@@ -86,7 +98,7 @@ html, body {
 #btn-cancel {
     width: 67px;
     height: 61px;
-    left: 67px;
+    left: 134px;
     top: 0px;
     position: absolute;
     background: url('../images/buildactions/undo.jpg') no-repeat top left;
@@ -98,7 +110,7 @@ html, body {
 #btn-rotate-x {
     width: 67px;
     height: 61px;
-    left: 134px;
+    left: 201px;
     top: 0px;
     position: absolute;
     background: url('../images/buildactions/x-rotate-red.jpg') no-repeat top left;
@@ -110,7 +122,7 @@ html, body {
 #btn-rotate-y {
     width: 67px;
     height: 61px;
-    left: 201px;
+    left: 268px;
     top: 0px;
     position: absolute;
     background: url('../images/buildactions/y-rotate-grn.jpg') no-repeat top left;
@@ -122,7 +134,7 @@ html, body {
 #btn-rotate-z {
     width: 67px;
     height: 61px;
-    left: 268px;
+    left: 335px;
     top: 0px;
     position: absolute;
     background: url('../images/buildactions/z-rotate-blue.jpg') no-repeat top left;
@@ -134,7 +146,7 @@ html, body {
 #btn-flip-x {
     width: 67px;
     height: 61px;
-    left: 335px;
+    left: 402px;
     top: 0px;
     position: absolute;
     background: url('../images/buildactions/x-flip.jpg') no-repeat top left;
@@ -146,7 +158,7 @@ html, body {
 #btn-flip-y {
     width: 67px;
     height: 61px;
-    left: 402px;
+    left: 469px;
     top: 0px;
     position: absolute;
     background: url('../images/buildactions/y-flip.jpg') no-repeat top left;
@@ -158,7 +170,7 @@ html, body {
 #btn-flip-z {
     width: 67px;
     height: 61px;
-    left: 469px;
+    left: 536px;
     top: 0px;
     position: absolute;
     background: url('../images/buildactions/z-flip.jpg') no-repeat top left;

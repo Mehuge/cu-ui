@@ -26,6 +26,10 @@ module BuildActions {
         }
         rootElement: JQuery;
     }
+
+    var currBuildingMode = BuildUIMode.PlacingPhantom;
+
+    var selectbutton;
     var commit;
     var cancel;
     var rotateX;
@@ -35,6 +39,11 @@ module BuildActions {
     var flipY;
     var flipZ;
     cuAPI.OnInitialized(() => {
+        selectbutton = new BuildActionButton('#select-block-tool', 'Select Blocks Mode', cu);
+        var selectTooltip = new Tooltip(selectbutton.rootElement, {
+            title: () => "Toggle Selection Mode",
+            content: () => "Toggle between selecting existing blocks and placing new ones."
+        });
         commit = new BuildActionButton('#btn-commit', 'Commit Block', cu);
         commit.rootElement.addClass('add-btn');
         var commitTooltip = new Tooltip(commit.rootElement, {
@@ -75,6 +84,15 @@ module BuildActions {
         var flipZTooltip = new Tooltip(flipZ.rootElement, {
             title: () => "Flip Block Z",
             content: () => "Inverts the block you wish to place, swapping its positive and negative Z faces."
+        });
+
+        selectbutton.rootElement.click(() => {
+            if (currBuildingMode === BuildUIMode.PlacingPhantom || currBuildingMode === BuildUIMode.PhantomPlaced) {
+                cu.SetBuildingMode(BuildUIMode.SelectingBlock);
+            }
+            else if (currBuildingMode === BuildUIMode.SelectingBlock || currBuildingMode === BuildUIMode.BlockSelected) {
+                cu.SetBuildingMode(BuildUIMode.PlacingPhantom);
+            }
         });
 
         commit.rootElement.click(() => {
@@ -159,6 +177,7 @@ module BuildActions {
     });
 
     cu.Listen('HandleBuildingModeChanged', buildingMode => {
+        currBuildingMode = buildingMode;
         if (buildingMode == BuildUIMode.SelectingBlock) {
             commit.rootElement.removeClass('add-btn');
             if (!commit.rootElement.hasClass('remove-btn')) {

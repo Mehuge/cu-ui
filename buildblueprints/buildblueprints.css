@@ -1,0 +1,42 @@
+﻿html, body {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    background-size: 100%;
+}
+
+#blueprint-window {
+    width: 252px;
+    left: 20px;
+    right: 0px;
+}
+
+.blueprint-button {
+    width: 105px;
+    height: 29px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    color: #fff;
+    background: url(../images/window/btn.png) no-repeat 0 0;
+    border: none;
+    outline: none;
+    display: table;
+    margin: 0 auto;
+}
+
+.blueprint-button:disabled {
+    -webkit-filter: brightness(0.4);
+    filter: brightness(0.4);
+}
+
+.blueprint-button:not(:disabled) {
+    cursor: pointer;
+}
+
+.blueprint-button:hover:not(:disabled) {
+    background-position: 0 -29px;
+}
+
+.blueprint-button:active:not(:disabled) {
+    background-position: 0 -58px;
+}
