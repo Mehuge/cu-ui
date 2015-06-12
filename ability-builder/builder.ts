@@ -768,7 +768,7 @@ module AbilityBuilder {
 
         var offset = $(e.target).offset();
 
-        createComponentSelectionElements();
+        createComponentSelectionElements(selectedSlot.type);
 
         $componentSelectionModal.css({
             top: (offset.top + 32) * 2,
@@ -782,15 +782,26 @@ module AbilityBuilder {
         $componentSelectionModal.stop().fadeOut({ duration: 150 });
     }
 
-    function createComponentSelectionElements() {
+    function createComponentSelectionElements(componentType: ComponentType) {
         var selectedComponentIDs = selectedComponents.map(component => component.id);
 
-        var filteredComponents = trainedComponents.slice(0).filter(component => {
+        var filteredComponents = trainedComponents.filter(component => {
             if (selectedComponentIDs.indexOf(component.id) !== -1) return false;
 
-            var hasValidTags = selectedComponents.filter(c => !c.tagCheck(component.tags)).length === 0;
+            var hasValidTags;
+            if (componentType === ComponentType.Primary) {
+                hasValidTags = selectedComponents.filter(c => c.ComponentType === ComponentType.Primary).length === 0;
+                return hasValidTags;
 
-            return hasValidTags;
+
+            } else {
+                selectedComponents.forEach(c => {
+                    if (!c.tagCheck(component.tags) || !component.tagCheck(c.tags)) hasValidTags = false;
+                    else hasValidTags = true;
+
+                });
+                return hasValidTags;
+            }
         });
 
         console.log('find components: ' + ComponentType[selectedSlot.type] + ' ' + (selectedSlot.parents.length === 0 ? 'N/A' : ComponentSubTypeValues.filter(t => (selectedSlot.subType & t) === t).map(t => ComponentSubType[t]).join(', ')));

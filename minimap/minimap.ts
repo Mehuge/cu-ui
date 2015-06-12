@@ -99,6 +99,7 @@ module MiniMap {
         var img = "<img style='position:absolute; top:" + (cp.y - width * 0.5);
         img += "px; left:" + (cp.x - width * 0.5) + "px;'";
         img += " width='" + width + "px' height='" + width + "px'";
+        img += " respawnID=''";
         img += " id='spawn" + cp.faction + "'";
         img += " class='" + factionSelectors[cp.faction] + "'";
         img += " src='../images/minimap/main-zone.png'></img>";

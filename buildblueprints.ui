@@ -3,10 +3,10 @@
     "name": "buildblueprints",
     "mainFile": "buildblueprints/buildblueprints.html",
     "rect": {
-        "left": 1148,
-        "top": 60,
-        "right": 1420,
-        "bottom": 212
+        "left": 858,
+        "top": 232,
+        "right": 1140,
+        "bottom": 668
     },
     "handlesBuilding": true,
     "handlesInput":  true

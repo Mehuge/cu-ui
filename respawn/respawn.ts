@@ -37,6 +37,20 @@ module Respawn {
                 temp.addClass("wrongfaction");
             }
         });
+
+        MiniMap.spawnPoints.forEach(p => {
+            var temp = $('#spawn' + p.faction);
+            temp.removeClass();
+            temp.addClass(MiniMap.factionSelectors[p.faction]);
+            if (p.faction == MiniMap.myFaction) {
+                temp.addClass('canselect');
+                temp.off('click', bindClicks);
+                temp.on('click', bindClicks);
+            } else {
+                temp.addClass("wrongfaction");
+            }
+        });
+
         // Draw my position
         MiniMap.myPos = MiniMap.serverToCanvasPoint(cuAPI.locationX, cuAPI.locationY);
 

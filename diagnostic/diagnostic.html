@@ -1,0 +1,34 @@
+<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diagnostic</title>
+    <link rel="stylesheet" type="text/css" href="../cu/cu.css">
+    <link rel="stylesheet" type="text/css" href="diagnostic.css">
+</head>
+<body class="disable-selection default-cursor">
+    <div id="configArea">
+        Diagnostics
+        <div id="bufferConfig">
+            Max Buffer Size
+            <input type="text" name="bufferSize" id="bufferSize" value="300" />
+        </div>
+        <div id="levelConfig">
+            Min Log Level (0-6)
+            <input type="text" name="logLevel" id="logLevel" value="2" />
+        </div>
+    </div>
+    <div id="logArea">
+    </div>
+
+
+    <script src="../vendor/numeral.js"></script>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../vendor/lodash.js"></script>
+    <script src="../cu/cu.js"></script>
+    <script src="diagnostic.js"></script>
+    <script src="../vendor/hopscotch.js"></script>
+</body>
+</html>

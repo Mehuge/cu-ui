@@ -1507,7 +1507,7 @@ module Login {
                 attrs.push({
                     name: attribute.name,
                     description: attribute.description,
-                    value: value
+                    value: value - attribute.min
                 });
             }
         });
@@ -1849,8 +1849,8 @@ module Login {
 
                 var availablePoints = REQUIRED_CHOSEN_ATTRIBUTES - sumOtherAttributes(attribute);
 
-                if (value > availablePoints) {
-                    value = availablePoints;
+                if (value > availablePoints + attribute.min) {
+                    value = availablePoints + attribute.min;
                 }
 
                 var isDecreaseDisabled = value == attribute.min;

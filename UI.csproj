@@ -80,6 +80,7 @@
     <Content Include="images\buildactions\y-rotate-grn.jpg" />
     <Content Include="images\buildactions\z-flip.jpg" />
     <Content Include="images\buildactions\z-rotate-blue.jpg" />
+    <Content Include="images\buildblueprints\blueprint.jpg" />
     <Content Include="images\components\ind-frame.png" />
     <Content Include="images\components\opt-Acceleration.png" />
     <Content Include="images\components\opt-AncientSkull.png" />

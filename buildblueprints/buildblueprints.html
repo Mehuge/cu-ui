@@ -14,10 +14,20 @@
             <div class="window-close"></div>
         </div>
         <div class="window-middle">
-            <button id="btn-copy" class="blueprint-button">Copy</button>
-            <button id="btn-paste" class="blueprint-button">Paste</button>
+            <div id="blueprint-container"></div>
         </div>
         <div class="window-bottom">
+            <button id="btn-copy">Copy</button>
+            <button id="btn-paste">Paste</button>
+        </div>
+        <div class="window-bottom">
+            <button id="btn-save">Save</button>
+            <button id="btn-reload">Reload</button>
+            <input id="filename" type="text" placeholder="Blueprint Name" />
+        </div>
+        <div class="window-bottom" id="after-save">
+            <button id="btn-ok">OK</button>
+            <button id="btn-cancel">Cancel</button>
         </div>
     </div>
     <script src="../vendor/jquery-2.1.1.js"></script>
