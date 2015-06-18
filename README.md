@@ -18,6 +18,16 @@ We're using TypeScript for a lot of our UI code. It's an extension of JavaScript
 ===
 
 
+Chromium Embedded Framework Version
+-----------------------------------
+
+CEF Version: 3  - revision 1749
+
+Chrome Version: 35.0 - build 1916 - patch 138
+
+===
+
+
 Visual Studio 2013 Express for Web
 ----------------------------------
 

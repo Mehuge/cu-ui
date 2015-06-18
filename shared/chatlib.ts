@@ -376,6 +376,12 @@ module ChatLib {
         return null;
     }
 
+    addSlashCommand('fov', 'set your field of view, client accepts values from 20 -> 179.9', (processed) => {
+        var degrees = processed.args.length >= 0 ? processed.args[0] : 120;
+        cuAPI.FOV(degrees);
+        return true;
+    });
+
     addSlashCommand('droplight', 'drop a light at your location, options: (colors are 0-255) droplight <intensity> <radius> <red> <green> <blue>', (processed) => {
         var intensity = processed.args.length >= 0 ? processed.args[0] : 1;
         var radius = processed.args.length > 1 ? processed.args[1] : 20;

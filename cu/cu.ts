@@ -119,7 +119,7 @@ enum AbilityTags {
     Restoration,
     Lifedrain,
     Swiftness,
-    Dispalcement,
+    Displacement,
 
     // Shape
     Self,
@@ -2022,6 +2022,7 @@ interface CUInGameAPI {
     serverTime: number;
     vsync: number;
 
+    FOV(degrees: number): void;
     DropLight(intensity: number, radius: number, red: number, green: number, blue: number): void;
     ResetLights():void;
 
