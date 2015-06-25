@@ -158,6 +158,14 @@ module Chat {
         }
     };
 
+    slash['fov'] = {
+        help: 'set your field of view, client accepts values from 20 -> 179.9',
+        handler: function (name: string, args: any[]) {
+            var degrees = args.length >= 0 ? args[0]|0 : 120;
+            cuAPI.FOV(degrees);
+        }
+    };
+
     slash["join"] = {
         help: "join a chat channel",
         handler: function (name: string, args: string[]) {
