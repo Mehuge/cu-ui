@@ -231,9 +231,9 @@
                     break;
                 case 'message':
                     var message = doc.documentElement,
-                        type = message.attributes["type"].value,
-                        id = message.attributes["id"].value,
-                        from = message.attributes["from"].value,
+                        type = message.attributes["type"],
+                        id = message.attributes["id"],
+                        from = message.attributes["from"],
                         body, iscse = false, nick;
                     for (var i = 0; i < message.childNodes.length; i++) {
                         var node = message.childNodes[i];
@@ -248,7 +248,13 @@
                             nick = node.nodeValue;
                         }
                     }
-                    fire({ type: type, id: id, from: from, body: body, iscse: iscse });
+                    fire({
+                        type: type ? type.value : "",
+                        id: id ? id.value : "",
+                        from: from ? from.value : "unknown",
+                        body: body,
+                        iscse: iscse
+                    });
                     break;
                 default:
                     break;
