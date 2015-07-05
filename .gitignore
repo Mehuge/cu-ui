@@ -24,3 +24,4 @@ announcer/*.ogg
 !/mehuge-combatlog/combatlog.js
 !/mehuge/basic-promise.js
 images/blockselector/block-icon-*.png
+mehuge/react-0.13.3
