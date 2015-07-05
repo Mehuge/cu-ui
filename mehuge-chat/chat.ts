@@ -396,7 +396,7 @@ module Chat {
 
     function initChat() {
 
-        var hasRunAutoexec = false;
+        var hasRunAutoexec = false, hasAskedForMOTD = false;
 
         var rebuildChannelUI = function () {
             // Add channels to dropdown
@@ -419,6 +419,10 @@ module Chat {
                     channels.push(channel.room);
                     rebuildChannelUI();
                     selectChannel(channels.length - 1);
+                }
+                if (!hasAskedForMOTD) {
+                    MehugeChat.sendIM("!motd", "agoknee@chat.camelotunchained.com");
+                    hasAskedForMOTD = true;
                 }
                 if (typeof ChatConfig !== "undefined" && ChatConfig.autoexec && !hasRunAutoexec) {
                     hasRunAutoexec = true;
