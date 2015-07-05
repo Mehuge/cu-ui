@@ -134,5 +134,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('default', []);
     grunt.registerTask('build', ['ts:dev']);
     grunt.registerTask('dist', ['dist:release']);
+    grunt.registerTask('zip', ['compress']);
 
 };
