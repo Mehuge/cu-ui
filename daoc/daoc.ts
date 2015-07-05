@@ -1,4 +1,4 @@
-﻿/// <reference path="../jquery.d.ts" />
+﻿/// <reference path="../vendor/jquery.d.ts" />
 
 class Ability {
     id: string;
