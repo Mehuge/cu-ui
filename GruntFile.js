@@ -114,9 +114,10 @@ module.exports = function (grunt) {
 
 			// Individual UI ZIPs
 			"mehuge-announcer.zip": singleUI('announcer'),
+			"mehuge-autoexec.zip":	singleUI('autoexec'),
 			"mehuge-bct.zip": 		singleUI('bct'),
 			"mehuge-combatlog.zip": singleUI('combatlog'),
-			"mehuge-chat.zip": 		singleUI('combatlog', [ 'mehuge' ]),
+			"mehuge-chat.zip": 		singleUI('chat', [ 'mehuge' ]),
 			"mehuge-deathspam.zip": singleUI('deathspam'),
 			"mehuge-group.zip": 	singleUI('group', [ 'mehuge' ]),
 			"mehuge-heatmap.zip": 	singleUI('heatmap', [ 'mehuge', 'vendor/cu-rest' ]),
