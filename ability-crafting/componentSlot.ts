@@ -110,7 +110,7 @@ class ComponentSlot {
                 e.stopPropagation();
 
                 if (self.tooltip) {
-                    self.tooltip.move(e.clientX + 10, e.clientY + 10);
+                    self.tooltip.move(e.clientX + 40, e.clientY - 300);
                 }
 
                 return false;

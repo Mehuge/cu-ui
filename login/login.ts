@@ -1433,7 +1433,7 @@ module Login {
             case Race.Golem: return 2; // Golem = Healer
             case Race.StormRider: return 3; // StormRider = MeleeCombatTest
             case Race.StormRiderT: return 3; // StormRiderT = MeleeCombatTest
-            case Race.StormRiderV: return 3; // StormRiderV = MeleeCombatTest
+            case Race.StormRiderV: return 4; // StormRiderV = ArcherTest
         }
         return 0;
     }
@@ -1467,6 +1467,7 @@ module Login {
                     case Archetype.Fighter: return 1; // Fighter = Cait Sith
                     case Archetype.Healer: return 2; // Healer = Golem
                     case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRider
+                    case Archetype.ArcherTest: return -1; // ArcherTest = Not Allowed
                 }
                 break;
             case Faction.TDD:
@@ -1475,6 +1476,7 @@ module Login {
                     case Archetype.Fighter: return 0; // Fighter = Hamadryad
                     case Archetype.Healer: return 1; // Healer = Luchorpan
                     case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderT
+                    case Archetype.ArcherTest: return -1; // ArcherTest = Not Allowed
                 }
                 break;
             case Faction.Vikings:
@@ -1482,7 +1484,8 @@ module Login {
                     case Archetype.WaterMage: return 0; // Water Mage = Valkyrie
                     case Archetype.Fighter: return 2; // Fighter = Frost Giant
                     case Archetype.Healer: return 1; // Healer = Helbound
-                    case Archetype.MeleeCombatTest: return 3; // MeleeCombatTest = StormRiderV
+                    case Archetype.MeleeCombatTest: return -1; // MeleeCombatTest = Not Allowed
+                    case Archetype.ArcherTest: return 3; // ArcherTest = StormRiderV
                 }
                 break;
         }

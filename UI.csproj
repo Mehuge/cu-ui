@@ -66,6 +66,9 @@
     <Content Include="cubewatermark\cubewatermark.css" />
     <Content Include="cubewatermark\cubewatermark.html" />
     <Content Include="cu\fonts.css" />
+    <Content Include="diagnostic\diagnostic.css" />
+    <Content Include="diagnostic\diagnostic.html" />
+    <Content Include="diagnostic\diagnostic.js" />
     <Content Include="Facebook Links\FacebookScreenshot.css" />
     <Content Include="Facebook Links\FacebookScreenshot.html" />
     <Content Include="Facebook Links\FacebookScreenshot.js" />
@@ -173,6 +176,7 @@
     <Content Include="images\minimap\player.png" />
     <Content Include="images\minimap\zone.png" />
     <Content Include="images\reticle\circle-reticle.png" />
+    <Content Include="images\reticle\crosshair.png" />
     <Content Include="images\screenshotbutton\building-camera-icon.png" />
     <Content Include="images\screenshotshare\sign-in-with-twitter-gray.png" />
     <Content Include="images\skills\bandage.png" />
@@ -545,6 +549,7 @@
     <Content Include="inventory\inventory.html" />
     <TypeScriptCompile Include="mehuge\mehuge-events.ts" />
     <TypeScriptCompile Include="mehuge\mehuge-rest.ts" />
+    <TypeScriptCompile Include="diagnostic\diagnostic.ts" />
     <TypeScriptCompile Include="physhud\physhud.ts" />
     <TypeScriptCompile Include="screenshotbutton\screenshotbutton.ts" />
     <TypeScriptCompile Include="screenshotshare\screenshotshare.ts" />
@@ -709,6 +714,7 @@
     <Content Include="reticle.ui" />
     <Content Include="mehuge-lights.ui" />
     <Content Include="buildblueprints.ui" />
+    <Content Include="diagnostic.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
