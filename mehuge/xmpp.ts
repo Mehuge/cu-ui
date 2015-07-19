@@ -262,7 +262,7 @@
         }
 
         socket.onerror = (e) => {
-            debugger;
+            throw e;
         }
 
         socket.onclose = (e) => {
