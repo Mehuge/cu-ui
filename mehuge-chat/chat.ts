@@ -272,7 +272,10 @@ module Chat {
         var command = slash[args[0]];
         if (command && command.handler) {
             var name = args.shift();
-            command.handler(name, args, full.substr(name.length+1));
+            command.handler(name, args, full.substr(name.length + 1));
+        } else {
+            var rest : string = full.substr(args[0].length + 1);
+            cuAPI.SendSlashCommand(args[0], rest);
         }
     }
 
@@ -424,12 +427,6 @@ module Chat {
                     MehugeChat.sendIM("!motd", "agoknee@chat.camelotunchained.com");
                     hasAskedForMOTD = true;
                 }
-                if (typeof ChatConfig !== "undefined" && ChatConfig.autoexec && !hasRunAutoexec) {
-                    hasRunAutoexec = true;
-                    setTimeout(function () {
-                        autoexec(ChatConfig.autoexec);
-                    }, 500);
-                }
             });
         } catch (e) {
             addMessage({ from: 'error', message: e.message });
@@ -448,6 +445,13 @@ module Chat {
             }
             addMessage(msg);
         }]);
+
+        if (typeof ChatConfig !== "undefined" && ChatConfig.autoexec && !hasRunAutoexec) {
+            hasRunAutoexec = true;
+            setTimeout(function () {
+                autoexec(ChatConfig.autoexec);
+            }, 500);
+        }
 
         // Respond to sending chat
         input.addEventListener("keydown", (ev: KeyboardEvent) => {
