@@ -26,3 +26,4 @@ announcer/*.ogg
 images/blockselector/block-icon-*.png
 mehuge/react-0.13.3
 dist/
+.vs/config/applicationhost.config
