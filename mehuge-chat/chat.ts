@@ -222,6 +222,13 @@ module Chat {
             }
         }
     };
+    slash["countblocks"] = {
+        help: "Counts the number of blocks used in a cube structure",
+        handler: function (name: string, args: string[]) {
+            cuAPI.CountBlocks();
+            setTimeout(() => addMessage({ from: "info", message: cuAPI.placedBlockCount + ' blocks.' }), 1000);
+        }
+    };
 
 
 
