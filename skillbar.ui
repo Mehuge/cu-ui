@@ -1,16 +1,15 @@
 {
-	"_LICENSE": "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
-	"name": "skillbar",
-	"mainFile": "skillbar/skillbar.html",
-	"rect": {
-		"left": 70,
-		"top": 670,
-		"right": 1380,
-		"bottom": 900
-	},
-	"handlesAbilities": true,
-	"handlesCharacter": true,
-	"handlesConfig": true,
-	"handlesInput": true,
-	"layer": 1
+    "name": "skillbar",
+    "mainFile": "skillbar/skillbar.html",
+    "rect": {
+        "left": 70,
+        "top": 670,
+        "right": 1380,
+        "bottom": 900
+    },
+    "handlesAbilities": true,
+    "handlesCharacter": true,
+    "handlesConfig": true,
+    "handlesInput": true,
+    "layer": 1
 }

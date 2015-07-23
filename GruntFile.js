@@ -53,27 +53,19 @@ module.exports = function (grunt) {
         },
 
         ts: {
-
+            options: {
+                failOnTypeErrors: false
+            },
             dev: {
-                src: ['**/*.ts', '!node_modules/**', '!.tscache/**'],
-                vs: {
-                    project: 'UI.csproj',
-                    config: 'Debug',
-                    ignoreFiles: true
-                }
+                src: ['**/*.ts', '!node_modules/**', '!.tscache/**']
             },
-
             debug: {
-                vs: {
-                    project: 'UI.csproj',
-                    config: 'Debug'
-                }
+                src: ['**/*.ts', '!node_modules/**', '!.tscache/**']
             },
-
             release: {
-                vs: {
-                    project: 'UI.csproj',
-                    config: 'Release'
+                src: ['**/*.ts', '!node_modules/**', '!.tscache/**'],
+                options: {
+                    sourceMap: false
                 }
             }
         },

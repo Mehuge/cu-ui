@@ -1,10 +1,10 @@
 {
-	"name" : "health",
-	"mainFile" : "health/health.html",
-	"rect" : {
-		"left" : 0,
-		"top" : 880,
-		"right" : 100,
-		"bottom" : 900
-	}
+    "name": "health",
+    "mainFile": "health/health.html",
+    "rect": {
+        "left": 0,
+        "top": 880,
+        "right": 100,
+        "bottom": 900
+    }
 }

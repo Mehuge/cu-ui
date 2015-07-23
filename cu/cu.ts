@@ -24,7 +24,11 @@ enum Race {
 
     StormRider = 12,
     StormRiderT = 13,
-    StormRiderV = 14
+    StormRiderV = 14,
+    
+    HumanMaleV = 15,
+    HumanMaleA = 16,
+    HumanMaleT = 17
 }
 
 enum Archetype {

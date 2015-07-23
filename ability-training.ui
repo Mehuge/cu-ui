@@ -1,13 +1,12 @@
 {
-	"_LICENSE": "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
-	"name": "ability-training",
-	"mainFile": "ability-training/training.html",
-	"rect": {
-		"left": 200,
-		"top": 200,
-		"right": 1000,
-		"bottom": 800
-	},
-	"handlesInput": true,
-	"layer": 4
+    "name": "ability-training",
+    "mainFile": "ability-training/training.html",
+    "rect": {
+        "left": 200,
+        "top": 200,
+        "right": 1000,
+        "bottom": 800
+    },
+    "handlesInput": true,
+    "layer": 4
 }

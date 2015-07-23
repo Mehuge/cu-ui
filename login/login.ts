@@ -1434,6 +1434,9 @@ module Login {
             case Race.StormRider: return 3; // StormRider = MeleeCombatTest
             case Race.StormRiderT: return 3; // StormRiderT = MeleeCombatTest
             case Race.StormRiderV: return 4; // StormRiderV = ArcherTest
+            case Race.HumanMaleV: return 3; // HumanMaleV = MeleeCombatTest
+            case Race.HumanMaleA: return 3; // HumanMaleA = MeleeCombatTest
+            case Race.HumanMaleT: return 3; // HumanMaleT = MeleeCombatTest
         }
         return 0;
     }
@@ -1484,7 +1487,7 @@ module Login {
                     case Archetype.WaterMage: return 0; // Water Mage = Valkyrie
                     case Archetype.Fighter: return 2; // Fighter = Frost Giant
                     case Archetype.Healer: return 1; // Healer = Helbound
-                    case Archetype.MeleeCombatTest: return -1; // MeleeCombatTest = Not Allowed
+                    case Archetype.MeleeCombatTest: return 4; // MeleeCombatTest = HumanMaleV
                     case Archetype.ArcherTest: return 3; // ArcherTest = StormRiderV
                 }
                 break;

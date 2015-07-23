@@ -1,10 +1,10 @@
 {
-	"name" : "raid",
-	"mainFile" : "raid/raid.html",
-	"rect" : {
-		"left" : 20,
-		"top" : 340,
-		"right" : 380,
-		"bottom" : 450
-	}
+    "name": "raid",
+    "mainFile": "raid/raid.html",
+    "rect": {
+        "left": 20,
+        "top": 340,
+        "right": 380,
+        "bottom": 450
+    }
 }

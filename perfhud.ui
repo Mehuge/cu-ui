@@ -1,11 +1,10 @@
 {
-	"_LICENSE": "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.",
-	"name": "perfhud",
-	"mainFile": "perfhud/perfhud.html",
-	"rect": {
-		"left": 240,
-		"top": 0,
-		"right": 640,
-		"bottom": 800
-	}
+    "name": "perfhud",
+    "mainFile": "perfhud/perfhud.html",
+    "rect": {
+        "left": 1040,
+        "top": 0,
+        "right": 1440,
+        "bottom": 900
+    }
 }

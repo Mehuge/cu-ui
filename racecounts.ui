@@ -1,10 +1,10 @@
 {
-	"name" : "racecounts",
-	"mainFile" : "racecounts/racecounts.html",
-		"rect" : {
-		"left" : 1300,
-		"top" : 800,
-		"right" : 1400,
-		"bottom" : 900
-	}
+    "name": "racecounts",
+    "mainFile": "racecounts/racecounts.html",
+    "rect": {
+        "left": 1300,
+        "top": 800,
+        "right": 1400,
+        "bottom": 900
+    }
 }
