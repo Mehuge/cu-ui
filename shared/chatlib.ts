@@ -397,6 +397,12 @@ module ChatLib {
         return true;
     });
 
+    addSlashCommand('countblocks', 'count all placed blocks in the world.', () => {
+        cuAPI.CountBlocks();
+        setTimeout(() => onConsoleText(cuAPI.placedBlockCount + ' blocks.'), 1000);
+        return true;
+    });
+
     addSlashCommand('help', 'show available slash commands', () => {
         _.each(slashCommands, (command: any, name: string) => {
             var text = '/' + name;

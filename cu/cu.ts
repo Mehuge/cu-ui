@@ -153,6 +153,13 @@ enum AbilityTags {
     CounterAttack,
     Unblockable,
 
+    // Bens test tags
+    TestTagA,
+    TestTagB,
+    TestTagC,
+    TestTagD,
+    TestTagE,
+
     COUNT           // Total number of tags.  Do not use as a tag.
 }
 
@@ -2125,6 +2132,7 @@ interface CUInGameAPI {
     RequestBlocks(): void;
     RequestBlockTags(c: (blockID: number) => void): void;
     ChangeBlockType(c: (newType: number) => void): void;
+    CountBlocks(): void;
     SelectBlueprint(c: (index: number) => void): void;
     SaveBlueprint(c: (name: string) => void): void;
     RequestBlueprints(): void;
@@ -2218,6 +2226,7 @@ interface CUInGameAPI {
     netstats_players_newBits: number;
     netstats_lag: number;
     particlesRenderedCount: number;
+    placedBlockCount: number;
     characters: number;
     terrain: number;
     perfHUD: string;
