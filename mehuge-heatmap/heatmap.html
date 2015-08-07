@@ -103,6 +103,7 @@
                     var since = new Date();
                     since.setMinutes(since.getMinutes() - historyWindow);
                     Rest.getKills({ start: since.toISOString() }).then(function (kills) {
+                        kills.sort(function (a, b) { return a.time < b.time ? -1 : a.time > b.time ? 1 : 0; });
                         history.textContent = "W:" + historyWindow + ", S:" + kills.length;
                         if (kills.length > maxSamples && historyWindow > 1) {
                             historyWindow--;

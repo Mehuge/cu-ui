@@ -68,6 +68,7 @@
                 from = gameStart;
             }
             Rest.getKills({ start: from }).then(function (kills) {
+                kills.sort(function (a, b) { return a.time < b.time ? -1 : a.time > b.time ? 1 : 0; });
                 cache = cache.concat(kills);
                 if (kills.length) showKills(cache);
                 pollKills();
