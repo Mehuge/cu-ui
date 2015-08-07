@@ -61,4 +61,9 @@ html, body {
     display: inline-block;
     margin: 0px;
     padding: 0px;
+	border:1px solid #000;
+}
+
+.block-selected{
+	border:1px solid #fff;
 }

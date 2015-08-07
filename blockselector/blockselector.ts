@@ -12,6 +12,10 @@ module BlockSelector {
                 });
             this.rootElement.click(() => {
                 cu.ChangeBlockType(buildingID);
+				$('.block-selected').each(function(){
+					$(this).removeClass('block-selected');
+				});
+				$(this).addClass('block-selected');				
             });
             this.rootElement.appendTo($blockContainer);
 
