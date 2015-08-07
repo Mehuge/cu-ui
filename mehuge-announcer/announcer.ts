@@ -1,5 +1,13 @@
 ﻿module Announcer {
 
+    enum XmppMessageType {
+        NORMAL = -1,
+        ERROR = 0,
+        CHAT = 1,
+        GROUPCHAT = 2,
+        HEADLINE = 3
+    }
+
     var player: string;
     var selfKills : any = [];
     var announcements : any = [], playing : any;

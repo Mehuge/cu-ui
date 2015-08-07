@@ -1,5 +1,13 @@
 ﻿module Deathspam {
 
+    enum XmppMessageType {
+        NORMAL = -1,
+        ERROR = 0,
+        CHAT = 1,
+        GROUPCHAT = 2,
+        HEADLINE = 3
+    }
+
     var deathspam : HTMLElement, maxHeight : number, player : string;
 
     export function DeathSpam(text:string) {
