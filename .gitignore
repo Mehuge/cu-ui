@@ -27,3 +27,8 @@ images/blockselector/block-icon-*.png
 mehuge/react-0.13.3
 dist/
 .vs/config/applicationhost.config
+ortu-*/
+ortu-*.ui
+!ortu-compass/
+!ortu-compass.ui
+vendor/AngularJS/
