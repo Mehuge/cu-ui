@@ -17,6 +17,7 @@ ChatConfig = {
         "/openui mehuge-group",
         "/openui mehuge-combatlog",
         "/openui castbar",
-        "/openui ortu-compass"
+        "/openui ortu-compass",
+        "/join _modsquad",
 ]
 };
