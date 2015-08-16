@@ -236,6 +236,13 @@ module Chat {
             setTimeout(() => addMessage({ from: "info", message: cuAPI.placedBlockCount + ' blocks.' }), 1000);
         }
     };
+    slash["eval"] = {
+        help: "Counts the number of blocks used in a cube structure",
+        handler: function (name: string, args: string[]) {
+            addMessage({ from: ">", message: args.join(' ') });
+            eval(args.join(' '));
+        }
+    };
 
 
 
