@@ -8,6 +8,7 @@ interface JQueryStatic {
     plot: any;
 }
 module Perf {
+    var CONFIG_NAME = "mehuge-perf-config";
     var $perf: JQuery, $config: JQuery;
     var samples = [];
     var data = {
@@ -16,7 +17,8 @@ module Perf {
         target: { hp: 0, max: 0 }
     };
     var CLS = { CPS: 1, PARTICLES: 2, MS: 3, HP: 4, SPEED: 5, BYTES: 6, BITS: 7, STAMINA: 8 };
-    var colors = ['#fff', '#0f0', '#00f', '#ff0', '#0ff', '#f00', '#80f', '#f08', '#f80', '#08f', '#888', '#487' ];
+    var colors = ['#fff', '#0f0', '#00f', '#ff0', '#0ff', '#f00', '#80f', '#f08', '#f80', '#08f', '#888', '#487'];
+
     var graphData = [
         { cls: CLS.CPS, label: "FPS", show: true, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.PARTICLES, label: "Particles", show: true, lines: { show: true, lineWidth: 1 } },
@@ -31,6 +33,34 @@ module Perf {
         { cls: CLS.BITS, label: "New Bits", show: false, lines: { show: true, lineWidth: 1 } },
         { cls: CLS.BITS, label: "Update Bits", show: false, lines: { show: true, lineWidth: 1 } },
     ];
+
+    function loadConfig() {
+        var config = localStorage.getItem(CONFIG_NAME);
+        if (config) {
+            try {
+                config = JSON.parse(config);
+            } catch (e) {
+                config = null;
+            }
+        }
+        if (config) {
+            for (var i = 0; i < graphData.length; i++) {
+                var entry = graphData[i];
+                if (config[entry.label]) {
+                    graphData[i].show = config[entry.label].show;
+                }
+            }
+        }
+    }
+
+    function saveConfig() {
+        var config = {};
+        for (var i = 0; i < graphData.length; i++) {
+            var entry = graphData[i];
+            config[entry.label] = { show: entry.show };
+        }
+        localStorage.setItem(CONFIG_NAME, JSON.stringify(config));
+    }
 
     function Paint() {
         var fps = [], particles = [], lag = [], hps = [], stamina = [], thps = [], speed = [], hspeed = [], tcp = [], udp = [], nbits = [], ubits = [],
@@ -108,6 +138,7 @@ module Perf {
 
     function hideOptions() {
         $config.css({ display: 'none' });
+        saveConfig();
     }
 
     function showOptions() {
@@ -150,6 +181,7 @@ module Perf {
 
     // Kickstart everything.
     cuAPI.OnInitialized(function () {
+        loadConfig();
         cuAPI.CloseUI("perfhud");
         $perf = $('#graph');
         $config = $('#config');
