@@ -119,6 +119,10 @@
     color: #FFFF00!important;
 }
 
+._ch_MOTD, ._ch_MOTD .message {
+    color: #00FF00!important;
+}
+
 ._ch_tty, ._ch_tty .message {
     color: #808080!important;
 }

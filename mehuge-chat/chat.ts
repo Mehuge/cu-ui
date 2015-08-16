@@ -12,7 +12,8 @@ module Chat {
         savedText: string = "",
         lastWhisper : string,
         showCombatMessages: boolean = true,
-        cmdHistory: string[] = [], cmdhpos = -1;
+        cmdHistory: string[] = [], cmdhpos = -1,
+        server = "hatchery";
 
     // channel list.  Note, : tells Mehuge chat API to join channel as-is, 
     // otherwise channel names are mangles
@@ -201,6 +202,12 @@ module Chat {
             if (args.length > 0) {
                 MehugeChat.sendText(args.join(" "), "_cube");
             }
+        }
+    };
+    slash["motd"] = {
+        help: "talk in cube chat",
+        handler: function (name: string, args: string[]) {
+            MehugeChat.sendText("!motd " + server, "$motd");
         }
     };
     slash["w"] = slash["whisper"] = slash["tell"] = {
@@ -426,12 +433,17 @@ module Chat {
             MehugeChat.connect(cuAPI.loginToken, channels, function (channel:any) {
                 addMessage({ from: 'system', message: 'connected to channel ' + channel.room });
                 if (channels.indexOf(channel.room) == -1) {
-                    channels.push(channel.room);
-                    rebuildChannelUI();
-                    selectChannel(channels.length - 1);
+                    if (channel.room.indexOf("$motd") !== 0) {         // ignore join of $motd-server room
+                        channels.push(channel.room);
+                        rebuildChannelUI();
+                        selectChannel(channels.length - 1);
+                    } else {
+                        MehugeChat.sendText("!motd " + server, channel.room);
+                    }
                 }
                 if (!hasAskedForMOTD) {
-                    MehugeChat.sendIM("!motd", "agoknee@chat.camelotunchained.com");
+                    console.log('join $motd');
+                    MehugeChat.join("$motd");
                     hasAskedForMOTD = true;
                 }
             });
@@ -449,6 +461,11 @@ module Chat {
                 } else {
                     lastWhisper = msg.account;
                 }
+            } else if (msg.type === "groupchat" && msg.from === "$motd") {
+                if (msg.message.substr(0, 6) !== "MOTD: ") return;
+                msg.from = "MOTD";
+                msg.account = null;
+                msg.message = msg.message.substr(6);
             }
             addMessage(msg);
         }]);
@@ -543,6 +560,10 @@ module Chat {
     }
 
     function init() {
+        
+        // set the server
+        server = cuAPI.serverURL.split('//')[1].split('.')[0];
+
         cuAPI.OnCharacterFactionChanged((factionId: number) => {
             var f2s = function (id) {
                 switch (id) {
