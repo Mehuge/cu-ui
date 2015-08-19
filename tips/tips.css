@@ -56,6 +56,20 @@
     font-family: 'Merriweather Sans';
 }
 
+#btn-dontShowAgain {
+    position: relative;
+    margin: auto;
+    width: 180px;
+    height: 20px;
+    background-color: Transparent;
+    border: none;
+    opacity: 1.0;
+    top: 0px;
+    left: 0px;
+    font-family: 'Merriweather Sans';
+}
+
+
 
 #window-title {
     position: relative;

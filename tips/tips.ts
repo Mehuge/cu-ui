@@ -32,6 +32,15 @@ module Tips {
         
     });
 
+    $dontShowAgain.click(function () {
+        //Audio - play generic select sound here. KeepOpen button was clicked. 
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_GENERICSELECT);
+        clearInterval(intervalID);
+        localStorage.setItem('tips_show', 'false');
+        close_tips();
+    });
+
+
 
     function close_tips() {
         //cuAPI.HideUI('tip');
@@ -53,6 +62,12 @@ module Tips {
                 }
             }
         }, 1000);
+    }
+
+
+    var value = localStorage['tips_show']
+    if (value == 'false') {
+        close_tips();
     }
 
     //$(".tips").draggable();
