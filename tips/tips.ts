@@ -8,6 +8,7 @@ module Tips {
     var $tips = cu.FindElement('#tips');
     var $closeButton = $('#btn-close');
     var $keepOpenButton = $('#btn-keepOpen');
+    var $dontShowAgain = $('#btn-dontShowAgain');
     var $timer = $('#timer');
     var keep_open = false;
     var intervalID;
