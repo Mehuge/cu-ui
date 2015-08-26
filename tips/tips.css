@@ -1,0 +1,112 @@
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+#tips {
+    position: relative;
+    margin: auto;
+    width: 602px;
+    height: 542px;
+    background-image: url('images/background.png');
+    background-repeat: no-repeat;
+    opacity: 1.0;
+    top: 6px;
+   
+}
+
+#duck {
+    position: relative;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    background-image: url('images/duck.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 1.0;
+    top: 5px;
+    left: -280px;
+}
+
+#btn-close {
+    position: relative;
+    margin: auto;
+    width: 20px;
+    height: 20px;
+    background-image: url('images/x.png');
+    background-color: Transparent;
+    background-size: contain;
+    font-family: 'Merriweather Sans';
+    border: none;
+    opacity: 1.0;
+    top: -25px;
+    left: 565px;
+}
+
+#btn-keepOpen {
+    position: relative;
+    margin: auto;
+    width: 80px;
+    height: 20px;
+    background-color: Transparent;
+    border: none;
+    opacity: 1.0;
+    top: 0px;
+    left: 0px;
+    font-family: 'Merriweather Sans';
+}
+
+
+#window-title {
+    position: relative;
+    margin: auto;
+    width: 512px;
+    height: 80px;
+    background-size: auto;
+    opacity: 1.0;
+    top: -40px;
+    left: 0px;
+    font-family: 'Merriweather Sans';
+    font-size: 26px;
+}
+#timer {
+    font-family: 'Merriweather Sans';
+}
+
+#window-header {
+    position: relative;
+    margin: auto;
+    width: 512px;
+    height: 40px;
+    background-size: auto;
+    opacity: 1.0;
+    top: -50px;
+    left: 0px;
+    font-family: 'Merriweather Sans';
+    font-size: 18px;
+}
+
+#hr {
+    position: relative;
+    margin: auto;
+    width: 512px;
+    height: 10px; 
+    top: 0px;
+    left: 0px;
+    opacity: 0.5;
+
+}
+
+
+ #window-middle {
+    position: relative;
+    margin: auto;
+    width: 512px;
+    height: 250px;
+    background-size: auto;
+    opacity: 1.0;
+    top: -40px;
+    left: 0px;
+    font-family: 'Merriweather Sans';
+    font-size: 16px;
+}

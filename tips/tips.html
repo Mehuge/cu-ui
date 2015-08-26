@@ -1,0 +1,43 @@
+﻿<!-- This Source Code Form is subject to the terms of the Mozilla Public
+   - License, v. 2.0. If a copy of the MPL was not distributed with this
+   - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+<head>
+    <title>Tips</title>
+    <link rel="stylesheet" type="text/css" href="../cu/cu.css">
+    <link rel="stylesheet" type="text/css" href="tips.css">
+
+</head>
+<body class="disable-selection default-cursor">
+    <div id="tips" class="tips">
+        <div class="window">
+            <div id="duck"></div>
+            <button   id="btn-close"></button>
+            <div class="window-top" align="center">
+                <div id="window-title"><b>Welcome to Camelot's Unchained <br /> Extended Alpha.</b></div>
+                <div id="window-header"><b>Please review the following tips:</b></div>
+            </div>
+            <div id="window-middle">
+                    <b>Press V</b> to create new spells/abilities<br />
+                    <b>Press B</b> to open spellbook to delete spells/abilities<br />
+                    Type <b>'/hideui perfhud'</b> to hide the statistics window<br />
+                    Type <b>'/suicide'</b> to quickly spawn in a new location<br />
+                    <div id="hr"><hr noshade size=2></div>
+                    To help increase performance on older systems type <b>'shadowMaxDist 0'</b>, hold Shift, and press Enter.<br />
+                    <div id="hr"><hr noshade size=2></div>
+                    To run the game in full screen at high resolution hold Alt while clicking the 'Play' button on the launcher and enter
+                    <b>'windowWidth=1920;windowHeight=1080'</b>.
+                    <div id="hr"><hr noshade size=2></div>
+                    For other very usefull information, please click the <b>'Alpha Manual'</b> link on the game patcher.
+            </div>
+            <div class="window-bottom" align="center">
+                <div>
+                    <button id="btn-keepOpen">Keep open</button>
+                    <div  id="timer">Closing in: </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../vendor/jquery-2.1.1.js"></script>
+    <script src="../cu/cu.js"></script>
+    <script src="tips.js"></script>
+</body>

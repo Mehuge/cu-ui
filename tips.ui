@@ -1,0 +1,11 @@
+{
+    "name": "tips",
+    "mainFile": "tips/tips.html",
+    "rect": {
+        "left": 200,
+        "top": 80,
+        "right": 1200,
+        "bottom": 800
+    },
+   "handlesInput": true
+}
