@@ -46,6 +46,9 @@
 		            var diff = ourHealth - health;
 		            if (diff > 0) {
 		                combat.log('health lost', 'You took ' + diff + ' damage.');
+		                if (diff > 10) {
+		                    (new Audio("hit.wav")).play();
+		                }
 		            } else {
 		                combat.log('health gained', 'You were healed for ' + (-diff) + '.');
 		            }
