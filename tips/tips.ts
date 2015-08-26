@@ -12,7 +12,7 @@ module Tips {
     var $timer = $('#timer');
     var keep_open = false;
     var intervalID;
-    var counter = 5;
+    var counter = 60;
 
 
 
@@ -44,7 +44,6 @@ module Tips {
 
 
     function close_tips() {
-        //cuAPI.HideUI('tip');
         cuAPI.CloseUI('tips');
         $tips.fadeOut();
         keep_open = true;
@@ -70,6 +69,4 @@ module Tips {
     if (value == 'false') {
         close_tips();
     }
-
-    //$(".tips").draggable();
 }

@@ -9,7 +9,7 @@
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
-    <TypeScriptToolsVersion>1.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -19,6 +19,8 @@
   <ItemGroup>
     <Content Include="ability-builder\builder.css" />
     <Content Include="ability-builder\builder.html" />
+    <Content Include="injuries\injuries.css" />
+    <Content Include="injuries\injuries.html" />
     <TypeScriptCompile Include="ability-builder\builder.ts" />
     <TypeScriptCompile Include="ability-crafting\networks\comboANetwork.ts" />
     <TypeScriptCompile Include="ability-crafting\networks\comboBNetwork.ts" />
@@ -179,13 +181,18 @@
     <Content Include="images\skills\status-Fatigue.jpg" />
     <Content Include="images\skills\water-Cone.jpg" />
     <Content Include="images\spellbook\btn-delete.png" />
-    <Content Include="physhud\physhud.css" />
-    <Content Include="physhud\physhud.html" />
+    <Content Include="perfhud2\perfhud2.css" />
+    <Content Include="perfhud2\perfhud2.html" />
     <Content Include="images\tour\arrow.png" />
     <Content Include="images\tour\body-bg.png" />
     <Content Include="images\tour\duckguide.png" />
     <Content Include="reticle\reticle.css" />
     <Content Include="reticle\reticle.html" />
+    <Content Include="tips\images\background.png" />
+    <Content Include="tips\images\duck.png" />
+    <Content Include="tips\images\x.png" />
+    <Content Include="tips\tips.css" />
+    <Content Include="tips\tips.html" />
     <Content Include="tour\tour.css" />
     <Content Include="tour\tour.html" />
     <Content Include="Twitter\Twitter.css" />
@@ -489,7 +496,7 @@
     <Content Include="inventory\inventory.css" />
     <Content Include="inventory\inventory.html" />
     <TypeScriptCompile Include="diagnostic\diagnostic.ts" />
-    <TypeScriptCompile Include="physhud\physhud.ts" />
+    <TypeScriptCompile Include="perfhud2\perfhud2.ts" />
     <TypeScriptCompile Include="screenshotbutton\screenshotbutton.ts" />
     <TypeScriptCompile Include="screenshotshare\screenshotshare.ts" />
     <TypeScriptCompile Include="shared\chatlib.ts" />
@@ -520,6 +527,7 @@
     <Content Include="skillbar\skillbar.css" />
     <Content Include="skillbar\skillbar.html" />
     <TypeScriptCompile Include="target\target.ts" />
+    <TypeScriptCompile Include="tips\tips.ts" />
     <TypeScriptCompile Include="tour\spellbooktour.ts" />
     <TypeScriptCompile Include="tour\buildertour.ts" />
     <TypeScriptCompile Include="tour\logintour.ts" />
@@ -530,6 +538,7 @@
     <TypeScriptCompile Include="vendor\numeral.d.ts" />
     <TypeScriptCompile Include="vendor\promise.d.ts" />
     <TypeScriptCompile Include="vendor\turn.d.ts" />
+    <TypeScriptCompile Include="injuries\injuries.ts" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="cu\cu.ts" />
@@ -546,6 +555,7 @@
     <Content Include="skillbar.ui" />
     <Content Include="spellbook\spellbook.css" />
     <Content Include="spellbook\spellbook.html" />
+    <Content Include="injuries.ui" />
     <TypeScriptCompile Include="spellbook\spellbook.ts" />
     <Content Include="target\target.css" />
     <Content Include="vendor\numeral.js" />
@@ -579,7 +589,7 @@
     <Content Include="buildactions.ui" />
     <Content Include="bandage.ui" />
     <Content Include="cubechat.ui" />
-    <Content Include="physhud.ui" />
+    <Content Include="perfhud2.ui" />
     <Content Include="audio\spellbook\UI_SpellBook_Open.ogg" />
     <Content Include="audio\spellbook\UI_SpellBook_PageFlip_Backward.ogg" />
     <Content Include="audio\spellbook\UI_SpellBook_PageFlip_Forward.ogg" />
@@ -598,6 +608,7 @@
     <Content Include="reticle.ui" />
     <Content Include="buildblueprints.ui" />
     <Content Include="diagnostic.ui" />
+    <Content Include="tips.ui" />
     <None Include="ToClient.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -626,8 +637,8 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <TypeScriptTarget>ES5</TypeScriptTarget>
     <TypeScriptRemoveComments>false</TypeScriptRemoveComments>
-    <TypeScriptSourceMap>true</TypeScriptSourceMap>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptModuleKind>commonjs</TypeScriptModuleKind>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <TypeScriptTarget>ES5</TypeScriptTarget>

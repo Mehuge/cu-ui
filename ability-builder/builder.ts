@@ -120,7 +120,7 @@ module AbilityBuilder {
     var selectedSlot = null;
     var selectedComponents = [];
 
-	var oldCombinedStats = {};
+    var oldCombinedStats = {};
 
     var networkOffset = $network.offset();
 
@@ -646,7 +646,7 @@ module AbilityBuilder {
     }
 
     function addTrainedComponent(component) {
-		extendComponentDescription(component);
+        extendComponentDescription(component);
         var trainedComponent = new Component({
             id: component.id,
             baseComponentID: component.baseComponentID,
@@ -672,27 +672,35 @@ module AbilityBuilder {
         trainedComponents.push(trainedComponent);
     }
 
-	function extendComponentDescription(component){
+    function extendComponentDescription(component){
         component.statDescription = '<hr>';
-		for (var stat in component.stats) {
+        for (var stat in component.stats) {
             if (component.stats.hasOwnProperty(stat)) {
-				var statName = stat.charAt(0).toUpperCase() + stat.substring(1).replace(/([A-Z])/g, ' $1');
+                var statName = stat.charAt(0).toUpperCase() + stat.substring(1).replace(/([A-Z])/g, ' $1');
 
-				var change = '+';
-				if(component.stats[stat].value < 0)
-					change = '';
+                var valStr = '';
+                var modType = ' &nbsp;(Base)';
+                var identity = 0;
 
-				var modType = ' &nbsp;(Base)';
-				if(component.stats[stat].modType == 'Multiplicative')
-					modType = ' &nbsp;(Multiplier)';
+                if (component.stats[stat].modType == 'Multiplicative') {
+                    var val = component.stats[stat].value * 100;
+                    valStr += val.toFixed(1);
+                    valStr += '%';
+                    modType = ' &nbsp;(Multiplier)';
+                    identity = 1;
+                } else {
+                    if (component.stats[stat].value > 0)
+                        valStr += '+';
+                    valStr += component.stats[stat].value.toFixed(2);
+                }
 
-				component.statDescription += '<span class="stat-label">' + statName + ': </span>';
-				component.statDescription += '<span class="' + getStatChangeClass(component.stats[stat].value, component.stats[stat].valType) + '-major">';
-				component.statDescription += '<span class="stat-change-cell"> ' + change + component.stats[stat].value.toFixed(2) + '</span></span>';
-				component.statDescription += ' ' + modType + '<br/>';
-			}
-		}
-	}
+                component.statDescription += '<span class="stat-label">' + statName + ': </span>';
+                component.statDescription += '<span class="' + getStatChangeClass(component.stats[stat].value, component.stats[stat].valType, identity) + '-major">';
+                component.statDescription += '<span class="stat-change-cell"> ' + valStr + '</span></span>';
+                component.statDescription += ' ' + modType + '<br/>';
+            }
+        }
+    }
 
     function mapTags(tags) {
         return tags.map(tag => AbilityTags[tag]);
@@ -809,7 +817,7 @@ module AbilityBuilder {
         if (selectedSlot) {
             filteredComponents = filteredComponents.filter(component => {
                 if (!component || component.type !== selectedSlot.type) return false;
-                if (selectedSlot.type !== ComponentType.IndependantModal && selectedSlot.parents.length === 0) return true;
+                if (selectedSlot.type !== ComponentType.Modal && selectedSlot.parents.length === 0) return true;
                 return selectedSlot[selectedSlot.originalSubType ? 'hasOriginalType' : 'hasSubType'](component.subType);
             });
         }
@@ -1161,52 +1169,55 @@ module AbilityBuilder {
                             results[cs].value += componentStat.value;
                         } else if (modType === ValueModifierType.Multiplicative) {
                             results[cs].count++;
-                            results[cs].multiplier += componentStat.value;
+                            results[cs].multiplier += componentStat.value - 1.0;
                         }
                     } else {
                         if (modType === ValueModifierType.Additive) {
                             results[cs] = { count: 1, value: componentStat.value, multiplier: 1 };
                         } else if (modType === ValueModifierType.Multiplicative) {
-                            results[cs] = { count: 1, value: 0, multiplier: 1 + componentStat.value };
+                            results[cs] = { count: 1, value: 0, multiplier: componentStat.value };
                         }
                     }
-					results[cs].valType = componentStat.valType;
+                    results[cs].valType = componentStat.valType;
                 }
             }
 
             return results;
         }, {});
 
-		$('<li>').html('<span class="stat-label">Stat Name</span><span class="stat-change-cell">Value</span><span class="stat-change-cell">Change</span><span class="stat-change-cell">Change%</span>').appendTo($stats);
+        $('<li>').html('<span class="stat-label">Stat Name</span><span class="stat-change-cell">Value</span><span class="stat-change-cell">Change</span><span class="stat-change-cell">Change%</span>').appendTo($stats);
 
         for (var combinedStat in combinedStats) {
             if (combinedStats.hasOwnProperty(combinedStat)) {
                 var stat = combinedStats[combinedStat];
 
-				var oldStatVal = 0.0;
-				if (oldCombinedStats.hasOwnProperty(combinedStat)) {
-					oldStatVal = oldCombinedStats[combinedStat];
-				}
+                var oldStatVal = 0.0;
+                if (oldCombinedStats.hasOwnProperty(combinedStat)) {
+                    oldStatVal = oldCombinedStats[combinedStat];
+                }
 
                 if (stat.count <= 1) continue;
 
                 var statName = combinedStat.charAt(0).toUpperCase() + combinedStat.substring(1).replace(/([A-Z])/g, ' $1');
 
                 var value: any = stat.value * stat.multiplier;
-				var change = value - oldStatVal;
-				var changeP = (1.0 - (oldStatVal / value)) * 100.0;
-				var useMajor = (changeP >= 25.0 || changeP <= -25.0) ? '-major' : '';
+                if (value < 0) {
+                    value = 0;
+                }
+                var change = value - oldStatVal;
+                var changeP = (1.0 - (oldStatVal / value)) * 100.0;
+                var useMajor = (changeP >= 25.0 || changeP <= -25.0) ? '-major' : '';
                 var span = '';
 
-				if(change == 0){
-                    span = '<span class="' + getStatChangeClass(change, stat.valType) + '"><span class="stat-change-cell"> --</span><span class="stat-change-cell"> --</span></span>';
-				}
-				else{
-                    span = '<span class="' + getStatChangeClass(change, stat.valType) + useMajor + '"><span class="stat-change-cell"> ' + (change > 0 ? '+' : '') + change.toFixed(2) + '</span><span class="stat-change-cell"> ' + (changeP > 0 ? '+' : '') + changeP.toFixed(1) + '%</span></span>';
-				}
+                if(change == 0){
+                    span = '<span class="' + getStatChangeClass(change, stat.valType, 0) + '"><span class="stat-change-cell"> --</span><span class="stat-change-cell"> --</span></span>';
+                }
+                else{
+                    span = '<span class="' + getStatChangeClass(change, stat.valType, 0) + useMajor + '"><span class="stat-change-cell"> ' + (change > 0 ? '+' : '') + change.toFixed(2) + '</span><span class="stat-change-cell"> ' + (changeP > 0 ? '+' : '') + changeP.toFixed(1) + '%</span></span>';
+                }
 
                 value = '<span class="stat-change-cell">' + value.toFixed(2) + '</span>';
-				statName = '<span class="stat-label">' + statName + ': </span>';
+                statName = '<span class="stat-label">' + statName + ': </span>';
 
                 $('<li>').html(statName + value + span).appendTo($stats);
             }
@@ -1215,21 +1226,21 @@ module AbilityBuilder {
         for (var combinedStat in combinedStats) {
             if (combinedStats.hasOwnProperty(combinedStat)) {
                 oldCombinedStats[combinedStat] = combinedStats[combinedStat].value * combinedStats[combinedStat].multiplier;
-			}
-		}
+            }
+        }
     }
 
-	function getStatChangeClass(value, valType){
-		var cl = '';
-		if(valType == 'Power'){
-			cl = (value > 0 ? 'stat-change-improve' : (value < 0 ? 'stat-change-diminish' : 'stat-change-even'));
-		}
-		else{
-			cl = (value > 0 ? 'stat-change-diminish' : (value < 0 ? 'stat-change-improve' : 'stat-change-even'));
-		}
+    function getStatChangeClass(value, valType, identity){
+        var cl = '';
+        if (valType == 'Power'){
+            cl = (value > identity ? 'stat-change-improve' : (value < identity ? 'stat-change-diminish' : 'stat-change-even'));
+        }
+        else {
+            cl = (value > identity ? 'stat-change-diminish' : (value < identity ? 'stat-change-improve' : 'stat-change-even'));
+        }
 
-		return cl;
-	}
+        return cl;
+    }
 
     function hideAbilityBuilder(e) {
         if (e) {

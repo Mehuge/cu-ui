@@ -1404,6 +1404,14 @@ module Spellbook {
 
                 cuAPI.OnShowAbility(onShowAbility);
 
+                cuAPI.OnSyncComponents(() => {
+                    var componentsPromise = loadTrainedComponents();
+                    componentsPromise.done(c => {
+                        components = mapComponents(c);
+                        initializeComponents()
+                     });
+                });
+
                 cuAPI.OnCharacterIDChanged(id => {
                     characterID = id;
 

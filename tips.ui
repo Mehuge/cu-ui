@@ -3,9 +3,9 @@
     "mainFile": "tips/tips.html",
     "rect": {
         "left": 200,
-        "top": 80,
+        "top": 180,
         "right": 1200,
-        "bottom": 800
+        "bottom": 900
     },
    "handlesInput": true
 }

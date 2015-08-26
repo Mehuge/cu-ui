@@ -2,16 +2,23 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 <head>
-    <title>Physhud</title>
+    <title>PerfHUD2</title>
     <link rel="stylesheet" type="text/css" href="../cu/cu.css">
-    <link rel="stylesheet" type="text/css" href="physhud.css">
+    <link rel="stylesheet" type="text/css" href="perfhud2.css">
 </head>
 <body class="disable-selection default-cursor">
-    <div id="physHudContainer">
-        <ul id="physHud"></ul>
+    <ul id="tabs">
+        <li><a href="#physHudContainer">PhysHUD</a></li>
+        <li><a href="#netHudContainer">NetHUD</a></li>
+    </ul>
+    <div id="physHudContainer" class="container">
+        <ul id="physHud" class="hud"></ul>
+    </div>
+    <div id="netHudContainer" class="container visible">
+        <ul id="netHud" class="hud"></ul>
     </div>
     <script src="../vendor/jquery-2.1.1.js"></script>
     <script src="../vendor/lodash.js"></script>
     <script src="../cu/cu.js"></script>
-    <script src="physhud.js"></script>
+    <script src="perfhud2.js"></script>
 </body>

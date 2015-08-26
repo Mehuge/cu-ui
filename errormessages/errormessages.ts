@@ -45,6 +45,7 @@ module ErrorMessages {
             case 5: return 'You don\'t have a target.';
             case 6: return 'You were interrupted!';
             case 7: return 'You do not have enough stamina.';
+            case 8: return 'You aren\'t in the right stance.';
             default: return '';
         }
     }

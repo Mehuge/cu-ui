@@ -43,12 +43,7 @@ module ScreenshotShare {
 
     $twitterShareButton.click(() => {
         if (isLoaded) {
-            var canvas: any = document.createElement('canvas');
-            canvas.width = 1080;
-            canvas.height = 675;
-            var ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            var dataUrl = canvas.toDataURL('image/png');
+            var dataUrl = "data:image/png;base64," + imageData;
             twitterFrame.contentWindow.postMessage({ image: dataUrl, message: $('#user-text').val() }, 'http://camelotunchained.com');
             $twitterShareButton.prop('disabled', true);
         }
@@ -57,12 +52,7 @@ module ScreenshotShare {
     $fbShareButton.click(() => {
         // access the raw image data
         if (isLoaded) {
-            var canvas: any = document.createElement('canvas');
-            canvas.width = 1080;
-            canvas.height = 675;
-            var ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-            var dataUrl = canvas.toDataURL('image/png');
+            var dataUrl = "data:image/png;base64," + imageData;
             fbFrame.contentWindow.postMessage({ image: dataUrl, message: $('#user-text').val() }, 'http://camelotunchained.com');
             $fbShareButton.prop('disabled', true);
         }
@@ -80,6 +70,8 @@ module ScreenshotShare {
         isLoaded = false;
         imageData = screenShotString;
         img.setAttribute('src', "data:image/png;base64," + imageData);
+        var imgClass = (img.width / img.height > 1) ? 'wide' : 'tall';
+        $('#screenshot-image').addClass(imgClass);
         img.onload = function () {
             isLoaded = true;
         }
