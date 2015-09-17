@@ -8,10 +8,11 @@ module Tips {
     var $tips = cu.FindElement('#tips');
     var $closeButton = $('#btn-close');
     var $keepOpenButton = $('#btn-keepOpen');
+    var $dontShowAgain = $('#btn-dontShowAgain');
     var $timer = $('#timer');
     var keep_open = false;
     var intervalID;
-    var counter = 5;
+    var counter = 60;
 
 
 
@@ -32,9 +33,17 @@ module Tips {
         
     });
 
+    $dontShowAgain.click(function () {
+        //Audio - play generic select sound here. KeepOpen button was clicked. 
+        cuAPI.PlaySoundEvent(cu.SOUND_EVENTS.PLAY_UI_MENU_GENERICSELECT);
+        clearInterval(intervalID);
+        localStorage.setItem('tips_show', 'false');
+        close_tips();
+    });
+
+
 
     function close_tips() {
-        //cuAPI.HideUI('tip');
         cuAPI.CloseUI('tips');
         $tips.fadeOut();
         keep_open = true;
@@ -55,5 +64,9 @@ module Tips {
         }, 1000);
     }
 
-    //$(".tips").draggable();
+
+    var value = localStorage['tips_show']
+    if (value == 'false') {
+        close_tips();
+    }
 }

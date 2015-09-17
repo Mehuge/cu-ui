@@ -920,6 +920,14 @@ class CU {
                     this.gameClient.OnNewBlueprint((index, name) => this.Fire('HandleNewBlueprint', index, name));
                 }
 
+                if (_.isFunction(this.gameClient.OnDownloadBlueprints)) {
+                    this.gameClient.OnDownloadBlueprints((charID) => this.Fire('HandleDownloadBlueprints', charID));
+                }
+
+                if (_.isFunction(this.gameClient.OnUploadBlueprint)) {
+                    this.gameClient.OnUploadBlueprint((charID, blueprintname, celldata) => this.Fire('HandleUploadBlueprint', charID, blueprintname, celldata));
+                }
+
                 this.onInit.InvokeCallbacks();
 
                 this.gameServerURL = this.gameClient.serverURL;
@@ -1306,6 +1314,18 @@ class CU {
     public RequestBlueprints(): void {
         if (cu.HasAPI()) {
             cuAPI.RequestBlueprints();
+        }
+    }
+
+    public DownloadBlueprints(): void {
+        if (cu.HasAPI()) {
+            cuAPI.DownloadBlueprints();
+        }
+    }
+
+    public ReceiveBlueprintFromServer(name, cellData, id): void {
+        if (cu.HasAPI()) {
+            cuAPI.ReceiveBlueprintFromServer(name, cellData, id);
         }
     }
 
@@ -2127,6 +2147,8 @@ interface CUInGameAPI {
     OnReceiveBlockTags(c: (blockID: number, tagDict: any) => void): void;
     OnCopyBlueprint(c: () => void): void;
     OnNewBlueprint(c: (index: number, name: string) => void): void;
+    OnDownloadBlueprints(c: (charID: string) => void): void;
+    OnUploadBlueprint(c: (charID: string, blueprintname: string, celldata: any) => void): void;
     ToggleBuildingMode(): void;
     SetBuildingMode(c: (newMode: number) => void): void;
     RequestBlocks(): void;
@@ -2136,6 +2158,8 @@ interface CUInGameAPI {
     SelectBlueprint(c: (index: number) => void): void;
     SaveBlueprint(c: (name: string) => void): void;
     RequestBlueprints(): void;
+    DownloadBlueprints(): void;
+    ReceiveBlueprintFromServer(name: string, cellData: string, id: string): void;
     CommitBlock(): void;
     CancelBlockPlacement(): void;
     BlockRotateX(): void;
@@ -2164,6 +2188,7 @@ interface CUInGameAPI {
     OnCharacterNameChanged(c: (name: string) => void): void;
     OnCharacterHealthChanged(c: (health: number, maxHealth: number) => void): void;
     OnCharacterStaminaChanged(c: (stamina: number, maxStamina: number) => void): void;
+    OnCharacterInjuriesChanged(c: (part: number, health: number, maxHealth: number, numWounds: number) => void): void;
     OnCharacterEffectsChanged(c: (effects: string) => void): void;
 
     /* EMOTE */
@@ -2212,6 +2237,8 @@ interface CUInGameAPI {
     RegisterAbility(abilityID: string, primaryBaseComponentID: string, secondaryBaseComponentID: string): void;
     OnAbilityRegistered(callback: (abilityID: string, cooldowns: string, duration: number, triggerTime: number) => void): void;
 
+    OnSyncComponents(callback: () => void): void;
+
     /* Stats */
 
     fps: number;
@@ -2225,6 +2252,15 @@ interface CUInGameAPI {
     netstats_players_newCount: number;
     netstats_players_newBits: number;
     netstats_lag: number;
+    netstats_delay: number;
+    netstats_entities_newCountPerSec: number;
+    netstats_entities_newBitsPerSec: number;
+    netstats_entities_newBitsPerEntity: number;
+    netstats_entities_updateCountPerSec: number;
+    netstats_entities_updateBitsPerSec: number;
+    netstats_entities_updateBitsPerEntity: number;
+    netstats_syncsPerSec: number;
+    netstats_selfUpdatesPerSec: number;
     particlesRenderedCount: number;
     placedBlockCount: number;
     characters: number;

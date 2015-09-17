@@ -472,18 +472,18 @@ var physical2 = new ComponentSlot({
 });
 
 var physical1 = new ComponentSlot({
+    type: ComponentType.Modal,
+    subType: ComponentSubType.Stance,
+    x: 6,
+    y: 0
+});
+
+var physical0 = new ComponentSlot({
     type: ComponentType.Primary,
     subType: ComponentSubType.Weapon,
     x: 6,
     y: 5,
-    children: [physical2, physical3]
-});
-
-var physical0 = new ComponentSlot({
-    type: ComponentType.IndependantModal,
-    subType: ComponentSubType.Stance,
-    x: 6,
-    y: 0
+    children: [physical1, physical2, physical3]
 });
 
 var physical = new ComponentNetwork({

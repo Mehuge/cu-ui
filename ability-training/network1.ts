@@ -33,7 +33,7 @@ f1Slot.component = new Component({
 });
 
 var e1Slot = new ComponentSlot({
-    type: ComponentType.IndependantModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.None,
     x: 0,
     y: 15,
@@ -62,7 +62,7 @@ var e1Slot = new ComponentSlot({
 
 e1Slot.component = new Component({
     name: 'E1',
-    type: ComponentType.IndependantModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.None,
     path: ComponentPath['Path 1'],
     rank: 2,
@@ -71,7 +71,7 @@ e1Slot.component = new Component({
 });
 
 var d1Slot = new ComponentSlot({
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.None,
     x: 5,
     y: 10,
@@ -93,7 +93,7 @@ var d1Slot = new ComponentSlot({
 
 d1Slot.component = new Component({
     name: 'D1',
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.None,
     icon: '../images/components/special-modal-draw.png',
     slot: d1Slot

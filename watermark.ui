@@ -2,9 +2,9 @@
     "name": "watermark",
     "mainFile": "watermark/watermark.html",
     "rect": {
-        "left": 1050,
-        "top": 795,
-        "right": 1440,
-        "bottom": 815
+        "left": 0,
+        "top": 815,
+        "right": 390,
+        "bottom": 835
     }
 }

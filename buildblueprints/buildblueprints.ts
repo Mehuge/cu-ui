@@ -15,6 +15,10 @@ module BuildBlueprints {
 
     var $filename = $('#filename');
 
+    var serverAddress = "";
+    var charID = "";
+    var token = "";
+
     $filename.on("keydown", function (event) {
         // Allow controls such as backspace
         var arr = [8, 16, 17, 20, 35, 36, 37, 38, 39, 40, 45, 46];
@@ -28,6 +32,21 @@ module BuildBlueprints {
         if (jQuery.inArray(event.which, arr) === -1) {
             event.preventDefault();
         }
+    });
+
+    $filename.on('input propertychange paste', function () {
+        $okBtn.prop("disabled", false);
+
+        if ($filename.val() === '') {
+            $okBtn.prop("disabled", true);
+            return;
+        }
+        $("#blueprint-container").children().each(function (index) {
+            var text = $(this).text();
+            if ($filename.val() == text) {
+                $okBtn.prop("disabled", true);
+            }
+        });
     });
 
     $filename.attr('maxlength', '10');
@@ -66,11 +85,13 @@ module BuildBlueprints {
     function reloadBlueprints() {
         $("#blueprint-container").empty();
         cu.RequestBlueprints();
+        cu.DownloadBlueprints();
     }
 
     $reloadBtn.click(reloadBlueprints);
 
     cu.OnInitialized(() => {
+        $.support.cors = true;
         reloadBlueprints();
     });
 
@@ -85,6 +106,7 @@ module BuildBlueprints {
             $reloadBtn.hide();
             $filename.show();
             $filename.val('');
+            $okBtn.prop("disabled", true);
         } else {
             $afterSave.hide();
             $filename.hide();
@@ -117,6 +139,12 @@ module BuildBlueprints {
     });
 
     cu.Listen('HandleNewBlueprint', (index, name) => {
+        $("#blueprint-container").children().each(function (i) {
+            var text = $(this).text();
+            if (name == text) {
+                $(this).remove();
+            }
+        });
         var $newBlueprint = $("<div class='blueprint'>");
         $newBlueprint.text(name);
         $newBlueprint.click(() => {
@@ -127,6 +155,50 @@ module BuildBlueprints {
 
     cu.Listen('HandleCopyBlueprint', () => {
         $pasteBtn.prop('disabled', false);
+    });
+
+    cu.Listen('HandleDownloadBlueprints',(charid) => {
+        serverAddress = cu.SecureApiUrl('api/blueprint');
+        charID = charid;
+        token = cuAPI.loginToken;
+        $.ajax({
+            type: 'GET',
+            url: serverAddress,
+            data: {
+                characterID: charID,
+                loginToken: token
+            },
+            contentType : 'application/json; charset=utf-8',
+            timeout: 10000
+        }).done((data) => {
+            for (var i = 0; i < data.blueprints.length; ++i) {
+                cu.ReceiveBlueprintFromServer(data.blueprints[i].name, data.blueprints[i].cellData, data.blueprints[i]._id);
+            }
+        }).fail(() => {
+
+        });
+    });
+
+    cu.Listen('HandleUploadBlueprint',(charid, blueprintname, celldata) => {
+        serverAddress = cu.SecureApiUrl('api/blueprint/add');
+        charID = charid;
+        token = cuAPI.loginToken;
+        $.ajax({
+            type: 'GET',
+            url: serverAddress,
+            data: {
+                newBlueprintName: blueprintname,
+                newBlueprintData: celldata,
+                characterID: charID,
+                loginToken: token
+            },
+            contentType: 'application/octet-stream; charset=ascii',
+            timeout: 10000
+        }).done((data) => {
+            cu.ReceiveBlueprintFromServer(data.name, data.cellData, data._id);
+        }).fail(() => {
+
+        });
     });
 
     var inputOwnershipTimer: number;

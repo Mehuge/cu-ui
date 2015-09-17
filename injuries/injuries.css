@@ -1,0 +1,65 @@
+﻿/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#injury-location {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 15px;
+    line-height: 15px;
+    padding-left: 5px;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 11px;
+    color: #efefef;
+    text-align: left;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
+}
+
+#injury-count {
+    position: absolute;
+    top: 0;
+    left: 195px;
+    width: 20px;
+    height: 15px;
+    line-height: 15px;
+    padding-left: 5px;
+    font-family: 'Merriweather Sans', sans-serif;
+    font-size: 11px;
+    color: #efefef;
+    text-align: right;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
+}
+
+#injury-bar {
+    position: absolute;
+    top: 0;
+    left: 45px;
+    width: 154px;
+    height: 14px;
+    background: transparent url('../images/character/health-bar.png') no-repeat top left;
+}
+
+#injury-text {
+    position: absolute;
+    top: 0;
+    left: 45px;
+    width: 154px;
+    height: 15px;
+    line-height: 15px;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+    text-align: center;
+    text-shadow: -1px 0 #000, 0 1px #000, 1px 0 #000, 0 -1px #000,
+                 0 0 3px #000, 0 0 3px #000, 0 0 3px #000, 0 0 3px #000;
+}

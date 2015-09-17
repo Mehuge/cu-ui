@@ -6,22 +6,56 @@ html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-}
-
-#physHudContainer {
     color: white;
     font-size: 14px;
     font-family: 'Courier', monospace;
+    list-style-type: none;
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-	background-color: rgba(0,0,0,0.33);
 }
 
-#physHud {
+#tabs {
+    padding: 8px;
+    display: inline;
+}
+
+#tabs li {
     list-style-type: none;
+    display: inline;
+}
+
+#tabs a { 
+    background-color: rgba(0,0,0,0.5);
+    padding: 2px;
+}
+
+.container {
+    background-color: rgba(0,0,0,0.33);
+    display: none;
+}
+
+.container.visible {
+    display:block;
+}
+
+.hud {
     margin: 0;
     padding: 8px;
 }
 
 li {
-	white-space: pre;
+    white-space: pre;
+}
+
+a {
+    color: yellow;
+    text-decoration: none;
+}
+
+a:hover {
+    color: yellow;
+    text-decoration: underline;
+}
+
+.problem {
+    color: red;
 }

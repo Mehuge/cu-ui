@@ -1,0 +1,11 @@
+{
+    "name": "perfhud2",
+    "mainFile": "perfhud2/perfhud2.html",
+    "rect": {
+        "left": 1100,
+        "top": 670,
+        "right": 1430,
+        "bottom": 920
+    },
+    "handlesInput":  true
+}

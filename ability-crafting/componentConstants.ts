@@ -44,8 +44,8 @@ enum ComponentType {
     Primary = 0,
     Secondary = 1,
     OptionalModifier = 2,
-    SpecialModal = 3,
-    IndependantModal = 4
+    Modal = 3,
+    Singular = 4  // Not used on client.
 }
 
 var ComponentTypeValues = _.values(ComponentType).filter(value => _.isNumber(value));

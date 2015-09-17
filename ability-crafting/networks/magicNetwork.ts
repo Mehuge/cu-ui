@@ -264,18 +264,18 @@ var magic2 = new ComponentSlot({
 });
 
 var magic1 = new ComponentSlot({
+    type: ComponentType.Modal,
+    subType: ComponentSubType.Transposition,
+    x: 6,
+    y: 0
+});
+
+var magic0 = new ComponentSlot({
     type: ComponentType.Primary,
     subType: ComponentSubType.Rune,
     x: 6,
     y: 5,
-    children: [magic2, magic3, magic4, magic8]
-});
-
-var magic0 = new ComponentSlot({
-    type: ComponentType.IndependantModal,
-    subType: ComponentSubType.Transposition,
-    x: 6,
-    y: 0
+    children: [magic1, magic2, magic3, magic4, magic8]
 });
 
 var magic = new ComponentNetwork({

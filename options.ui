@@ -8,5 +8,6 @@
         "bottom": 700
     },
     "handlesConfig": true,
-    "handlesInput": true
+    "handlesInput": true,
+    "layer": 6
 }

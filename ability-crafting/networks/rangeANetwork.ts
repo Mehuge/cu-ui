@@ -32,7 +32,7 @@ var rangeA9 = new ComponentSlot({
 });
 
 var rangeA8 = new ComponentSlot({
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.Prepare,
     x: 12,
     y: 21,
@@ -98,7 +98,7 @@ var rangeA6 = new ComponentSlot({
 });
 
 var rangeA5 = new ComponentSlot({
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.Prepare,
     x: 12,
     y: 13,
@@ -164,7 +164,7 @@ var rangeA3 = new ComponentSlot({
 });
 
 var rangeA2 = new ComponentSlot({
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.Prepare,
     x: 12,
     y: 5,

@@ -40,7 +40,7 @@ var rangeB12 = new ComponentSlot({
 });
 
 var rangeB11 = new ComponentSlot({
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.Load,
     x: 15,
     y: 25,
@@ -57,7 +57,7 @@ var rangeB11 = new ComponentSlot({
 });
 
 var rangeB10 = new ComponentSlot({
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.Draw,
     x: 12,
     y: 21,
@@ -131,7 +131,7 @@ var rangeB8 = new ComponentSlot({
 });
 
 var rangeB7 = new ComponentSlot({
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.Load,
     x: 15,
     y: 17,
@@ -148,7 +148,7 @@ var rangeB7 = new ComponentSlot({
 });
 
 var rangeB6 = new ComponentSlot({
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.Draw,
     x: 12,
     y: 13,
@@ -222,7 +222,7 @@ var rangeB4 = new ComponentSlot({
 });
 
 var rangeB3 = new ComponentSlot({
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.Load,
     x: 15,
     y: 9,
@@ -239,7 +239,7 @@ var rangeB3 = new ComponentSlot({
 });
 
 var rangeB2 = new ComponentSlot({
-    type: ComponentType.SpecialModal,
+    type: ComponentType.Modal,
     subType: ComponentSubType.Draw,
     x: 12,
     y: 5,
