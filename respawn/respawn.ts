@@ -35,6 +35,7 @@ module Respawn {
                 temp.on('click', bindClicks);
             } else {
                 temp.addClass("wrongfaction");
+                temp.off('click', bindClicks);
             }
         });
 
@@ -48,6 +49,7 @@ module Respawn {
                 temp.on('click', bindClicks);
             } else {
                 temp.addClass("wrongfaction");
+                temp.off('click', bindClicks);
             }
         });
 
