@@ -31,10 +31,10 @@ module Respawn {
             temp.addClass(MiniMap.factionSelectors[p.faction]);
             if (p.faction == MiniMap.myFaction) {
                 temp.addClass('canselect');
-                temp.off('click', bindClicks);
                 temp.on('click', bindClicks);
             } else {
                 temp.addClass("wrongfaction");
+                temp.off('click', bindClicks);
             }
         });
 
@@ -44,10 +44,10 @@ module Respawn {
             temp.addClass(MiniMap.factionSelectors[p.faction]);
             if (p.faction == MiniMap.myFaction) {
                 temp.addClass('canselect');
-                temp.off('click', bindClicks);
                 temp.on('click', bindClicks);
             } else {
                 temp.addClass("wrongfaction");
+                temp.off('click', bindClicks);
             }
         });
 
