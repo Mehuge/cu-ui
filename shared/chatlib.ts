@@ -472,9 +472,6 @@ module ChatLib {
     addSlashCommand('openui', 'open a ui widget', (processed) => {
         if (processed.args.length < 1) return false;
         var name = processed.args[0];
-        if (name.indexOf('.ui') === -1) {
-            name = name + '.ui';
-        }
         cuAPI.OpenUI(name);
         return true;
     });
